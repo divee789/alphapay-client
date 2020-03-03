@@ -1,0 +1,149 @@
+ .dashboard_main {
+     box-sizing: border-box;
+     width: 100%;
+     display: flex;
+     flex: 0 1 auto;
+     flex-direction: row;
+     flex-wrap: wrap;
+     height: 100vh;
+     overflow: hidden;
+
+     .menu {
+         flex-basis: 14%;
+         width: 13%;
+         background-color: rgba(28, 53, 119, 0.13);
+     }
+
+     .sidenav-menu {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         padding-top: 1px;
+     }
+
+     .logo-text {
+         font-size: 1.4rem;
+         font-weight: 500;
+         color: black;
+         text-decoration: none;
+         cursor: pointer;
+     }
+
+     .date {
+         font-size: 13px;
+         color: black;
+     }
+
+     .user_info {
+         padding: 1px;
+         width: 90%;
+         margin-top: 4rem;
+         margin-bottom: 4rem;
+         margin-left: 10px;
+         border-radius: 10px;
+         background-color: white;
+         text-align: center;
+
+     }
+
+     .greet_user {
+         margin-top: 10px;
+         //  font-weight: 600;
+         text-align: center;
+         font-size: 1rem;
+         color: black;
+
+         span {
+             font-weight: bold;
+         }
+     }
+
+
+     .sidenav-list {
+         display: flex;
+         flex-direction: column;
+     }
+
+     a {
+         font-weight: 500;
+         font-size: 1rem;
+         color: #0a2e65;
+         opacity: 0.8;
+         padding: 5px 35px;
+         margin: 0 auto;
+         margin-bottom: 10px;
+         width: 90%;
+         transition-property: opacity, background-color;
+         transition-duration: 0.2s;
+         transition-timing-function: ease;
+         background-color: transparent;
+         border-radius: 8px;
+         font-size: 14px;
+
+         &.active {
+             opacity: .9;
+             background-color: rgba(50, 79, 159, 0.93);
+             color: #fff;
+         }
+
+         &:hover {
+             opacity: .9;
+             background-color: rgba(50, 79, 159, 0.13);
+             color: #fff;
+         }
+     }
+
+     .main {
+         flex-basis: 86%;
+         max-width: 86%;
+         padding: 0;
+         background-color: rgba(28, 53, 119, 0.13);
+     }
+
+     @media screen and (max-width:600px) {
+         .menu {
+             display: none;
+         }
+
+         .main {
+             flex-basis: 100%;
+             max-width: 100%;
+             padding: 0;
+         }
+     }
+
+     .navbar {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         padding: 20px;
+         //  background-color: rgba(28, 53, 119, 0.13);
+     }
+
+     .title {
+         font-size: 0.8rem;
+         font-weight: 600;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+         flex-basis: 100%;
+         text-align: center;
+         margin: 0;
+     }
+
+     .container {
+         background-color: #fff;
+         border-top-left-radius: 26px;
+         border-top-right-radius: 26px;
+         box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
+         padding: 20px 25px 0;
+         margin-right: 20px;
+     }
+
+     .scroll {
+         height: 89.5vh;
+         overflow-y: auto;
+         overflow-x: hidden;
+         padding-bottom: 30px;
+         scroll-behavior: smooth;
+     }
+ }

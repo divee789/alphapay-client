@@ -1,0 +1,62 @@
+@font-face {
+  font-family: firma-bold;
+  // src: url(fonts/br-firma/BRFirmaCW-Bold.woff2);
+  src: url(./assets/fonts/br-firma/BRFirmaCW-Bold.woff2);
+}
+
+@font-face {
+  font-family: firma;
+  // src: url(fonts/br-firma/BRFirmaCW-Bold.woff2);
+  src: url(./assets/fonts/br-firma/BRFirmaCW-Regular.woff2);
+}
+
+@font-face {
+  font-family: Sailec;
+  src: url(./assets/fonts/sailec/Sailec-Regular.woff2);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  letter-spacing: -0.7px;
+  line-height: 1.25;
+  margin-bottom: 0.7em;
+  font-weight: bold;
+  font-family: firma-bold;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+a,
+p {
+  font-family: Sailec;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
