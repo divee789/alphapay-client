@@ -31,10 +31,10 @@ const authReducer = (state = initialState, action: any) => {
         case actionTypes.authConstants.LOGIN_SUCCESS:
             return {
                 ...state,
-                token: action.user.token,
+                token: action.client.data.access_token,
                 isAuth: true,
                 processing: false,
-                user: action.user.user,
+                user: action.client.client,
                 error: null
             };
         case actionTypes.authConstants.LOGOUT:

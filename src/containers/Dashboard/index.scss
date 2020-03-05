@@ -2,62 +2,28 @@
      box-sizing: border-box;
      width: 100%;
      display: flex;
-     flex: 0 1 auto;
      flex-direction: row;
-     flex-wrap: wrap;
      height: 100vh;
      overflow: hidden;
 
      .menu {
-         flex-basis: 14%;
-         width: 13%;
-         background-color: rgba(28, 53, 119, 0.13);
+         width: 17%;
+         padding: 2rem;
+
+         .logo {
+             cursor: pointer;
+         }
+     }
+
+     .sidenav {
+         margin-top: 5rem;
      }
 
      .sidenav-menu {
          display: flex;
          flex-direction: column;
          align-items: center;
-         padding-top: 1px;
      }
-
-     .logo-text {
-         font-size: 1.4rem;
-         font-weight: 500;
-         color: black;
-         text-decoration: none;
-         cursor: pointer;
-     }
-
-     .date {
-         font-size: 13px;
-         color: black;
-     }
-
-     .user_info {
-         padding: 1px;
-         width: 90%;
-         margin-top: 4rem;
-         margin-bottom: 4rem;
-         margin-left: 10px;
-         border-radius: 10px;
-         background-color: white;
-         text-align: center;
-
-     }
-
-     .greet_user {
-         margin-top: 10px;
-         //  font-weight: 600;
-         text-align: center;
-         font-size: 1rem;
-         color: black;
-
-         span {
-             font-weight: bold;
-         }
-     }
-
 
      .sidenav-list {
          display: flex;
@@ -66,30 +32,36 @@
 
      a {
          font-weight: 500;
-         font-size: 1rem;
          color: #0a2e65;
+         display: flex;
+         flex-direction: row;
+         align-items: center;
          opacity: 0.8;
-         padding: 5px 35px;
-         margin: 0 auto;
+         padding: 10px 15px;
+         //  margin: 0 auto;
          margin-bottom: 10px;
-         width: 90%;
+         //  width: 90%;
          transition-property: opacity, background-color;
          transition-duration: 0.2s;
          transition-timing-function: ease;
          background-color: transparent;
          border-radius: 8px;
-         font-size: 14px;
+         font-size: 17px;
+
+         img {
+             margin-right: 10px;
+         }
 
          &.active {
+             background-image: linear-gradient(to right, #1400FF -150%, #FC199B 130%);
              opacity: .9;
-             background-color: rgba(50, 79, 159, 0.93);
              color: #fff;
          }
 
          &:hover {
              opacity: .9;
-             background-color: rgba(50, 79, 159, 0.13);
-             color: #fff;
+             background-color: rgba(71, 212, 82, 0.103);
+             //  color: #fff;
          }
      }
 
@@ -97,7 +69,43 @@
          flex-basis: 86%;
          max-width: 86%;
          padding: 0;
-         background-color: rgba(28, 53, 119, 0.13);
+         background-color: #fff;
+         box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
+
+         .dashboard_nav {
+             display: flex;
+             flex-direction: row;
+             align-items: center;
+             justify-content: flex-end;
+             padding-top: 2rem;
+             margin-bottom: 4rem;
+             ;
+
+             div {
+                 margin-right: 50px;
+
+                 .bell {
+                     cursor: pointer;
+                 }
+             }
+
+             .profile_details {
+                 display: flex;
+                 flex-direction: row;
+                 align-items: center;
+                 font-size: 1.2rem;
+                 font-family: firma-bold;
+
+                 img {
+                     border-radius: 50%;
+                     width: 40px;
+                     height: 40px;
+                     object-fit: cover;
+                     margin-right: 15px;
+                 }
+             }
+
+         }
      }
 
      @media screen and (max-width:600px) {
@@ -112,13 +120,6 @@
          }
      }
 
-     .navbar {
-         display: flex;
-         justify-content: space-between;
-         align-items: center;
-         padding: 20px;
-         //  background-color: rgba(28, 53, 119, 0.13);
-     }
 
      .title {
          font-size: 0.8rem;
@@ -131,16 +132,12 @@
      }
 
      .container {
-         background-color: #fff;
-         border-top-left-radius: 26px;
-         border-top-right-radius: 26px;
-         box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
+
          padding: 20px 25px 0;
-         margin-right: 20px;
      }
 
      .scroll {
-         height: 89.5vh;
+         height: 100vh;
          overflow-y: auto;
          overflow-x: hidden;
          padding-bottom: 30px;

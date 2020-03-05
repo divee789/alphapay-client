@@ -23,14 +23,14 @@ import * as serviceWorker from './serviceWorker';
 import logger from 'redux-logger'
 //Reducers
 import authReducer from './store/reducers/auth'
-import courseReducer from './store/reducers/course'
+import walletReducer from './store/reducers/wallet'
 
 
 
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    course: courseReducer
+    wallet: walletReducer
 })
 
 const persistConfig = {

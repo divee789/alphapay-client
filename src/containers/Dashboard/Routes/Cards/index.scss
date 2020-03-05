@@ -1,0 +1,19 @@
+.card_content {
+    width: 50%;
+    margin: 5% auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    img {
+        height: 350px;
+    }
+
+    p {
+        font-family: Sailec;
+        font-weight: bold;
+        width: 80%;
+        text-align: center;
+    }
+}

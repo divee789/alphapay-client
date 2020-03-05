@@ -1,88 +1,61 @@
-.academics_details {
+.overview_details {
+    margin-top: 4rem;
+    margin-bottom: 3rem;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    margin-top: 2rem;
-    margin-bottom: 3rem;
+    justify-content: space-between;
 
-    .info_alert {
-        text-align: center;
-        margin-top: 4rem;
+    .item {
+        width: 50%;
     }
 
-    div {
+    .wallet_card {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: #fff;
+        text-align: center;
+        // background: #fff;
+        // background-image: linear-gradient(to right, #1400FF -150%, #FC199B 130%);
+
+        background-color: rgba(71, 212, 82, 0.103);
         box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
-        width: 20%;
-        height: 7rem;
-        border-radius: 11px;
-        margin-left: 10px;
+        width: 90%;
+        height: 15rem;
+        border-radius: 5px;
+        margin: 0 auto;
 
         p {
-            margin-bottom: 0;
-        }
-
-        .detail_title {
-            font-size: 10px;
-        }
-
-        .detail_text {
-            font-size: 17px;
-            color: rgba(50, 79, 159, 1)
+            font-size: 24px;
+            font-family: firma-bold;
+            color: #0a2e65;
         }
     }
 
-    .course_adviser {
-        background-color: rgba(28, 53, 119, 0.13);
-        margin-left: 50px;
-    }
-}
-
-.over_course_body {
-    margin-left: 10px;
-    margin-top: 3rem;
-
-    h3 {
-        font-size: 25px;
-        text-align: center;
-    }
-
-    table {
+    .btn_fund {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
         width: 90%;
-        margin: 0 auto;
-        border-collapse: collapse;
+        margin: 2rem auto;
 
-        td,
-        th {
-            border: 1px solid #ddd;
-            padding: 18px 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #ddd;
-        }
-
-        th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: rgb(28, 53, 119);
-            color: white;
+        button {
+            width: 49%;
+            font-size: 1rem;
+            height: 60px;
+            text-transform: uppercase;
         }
     }
 
+    .funds_control {
+        width: 40%;
 
-}
-
-hr {
-    border: 1px solid rgba(28, 53, 119, 0.13);
-
+        button {
+            margin-bottom: 20px;
+            width: 70%;
+            height: 50px;
+            font-family: firma-bold;
+        }
+    }
 }

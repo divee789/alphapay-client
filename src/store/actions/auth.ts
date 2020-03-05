@@ -13,7 +13,7 @@ export function logout() {
     }
     return async (dispatch: any) => {
         try {
-            await authAPIRequest.logout();
+            await authAPIRequest.logOut();
             await dispatch(request());
         } catch (error) {
             if (error instanceof APIServiceError) {
@@ -27,8 +27,8 @@ export function login(data: any) {
     function request() {
         return { type: actionTypes.authConstants.LOGIN_REQUEST };
     }
-    function success(user: any) {
-        return { type: actionTypes.authConstants.LOGIN_SUCCESS, user };
+    function success(client: any) {
+        return { type: actionTypes.authConstants.LOGIN_SUCCESS, client };
     }
     function failure(errors: any) {
         return { type: actionTypes.authConstants.LOGIN_FAILURE, errors };

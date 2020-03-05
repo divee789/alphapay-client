@@ -1,30 +1,17 @@
-export interface Course {
-    id: number,
-    title: string,
-    course_code: string,
-    credit_load: number,
-    semester: number,
-    level: number,
-    lecturer: object,
-    lecturerId: number
+export interface Wallet {
+    id: any;
+    available_balance: number;
+    ledger_balance: number;
+    client_id: any
 }
 
-export interface Lecturer {
-    // id: number,
-    // title: string,
-    // position: string,
-    // first_name: string,
-    // last_name: string,
-    // image_url: string,
-    // department: string,
-    // courses: any,
-    pageItems: any,
-    pager: any
-}
-
-export interface CourseState {
-    courses: Course[],
-    course: Course,
-    processing: boolean,
-    error: any
+export interface Transaction {
+    id: any;
+    transaction_type: string,
+    processor: string,
+    amount: number,
+    processor_reference: string,
+    reference: string,
+    status: String,
+    recipient: any
 }

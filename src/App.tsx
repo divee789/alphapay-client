@@ -57,6 +57,7 @@ const App = (props: any) => {
       <Route path='/password_reset_request' component={PasswordReset} />
       <Route path='/password_reset/:token' component={PasswordConfirmation} />
       <Route path={`/dashboard`} render={props => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
+      <Route path={'/test/dashboard'} component={Dashboard} />
       <Route path="/404" component={testRave} />
       <Route path="/korapay" component={testKorapay} />
       <Redirect to='/404' />

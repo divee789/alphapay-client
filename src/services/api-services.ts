@@ -5,7 +5,9 @@ import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
 import decode from 'jwt-decode';
 
-const APIBaseURL = process.env.BASE_URL || 'http://localhost:7000';
+// const APIBaseURL = process.env.REACT_APP_SERVER_URL || 'http://157.245.36.216:7000';
+
+const APIBaseURL = 'https://alphapay-api.herokuapp.com'
 
 export default class APIRequest {
 
@@ -13,15 +15,15 @@ export default class APIRequest {
     public instance2: any
     constructor(baseURL: any) {
         this.instance = axios.create({
-            baseURL: baseURL || APIBaseURL,
-            timeout: 10000,
+            baseURL: APIBaseURL,
+            timeout: 50000,
             headers: {
                 Accept: 'application/json'
             }
         });
         this.instance2 = axios.create({
             baseURL: baseURL || APIBaseURL,
-            timeout: 10000,
+            timeout: 50000,
             headers: {
                 Accept: 'multipart/form-data'
             }
@@ -43,6 +45,7 @@ export default class APIRequest {
                 return response;
             },
             (error: any) => {
+                console.log(error)
                 if (!error.response) {
                     Logger.error('Response: ', 'Network Error');
                     return Promise.reject(
@@ -131,10 +134,9 @@ export default class APIRequest {
         this.setHeader(token);
     };
 
-    storeUserToken = (token: any, refreshToken: any, userTokenExpiration: any) => {
+    storeUserToken = (token: string, refreshToken: string) => {
         Storage.setItem('userToken', token);
         Storage.setItem('refreshToken', refreshToken);
-        Storage.setItem('userTokenExpiration', userTokenExpiration);
     };
 
     logIn = async (data: any) => {
@@ -143,40 +145,32 @@ export default class APIRequest {
         };
 
         const response = await this.instance.post('/auth/login', body);
-        const authResponse = response.data;
-        console.log(authResponse)
-        this.storeUserToken(authResponse.access_token, authResponse.refresh_token, authResponse.expires_in);
-        this.setToken(authResponse.access_token);
-        const user = await this.instance.get('/auth/user');
-        console.log(user);
-        const profileResponse = user.data.user;
-        return { ...authResponse, user: profileResponse };
+        console.log(response)
+        this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
+        this.setToken(response.data.data.access_token);
+        const profileResponse = response.data.data.client;
+        return { ...response.data, client: profileResponse };
     };
 
     signUp = async (data: any) => {
         const body = {
             ...data
         };
-        const response = await this.instance.post('/auth/register', body);
+        const response = await this.instance.post('/auth/signup', body);
         const authResponse = response.data;
-        this.storeUserToken(authResponse.access_token, authResponse.refresh_token, authResponse.expires_in);
+        this.storeUserToken(authResponse.data.access_token, authResponse.data.refresh_token);
         this.setToken(authResponse.access_token);
-        const user = await this.instance.get('/auth/user');
-        console.log(user);
-        const profileResponse = user.data.user;
-        return { ...authResponse, user: profileResponse };
+        const profileResponse = authResponse.data.client;
+        return { ...authResponse, client: profileResponse };
     };
     update = async (data: any) => {
         const body = {
             ...data
         };
-        const response = await this.instance.post('/user/update', body);
+        const response = await this.instance.patch('/auth/update', body);
         const authResponse = response.data;
-        console.log(authResponse)
-        const user = await this.instance.get('/user');
-        console.log(user);
-        const profileResponse = user.data.profile;
-        return { user: profileResponse };
+        const profileResponse = authResponse.data;
+        return { client: profileResponse };
     };
     refresh = async (refresh_token: string) => {
         try {
@@ -189,7 +183,7 @@ export default class APIRequest {
             }
             const authResponse = response.data;
             console.log('refresh', authResponse);
-            this.storeUserToken(authResponse.access_token, authResponse.refresh_token, authResponse.expires_in);
+            this.storeUserToken(authResponse.access_token, authResponse.refresh_token);
             this.setToken(authResponse.access_token);
             return authResponse;
         } catch (e) {
@@ -199,13 +193,18 @@ export default class APIRequest {
         }
     };
 
+    logOut = async () => {
+        const res = await this.instance.post('/auth/logout')
+        console.log(res)
+    }
+
     verifyEmail = async (data) => {
-        const res = await this.instance.get('/auth/verify_email?token=' + data)
+        const res = await this.instance.get('/auth/verify?token=' + data)
         return res
     }
 
     passwordReset = async (data) => {
-        const res = await this.instance.get(`/auth/password_reset_request?matriculation_number=${data}`)
+        const res = await this.instance.get(`/auth/password_reset_request?email=${data}`)
         return res
     }
 
@@ -217,7 +216,7 @@ export default class APIRequest {
     passwordResetEmail = async (data) => {
         console.log('email data', data)
         const res = await this.instance.post('/auth/password_reset_email', {
-            matriculation_number: data.matriculation_number,
+            email: data.email,
             password: data.password.trim()
         })
         return res
@@ -232,6 +231,64 @@ export default class APIRequest {
             console.log(error)
         }
     }
+
+
+    //WALLET apis
+
+    getWallet = async () => {
+        const res = await this.instance.get('/api/v1/wallet/get')
+        const response = res.data
+        if (response.success == true) {
+            return {
+                wallet: response.wallet,
+                message: response.message
+            }
+        }
+        return {
+            error: true,
+            message: response.message
+        }
+    }
+
+    fundWallet = async (data: any) => {
+        const res = await this.instance.post('/api/v1/transfer/fund', {
+            amount: data.amount,
+            narration: data.narration,
+            processor: data.processor,
+            processor_reference: data.processor_reference,
+            transaction_status: data.transaction_status
+        })
+        console.log(res)
+        if (res.data.success == true) {
+            return {
+                wallet: res.data.data,
+                message: res.data.message
+            }
+        }
+        return {
+            error: true,
+            message: res.data.message
+        }
+
+    }
+
+    //Transaction apis
+
+    getTransactions = async () => {
+        const transactions = await this.instance.get('/api/v1/transaction/all')
+        const response = transactions.data
+        if (response.success == true) {
+            return {
+                transactions: response.data,
+                message: response.message
+            }
+        }
+        return {
+            error: true,
+            message: response.message
+        }
+    }
+
 
 }
 

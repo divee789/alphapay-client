@@ -1,0 +1,22 @@
+.modal {
+    // height: 30rem;
+    background: #faf8f5;
+    padding: 2rem;
+    width: 40%;
+    position: fixed;
+    top: 10rem;
+    right: 30%;
+    max-width: 800px;
+    z-index: 200;
+    margin: 0 auto;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.open {
+    display: block;
+}
+
+.close {
+    display: none;
+}

@@ -38,23 +38,16 @@ const Setting: React.FC = () => {
 
     return (
         <>
-            <section className='dashboard_settings'>
-                <div className="navbar">
-                    <p className="title">My Account</p>
-                </div>
-                <div className="container">
-                    <div className="scroll">
-                        <div>
-                            <img src={profile_url} alt="image" className='profile_image' />
-                        </div>
-                        <div>
-                            <input type="file" onChange={fileChangedHandler} />
-                            <button onClick={uploadHandler}>Upload image</button>
-                            {verify}
-                        </div>
-                    </div>
-                </div>
-            </section>
+
+            <div>
+                <img src={profile_url} alt="image" className='profile_image' />
+            </div>
+            <div>
+                <input type="file" onChange={fileChangedHandler} />
+                <button onClick={uploadHandler}>Upload image</button>
+                {verify}
+            </div>
+
         </>
     )
 }
