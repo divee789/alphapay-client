@@ -13,8 +13,8 @@ export function logout() {
     }
     return async (dispatch: any) => {
         try {
-            await authAPIRequest.logOut();
             await dispatch(request());
+            await authAPIRequest.logOut();
         } catch (error) {
             if (error instanceof APIServiceError) {
                 throw error.response.data;
@@ -39,6 +39,7 @@ export function login(data: any) {
             const userDetails = await authAPIRequest.logIn(data);
             dispatch(success(userDetails));
         } catch (error) {
+            console.log(error)
             if (error instanceof APIServiceError) {
                 console.log('error in getting auth', error);
                 dispatch(failure(error));
@@ -61,8 +62,10 @@ export function signup(data: any) {
         try {
             await dispatch(request());
             const userDetails = await authAPIRequest.signUp(data);
-            dispatch(success(userDetails));
+            console.log(userDetails)
+            dispatch(success(userDetails.data));
         } catch (error) {
+            console.log(error)
             if (error instanceof APIServiceError) {
                 dispatch(failure(error));
                 throw error.response.data;

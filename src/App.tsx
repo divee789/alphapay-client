@@ -3,7 +3,6 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './store/actions';
 import Request from './services/api-services';
-
 import Landing from './containers/Home'
 import Blog from './containers/Blog'
 import Careers from './containers/Careers'
@@ -34,17 +33,28 @@ const Dashboard = React.lazy(() => {
 
 const App = (props: any) => {
   const dispatch = useDispatch();
+  const { isAuth } = useSelector((state: any) => state.auth);
+
 
   useEffect(() => {
-    // dispatch(getLecturers(1))
-    let isLoggedIn = api.isloggedIn()
-    console.log(isLoggedIn)
-    if (!isLoggedIn) {
-      dispatch(logout())
+    const check = async () => {
+      //Log out user when he closes the browser or browser tab
+      if (sessionStorage.getItem('logged') !== 'success') {
+        await dispatch(logout())
+      }
+      // log out user if access_token is expired
+      let isLoggedIn = api.isloggedIn()
+      console.log('isLoggedIn', isLoggedIn)
+      if (!isLoggedIn) {
+        await dispatch(logout())
+        console.log(isAuth)
+      }
     }
+    check()
   }, [dispatch])
 
-  const { isAuth } = useSelector((state: any) => state.auth);
+
+  console.log('auth status', isAuth)
 
   let routes = (
     <Switch>

@@ -7,7 +7,15 @@ import decode from 'jwt-decode';
 
 // const APIBaseURL = process.env.REACT_APP_SERVER_URL || 'http://157.245.36.216:7000';
 
-const APIBaseURL = 'https://alphapay-api.herokuapp.com'
+let APIBaseURL
+
+if (process.env.REACT_APP_STAGING !== '') {
+    APIBaseURL = 'http://localhost:7000'
+} else {
+    APIBaseURL = process.env.REACT_APP_SERVER_URL
+}
+
+console.log(APIBaseURL)
 
 export default class APIRequest {
 
@@ -110,7 +118,7 @@ export default class APIRequest {
             const date = Date.now() / 1000
             if (exp < date) {
                 console.log('expired token found');
-                this.logout()
+                this.logOut()
                 return true;
             } else {
                 console.log('not expired')
@@ -124,12 +132,6 @@ export default class APIRequest {
         }
     };
 
-    logout = () => {
-        Storage.removeItem('userToken');
-        Storage.removeItem('refreshToken');
-        Storage.removeItem('userTokenExpiration');
-    };
-
     setToken = (token: string) => {
         this.setHeader(token);
     };
@@ -137,6 +139,7 @@ export default class APIRequest {
     storeUserToken = (token: string, refreshToken: string) => {
         Storage.setItem('userToken', token);
         Storage.setItem('refreshToken', refreshToken);
+        sessionStorage.setItem('logged', 'success')
     };
 
     logIn = async (data: any) => {
@@ -194,7 +197,12 @@ export default class APIRequest {
     };
 
     logOut = async () => {
+
+        Storage.removeItem('userToken');
+        Storage.removeItem('refreshToken');
+        Storage.removeItem('userTokenExpiration');
         const res = await this.instance.post('/auth/logout')
+        this.clearHeader()
         console.log(res)
     }
 
@@ -276,6 +284,7 @@ export default class APIRequest {
 
     getTransactions = async () => {
         const transactions = await this.instance.get('/api/v1/transaction/all')
+        console.log(transactions)
         const response = transactions.data
         if (response.success == true) {
             return {
@@ -288,7 +297,21 @@ export default class APIRequest {
             message: response.message
         }
     }
-
-
+    transferFunds = async (data: any) => {
+        const res = await this.instance.post('/api/v1/transfer', { ...data })
+        console.log(res)
+        if (res.data.success == true) {
+            return {
+                amount: res.data.amount,
+                message: res.data.message
+            }
+        }
+        return {
+            error: true,
+            message: res.data.message
+        }
+    }
 }
+
+
 

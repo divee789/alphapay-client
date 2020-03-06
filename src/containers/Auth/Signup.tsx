@@ -63,6 +63,7 @@ const SignUp: React.FC = (props: any) => {
 
     const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
         try {
+            console.log(values)
             await dispatch(signup(values))
             return props.history.push(`/dashboard/overview`);
         } catch (err) {

@@ -24,13 +24,15 @@ import logger from 'redux-logger'
 //Reducers
 import authReducer from './store/reducers/auth'
 import walletReducer from './store/reducers/wallet'
+import transactionReducer from './store/reducers/transaction'
 
 
 
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    wallet: walletReducer
+    wallet: walletReducer,
+    transaction: transactionReducer
 })
 
 const persistConfig = {
@@ -48,14 +50,18 @@ declare global {
 }
 
 let composeEnhancers
+let store
 //Configuring ReduxDevTools
-// if (process.env.NODE_ENV === 'development') {
-composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const pReducer = persistReducer(persistConfig, rootReducer);
-// }
-const store = createStore(pReducer, composeEnhancers(
-    applyMiddleware(thunk, logger))
-)
+if (process.env.NODE_ENV === 'development') {
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    const pReducer = persistReducer(persistConfig, rootReducer);
+    store = createStore(pReducer, composeEnhancers(
+        applyMiddleware(thunk, logger))
+    )
+} else {
+    store = createStore(rootReducer, applyMiddleware(thunk))
+}
+
 const persistor = persistStore(store);
 
 

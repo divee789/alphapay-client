@@ -100,7 +100,7 @@ const Dashboard = (props: any) => {
                 </div>
                 <section>
                     <div className="container">
-                        <div className="scro</div>ll">
+                        <div className="scroll">
                             <Switch>
                                 <Route path={`${path}/overview`} component={Overview} />
                                 <Route path={`${path}/cards`} component={Cards} />

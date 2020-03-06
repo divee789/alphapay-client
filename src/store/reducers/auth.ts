@@ -64,10 +64,10 @@ const authReducer = (state = initialState, action: any) => {
         case actionTypes.authConstants.SIGNUP_SUCCESS:
             return {
                 ...state,
-                token: action.user.token,
+                token: action.user.access_token,
                 isAuth: true,
                 processing: false,
-                user: action.user.user,
+                user: action.user.client,
                 error: null
             };
         case actionTypes.authConstants.UPDATE_USER_SUCCESS:

@@ -1,8 +1,18 @@
-.no_transaction {
-    text-align: center;
+.dashboard_transactions {
+    .no_transaction {
+        text-align: center;
 
-    img {
-        height: 400px;
+        img {
+            height: 400px;
+        }
     }
 
+    .transaction_container {
+        div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+    }
 }

@@ -51,7 +51,6 @@ const walletReducer = (state = initialState, action: any) => {
                 fund_processing: false,
                 error: null
             };
-
         default:
             return state;
     }
