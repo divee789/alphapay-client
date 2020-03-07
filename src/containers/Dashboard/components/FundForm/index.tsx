@@ -18,7 +18,7 @@ const FundForm = (props) => {
     }
 
     const initialValues: FormValues = {
-        amount: 0,
+        amount: undefined,
         narration: ''
     }
 

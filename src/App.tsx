@@ -3,6 +3,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './store/actions';
 import Request from './services/api-services';
+import { Storage } from './services/storage-services';
+import decode from 'jwt-decode'
 import Landing from './containers/Home'
 import Blog from './containers/Blog'
 import Careers from './containers/Careers'
@@ -33,24 +35,49 @@ const Dashboard = React.lazy(() => {
 
 const App = (props: any) => {
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((state: any) => state.auth);
+  const { isAuth, user } = useSelector((state: any) => state.auth);
 
 
   useEffect(() => {
-    const check = async () => {
-      //Log out user when he closes the browser or browser tab
-      if (sessionStorage.getItem('logged') !== 'success') {
-        await dispatch(logout())
-      }
-      // log out user if access_token is expired
-      let isLoggedIn = api.isloggedIn()
-      console.log('isLoggedIn', isLoggedIn)
-      if (!isLoggedIn) {
-        await dispatch(logout())
-        console.log(isAuth)
+    // const check = async () => {
+    //   //Log out user when he closes the browser or browser tab
+    //   if (sessionStorage.getItem('logged') !== 'success') {
+    //     await dispatch(logout())
+    //   }
+    //   // log out user if access_token is expired
+    //   let isLoggedIn = api.isloggedIn()
+    //   console.log('isLoggedIn', isLoggedIn)
+    //   if (!isLoggedIn) {
+    //     await dispatch(logout())
+    //     console.log(isAuth)
+    //   }
+    // }
+    // check()
+    const token = Storage.checkAuthentication();
+    if (token) {
+      const decoded: any = decode(token);
+      console.log(decoded);
+      console.log(Date.now());
+      const refreshToken = Storage.getItem('refreshToken');
+      const refreshThreshold = Math.floor((Date.now() + 120000) / 1000);
+      if (refreshToken && decoded.exp < refreshThreshold) {
+        const check = async () => {
+          try {
+            const ref = await api.refresh(refreshToken);
+            console.log(ref);
+            if (ref.status === 401) {
+              dispatch(logout(user.email));
+            }
+          } catch (error) {
+            // if refresh token has expired, dispatch LOGOUT THINGS
+            console.log('error', error);
+            dispatch(logout(user.email));
+            throw error;
+          }
+        };
+        check();
       }
     }
-    check()
   }, [dispatch])
 
 

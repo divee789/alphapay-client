@@ -12,12 +12,14 @@ import './index.scss'
 const Home = props => {
     return (
         <>
-            <ScrollToTop />
-            <NavBar />
-            <Header />
-            <Process />
-            <Leadership />
-            <Contact />
+            <main className='main-container'>
+                <ScrollToTop />
+                <NavBar />
+                <Header />
+                <Process />
+                <Leadership />
+                <Contact />
+            </main>
             <Footer />
         </>
     )

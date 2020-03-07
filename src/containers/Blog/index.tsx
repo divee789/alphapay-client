@@ -42,14 +42,17 @@ const blogs = [
         date: '14 Feb,2020'
     },
     {
+        id: 7,
         title: 'A Sufficiently long blog title',
         author: 'Divine Olokor',
         date: '14 Feb,2020'
     }, {
+        id: 8,
         title: 'A Sufficiently long blog title',
         author: 'Divine Olokor',
         date: '14 Feb,2020'
     }, {
+        id: 9,
         title: 'A Sufficiently long blog title',
         author: 'Divine Olokor',
         date: '14 Feb,2020'
@@ -67,32 +70,34 @@ const Home: React.FC = () => {
 
     return (
         <>
-            <ScrollToTop />
-            <Navbar />
-            <section className='blog_section'>
-                <header>
-                    <h1>Blog</h1>
-                    <p>Democratizing Information</p>
-                </header>
-                <div className="blog_container">
-                    {blogs.map((blog: Blog) =>
-                        <div className='blog_card' key={blog.id}>
-                            <div className="img_container">
-                                <img src={blogpic} alt={'blog_pic'} />
+            <main className='main-container'>
+                <ScrollToTop />
+                <Navbar />
+                <section className='blog_section'>
+                    <header>
+                        <h1>Blog</h1>
+                        <p>Democratizing Information</p>
+                    </header>
+                    <div className="blog_container">
+                        {blogs.map((blog: Blog) =>
+                            <div className='blog_card' key={blog.id}>
+                                <div className="img_container">
+                                    <img src={blogpic} alt={'blog_pic'} />
+                                </div>
+                                <div className="post">
+                                    <h3 className="title">
+                                        {blog.title}
+                                    </h3>
+                                    <p className='author'>By {blog.author} {blog.date}</p>
+                                    <p className='text'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo optio ipsam, nisi, quidem accusantium eveniet libero ratione excepturi .</p>
+                                    <p className='details'>View Details</p>
+                                </div>
                             </div>
-                            <div className="post">
-                                <h3 className="title">
-                                    {blog.title}
-                                </h3>
-                                <p className='author'>By {blog.author} {blog.date}</p>
-                                <p className='text'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo optio ipsam, nisi, quidem accusantium eveniet libero ratione excepturi .</p>
-                                <p className='details'>View Details</p>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </section>
-            <Contact />
+                        )}
+                    </div>
+                </section>
+                <Contact />
+            </main>
             <Footer />
         </>
     )

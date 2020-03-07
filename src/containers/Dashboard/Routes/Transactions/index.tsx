@@ -20,16 +20,14 @@ const Transactions: React.FC = () => {
 
     const dispatch = useDispatch()
     const { processing, transactions } = useSelector((state: any) => state.transaction)
-    useEffect(() => {
-        const getTransactions = async () => {
-            try {
-                await dispatch(get_client_transactions())
-            } catch (error) {
-                console.log('error', error)
-            }
+
+    const refreshTransactionHandler = async () => {
+        try {
+            await dispatch(get_client_transactions())
+        } catch (error) {
+            console.log('error', error)
         }
-        getTransactions()
-    }, [dispatch])
+    }
 
     if (processing) {
         return (
@@ -48,8 +46,15 @@ const Transactions: React.FC = () => {
         </div>
     } else {
         content = <div className="transaction_container">
+            <div>
+                <p>status</p>
+                <p>recipient</p>
+                <p>amount</p>
+                <p>reference</p>
+                <p>type</p>
+            </div>
             {transactions.map((transaction: Transaction) => {
-                return <div>
+                return <div className='transaction_item' key={transaction.reference}>
                     <p>{transaction.status}</p>
                     <p>{transaction.recipient.email}</p>
                     <p>{transaction.amount}</p>
@@ -65,6 +70,7 @@ const Transactions: React.FC = () => {
     return (
         <>
             <section className='dashboard_transactions'>
+                <div className='refresh_transaction_button' onClick={refreshTransactionHandler}>Refresh transactions</div>
                 {content}
             </section>
         </>

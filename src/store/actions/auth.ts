@@ -7,14 +7,15 @@ import APIServiceError from '../../services/error-services';
 const authBaseURL = process.env.BASE_URL || 'http://localhost:1000';
 const authAPIRequest = new APIRequest(authBaseURL);
 
-export function logout() {
+export function logout(email?: string) {
+    console.log('logging out', email)
     function request() {
         return { type: actionTypes.authConstants.LOGOUT };
     }
     return async (dispatch: any) => {
         try {
             await dispatch(request());
-            await authAPIRequest.logOut();
+            await authAPIRequest.logOut(email);
         } catch (error) {
             if (error instanceof APIServiceError) {
                 throw error.response.data;
@@ -37,7 +38,7 @@ export function login(data: any) {
         try {
             await dispatch(request());
             const userDetails = await authAPIRequest.logIn(data);
-            dispatch(success(userDetails));
+            await dispatch(success(userDetails));
         } catch (error) {
             console.log(error)
             if (error instanceof APIServiceError) {

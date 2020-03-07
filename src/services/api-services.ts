@@ -80,6 +80,7 @@ export default class APIRequest {
     };
 
     setHeader = (token: string) => {
+        console.log('setting token header')
         this.instance.defaults.headers.common.Authorization = `Bearer ${token}`;
         this.instance2.defaults.headers.common.Authorization = `Bearer ${token}`;
     };
@@ -151,6 +152,7 @@ export default class APIRequest {
         console.log(response)
         this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
         this.setToken(response.data.data.access_token);
+        console.log('hi token')
         const profileResponse = response.data.data.client;
         return { ...response.data, client: profileResponse };
     };
@@ -176,34 +178,34 @@ export default class APIRequest {
         return { client: profileResponse };
     };
     refresh = async (refresh_token: string) => {
-        try {
-            const body = {
-                refresh_token: refresh_token
-            };
-            const response = await this.instance.post('/user/token', body);
-            if (!response) {
-                console.log('no response');
-            }
-            const authResponse = response.data;
-            console.log('refresh', authResponse);
-            this.storeUserToken(authResponse.access_token, authResponse.refresh_token);
-            this.setToken(authResponse.access_token);
-            return authResponse;
-        } catch (e) {
-            console.log('e', e);
-            console.log(e.response.status);
-            return e.response;
+        const body = {
+            refresh_token
+        };
+        const response = await this.instance.post('/client/token', body);
+        if (!response) {
+            console.log('no response');
         }
-    };
+        const authResponse = response.data;
+        console.log('refresh', authResponse);
+        this.storeUserToken(authResponse.access_token, authResponse.refresh_token);
+        this.setToken(authResponse.access_token);
+        return authResponse;
+    }
 
-    logOut = async () => {
-
+    logOut = async (client_email?: string) => {
+        console.log('log out api', client_email)
+        const refresh_token = Storage.getItem('refreshToken')
         Storage.removeItem('userToken');
         Storage.removeItem('refreshToken');
         Storage.removeItem('userTokenExpiration');
-        const res = await this.instance.post('/auth/logout')
+        if (client_email) {
+            console.log('email', client_email)
+            const res = await this.instance.post('/auth/logout', {
+                client_email, refresh_token
+            })
+            console.log(res)
+        }
         this.clearHeader()
-        console.log(res)
     }
 
     verifyEmail = async (data) => {

@@ -53,7 +53,7 @@ const LogIn: React.FC = (props: any) => {
         try {
             console.log(values)
             await dispatch(login(values))
-            return props.history.push(`/dashboard/overview`);
+            props.history.push(`/dashboard/overview`);
         } catch (err) {
             console.log('log err', err);
 

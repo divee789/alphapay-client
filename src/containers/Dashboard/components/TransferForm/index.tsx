@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
@@ -13,7 +13,7 @@ const request = new Api(process.env.REACT_APP_STAGING)
 
 
 const TransferForm = (props) => {
-    const [message, setMessage] = useState('')
+    const [message, setMessage] = useState(null)
     const { fund_processing, error } = useSelector((state: any) => state.wallet)
     const dispatch = useDispatch()
 
@@ -35,7 +35,7 @@ const TransferForm = (props) => {
 
 
     const walletValidationSchema = Yup.object().shape({
-        amount: Yup.number().required('Please provide the amount you want to inject'),
+        amount: Yup.number().required('Please provide the amount you want to transfer'),
         narration: Yup.string().required('Please provide a narration for this transaction'),
         recipient_phone_number: Yup.number().required('Please provide the recipient phone number')
     })
@@ -51,23 +51,31 @@ const TransferForm = (props) => {
             const res = await request.transferFunds(data)
             console.log('transfer', res)
             setMessage(res.message)
-            // await dispatch(get_client_wallet())
+            setTimeout(async () => {
+                setMessage(null)
+                await dispatch(get_client_wallet())
+            }, 5000)
+
             // props.close()
 
         } catch (error) {
             console.log('funding error', error)
+            setMessage(error.response.data.message)
             setSubmitting(false)
         }
     }
 
-    if (message) return (
-        <>
-            <div className='transfer_feedback'>
-                <img src={img1} />
-                <p>{message}</p>
-            </div>
-        </>
-    )
+    if (message) {
+        setTimeout(function () { setMessage(null) }, 5000)
+        return (
+            <>
+                <div className='transfer_feedback'>
+                    <img src={img1} />
+                    <p>{message}</p>
+                </div>
+            </>
+        )
+    }
 
     return (
         <>
@@ -79,7 +87,7 @@ const TransferForm = (props) => {
                     return (
                         <>
                             <Form className='fund_wallet_form'>
-                                <h2>FUND YOUR WALLET</h2>
+                                <h2>TRANSFER FUNDS</h2>
                                 <div>
                                     <p>HOW MUCH DO YOU WANT TO TRANSFER?</p>
                                     <div className="con">  <span>NGN</span> <Field type='number' name='amount' placeholder='0' /></div>
@@ -105,7 +113,6 @@ const TransferForm = (props) => {
             />
         </>
     )
-
 }
 
 export default TransferForm

@@ -72,90 +72,92 @@ const Careers = (props: any) => {
 
     return (
         <>
-            <ScrollToTop />
-            <Navbar />
-            <section className='careers_section'>
-                <header>
-                    <h1>Career</h1>
-                    <p>Talent oriented</p>
-                </header>
-                <div className='careers_info'>
-                    <h2>Why <span>alphapay??</span></h2>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt</p>
-                    <div className="video_container">
-                        <Player>
-                            {/* <source src='https://s3.amazonaws.com/codecademy-content/courses/React/react_video-cute.mp4' /> */}
-                            <source src='/letter.webm' />
-                        </Player>
-                    </div>
-                </div>
-                <div className="life_info">
-                    <h2><span>Life at</span> alphapay</h2>
-                    <div className="image_container1">
-                        <div className='imc_1'>
-                            <img src={image1} alt="" />
-                        </div>
-                        <div className='imc_2'>
-                            <img src={image2} alt="" />
-                            <img src={image3} alt="" />
-                        </div>
-                        <div className='imc_3'>
-                            <img src={image5} alt="" />
+            <main className='main-container'>
+                <ScrollToTop />
+                <Navbar />
+                <section className='careers_section'>
+                    <header>
+                        <h1>Career</h1>
+                        <p>Talent oriented</p>
+                    </header>
+                    <div className='careers_info'>
+                        <h2>Why <span>alphapay??</span></h2>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt</p>
+                        <div className="video_container">
+                            <Player>
+                                {/* <source src='https://s3.amazonaws.com/codecademy-content/courses/React/react_video-cute.mp4' /> */}
+                                <source src='/letter.webm' />
+                            </Player>
                         </div>
                     </div>
-                    <div className="image_container1">
-                        <div className='imc_2'>
-                            <img src={image2} alt="" />
-                            <img src={image3} alt="" />
+                    <div className="life_info">
+                        <h2><span>Life at</span> alphapay</h2>
+                        <div className="image_container1">
+                            <div className='imc_1'>
+                                <img src={image1} alt="" />
+                            </div>
+                            <div className='imc_2'>
+                                <img src={image2} alt="" />
+                                <img src={image3} alt="" />
+                            </div>
+                            <div className='imc_3'>
+                                <img src={image5} alt="" />
+                            </div>
                         </div>
-                        <div className='imc_3'>
-                            <img src={image5} alt="" />
-                        </div>
-                        <div className='imc_1'>
-                            <img src={image1} alt="" />
-                        </div>
-
-                    </div>
-                </div>
-
-                <div className='available_positions'>
-                    <h2><span>Find your seat </span>at our table</h2>
-                    <div className="btn_positions">
-                        <Button className='bordered'>
-                            All Together
-                        </Button>
-                        <Button className='bordered'>
-                            Designer
-                        </Button>
-                        <Button className='bordered'>
-                            Developer
-                        </Button>
-                        <Button className='bordered'>
-                            Management
-                        </Button>
-                    </div>
-
-                    <div className="available_positions_container">
-                        {positions.map((item: Position) =>
-                            <div className="position_card">
-                                <h3>{item.title}</h3>
-                                <p className='address'>{item.address}</p>
-                                <hr />
-                                <p className='details_info'>{item.text}</p>
-                                <p className='time'>
-                                    <img src={clock} alt="clock" />
-                                    <span>{item.time}</span>
-                                </p>
-                                <Button className='bordered'>
-                                    View Details
-                               </Button>
+                        <div className="image_container1">
+                            <div className='imc_2'>
+                                <img src={image2} alt="" />
+                                <img src={image3} alt="" />
+                            </div>
+                            <div className='imc_3'>
+                                <img src={image5} alt="" />
+                            </div>
+                            <div className='imc_1'>
+                                <img src={image1} alt="" />
                             </div>
 
-                        )}
+                        </div>
                     </div>
-                </div>
-            </section>
-            <Contact />
+
+                    <div className='available_positions'>
+                        <h2><span>Find your seat </span>at our table</h2>
+                        <div className="btn_positions">
+                            <Button className='bordered'>
+                                All Together
+                        </Button>
+                            <Button className='bordered'>
+                                Designer
+                        </Button>
+                            <Button className='bordered'>
+                                Developer
+                        </Button>
+                            <Button className='bordered'>
+                                Management
+                        </Button>
+                        </div>
+
+                        <div className="available_positions_container">
+                            {positions.map((item: Position) =>
+                                <div className="position_card">
+                                    <h3>{item.title}</h3>
+                                    <p className='address'>{item.address}</p>
+                                    <hr />
+                                    <p className='details_info'>{item.text}</p>
+                                    <p className='time'>
+                                        <img src={clock} alt="clock" />
+                                        <span>{item.time}</span>
+                                    </p>
+                                    <Button className='bordered'>
+                                        View Details
+                               </Button>
+                                </div>
+
+                            )}
+                        </div>
+                    </div>
+                </section>
+                <Contact />
+            </main>
             <Footer />
         </>
     )

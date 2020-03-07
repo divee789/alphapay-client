@@ -47,7 +47,7 @@ const Dashboard = (props: any) => {
 
     const logOutHandler = async e => {
         e.preventDefault()
-        await dispatch(logout())
+        await dispatch(logout(user.email))
         props.history.push('/')
     }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { get_client_wallet } from '../../../../store/actions';
 
 import Modal from '../../../../components/Modal'
 import FundForm from '../../components/FundForm'
@@ -12,6 +13,7 @@ import './index.scss'
 
 
 const Overview: React.FC = () => {
+    const dispatch = useDispatch()
     const [showFundModal, setShowFundModal] = useState(false)
     const [showTransferModal, setShowTransferModal] = useState(false)
 
@@ -21,10 +23,12 @@ const Overview: React.FC = () => {
 
     let content: any;
 
-    const modalHandler = (category) => {
+    const modalHandler = async (category) => {
 
         if (category === 'fund') setShowFundModal(false);
-        if (category === 'transfer') setShowTransferModal(false)
+        if (category === 'transfer') {
+            setShowTransferModal(false)
+        }
     };
     const toggleModal = (form) => {
         if (form === 'fund') setShowFundModal(!showFundModal);

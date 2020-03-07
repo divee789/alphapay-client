@@ -37,10 +37,16 @@ const SignUp: React.FC = (props: any) => {
     }
     let text = 'CONTINUE';
     let message = ''
-
+    let styles
     if (processing) text = 'Please wait...';
     if (error) {
         message = error.message
+        styles = {
+            padding: '1rem',
+            backgroundColor: 'red',
+            color: 'white',
+            borderRadius: '10px'
+        }
         // setTimeout(message = '', 3000)
     }
     const logvalidationSchema = Yup.object().shape({
@@ -90,7 +96,7 @@ const SignUp: React.FC = (props: any) => {
                                 render={formProps => {
                                     return (
                                         <>
-                                            <p className='error_message'>{message}</p>
+                                            <p className='error_message' style={styles}>{message}</p>
                                             <Form className="form">
                                                 <h2>Sign Up</h2>
                                                 <p>Join the community,Sign up and move on to your dashboard</p>

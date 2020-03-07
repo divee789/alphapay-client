@@ -1,4 +1,6 @@
 .dashboard_transactions {
+    overflow: scroll;
+
     .no_transaction {
         text-align: center;
 
@@ -8,11 +10,51 @@
     }
 
     .transaction_container {
+        width: 100%;
+        margin: 0 auto;
+
         div {
             display: flex;
             flex-direction: row;
-            justify-content: space-evenly;
-            align-items: center;
+            justify-content: space-between;
+
+            p {
+                width: 20%;
+                text-align: center;
+            }
+        }
+
+        .transaction_item {
+            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+            transition: all 0.3s;
+            cursor: pointer;
+
+            &:hover {
+                transform: translateX(-10px);
+            }
+
+            p {
+                border-left: 1px solid black;
+            }
         }
     }
+}
+
+.refresh_transaction_button {
+    background-color: rgba(71, 212, 82, 0.303);
+    width: 200px;
+    text-align: center;
+    font-weight: 500;
+    color: #0a2e65;
+    font-family: Sailec;
+    opacity: 0.8;
+    cursor: pointer;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    transition-property: opacity, background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    border-radius: 8px;
+    font-size: 17px;
 }
