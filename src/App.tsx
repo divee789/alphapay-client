@@ -39,21 +39,9 @@ const App = (props: any) => {
 
 
   useEffect(() => {
-    // const check = async () => {
-    //   //Log out user when he closes the browser or browser tab
-    //   if (sessionStorage.getItem('logged') !== 'success') {
-    //     await dispatch(logout())
-    //   }
-    //   // log out user if access_token is expired
-    //   let isLoggedIn = api.isloggedIn()
-    //   console.log('isLoggedIn', isLoggedIn)
-    //   if (!isLoggedIn) {
-    //     await dispatch(logout())
-    //     console.log(isAuth)
-    //   }
-    // }
-    // check()
+    console.log('effect')
     const token = Storage.checkAuthentication();
+    console.log('token', token)
     if (token) {
       const decoded: any = decode(token);
       console.log(decoded);
@@ -76,8 +64,28 @@ const App = (props: any) => {
           }
         };
         check();
+      } else {
+        console.log('hi thee')
+        const check2 = async () => {
+          //Log out user when he closes the browser or browser tab
+          if (sessionStorage.getItem('logged') !== 'success') {
+            await dispatch(logout())
+          }
+          // log out user if access_token is expired
+          let isLoggedIn = api.isloggedIn()
+          console.log('isLoggedIn', isLoggedIn)
+          if (!isLoggedIn) {
+            console.log(isAuth)
+            await dispatch(logout())
+          }
+        }
+        check2()
       }
+
+    } else {
+      dispatch(logout())
     }
+
   }, [dispatch])
 
 

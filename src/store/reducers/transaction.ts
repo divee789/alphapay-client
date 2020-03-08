@@ -21,7 +21,7 @@ const transactionReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 processing: false,
-                transaction: null,
+                transactions: null,
                 error: action.error
             };
         case actionTypes.transactionConstants.FETCH_TRANSACTIONS_SUCCESS:

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from "../../store/actions"
 import { Route, Switch, Redirect, useRouteMatch, NavLink, withRouter } from 'react-router-dom';
-import './index.scss'
 import Logo from '../../assets/images/alp.png'
 import Notify from '../../assets/images/dashboard/bxs-bell.png'
 import im_logo from '../../assets/images/dashboard/home.png'
@@ -18,6 +17,9 @@ import Utilities from './Routes/Utilities'
 import Setting from './Routes/Setting'
 import Loading from '../../components/Loading';
 import { get_client_wallet } from '../../store/actions/wallet';
+
+import './index.scss'
+
 
 
 const Dashboard = (props: any) => {

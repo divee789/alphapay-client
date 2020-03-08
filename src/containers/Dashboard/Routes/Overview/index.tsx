@@ -48,19 +48,14 @@ const Overview: React.FC = () => {
         content = <p style={{ textAlign: 'center' }}>There has been an error fetching your wallet</p>
     }
 
-    let btn = <Button className='bordered'>Withdraw Funds</Button>
+    let btn = <Button colored>Withdraw Funds</Button>
     if (wallet && wallet.available_balance <= 100) {
-        btn = <Button className='bordered' disabled>Withdraw Funds</Button>
+        btn = <Button colored disabled>Withdraw Funds</Button>
     }
 
     return (
         <>
-            <Modal open={showFundModal} closed={() => modalHandler('fund')}>
-                <FundForm close={() => modalHandler('fund')} />
-            </Modal>
-            <Modal open={showTransferModal} closed={() => modalHandler('transfer')}>
-                <TransferForm close={() => modalHandler('transfer')} />
-            </Modal>
+
             <div style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'firma-bold' }}>Account Number: {user.phone_number}</div>
             <div className="overview_details">
                 <div className='item'>
@@ -86,7 +81,12 @@ const Overview: React.FC = () => {
                     </div>
                 </div>
             </div>
-
+            {showFundModal && <Modal open={showFundModal} closed={() => modalHandler('fund')}>
+                <FundForm close={() => modalHandler('fund')} />
+            </Modal>}
+            {showTransferModal && <Modal open={showTransferModal} closed={() => modalHandler('transfer')}>
+                <TransferForm close={() => modalHandler('transfer')} />
+            </Modal>}
         </>
     )
 }

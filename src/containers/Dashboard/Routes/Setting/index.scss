@@ -1,8 +1,19 @@
-.dashboard_settings {
+.settings_nav {
+    display: flex;
+    margin-bottom: 3rem;
 
-    .profile_image {
-        width: 200px;
-        height: 200px;
-        object-fit: cover;
+    a {
+        padding: 10px 30px;
+        border-bottom: 1px solid rgba(71, 212, 82, 1);
+        ;
+        color: #0a2e65;
+        opacity: 0.5;
+        transition: all 0.3s;
+
+        &.active,
+        &:hover {
+            opacity: 1;
+            border-bottom: 2px solid rgba(71, 212, 82, 1);
+        }
     }
 }

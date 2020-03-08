@@ -1,5 +1,4 @@
 .dashboard_transactions {
-    overflow: scroll;
 
     .no_transaction {
         text-align: center;
@@ -10,8 +9,25 @@
     }
 
     .transaction_container {
-        width: 100%;
+        width: 95%;
         margin: 0 auto;
+        margin-bottom: 5rem;
+
+        .green {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .yellow {
+            color: yellow;
+        }
+
+        .dark-grey {
+            color: darkgrey;
+        }
 
         div {
             display: flex;
@@ -29,6 +45,7 @@
             box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
             transition: all 0.3s;
             cursor: pointer;
+            border-radius: 5px;
 
             &:hover {
                 transform: translateX(-10px);
@@ -57,4 +74,12 @@
     transition-timing-function: ease;
     border-radius: 8px;
     font-size: 17px;
+}
+
+.trans-modal {
+    width: 70%;
+    top: 4rem;
+    right: 15%;
+    // background-color: rgba(71, 212, 82, 0.1);
+    color: #0a2e65;
 }

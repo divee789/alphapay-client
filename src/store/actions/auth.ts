@@ -81,8 +81,8 @@ export function update(data: any) {
     function success(user: any) {
         return { type: actionTypes.authConstants.UPDATE_USER_SUCCESS, user };
     }
-    function failure(errors: any) {
-        return { type: actionTypes.authConstants.UPDATE_USER_FAILURE, errors };
+    function failure(error: any) {
+        return { type: actionTypes.authConstants.UPDATE_USER_FAILURE, error };
     }
     return async (dispatch: any) => {
         try {

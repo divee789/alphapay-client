@@ -28,42 +28,44 @@
      .sidenav-list {
          display: flex;
          flex-direction: column;
+
+         a {
+             font-weight: 500;
+             color: #0a2e65;
+             display: flex;
+             flex-direction: row;
+             align-items: center;
+             opacity: 0.8;
+             padding: 10px 15px;
+             //  margin: 0 auto;
+             margin-bottom: 10px;
+             //  width: 90%;
+             transition-property: opacity, background-color;
+             transition-duration: 0.2s;
+             transition-timing-function: ease;
+             background-color: transparent;
+             border-radius: 8px;
+             font-size: 17px;
+
+             img {
+                 margin-right: 10px;
+             }
+
+            //  &:hover,
+ //  &.active {
+ //      background-image: linear-gradient(to right, #1400FF -150%, #FC199B 130%);
+ //      opacity: .9;
+ //      color: #fff;
+ //  }
+
+              &.active,&:hover {
+                  opacity: .9;
+                  background-color: rgba(71, 212, 82, 0.103);
+                  //  color: #fff;
+              }
+         }
      }
 
-     a {
-         font-weight: 500;
-         color: #0a2e65;
-         display: flex;
-         flex-direction: row;
-         align-items: center;
-         opacity: 0.8;
-         padding: 10px 15px;
-         //  margin: 0 auto;
-         margin-bottom: 10px;
-         //  width: 90%;
-         transition-property: opacity, background-color;
-         transition-duration: 0.2s;
-         transition-timing-function: ease;
-         background-color: transparent;
-         border-radius: 8px;
-         font-size: 17px;
-
-         img {
-             margin-right: 10px;
-         }
-
-         &.active {
-             background-image: linear-gradient(to right, #1400FF -150%, #FC199B 130%);
-             opacity: .9;
-             color: #fff;
-         }
-
-         &:hover {
-             opacity: .9;
-             background-color: rgba(71, 212, 82, 0.103);
-             //  color: #fff;
-         }
-     }
 
      .main {
          flex-basis: 86%;
@@ -137,6 +139,7 @@
      }
 
      .scroll {
+         height: 89.5vh;
          overflow-y: auto;
          overflow-x: hidden;
          padding-bottom: 30px;

@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import img1 from '../../../../assets/images/newpassword.png'
 
 import { get_client_transactions } from '../../../../store/actions/transactions'
 import { useDispatch, useSelector } from 'react-redux';
+
+import Modal from '../../../../components/Modal'
+import Transaction from '../../components/Transaction'
 
 import './index.scss'
 
@@ -13,51 +16,95 @@ interface Transaction {
     narration: string;
     status: string
     recipient: any;
-
+    createdAt: Date
 }
 
 const Transactions: React.FC = () => {
 
     const dispatch = useDispatch()
-    const { processing, transactions } = useSelector((state: any) => state.transaction)
+    const [showModal, setShowModal] = useState(false)
+    const [transRef, setTransRef] = useState(null)
+    const { processing, transactions, error } = useSelector((state: any) => state.transaction)
+    let content
+
+
+    useEffect(() => {
+        const trans = async () => {
+            try {
+                await dispatch(get_client_transactions())
+            } catch (error) {
+                content = <p>There has been an error getting your transactions</p>
+            }
+        }
+        trans()
+    }, [dispatch])
 
     const refreshTransactionHandler = async () => {
         try {
             await dispatch(get_client_transactions())
         } catch (error) {
-            console.log('error', error)
+            content = <p>There has been an error getting your transactions</p>
         }
     }
 
+    const modalHandler = async () => {
+        setShowModal(false)
+    }
+    const toggleModal = (reference) => {
+        setTransRef(reference)
+        setShowModal(!showModal)
+    }
+
+    const switchStatus = status => {
+        switch (status) {
+            case 'success':
+                return 'green';
+            case 'failed':
+                return 'red';
+            case 'processing':
+                return 'yellow';
+            default:
+                return 'dark-grey';
+        }
+    };
     if (processing) {
         return (
             <p>Getting your transactions</p>
         )
     }
-    console.log(transactions)
-    let content
+
+    if (error) {
+        content = (
+            <>
+                <p>There has been an error getting your transactions</p>
+                <p>{error.response.data.message}</p>
+            </>
+        )
+    }
 
 
-    if (transactions === null || transactions.length === 0) {
+    if (transactions !== null && transactions.length === 0) {
         content = <div className='no_transaction'>
             <img src={img1} />
             <h3>There are no transactions to show</h3>
             <p>You have not made any transactions yet.When you do,they will be shown here</p>
         </div>
-    } else {
+    } else if (transactions && transactions.length > 0) {
         content = <div className="transaction_container">
             <div>
                 <p>status</p>
                 <p>recipient</p>
-                <p>amount</p>
+                <p>amount (NGN)</p>
                 <p>reference</p>
                 <p>type</p>
             </div>
             {transactions.map((transaction: Transaction) => {
-                return <div className='transaction_item' key={transaction.reference}>
-                    <p>{transaction.status}</p>
+                return <div className='transaction_item' key={transaction.reference} onClick={() => {
+                    toggleModal(transaction)
+                }}>
+                    <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>
                     <p>{transaction.recipient.email}</p>
-                    <p>{transaction.amount}</p>
+                    <p>{transaction.amount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
                     <p>{transaction.reference}</p>
                     <p>{transaction.transaction_type}</p>
                 </div>
@@ -69,10 +116,14 @@ const Transactions: React.FC = () => {
 
     return (
         <>
+
             <section className='dashboard_transactions'>
                 <div className='refresh_transaction_button' onClick={refreshTransactionHandler}>Refresh transactions</div>
                 {content}
             </section>
+            {showModal && <Modal open={showModal} closed={modalHandler} className='trans-modal'>
+                <Transaction transaction={transRef} />
+            </Modal>}
         </>
     )
 }

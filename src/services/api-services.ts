@@ -133,9 +133,6 @@ export default class APIRequest {
         }
     };
 
-    setToken = (token: string) => {
-        this.setHeader(token);
-    };
 
     storeUserToken = (token: string, refreshToken: string) => {
         Storage.setItem('userToken', token);
@@ -149,9 +146,10 @@ export default class APIRequest {
         };
 
         const response = await this.instance.post('/auth/login', body);
-        console.log(response)
+        console.log('auth response', response)
         this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
-        this.setToken(response.data.data.access_token);
+        console.log('stored token')
+        this.setHeader(response.data.data.access_token);
         console.log('hi token')
         const profileResponse = response.data.data.client;
         return { ...response.data, client: profileResponse };
@@ -164,7 +162,7 @@ export default class APIRequest {
         const response = await this.instance.post('/auth/signup', body);
         const authResponse = response.data;
         this.storeUserToken(authResponse.data.access_token, authResponse.data.refresh_token);
-        this.setToken(authResponse.access_token);
+        this.setHeader(authResponse.access_token);
         const profileResponse = authResponse.data.client;
         return { ...authResponse, client: profileResponse };
     };
@@ -173,9 +171,19 @@ export default class APIRequest {
             ...data
         };
         const response = await this.instance.patch('/auth/update', body);
-        const authResponse = response.data;
-        const profileResponse = authResponse.data;
-        return { client: profileResponse };
+        if (response.data.success) {
+            return {
+                client: response.data.data,
+                message: response.data.message
+            }
+        }
+        return {
+            error: true,
+            message: response.data.message
+        }
+        // const authResponse = response.data;
+        // const profileResponse = authResponse.data;
+        // return { client: profileResponse };
     };
     refresh = async (refresh_token: string) => {
         const body = {
@@ -188,7 +196,7 @@ export default class APIRequest {
         const authResponse = response.data;
         console.log('refresh', authResponse);
         this.storeUserToken(authResponse.access_token, authResponse.refresh_token);
-        this.setToken(authResponse.access_token);
+        this.setHeader(authResponse.access_token);
         return authResponse;
     }
 

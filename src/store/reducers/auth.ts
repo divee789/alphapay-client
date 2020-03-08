@@ -9,7 +9,9 @@ const initialState = {
     user: null,
     processing: false,
     isAuth: api.isloggedIn(),
-    error: null
+    error: null,
+    update_error: null,
+    message: null
 }
 
 const authReducer = (state = initialState, action: any) => {
@@ -51,7 +53,7 @@ const authReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 processing: true,
-                error: {}
+                error: null
             };
         case actionTypes.authConstants.SIGNUP_FAILURE:
             return {
@@ -74,8 +76,15 @@ const authReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 processing: false,
-                user: action.user,
-                error: null
+                user: action.user.client,
+                message: action.user.message,
+                update_error: null
+            };
+        case actionTypes.authConstants.UPDATE_USER_FAILURE:
+            return {
+                ...state,
+                processing: false,
+                update_error: action.error
             };
         default:
             return state
