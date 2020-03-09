@@ -6,7 +6,7 @@ import { Wallet } from '../types'
 import APIRequest from '../../services/api-services';
 import APIServiceError from '../../services/error-services';
 
-const BaseURL = process.env.REACT_APP_SERVER_URL;
+const BaseURL = process.env.REACT_APP_STAGING
 const Request = new APIRequest(BaseURL);
 
 

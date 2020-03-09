@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
@@ -11,10 +11,16 @@ import Button from '../../components/Button'
 
 import './auth.scss';
 
-
+const styles = {
+    padding: '1rem',
+    backgroundColor: 'red',
+    color: 'white',
+    borderRadius: '10px'
+}
 
 
 const LogIn: React.FC = (props: any) => {
+    const [feedback, setFeedback] = useState(null)
     const { processing, error } = useSelector((state: any) => state.auth);
     const dispatch = useDispatch();
 
@@ -28,18 +34,9 @@ const LogIn: React.FC = (props: any) => {
     }
 
     let text = 'CONTINUE';
-    let message = null
-    let styles
     if (processing) text = 'Please wait...';
     if (error) {
-        message = error.message
-        // setTimeout(message = '', 3000)
-        styles = {
-            padding: '1rem',
-            backgroundColor: 'red',
-            color: 'white',
-            borderRadius: '10px'
-        }
+
     }
     const logvalidationSchema = Yup.object().shape({
         email: Yup.string().email('Provide a valid email please')
@@ -56,7 +53,8 @@ const LogIn: React.FC = (props: any) => {
             props.history.push(`/dashboard/overview`);
         } catch (err) {
             console.log('log err', err);
-
+            setFeedback(err.message)
+            setTimeout(() => setFeedback(null), 3000)
             setSubmitting(false);
         }
     };
@@ -77,7 +75,7 @@ const LogIn: React.FC = (props: any) => {
                                 render={formProps => {
                                     return (
                                         <>
-                                            <p style={styles} className='error_message'>{message}</p>
+                                            {feedback && <p style={styles} className='error_message' onClick={() => setFeedback(null)}>{feedback}</p>}
                                             <Form className="form">
                                                 <h2>Log In</h2>
                                                 <p>Welcome back,please log in to your account to access your dashboard</p>

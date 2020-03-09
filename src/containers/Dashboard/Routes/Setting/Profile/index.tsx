@@ -15,6 +15,7 @@ const api = new Request(process.env.SERVER_URL)
 const Profile = (props: any) => {
     const dispatch = useDispatch()
     const [image, setImage] = useState('')
+    const [feedBack, setFeedBack] = useState(false)
     const { user, processing, update_error, message } = useSelector((state: any) => state.auth)
     const initialValues = {
         email: user.email,
@@ -47,9 +48,11 @@ const Profile = (props: any) => {
         try {
             console.log(values)
             await dispatch(update(values))
+            setFeedBack(message)
         } catch (err) {
             console.log('log err', err);
             console.log(err.message);
+            setFeedBack(update_error.response.data.message)
             setSubmitting(false);
         }
     }
@@ -72,8 +75,8 @@ const Profile = (props: any) => {
                         render={formProps => {
                             return (
                                 <>
-                                    {update_error && <p>{update_error.response.data.message}</p>}
-                                    {message && <p>{message}</p>}
+                                    {/* {update_error && <p>{update_error.response.data.message}</p>} */}
+                                    {feedBack && <p>{feedBack}</p>}
                                     <Form>
                                         <div className="input-container-dual">
                                             <div>

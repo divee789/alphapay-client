@@ -1,6 +1,6 @@
 import { Logger } from '../utils/index';
 
-export function IsJsonString(str:any) {
+export function IsJsonString(str: any) {
     try {
         JSON.parse(str);
     } catch (e) {
@@ -10,7 +10,7 @@ export function IsJsonString(str:any) {
 }
 
 export class Storage {
-    static getItem(item:string) {
+    static getItem(item: string) {
         const value = localStorage.getItem(item);
         if (value === undefined || value === null) {
             return null;
@@ -24,7 +24,7 @@ export class Storage {
         return value;
     }
 
-    static setItem(item:string, itemValue:any) {
+    static setItem(item: string, itemValue: any) {
         try {
             let value = itemValue;
             if (typeof itemValue === 'object' && itemValue !== null) {
@@ -37,7 +37,7 @@ export class Storage {
         }
     }
 
-    static removeItem(item:string) {
+    static removeItem(item: string) {
         try {
             localStorage.removeItem(item);
         } catch (error) {
@@ -54,6 +54,7 @@ export class Storage {
     }
     static checkAuthentication() {
         let userToken;
+        console.log('finding access token')
         try {
             userToken = Storage.getItem('userToken');
         } catch (error) {
@@ -61,8 +62,10 @@ export class Storage {
             return false;
         }
         if (!userToken) {
+            console.log('no access token found')
             return false;
         }
+        console.log('access token found', userToken)
         return userToken;
     }
 

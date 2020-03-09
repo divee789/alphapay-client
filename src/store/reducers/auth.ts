@@ -20,7 +20,7 @@ const authReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 processing: true,
-                error: {}
+                error: null
             };
         case actionTypes.authConstants.LOGIN_FAILURE:
             return {

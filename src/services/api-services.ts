@@ -9,11 +9,11 @@ import decode from 'jwt-decode';
 
 let APIBaseURL
 
-if (process.env.REACT_APP_STAGING !== '') {
-    APIBaseURL = 'http://localhost:7000'
-} else {
-    APIBaseURL = process.env.REACT_APP_SERVER_URL
-}
+// if (process.env.REACT_APP_STAGING !== '') {
+APIBaseURL = 'http://localhost:7000'
+// } else {
+//     APIBaseURL = process.env.REACT_APP_SERVER_URL
+// }
 
 console.log(APIBaseURL)
 
@@ -38,7 +38,9 @@ export default class APIRequest {
         });
         this.instance.interceptors.request.use(
             (config: any) => {
-                Logger.info('Request: ', config.url);
+                const userToken = this.setAuthorization();
+                config.headers.Authorization = userToken;
+                Logger.info('Request: ', config.url, config.headers);
                 return config;
             },
             (error: any) => {
@@ -80,7 +82,7 @@ export default class APIRequest {
     };
 
     setHeader = (token: string) => {
-        console.log('setting token header')
+
         this.instance.defaults.headers.common.Authorization = `Bearer ${token}`;
         this.instance2.defaults.headers.common.Authorization = `Bearer ${token}`;
     };
@@ -118,11 +120,9 @@ export default class APIRequest {
             const exp: number = decoded.exp
             const date = Date.now() / 1000
             if (exp < date) {
-                console.log('expired token found');
                 this.logOut()
                 return true;
             } else {
-                console.log('not expired')
                 return false;
             }
 
@@ -132,7 +132,13 @@ export default class APIRequest {
             return false;
         }
     };
-
+    setAuthorization = () => {
+        const userToken = Storage.getItem('userToken');
+        // Check if user if authenticated if not return client token
+        if (userToken) {
+            return `Bearer ${userToken}`;
+        }
+    };
 
     storeUserToken = (token: string, refreshToken: string) => {
         Storage.setItem('userToken', token);
@@ -144,13 +150,9 @@ export default class APIRequest {
         const body = {
             ...data
         };
-
         const response = await this.instance.post('/auth/login', body);
-        console.log('auth response', response)
         this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
-        console.log('stored token')
         this.setHeader(response.data.data.access_token);
-        console.log('hi token')
         const profileResponse = response.data.data.client;
         return { ...response.data, client: profileResponse };
     };
@@ -181,9 +183,7 @@ export default class APIRequest {
             error: true,
             message: response.data.message
         }
-        // const authResponse = response.data;
-        // const profileResponse = authResponse.data;
-        // return { client: profileResponse };
+
     };
     refresh = async (refresh_token: string) => {
         const body = {
@@ -276,7 +276,6 @@ export default class APIRequest {
             processor_reference: data.processor_reference,
             transaction_status: data.transaction_status
         })
-        console.log(res)
         if (res.data.success == true) {
             return {
                 wallet: res.data.data,
@@ -294,7 +293,6 @@ export default class APIRequest {
 
     getTransactions = async () => {
         const transactions = await this.instance.get('/api/v1/transaction/all')
-        console.log(transactions)
         const response = transactions.data
         if (response.success == true) {
             return {
@@ -309,7 +307,6 @@ export default class APIRequest {
     }
     transferFunds = async (data: any) => {
         const res = await this.instance.post('/api/v1/transfer', { ...data })
-        console.log(res)
         if (res.data.success == true) {
             return {
                 amount: res.data.amount,

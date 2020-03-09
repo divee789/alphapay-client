@@ -38,6 +38,7 @@ export function login(data: any) {
         try {
             await dispatch(request());
             const userDetails = await authAPIRequest.logIn(data);
+            console.log('auth action', userDetails)
             await dispatch(success(userDetails));
         } catch (error) {
             console.log(error)

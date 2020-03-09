@@ -15,7 +15,7 @@ const walletReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 processing: true,
-                error: {}
+                error: null
             };
         case actionTypes.walletConstants.FETCH_WALLET_FAILURE:
             return {
@@ -35,7 +35,7 @@ const walletReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 fund_processing: true,
-                error: {}
+                error: null
             };
         case actionTypes.walletConstants.FUND_WALLET_FAILURE:
             return {

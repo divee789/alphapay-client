@@ -1,5 +1,7 @@
 import React from 'react';
 
+import dayjs from 'dayjs'
+
 import './index.scss'
 
 const Transaction = ({ transaction }) => {
@@ -25,7 +27,8 @@ const Transaction = ({ transaction }) => {
                                 {transaction.recipient.phone_number}</span></p>
                         </div>
                         <div>
-                            <p>Date: <span>{transaction.createdAt}</span></p>
+                            <p>Date: <span>{dayjs(transaction.createdAt).format('D MMM YYYY')}</span></p>
+                            <p>Time: <span>{dayjs(transaction.createdAt).format('h:mm:ss a')}</span></p>
                             <div>
                                 <h3>Deposits</h3>
                                 <p>Processor: <span>{transaction.processor}</span></p>

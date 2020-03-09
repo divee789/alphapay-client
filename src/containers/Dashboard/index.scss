@@ -44,6 +44,7 @@
              transition-duration: 0.2s;
              transition-timing-function: ease;
              background-color: transparent;
+             transition: all 0.4s;
              border-radius: 8px;
              font-size: 17px;
 
@@ -51,18 +52,20 @@
                  margin-right: 10px;
              }
 
-            //  &:hover,
- //  &.active {
- //      background-image: linear-gradient(to right, #1400FF -150%, #FC199B 130%);
- //      opacity: .9;
- //      color: #fff;
- //  }
+             //  &:hover,
+             //  &.active {
+             //      background-image: linear-gradient(to right, #1400FF -150%, #FC199B 130%);
+             //      opacity: .9;
+             //      color: #fff;
+             //  }
 
-              &.active,&:hover {
-                  opacity: .9;
-                  background-color: rgba(71, 212, 82, 0.103);
-                  //  color: #fff;
-              }
+             &.active,
+             &:hover {
+                 opacity: .9;
+                 background-color: rgba(71, 212, 82, 0.103);
+                 transform: translateY(-3px);
+                 //  color: #fff;
+             }
          }
      }
 

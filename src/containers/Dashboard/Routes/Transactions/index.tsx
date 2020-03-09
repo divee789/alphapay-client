@@ -98,7 +98,7 @@ const Transactions: React.FC = () => {
                 <p>reference</p>
                 <p>type</p>
             </div>
-            {transactions.map((transaction: Transaction) => {
+            {transactions.reverse().map((transaction: Transaction) => {
                 return <div className='transaction_item' key={transaction.reference} onClick={() => {
                     toggleModal(transaction)
                 }}>
