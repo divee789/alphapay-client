@@ -7,6 +7,11 @@ import FundForm from '../../components/FundForm'
 import TransferForm from '../../components/TransferForm'
 import Button from '../../../../components/Button'
 
+import image1 from '../../../../assets/images/transfer.png'
+import image2 from '../../../../assets/images/airtime.png'
+import image3 from '../../../../assets/images/pay-bills.png'
+import image4 from '../../../../assets/images/coffee.png'
+
 
 
 import './index.scss'
@@ -42,26 +47,26 @@ const Overview: React.FC = () => {
     }
     if (wallet !== null) {
         content = <div className='wallet_card'>
+            <p>Wallet Balance</p>
             <p>NGN {wallet.available_balance.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
         </div>
     } else {
         content = <p style={{ textAlign: 'center' }}>There has been an error fetching your wallet</p>
     }
 
-    let btn = <Button colored>Withdraw Funds</Button>
+    let btn = <Button dashboard>Withdraw Funds</Button>
     if (wallet && wallet.available_balance <= 100) {
-        btn = <Button colored disabled>Withdraw Funds</Button>
+        btn = <Button dashboard disabled>Withdraw Funds</Button>
     }
 
     return (
         <>
 
-            <div style={{ fontSize: '24px', textAlign: 'center', fontFamily: 'firma-bold' }}>Account Number: {user.phone_number}</div>
             <div className="overview_details">
                 <div className='item'>
                     {content}
                     <div className='btn_fund'>
-                        <Button className='bordered' onClick={() => {
+                        <Button dashboard onClick={() => {
                             toggleModal('fund')
                         }}>Fund Wallet</Button>
                         {
@@ -70,7 +75,30 @@ const Overview: React.FC = () => {
 
                     </div>
                 </div>
+
                 <div className="funds_control item">
+
+                    <div className="option_card">
+                        <img src={image1} />
+                        <p>Transfer Funds</p>
+                    </div>
+                    <div className="option_card">
+                        <img src={image2} />
+                        <p>Request Funds</p>
+                    </div>
+                    <div className="option_card">
+                        <img src={image3} />
+                        <p>Pay Bills</p>
+                    </div>
+                    <div className="option_card">
+                        <img src={image4} />
+                        <p>Buy Airtime</p>
+                    </div>
+
+
+                </div>
+
+                {/* <div className="funds_control item">
                     <div>
                         <Button className='bordered' onClick={() => {
                             toggleModal('transfer')
@@ -79,7 +107,7 @@ const Overview: React.FC = () => {
                         <Button className='bordered'>Buy Airtime</Button>
                         <Button className='bordered'>Pay Bills</Button>
                     </div>
-                </div>
+                </div> */}
             </div>
             {showFundModal && <Modal open={showFundModal} closed={() => modalHandler('fund')}>
                 <FundForm close={() => modalHandler('fund')} />

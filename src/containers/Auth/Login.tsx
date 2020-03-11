@@ -84,7 +84,7 @@ const LogIn: React.FC = (props: any) => {
                                                     <ErrorMessage name="email" render={msg => <div className="error">{msg}</div>} />
                                                 </div>
                                                 <div className="input-container">
-                                                    <Field type="password" name="password" placeholder="Password" />
+                                                    <Field type="password" name="password" placeholder="Password" className='password' />
                                                     <ErrorMessage name="password" render={msg => <div className="error">{msg}</div>} />
                                                 </div>
                                                 <div className="input-container btn_container">

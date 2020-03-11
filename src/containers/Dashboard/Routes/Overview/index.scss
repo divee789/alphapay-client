@@ -16,9 +16,9 @@
         justify-content: center;
         text-align: center;
         // background: #fff;
-        // background-image: linear-gradient(to right, #1400FF -150%, #FC199B 130%);
+        background-image: linear-gradient(to bottom, #1400FF -150%, #FC199B 130%);
 
-        background-color: rgba(71, 212, 82, 0.103);
+        // background-color: rgba(71, 212, 82, 0.103);
         box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
         width: 90%;
         height: 15rem;
@@ -27,8 +27,9 @@
 
         p {
             font-size: 24px;
-            font-family: firma-bold;
-            color: #0a2e65;
+            font-family: firma;
+            color: #fff;
+            margin: 0;
         }
     }
 
@@ -49,7 +50,31 @@
     }
 
     .funds_control {
-        width: 40%;
+        display: flex;
+        flex-wrap: wrap;
+
+        div {
+            width: 45%;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 12rem;
+            transition: all 0.6s;
+            margin-bottom: 20px;
+            box-shadow: 26px 4px 6px rgba(50, 50, 93, 0.11), 1px 1px 23px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+
+            &:hover {
+                transform: translateX(2px);
+
+            }
+
+            img {
+                height: 100px;
+            }
+        }
 
         button {
             margin-bottom: 20px;

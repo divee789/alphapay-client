@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
@@ -12,11 +12,19 @@ import Button from '../../components/Button'
 import './auth.scss';
 
 
+const styles = {
+    padding: '1rem',
+    backgroundColor: 'red',
+    color: 'white',
+    borderRadius: '10px'
+}
+
 interface FormValues {
     email: string;
     first_name: string;
     last_name: string;
     password: string;
+    confirmPassword: string;
     phone_number: number;
     level: string;
     department: string;
@@ -24,11 +32,13 @@ interface FormValues {
 
 
 const SignUp: React.FC = (props: any) => {
+    const [feedback, setFeedback] = useState(null)
     const { processing, error } = useSelector((state: any) => state.auth);
     const dispatch = useDispatch();
     const initialValues: FormValues = {
         email: '',
         password: '',
+        confirmPassword: '',
         first_name: '',
         last_name: '',
         level: '',
@@ -36,19 +46,9 @@ const SignUp: React.FC = (props: any) => {
         phone_number: undefined
     }
     let text = 'CONTINUE';
-    let message = ''
-    let styles
+
     if (processing) text = 'Please wait...';
-    if (error) {
-        message = error.message
-        styles = {
-            padding: '1rem',
-            backgroundColor: 'red',
-            color: 'white',
-            borderRadius: '10px'
-        }
-        // setTimeout(message = '', 3000)
-    }
+
     const logvalidationSchema = Yup.object().shape({
         first_name: Yup.string().required('Provide your first name please'),
         last_name: Yup.string().required('Provide your last name please'),
@@ -65,6 +65,13 @@ const SignUp: React.FC = (props: any) => {
                 /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
                 "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
             ),
+        confirmPassword: Yup.string().when("password", {
+            is: val => (val && val.length > 0 ? true : false),
+            then: Yup.string().oneOf(
+                [Yup.ref("password")],
+                "Both password need to be the same"
+            )
+        })
     });
 
     const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
@@ -74,7 +81,8 @@ const SignUp: React.FC = (props: any) => {
             return props.history.push(`/dashboard/overview`);
         } catch (err) {
             console.log('log err', err);
-            console.log(err.message);
+            setFeedback(err.message)
+            setTimeout(() => setFeedback(null), 3000)
             setSubmitting(false);
         }
     };
@@ -96,13 +104,13 @@ const SignUp: React.FC = (props: any) => {
                                 render={formProps => {
                                     return (
                                         <>
-                                            <p className='error_message' style={styles}>{message}</p>
+                                            {feedback && <p style={styles} className='error_message' onClick={() => setFeedback(null)}>{feedback}</p>}
                                             <Form className="form">
                                                 <h2>Sign Up</h2>
                                                 <p>Join the community,Sign up and move on to your dashboard</p>
                                                 <div className="input-container-dual">
                                                     <div>
-                                                        <Field type="text" name="first_name" placeholder="First Name" />
+                                                        <Field type="text" name="first_name" placeholder="First name" />
                                                         <ErrorMessage name="first_name" render={msg => <div className="error">{msg}</div>} />
                                                     </div>
                                                     <div>
@@ -154,6 +162,10 @@ const SignUp: React.FC = (props: any) => {
                                                 <div className="input-container">
                                                     <Field type="password" name="password" placeholder="Password" />
                                                     <ErrorMessage name="password" render={msg => <div className="error">{msg}</div>} />
+                                                </div>
+                                                <div className="input-container">
+                                                    <Field type="password" name="confirmPassword" placeholder="Confirm Password" />
+                                                    <ErrorMessage name="confirmPassword" render={msg => <div className="error">{msg}</div>} />
                                                 </div>
                                                 <div className="input-container btn_container">
                                                     <Button disabled={formProps.isSubmitting} colored>{text}</Button>

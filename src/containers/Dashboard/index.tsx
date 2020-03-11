@@ -91,12 +91,14 @@ const Dashboard = (props: any) => {
             </div>
             <div className="main">
                 <div className="dashboard_nav">
+                    <div className='profile_details'>Account Number: {user.phone_number}</div>
+
                     <div>
                         <img src={Notify} className='bell' />
                     </div>
 
                     <div className='profile_details'>
-                        <img src="https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" alt="" />
+                        <img src={user.profile_image ? user.profile_image : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"} alt="" />
                         {user ? user.first_name : 'test'} {user ? user.last_name : 'test'}
                     </div>
                 </div>

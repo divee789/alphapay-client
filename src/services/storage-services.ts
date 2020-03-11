@@ -54,7 +54,6 @@ export class Storage {
     }
     static checkAuthentication() {
         let userToken;
-        console.log('finding access token')
         try {
             userToken = Storage.getItem('userToken');
         } catch (error) {
@@ -62,10 +61,9 @@ export class Storage {
             return false;
         }
         if (!userToken) {
-            console.log('no access token found')
             return false;
         }
-        console.log('access token found', userToken)
+
         return userToken;
     }
 

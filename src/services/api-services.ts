@@ -5,15 +5,11 @@ import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
 import decode from 'jwt-decode';
 
-// const APIBaseURL = process.env.REACT_APP_SERVER_URL || 'http://157.245.36.216:7000';
+// const APIBaseURL = 'http://157.245.36.216:7000'
+const APIBaseURL = 'http://localhost:7000'
+// const APIBaseURL = 'https://alphapay-api.herokuapp.com'
 
-let APIBaseURL
 
-// if (process.env.REACT_APP_STAGING !== '') {
-APIBaseURL = 'http://localhost:7000'
-// } else {
-//     APIBaseURL = process.env.REACT_APP_SERVER_URL
-// }
 
 console.log(APIBaseURL)
 
@@ -185,6 +181,23 @@ export default class APIRequest {
         }
 
     };
+
+    changePassword = async (data: any) => {
+        const body = {
+            ...data
+        };
+        const response = await this.instance.patch('/auth/password', body);
+        if (response.data.success) {
+            return {
+                message: response.data.message
+            }
+        }
+        return {
+            error: true,
+            message: response.data.message
+        }
+
+    };
     refresh = async (refresh_token: string) => {
         const body = {
             refresh_token
@@ -243,7 +256,7 @@ export default class APIRequest {
     uploadProfileImage = async (data: any) => {
         try {
             const res = await this.instance2.post('/auth/upload', data)
-            console.log(res)
+            console.log('upload', res)
             return res.data.client
         } catch (error) {
             console.log(error)

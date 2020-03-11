@@ -16,6 +16,8 @@ const Profile = (props: any) => {
     const dispatch = useDispatch()
     const [image, setImage] = useState('')
     const [feedBack, setFeedBack] = useState(false)
+    const [uploadFeedBack, setUploadFeedBack] = useState(false)
+
     const { user, processing, update_error, message } = useSelector((state: any) => state.auth)
     const initialValues = {
         email: user.email,
@@ -37,11 +39,20 @@ const Profile = (props: any) => {
         setImage(file)
     }
     const uploadHandler = async () => {
-        const formData = new FormData()
-        formData.append('profile_image', image)
-        let resData = await api.uploadProfileImage(formData)
-        console.log('resData', resData)
-        dispatch(update(resData))
+        try {
+            if (!image) {
+                alert('Please choose an image to upload')
+            }
+            const formData = new FormData()
+            formData.append('profile_image', image)
+            setUploadFeedBack(true)
+            let resData = await api.uploadProfileImage(formData)
+            console.log('resData', resData)
+            dispatch(update(resData))
+            setUploadFeedBack(false)
+        } catch (error) {
+            setUploadFeedBack(false)
+        }
     }
 
     const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
@@ -63,8 +74,8 @@ const Profile = (props: any) => {
                 <div className="profile_image_handler">
                     <img src={user.profile_image ? user.profile_image : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'} />
                     <div className="change_profile_image">
-                        <input type="file" onChange={fileChangedHandler} />
-                        <Button colored onClick={uploadHandler} className='upload-btn'>Upload image</Button>
+                        <input type="file" onChange={fileChangedHandler} required />
+                        <Button colored onClick={uploadHandler} className='upload-btn'>{uploadFeedBack ? 'Please wait...' : 'Upload Image'}</Button>
                     </div>
                 </div>
                 <div className="user_profile_details">

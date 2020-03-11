@@ -7,6 +7,21 @@ const Button = props => {
 
     let style;
 
+    style = {
+        backgroundColor: 'white',
+        borderColor: '#9D60EB',
+        borderWidth: '1px'
+    }
+
+    if (props.dashboard) {
+        style = {
+            backgroundColor: 'rgba(71, 212, 82, 0.103)',
+            color: '#0a2e65',
+            fontWeight: '800',
+            fontFamily: 'Sailec'
+        }
+    }
+
     if (props.colored) {
         style = {
             backgroundImage: 'linear-gradient(to right, #1400FF -150%, #FC199B 130%)',
@@ -14,13 +29,7 @@ const Button = props => {
         }
     }
 
-    else {
-        style = {
-            backgroundColor: 'white',
-            borderColor: '#9D60EB',
-            borderWidth: '1px'
-        }
-    }
+
 
     return (
         <>

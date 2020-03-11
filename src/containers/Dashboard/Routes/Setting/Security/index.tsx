@@ -3,7 +3,14 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
+import Request from '../../../../../services/api-services'
+
 import Button from '../../../../../components/Button'
+
+import './index.scss'
+
+
+const api = new Request(process.env.REACT_SERVER_URL)
 
 
 
@@ -15,25 +22,31 @@ const Security = () => {
 
     const initialValues = {
         old_password: undefined,
-        new_password: undefined
+        password: undefined
     }
 
     const passwordValidationSchema = Yup.object().shape({
         new_password: Yup.string().min(9, 'Password must be 9 characters or longer').required('Provide your new password please'),
-        old_password: Yup.string().min(9, 'Password must be 9 characters or longer').required('Provide your old password please')
+        password: Yup.string().min(9, 'Password must be 9 characters or longer').required('Provide your old password please')
     })
 
     const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
         try {
             console.log(values)
+            const res = await api.changePassword(values)
+            console.log(res)
+            setFeedback(res.message)
         } catch (error) {
             console.log('password error', error)
+            if (error.response.status == 409) {
+                setFeedback('Your password is invalid')
+            }
         }
     }
 
     return (
         <>
-            <section>
+            <section className='dashboard_security'>
                 <div className="password_security_change">
                     <Formik
                         initialValues={initialValues}
@@ -47,7 +60,7 @@ const Security = () => {
                                         <div className="old_password_form">
                                             <Field
                                                 type='password'
-                                                name='old_password'
+                                                name='password'
                                                 placeholder='Old Password'
                                             />
                                             <ErrorMessage name="old_password" render={msg => <div className="error">{msg}</div>} />
@@ -68,10 +81,9 @@ const Security = () => {
                             )
                         }}
                     />
-                    <div>
-                        <p>You are strongly advised to enable 2 factor authentication in order to add an extra layer of security to your account</p>
-                        <Button colored>Enable 2 factor authentication</Button>
-                    </div>
+
+                    {feedback && <p>{feedback}</p>}
+
                 </div>
 
 
@@ -103,6 +115,10 @@ const Security = () => {
                     />
                 </div>
             </section>
+            <div className='two_fa'>
+                <p>You are strongly advised to enable 2 factor authentication in order to add an extra layer of security to your account</p>
+                <Button className='bordered'>Enable 2 factor authentication</Button>
+            </div>
         </>
     )
 }

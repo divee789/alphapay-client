@@ -90,7 +90,10 @@ export function update(data: any) {
             await dispatch(request());
             if (data.profile_image) {
                 console.log('redux image data', data)
-                dispatch(success(data));
+                const user = {
+                    client: data
+                }
+                await dispatch(success(user));
                 return
             }
             const userDetails = await authAPIRequest.update(data);
@@ -104,3 +107,4 @@ export function update(data: any) {
         }
     };
 }
+

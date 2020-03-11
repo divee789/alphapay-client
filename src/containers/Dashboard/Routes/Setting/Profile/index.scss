@@ -36,6 +36,7 @@
             display: block;
             margin-bottom: 10px;
             font-weight: bold;
+            font-family: firma;
         }
 
         input {
@@ -54,4 +55,9 @@
         }
     }
 
+    button {
+
+        text-transform: uppercase;
+        font-weight: bold;
+    }
 }
