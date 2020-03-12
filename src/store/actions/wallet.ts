@@ -42,7 +42,8 @@ export function fund_client_wallet(data: {
     narration: string,
     processor: string,
     processor_reference: string,
-    transaction_status: string
+    transaction_status: string,
+    transaction_pin: number
 }) {
     function request() {
         return { type: actionTypes.walletConstants.FUND_WALLET_REQUEST }

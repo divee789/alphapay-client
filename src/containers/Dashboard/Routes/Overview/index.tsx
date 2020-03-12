@@ -78,7 +78,9 @@ const Overview: React.FC = () => {
 
                 <div className="funds_control item">
 
-                    <div className="option_card">
+                    <div className="option_card" onClick={() => {
+                        toggleModal('transfer')
+                    }}>
                         <img src={image1} />
                         <p>Transfer Funds</p>
                     </div>
@@ -98,16 +100,6 @@ const Overview: React.FC = () => {
 
                 </div>
 
-                {/* <div className="funds_control item">
-                    <div>
-                        <Button className='bordered' onClick={() => {
-                            toggleModal('transfer')
-                        }}>Transfer Funds</Button>
-                        <Button className='bordered'>Request Funds</Button>
-                        <Button className='bordered'>Buy Airtime</Button>
-                        <Button className='bordered'>Pay Bills</Button>
-                    </div>
-                </div> */}
             </div>
             {showFundModal && <Modal open={showFundModal} closed={() => modalHandler('fund')}>
                 <FundForm close={() => modalHandler('fund')} />

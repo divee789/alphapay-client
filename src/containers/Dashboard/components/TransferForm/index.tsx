@@ -3,14 +3,18 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
 import Api from '../../../../services/api-services'
-import { get_client_wallet } from '../../../../store/actions';
+import * as actionTypes from '../../../../store/actions/actionTypes';
+import { Wallet } from '../../../../store/types'
 import Button from '../../../../components/Button'
 
 import img1 from '../../../../assets/images/quick-and-easy.jpg'
 
 
 const request = new Api(process.env.REACT_APP_STAGING)
-
+//Wallet reducer 
+function success(wallet: Wallet) {
+    return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet }
+}
 
 const TransferForm = (props) => {
     const [message, setMessage] = useState(null)
@@ -51,11 +55,7 @@ const TransferForm = (props) => {
             const res = await request.transferFunds(data)
             console.log('transfer', res)
             setMessage(res.message)
-            setTimeout(async () => {
-                setMessage(null)
-                await dispatch(get_client_wallet())
-            }, 5000)
-
+            await dispatch(success(res.wallet))
             // props.close()
 
         } catch (error) {

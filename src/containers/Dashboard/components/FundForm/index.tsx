@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
-import { fund_client_wallet } from '../../../../store/actions'
-
+import * as actionTypes from '../../../../store/actions/actionTypes';
+import { Wallet } from '../../../../store/types'
+import Api from '../../../../services/api-services'
 import Button from '../../../../components/Button'
 
 import './index.scss'
+import img1 from '../../../../assets/images/quick-and-easy.jpg'
+
+
+const request = new Api(process.env.REACT_APP_STAGING)
+
+
+
+//Wallet reducer 
+function success(wallet: Wallet) {
+    return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet }
+}
 
 const FundForm = (props) => {
-    const { fund_processing, error, wallet } = useSelector((state: any) => state.wallet)
+    const [message, setMessage] = useState(null)
+    const [processing, setProcessing] = useState(null)
+    const { wallet } = useSelector((state: any) => state.wallet)
     const dispatch = useDispatch()
-
     interface FormValues {
         amount: number,
         narration: string
@@ -19,11 +32,11 @@ const FundForm = (props) => {
 
     const initialValues: FormValues = {
         amount: undefined,
-        narration: ''
+        narration: '',
     }
 
     let text = 'FUND WALLET'
-    if (fund_processing) text = 'Please wait....'
+    if (processing) text = 'Please wait....'
 
     const walletValidationSchema = Yup.object().shape({
         amount: Yup.number().required('Please provide the amount you want to inject'),
@@ -39,16 +52,33 @@ const FundForm = (props) => {
                 processor_reference: 'Korapay-test-reference',
                 transaction_status: 'success',
                 narration: 'testing'
-            }
-            await dispatch(fund_client_wallet(data))
-            props.close()
+            };
+            setProcessing(true)
+            const res = await request.fundWallet(data)
+            console.log('funding', res)
+            setProcessing(false)
+            setMessage(res.message)
+            await dispatch(success(res.wallet))
 
         } catch (error) {
-            console.log('funding error', error)
-            setSubmitting(false)
+            console.log('funding error', error);
+            setMessage(error.response.data.message)
+            setProcessing(false)
+            setSubmitting(false);
         }
     }
 
+    if (message) {
+        setTimeout(function () { setMessage(null) }, 5000)
+        return (
+            <>
+                <div className='transfer_feedback'>
+                    <img src={img1} />
+                    <p>{message}</p>
+                </div>
+            </>
+        )
+    }
     return (
         <>
             <Formik
@@ -65,6 +95,11 @@ const FundForm = (props) => {
                                     <div className="con">  <span>NGN</span> <Field type='number' name='amount' placeholder='0' /></div>
                                     <ErrorMessage name="amount" render={msg => <div className="error">{msg}</div>} />
                                 </div>
+                                {wallet && wallet.transaction_pin && <div>
+                                    <p>PLEASE PROVIDE YOUR TRANSACTION PIN?</p>
+                                    <div className="con"><Field type='number' name='pin' placeholder='1111' /></div>
+                                    <ErrorMessage name="pin" render={msg => <div className="error">{msg}</div>} />
+                                </div>}
                                 <div className="fund_btn">
                                     <Button disabled={formProps.isSubmitting} colored>{text}</Button>
                                 </div>

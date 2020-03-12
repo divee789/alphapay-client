@@ -14,7 +14,7 @@ import './index.scss'
 
 const api = new Request(process.env.REACT_SERVER_URL)
 
-
+//Wallet reducer 
 function success(wallet: Wallet) {
     return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet }
 }
@@ -25,6 +25,7 @@ const Security = () => {
     const [feedback, setFeedback] = useState(null)
     const [feedback2, setFeedback2] = useState(null)
     const { processing, error } = useSelector((state: any) => state.auth);
+    const { wallet } = useSelector((state: any) => state.wallet)
     const dispatch = useDispatch();
 
     const initialValues = {
@@ -45,10 +46,6 @@ const Security = () => {
     const handleSubmit = async (values: any, { setSubmitting, setErrors, resetForm }: any) => {
         try {
             console.log(values)
-            // const res = await api.changePassword(values)
-            // console.log(res)
-            // setFeedback(res.message)
-
             switch (values.type) {
                 case 'Password':
                     const res = await api.changePassword(values)
@@ -133,7 +130,7 @@ const Security = () => {
                                             <ErrorMessage name="transaction_pin" render={msg => <div className="error">{msg}</div>} />
                                         </div>
                                         <div className="btn_cont">
-                                            <Button disabled={formProps.isSubmitting} colored>{processing ? 'please wait...' : 'ENABLE PIN'}</Button>
+                                            {wallet && <Button disabled={formProps.isSubmitting} colored>{processing ? 'please wait...' : `${wallet.transaction_pin ? 'CHANGE PIN' : 'ENABLE PIN'}`}</Button>}
                                         </div>
                                     </Form>
                                     {feedback2 && <p>{feedback2}</p>}

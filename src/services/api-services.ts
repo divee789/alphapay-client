@@ -335,7 +335,8 @@ export default class APIRequest {
         if (res.data.success == true) {
             return {
                 amount: res.data.amount,
-                message: res.data.message
+                message: res.data.message,
+                wallet: res.data.client_wallet
             }
         }
         return {
