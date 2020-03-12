@@ -2,7 +2,8 @@ export interface Wallet {
     id: any;
     available_balance: number;
     ledger_balance: number;
-    client_id: any
+    client_id: any,
+    transaction_pin?: number
 }
 
 export interface Transaction {

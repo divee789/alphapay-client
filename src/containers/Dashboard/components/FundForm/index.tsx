@@ -9,7 +9,7 @@ import Button from '../../../../components/Button'
 import './index.scss'
 
 const FundForm = (props) => {
-    const { fund_processing, error } = useSelector((state: any) => state.wallet)
+    const { fund_processing, error, wallet } = useSelector((state: any) => state.wallet)
     const dispatch = useDispatch()
 
     interface FormValues {
