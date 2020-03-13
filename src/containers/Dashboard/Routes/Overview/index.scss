@@ -84,3 +84,34 @@
         }
     }
 }
+
+
+@media screen and (max-width:600px) {
+    .overview_details {
+        flex-direction: column;
+
+        .item {
+            width: 100%;
+        }
+
+        div {
+            width: 100%;
+
+        }
+
+        .btn_fund {
+            button {
+                font-size: 14px;
+            }
+        }
+
+        .funds_control {
+            flex-direction: column;
+
+            div {
+                width: 80%;
+                margin: 10px auto;
+            }
+        }
+    }
+}

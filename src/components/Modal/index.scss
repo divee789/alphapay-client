@@ -3,6 +3,9 @@
     background: #faf8f5;
     padding: 2rem;
     width: 40%;
+
+
+
     position: fixed;
     top: 10rem;
     right: 30%;
@@ -12,6 +15,11 @@
     border-radius: 5px;
     overflow: hidden;
     transition: all 10s;
+
+    @media screen and (max-width:600px) {
+        width: 100%;
+        right: 0;
+    }
 
     .close-modal {
         position: absolute;

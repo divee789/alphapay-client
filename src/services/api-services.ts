@@ -5,8 +5,8 @@ import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
 import decode from 'jwt-decode';
 
-// const APIBaseURL = 'http://157.245.36.216:7000'
-const APIBaseURL = 'http://localhost:7000'
+const APIBaseURL = 'http://157.245.36.216:7000'
+// const APIBaseURL = 'http://localhost:7000'
 // const APIBaseURL = 'https://alphapay-api.herokuapp.com'
 
 
@@ -147,6 +147,7 @@ export default class APIRequest {
             ...data
         };
         const response = await this.instance.post('/auth/login', body);
+        console.log(response)
         this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
         // this.setHeader(response.data.data.access_token);
         const profileResponse = response.data.data.client;
@@ -287,7 +288,8 @@ export default class APIRequest {
             narration: data.narration,
             processor: data.processor,
             processor_reference: data.processor_reference,
-            transaction_status: data.transaction_status
+            transaction_status: data.transaction_status,
+            pin: data.pin
         })
         if (res.data.success == true) {
             return {

@@ -84,7 +84,7 @@
              justify-content: flex-end;
              padding-top: 2rem;
              margin-bottom: 4rem;
-             ;
+
 
              div {
                  margin-right: 50px;
@@ -101,12 +101,17 @@
                  font-size: 1rem;
                  font-family: firma;
 
-                 img {
+                 .img {
                      border-radius: 50%;
                      width: 40px;
                      height: 40px;
                      object-fit: cover;
                      margin-right: 15px;
+                 }
+
+                 .bell {
+                     cursor: pointer;
+                     margin-right: 8px;
                  }
              }
 
@@ -147,5 +152,30 @@
          overflow-x: hidden;
          padding-bottom: 30px;
          scroll-behavior: smooth;
+     }
+ }
+
+
+ @media screen and (max-width:600px) {
+     .dashboard_main {
+         .main {
+             .dashboard_nav {
+                 margin: 0 auto;
+                 width: 95%;
+                 justify-content: space-between;
+                 ;
+
+                 div {
+                     margin-right: 20px;
+                 }
+
+                 .profile_details {
+                     font-size: 12px;
+                     margin-right: 0;
+
+
+                 }
+             }
+         }
      }
  }

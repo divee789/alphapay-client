@@ -91,7 +91,7 @@ const Transactions: React.FC = () => {
         </div>
     } else if (transactions && transactions.length > 0) {
         content = <div className="transaction_container">
-            <div>
+            <div className='title'>
                 <p>status</p>
                 <p>recipient</p>
                 <p>amount (NGN)</p>
@@ -99,15 +99,29 @@ const Transactions: React.FC = () => {
                 <p>type</p>
             </div>
             {transactions.reverse().map((transaction: Transaction) => {
-                return <div className='transaction_item' key={transaction.reference} onClick={() => {
-                    toggleModal(transaction)
-                }}>
-                    <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>
-                    <p>{transaction.recipient.email}</p>
-                    <p>{transaction.amount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
-                    <p>{transaction.reference}</p>
-                    <p>{transaction.transaction_type}</p>
-                </div>
+
+                return (
+                    <>
+                        <div className='transaction_item' key={transaction.reference} onClick={() => {
+                            toggleModal(transaction)
+                        }}>
+                            <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>
+                            <p>{transaction.recipient.email}</p>
+                            <p>{transaction.amount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+                            <p>{transaction.reference}</p>
+                            <p>{transaction.transaction_type}</p>
+                        </div>
+                        <div className='transaction_item2' key={transaction.reference} onClick={() => {
+                            toggleModal(transaction)
+                        }}>
+                            <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>
+                            <p>Recipient: {transaction.recipient.email}</p>
+                            <p>Amount: {transaction.amount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+                            <p>Reference: {transaction.reference}</p>
+                            <p>Type: {transaction.transaction_type}</p>
+                        </div>
+                    </>
+                )
             })}
         </div>
     }

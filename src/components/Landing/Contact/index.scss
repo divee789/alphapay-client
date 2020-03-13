@@ -1,5 +1,10 @@
 .contact_form_section {
     background-image: url('../../../assets/images/men.png');
+
+    @media screen and(max-width:600px) {
+        background-image: none;
+    }
+
     background-size: contain;
     background-repeat: no-repeat;
     padding: 4% 0;
@@ -24,6 +29,10 @@
         font-weight: 100;
         margin-left: 25%;
 
+        @media screen and(max-width:600px) {
+            margin: 0;
+        }
+
     }
 
     .form {
@@ -32,6 +41,11 @@
         margin: 0 auto;
         margin-top: 3rem;
         margin-left: 40%;
+
+        @media screen and(max-width:600px) {
+            margin-left: auto;
+        }
+
         width: 50%;
         padding: 3rem;
         position: relative;

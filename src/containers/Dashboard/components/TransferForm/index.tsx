@@ -18,7 +18,9 @@ function success(wallet: Wallet) {
 
 const TransferForm = (props) => {
     const [message, setMessage] = useState(null)
-    const { fund_processing, error } = useSelector((state: any) => state.wallet)
+    const [pin, setPin] = useState(false)
+    const [data, setData] = useState({})
+    const { fund_processing, error, wallet } = useSelector((state: any) => state.wallet)
     const dispatch = useDispatch()
 
     interface FormValues {
@@ -48,6 +50,11 @@ const TransferForm = (props) => {
         try {
             text = 'Please wait'
             console.log(values)
+            setData(values)
+            if (wallet.transaction_pin) {
+                setPin(true)
+                return
+            }
             let data = {
                 ...values
             }
@@ -65,6 +72,22 @@ const TransferForm = (props) => {
         }
     }
 
+    const transfer = async (values: any, { setSubmitting, setErrors }: any) => {
+        try {
+            console.log(values)
+            const res = await request.transferFunds(values)
+            console.log('transfer', res)
+            setMessage(res.message)
+            await dispatch(success(res.wallet))
+            setPin(false)
+        } catch (error) {
+            console.log('funding error', error)
+            setMessage(error.response.data.message)
+            setPin(false)
+            setSubmitting(false)
+        }
+    }
+
     if (message) {
         setTimeout(function () { setMessage(null) }, 5000)
         return (
@@ -75,6 +98,33 @@ const TransferForm = (props) => {
                 </div>
             </>
         )
+    }
+
+    if (pin) {
+        return <Formik
+            initialValues={{ transaction_pin: '' }}
+            validationSchema={
+                Yup.object().shape({
+                    pin: Yup.number().required('Please provide your transaction pin')
+                })}
+            onSubmit={transfer}
+            render={formProps => {
+                return (
+                    <>
+                        <Form className='fund_wallet_form'>
+                            <div>
+                                <p>PLEASE PROVIDE YOUR TRANSACTION PIN</p>
+                                <div className="con"><Field type='text' name='pin' placeholder='1111' /></div>
+                                <ErrorMessage name="pin" render={msg => <div className="error">{msg}</div>} />
+                            </div>
+                            <div className="fund_btn">
+                                <Button disabled={formProps.isSubmitting} colored>{text}</Button>
+                            </div>
+                        </Form>
+                    </>
+                )
+            }}
+        />
     }
 
     return (

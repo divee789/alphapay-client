@@ -17,3 +17,19 @@
         text-align: center;
     }
 }
+
+
+@media screen and (max-width:600px) {
+    .card_content {
+        width: 90%;
+        margin-top: 30vh;
+
+        img {
+            height: 100px;
+        }
+
+        p {
+            width: 100%;
+        }
+    }
+}

@@ -52,7 +52,20 @@
             }
 
             p {
-                border-left: 1px solid black;
+                // border-left: 1px solid black;
+            }
+        }
+
+        .transaction_item2 {
+            display: none;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+            transition: all 0.3s;
+            cursor: pointer;
+            border-radius: 5px;
+
+            &:hover {
+                transform: translateX(-10px);
             }
         }
     }
@@ -82,4 +95,32 @@
     right: 15%;
     // background-color: rgba(71, 212, 82, 0.1);
     color: #0a2e65;
+}
+
+@media screen and (max-width:600px) {
+    .dashboard_transactions {
+        .transaction_container {
+            .title {
+                display: none;
+            }
+
+            div {
+                flex-direction: column;
+
+                p {
+                    width: 100%;
+                    text-align: unset;
+                }
+            }
+
+            .transaction_item {
+                display: none
+            }
+
+            .transaction_item2 {
+                display: block;
+                padding: 1rem;
+            }
+        }
+    }
 }

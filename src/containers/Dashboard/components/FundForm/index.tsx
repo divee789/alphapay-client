@@ -40,12 +40,11 @@ const FundForm = (props) => {
 
     const walletValidationSchema = Yup.object().shape({
         amount: Yup.number().required('Please provide the amount you want to inject'),
-        // narration: Yup.string().required('Please provide a narration for this transaction')
+        pin: Yup.number()
     })
 
     const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
         try {
-            console.log(values)
             let data = {
                 ...values,
                 processor: 'Korapay',
@@ -62,9 +61,8 @@ const FundForm = (props) => {
 
         } catch (error) {
             console.log('funding error', error);
-            setMessage(error.response.data.message)
             setProcessing(false)
-            setSubmitting(false);
+            setMessage(error.response.data.message)
         }
     }
 
@@ -96,8 +94,8 @@ const FundForm = (props) => {
                                     <ErrorMessage name="amount" render={msg => <div className="error">{msg}</div>} />
                                 </div>
                                 {wallet && wallet.transaction_pin && <div>
-                                    <p>PLEASE PROVIDE YOUR TRANSACTION PIN?</p>
-                                    <div className="con"><Field type='number' name='pin' placeholder='1111' /></div>
+                                    <p>PLEASE PROVIDE YOUR TRANSACTION PIN</p>
+                                    <div className="con"><Field type='text' name='pin' placeholder='1111' /></div>
                                     <ErrorMessage name="pin" render={msg => <div className="error">{msg}</div>} />
                                 </div>}
                                 <div className="fund_btn">

@@ -48,3 +48,34 @@
         font-family: firma-bold;
     }
 }
+
+@media screen and (max-width:600px) {
+    .dashboard_security {
+        flex-direction: column;
+
+        .password_security_change,
+        .transaction_options {
+            width: 100%;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+        }
+
+        input {
+            width: 100%;
+        }
+
+        button {
+            width: 100%;
+        }
+    }
+
+    .two_fa {
+        p {
+            width: 100%;
+        }
+
+        button {
+            width: 100%;
+        }
+    }
+}

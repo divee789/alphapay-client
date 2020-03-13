@@ -1,6 +1,12 @@
 .settings_nav {
     display: flex;
     margin-bottom: 3rem;
+    margin-top: 3rem;
+
+    @media screen and (max-width:600px) {
+        justify-content: center;
+
+    }
 
     a {
         padding: 10px 30px;

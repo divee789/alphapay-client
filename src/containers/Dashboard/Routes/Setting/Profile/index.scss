@@ -61,3 +61,23 @@
         font-weight: bold;
     }
 }
+
+
+@media screen and (max-width:600px) {
+    .profile-settings-section {
+        flex-direction: column;
+
+        .profile_image_handler {
+            margin: 2rem 0;
+
+            input {
+                width: 95%;
+            }
+        }
+
+        .user_profile_details {
+            width: 90%;
+            margin: 2rem auto;
+        }
+    }
+}
