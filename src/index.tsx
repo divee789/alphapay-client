@@ -69,11 +69,11 @@ const persistor = persistStore(store);
 
 const app = (
     <Provider store={store}>
-        <PersistGate loading={<h1>Hi There</h1>} persistor={persistor}>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </PersistGate>
+        {/* <PersistGate loading={<h1>Hi There</h1>} persistor={persistor}> */}
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+        {/* </PersistGate> */}
     </Provider>
 );
 
