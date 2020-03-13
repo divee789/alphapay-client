@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { history } from './utils'
 import { logout } from './store/actions';
 import Request from './services/api-services';
 import { Storage } from './services/storage-services';
@@ -92,21 +93,23 @@ const App = (props: any) => {
   console.log('auth status', isAuth)
 
   let routes = (
-    <Switch>
-      <Route exact path="/" component={Landing} />
-      <Route path='/blog' component={Blog} />
-      <Route path='/careers' component={Careers} />
-      <Route path="/auth/login" render={props => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
-      <Route path="/auth/signup" render={props => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />
-      <Route path='/verify_email/:token' component={VerifyEmail} />
-      <Route path='/password_reset_request' component={PasswordReset} />
-      <Route path='/password_reset/:token' component={PasswordConfirmation} />
-      <Route path={`/dashboard`} render={props => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
-      <Route path={'/test/dashboard'} component={Dashboard} />
-      <Route path="/404" component={testRave} />
-      <Route path="/korapay" component={testKorapay} />
-      <Redirect to='/404' />
-    </Switch>
+    <Router history={history}>
+      <Switch>
+        <Route exact path="/" component={Landing} />
+        <Route path='/blog' component={Blog} />
+        <Route path='/careers' component={Careers} />
+        <Route path="/auth/login" render={props => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
+        <Route path="/auth/signup" render={props => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />
+        <Route path='/verify_email/:token' component={VerifyEmail} />
+        <Route path='/password_reset_request' component={PasswordReset} />
+        <Route path='/password_reset/:token' component={PasswordConfirmation} />
+        <Route path={`/dashboard`} render={props => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
+        <Route path={'/test/dashboard'} component={Dashboard} />
+        <Route path="/404" component={testRave} />
+        <Route path="/korapay" component={testKorapay} />
+        <Redirect to='/404' />
+      </Switch>
+    </Router>
   );
 
   return (

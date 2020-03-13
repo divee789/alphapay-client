@@ -59,7 +59,9 @@ if (process.env.NODE_ENV === 'development') {
         applyMiddleware(thunk, logger))
     )
 } else {
-    store = createStore(rootReducer, applyMiddleware(thunk))
+    const pReducer = persistReducer(persistConfig, rootReducer);
+
+    store = createStore(pReducer, applyMiddleware(thunk))
 }
 
 const persistor = persistStore(store);
@@ -70,9 +72,9 @@ const persistor = persistStore(store);
 const app = (
     <Provider store={store}>
         {/* <PersistGate loading={<h1>Hi There</h1>} persistor={persistor}> */}
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        {/* <BrowserRouter> */}
+        <App />
+        {/* </BrowserRouter> */}
         {/* </PersistGate> */}
     </Provider>
 );
