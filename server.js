@@ -21,7 +21,7 @@ const createServers = port => {
 
     app.use(express.static(dir));
 
-    app.get('*', (req, res) => {
+    app.get('/*', (req, res) => {
         res.sendFile(`${dir}/index.html`);
     });
 
