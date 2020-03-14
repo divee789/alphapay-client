@@ -148,10 +148,11 @@
 
      .scroll {
          height: 89.5vh;
-         overflow-y: auto;
+         overflow-y: scroll;
          overflow-x: hidden;
-         padding-bottom: 30px;
+         padding-bottom: 10rem;
          scroll-behavior: smooth;
+         box-sizing: border-box;
      }
  }
 
