@@ -4,7 +4,7 @@ import { Logger, history } from '../../utils/index';
 import APIRequest from '../../services/api-services';
 import APIServiceError from '../../services/error-services';
 
-const authBaseURL = process.env.BASE_URL || 'http://localhost:1000';
+const authBaseURL = process.env.BASE_URL || 'http://localhost:7000';
 const authAPIRequest = new APIRequest(authBaseURL);
 
 export function logout(email?: string) {

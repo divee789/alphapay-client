@@ -5,6 +5,9 @@ import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
 import decode from 'jwt-decode';
 
+import { logout } from '../store/actions';
+import store from '../store'
+
 const APIBaseURL = 'http://157.245.36.216:7000'
 // const APIBaseURL = 'http://localhost:7000'
 // const APIBaseURL = 'https://alphapay-api.herokuapp.com'
@@ -34,7 +37,20 @@ export default class APIRequest {
         });
         this.instance.interceptors.request.use(
             (config: any) => {
+                console.log(config)
                 const userToken = this.setAuthorization();
+
+                //Check if user is logged in,if not abort api request and log user out
+                const token = Storage.checkAuthentication();
+                if (token) {
+                    const auth = this.isloggedIn()
+                    console.log('api-request', auth)
+                    if (!auth) {
+                        return store.dispatch(logout())
+                    }
+                }
+
+
                 config.headers.Authorization = userToken;
                 Logger.info('Request: ', config.url, config.headers);
                 return config;

@@ -1,81 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom'
-//Store
 import { Provider } from 'react-redux';
-import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
-//Persistence
-import { PersistGate } from 'redux-persist/lib/integration/react';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-
 
 //TODO
 //remove react bootstrap from npm packages
 
-//Asynchronous
-import thunk from 'redux-thunk';
 
 import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import logger from 'redux-logger'
-//Reducers
-import authReducer from './store/reducers/auth'
-import walletReducer from './store/reducers/wallet'
-import transactionReducer from './store/reducers/transaction'
 
-
-
-
-const rootReducer = combineReducers({
-    auth: authReducer,
-    wallet: walletReducer,
-    transaction: transactionReducer
-})
-
-const persistConfig = {
-    key: 'root',
-    storage: storage,
-    stateReconciler: autoMergeLevel2,
-    blacklist: []// see "Merge Process" section for details.
-};
-
-
-declare global {
-    interface Window {
-        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-    }
-}
-
-let composeEnhancers
-let store
-//Configuring ReduxDevTools
-if (process.env.NODE_ENV === 'development') {
-    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-    const pReducer = persistReducer(persistConfig, rootReducer);
-    store = createStore(pReducer, composeEnhancers(
-        applyMiddleware(thunk, logger))
-    )
-} else {
-    const pReducer = persistReducer(persistConfig, rootReducer);
-
-    store = createStore(pReducer, applyMiddleware(thunk))
-}
-
-const persistor = persistStore(store);
+import store1 from './store'
 
 
 
 
 const app = (
-    <Provider store={store}>
-        {/* <PersistGate loading={<h1>Hi There</h1>} persistor={persistor}> */}
-        {/* <BrowserRouter> */}
+    <Provider store={store1}>
         <App />
-        {/* </BrowserRouter> */}
-        {/* </PersistGate> */}
     </Provider>
 );
 

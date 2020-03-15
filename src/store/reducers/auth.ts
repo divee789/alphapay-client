@@ -1,14 +1,59 @@
 import * as actionTypes from '../actions/actionTypes'
 import { Storage } from '../../services/storage-services'
-import Request from '../../services/api-services'
+// import Request from '../../services/api-services'
+import decode from 'jwt-decode';
 
-const api = new Request(process.env.BASE_URL)
+
+// const api = new Request(process.env.BASE_URL)
+
+
+
+const isloggedIn = () => {
+    // Checks if there is a saved token and it's still valid
+    const token = Storage.checkAuthentication();
+    //Check for existence of token
+    if (token !== false) {
+        const expired = isTokenExpired(token)
+        console.log('expired', expired)
+        //check if token is not expired
+        if (!expired) {
+            console.log('wooaah')
+            return true
+        } else {
+            console.log('hey')
+            //If token is expired return false
+            return false
+        }
+
+    }
+    console.log('wow')
+    return false
+};
+
+const isTokenExpired = (token: string) => {
+    try {
+        const decoded: any = decode(token);
+        const exp: number = decoded.exp
+        const date = Date.now() / 1000
+        if (exp < date) {
+            this.logOut()
+            return true;
+        } else {
+            return false;
+        }
+
+    } catch (err) {
+        console.log('expired check failed');
+        console.log(err)
+        return false;
+    }
+};
 
 const initialState = {
     token: null,
     user: null,
     processing: false,
-    isAuth: api.isloggedIn(),
+    isAuth: isloggedIn(),
     error: null,
     update_error: null,
     message: null
