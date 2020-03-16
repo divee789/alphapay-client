@@ -110,9 +110,13 @@
         background-size: cover;
         background-repeat: no-repeat;
         padding-bottom: 10rem;
+        margin-top: 6.5rem;
 
         h1 {
-            font-size: 36px;
+            font-size: 30px;
+            width: 80%;
+            text-align: center;
+            margin: 0 auto;
         }
 
         .h2 {
@@ -125,6 +129,7 @@
 
         .solution_text {
             width: 90%;
+            font-size: 13px;
         }
 
         .get-started {

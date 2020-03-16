@@ -60,7 +60,7 @@ const App = (props: any) => {
           } catch (error) {
             // if refresh token has expired, dispatch LOGOUT THINGS
             console.log('error', error);
-            dispatch(logout(user.email));
+            dispatch(logout());
             throw error;
           }
         };

@@ -10,13 +10,13 @@ import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import store1 from './store'
+import store from './store'
 
 
 
 
 const app = (
-    <Provider store={store1}>
+    <Provider store={store}>
         <App />
     </Provider>
 );
