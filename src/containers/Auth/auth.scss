@@ -95,8 +95,17 @@
             display: flex;
             justify-content: space-between;
 
+            @media screen and (max-width:600px) {
+                flex-direction: column;
+            }
+
             div {
                 width: 48%;
+
+                @media screen and (max-width:600px) {
+                    width: 100%;
+                    margin-bottom: 13px;
+                }
             }
 
             .error {
