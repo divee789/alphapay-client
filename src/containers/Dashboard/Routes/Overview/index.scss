@@ -100,8 +100,12 @@
         }
 
         .btn_fund {
+            flex-direction: column;
+
             button {
+                width: 100%;
                 font-size: 14px;
+                margin-bottom: 15px;
             }
         }
 

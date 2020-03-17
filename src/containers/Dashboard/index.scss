@@ -82,8 +82,8 @@
              flex-direction: row;
              align-items: center;
              justify-content: flex-end;
-             padding-top: 2rem;
-             margin-bottom: 4rem;
+             padding-top: 1rem;
+             margin-bottom: 2rem;
 
 
              div {
@@ -159,21 +159,34 @@
 
  @media screen and (max-width:600px) {
      .dashboard_main {
+         .container {
+             padding: 0;
+         }
+
          .main {
              .dashboard_nav {
                  margin: 0 auto;
                  width: 95%;
                  justify-content: space-between;
-                 ;
+                 flex-direction: column-reverse;
+                 align-items: flex-end;
 
                  div {
-                     margin-right: 20px;
+                     margin-right: 5%;
                  }
 
                  .profile_details {
                      font-size: 12px;
-                     margin-right: 0;
+                     //  margin-right: 3rem;
+                     margin-bottom: 10px;
 
+                     .bell {
+                         margin-right: 23px;
+                     }
+
+                     .img {
+                         margin-right: 5px;
+                     }
                  }
              }
          }
