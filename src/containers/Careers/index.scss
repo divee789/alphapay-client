@@ -119,6 +119,10 @@
             align-items: center;
             width: 50%;
             margin: 0 auto;
+
+            @media screen and (max-width:367px) {
+                justify-content: center;
+            }
         }
 
         .available_positions_container {
@@ -179,7 +183,25 @@
 
 @media screen and (max-width:600px) {
     .careers_section {
+        header {
+            h1 {
+                font-size: 36px;
+            }
+
+            p {
+                font-family: 15px;
+            }
+        }
+
         .careers_info {
+            .video_container {
+                width: 100%;
+            }
+
+            h2 {
+                font-size: 26px
+            }
+
             p {
                 width: 90%;
             }
@@ -187,6 +209,10 @@
 
         .life_info {
             width: 85%;
+
+            h2 {
+                font-size: 26px
+            }
 
             .image_container1 {
                 flex-direction: column;
@@ -203,6 +229,12 @@
 
         .available_positions {
             width: 90%;
+
+            h2 {
+                font-size: 26px;
+                width: 70%;
+                margin: 2rem auto;
+            }
 
             .btn_positions {
                 flex-wrap: wrap;
