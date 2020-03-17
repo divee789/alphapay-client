@@ -23,14 +23,14 @@
         .card {
             width: 30%;
             padding: 5%;
-            height: 440px;
+            // height: 440px;
             box-sizing: border-box;
             box-shadow: 0 12px 50px 0 rgba(0, 0, 0, .25);
             border-radius: 8px;
 
             img {
                 width: 70%;
-                height: 170px;
+                height: 100px;
                 object-fit: cover;
                 border-radius: 50%;
                 opacity: 0.7;

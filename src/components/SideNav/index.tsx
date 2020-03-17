@@ -44,13 +44,14 @@ const SideNav = ({ isActive, onClose }) => {
                     <li>
                         <a href="#contact_form">Contact Us</a>
                     </li>
+                    <div className='auth'>
+                        <Button colored>
+                            <NavLink to={link}>{text}</NavLink>
+                        </Button>
+                    </div>
                 </ul>
 
-                <div className='auth'>
-                    <Button colored>
-                        <NavLink to={link}>{text}</NavLink>
-                    </Button>
-                </div>
+
                 <div className="close-btn" onClick={handleOnClose}>
                     <img src={Close} alt='close_icon' />
                 </div>

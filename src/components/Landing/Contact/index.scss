@@ -1,12 +1,4 @@
 .contact_form_section {
-    background-image: url('../../../assets/images/men.png');
-
-    @media screen and(max-width:600px) {
-        background-image: none;
-    }
-
-    background-size: contain;
-    background-repeat: no-repeat;
     padding: 4% 0;
     margin: 5% 0;
 
@@ -27,12 +19,6 @@
         font-family: Sailec;
         margin: 0;
         font-weight: 100;
-        margin-left: 25%;
-
-        @media screen and(max-width:600px) {
-            margin: 0;
-        }
-
     }
 
     .form {
@@ -40,12 +26,6 @@
         box-shadow: 0 12px 50px 0 rgba(0, 0, 0, .25);
         margin: 0 auto;
         margin-top: 3rem;
-        margin-left: 40%;
-
-        @media screen and(max-width:600px) {
-            margin-left: auto;
-        }
-
         width: 50%;
         padding: 3rem;
         position: relative;

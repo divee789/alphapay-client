@@ -3,9 +3,6 @@
     background: #faf8f5;
     padding: 2rem;
     width: 40%;
-
-
-
     position: fixed;
     top: 30%;
     right: 30%;
@@ -13,7 +10,7 @@
     z-index: 200;
     margin: 0 auto;
     border-radius: 5px;
-    overflow: hidden;
+    overflow-y: scroll;
     transition: all 10s;
 
     @media screen and (max-width:600px) {

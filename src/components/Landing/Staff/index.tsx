@@ -25,10 +25,10 @@ const Staff = props => (
                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi voluptatum dolor unde? Ullam quam, saepe aperiam</p>
                     </div>
                 </div>
-                <div className='paginate'>
+                {/* <div className='paginate'>
                     <span style={{ marginRight: '40px' }}>&laquo;</span>
                     <span >&raquo;</span>
-                </div>
+                </div> */}
             </section>
         </div>
     </>

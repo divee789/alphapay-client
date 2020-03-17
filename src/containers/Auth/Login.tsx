@@ -44,6 +44,10 @@ const LogIn: React.FC = (props: any) => {
         password: Yup.string()
             .min(9, 'Password must be 9 characters or longer')
             .required('Provide a password please')
+            .matches(
+                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+            )
     });
 
     const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
