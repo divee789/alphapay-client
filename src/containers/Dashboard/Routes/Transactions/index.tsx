@@ -9,7 +9,8 @@ import Transaction from '../../components/Transaction'
 
 import './index.scss'
 
-interface Transaction {
+interface ITransaction {
+    _id: string;
     transaction_type: string;
     amount: number;
     reference: number;
@@ -98,11 +99,11 @@ const Transactions: React.FC = () => {
                 <p>reference</p>
                 <p>type</p>
             </div>
-            {transactions.reverse().map((transaction: Transaction) => {
+            {transactions.reverse().map((transaction: ITransaction) => {
 
                 return (
                     <>
-                        <div className='transaction_item' key={transaction.reference} onClick={() => {
+                        <div className='transaction_item' key={transaction._id} onClick={() => {
                             toggleModal(transaction)
                         }}>
                             <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>

@@ -94,6 +94,11 @@
                  }
              }
 
+             .open_sidenav {
+                 display: none;
+
+             }
+
              .profile_details {
                  display: flex;
                  flex-direction: row;
@@ -175,6 +180,14 @@
                      margin-right: 5%;
                  }
 
+
+                 .open_sidenav {
+                     display: block;
+                     position: absolute;
+                     top: 25px;
+                     left: 30px;
+                 }
+
                  .profile_details {
                      font-size: 12px;
                      //  margin-right: 3rem;
@@ -188,7 +201,16 @@
                          margin-right: 5px;
                      }
                  }
+
+                 .mobile {
+                     display: none;
+                 }
              }
          }
      }
+ }
+
+
+ .side_nav {
+     transition: all 3s;
  }

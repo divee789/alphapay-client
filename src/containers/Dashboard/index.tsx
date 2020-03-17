@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from "../../store/actions"
 import { Route, Switch, Redirect, useRouteMatch, NavLink, withRouter } from 'react-router-dom';
+
+
 import Logo from '../../assets/images/alp.png'
 import Notify from '../../assets/images/dashboard/bxs-bell.png'
 import im_logo from '../../assets/images/dashboard/home.png'
@@ -9,6 +11,7 @@ import card_logo from '../../assets/images/dashboard/card.png'
 import transact_logo from '../../assets/images/dashboard/transactions.png'
 import settings from '../../assets/images/dashboard/set.png'
 import utils_logo from '../../assets/images/dashboard/utitlity.png'
+import hamburger from '../../assets/images/menu.png'
 
 import Overview from './Routes/Overview';
 import Cards from './Routes/Cards'
@@ -16,6 +19,7 @@ import Transactions from './Routes/Transactions'
 import Utilities from './Routes/Utilities'
 import Setting from './Routes/Setting'
 import Loading from '../../components/Loading';
+import SideBar from './components/SideBar'
 import { get_client_wallet } from '../../store/actions/wallet';
 
 import './index.scss'
@@ -23,6 +27,8 @@ import './index.scss'
 
 
 const Dashboard = (props: any) => {
+
+    const [sidebarOpen, setSideBarOpen] = useState(false)
 
     const dispatch = useDispatch()
     const { user } = useSelector((state: any) => state.auth)
@@ -53,8 +59,13 @@ const Dashboard = (props: any) => {
         props.history.push('/')
     }
 
+
     return (
+
         <section className='dashboard_main'>
+            <SideBar isActive={sidebarOpen} onClose={() => setSideBarOpen(false)} url={url} logOutHandler={logOutHandler} />
+
+
             <div className='menu'>
                 <div className="logo" onClick={() => {
                     props.history.push('/')
@@ -88,14 +99,19 @@ const Dashboard = (props: any) => {
                         </div>
                     </div>
                 </div>
+
             </div>
+
             <div className="main">
                 <div className="dashboard_nav">
-                    <div className='profile_details'>Account Number: {user.phone_number}</div>
 
-                    {/* <div>
-                        <img src={Notify} className='bell' />
-                    </div> */}
+                    <div className='profile_details mobile'>Account Number: {user.phone_number}</div>
+
+                    <div onClick={() => {
+                        setSideBarOpen(true)
+                    }} className='open_sidenav'>
+                        <img src={hamburger} className='bell' />
+                    </div>
 
                     <div className='profile_details'>
                         <img src={Notify} className='bell' />
@@ -119,6 +135,7 @@ const Dashboard = (props: any) => {
                 </section>
             </div>
         </section>
+
     )
 
 }

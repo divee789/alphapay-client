@@ -1,4 +1,5 @@
 import React from 'react';
+import TextLoop from 'react-text-loop'
 
 import back from '../../../assets/images/back.png'
 
@@ -13,6 +14,7 @@ const Header = props => {
                 <p className='solution_text'>
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi deleniti asperiores quae reiciendis blanditiis laborum, enim voluptas
                 </p>
+                <TextLoop children={["Faster payments", "Completely and absolutely free", "No hidden fees"]} />
                 <div className="get-started">
                     <form>
                         <div className="form-group" >
