@@ -74,12 +74,31 @@
 
 @media screen and (max-width:600px) {
     .staff_section_container {
+        .staff_section {
+            h1 {
+                font-size: 26px;
+            }
+        }
+
         .card_container {
             flex-direction: column;
 
             .card {
                 width: 100%;
-                margin-bottom: 15px;
+                height: unset;
+                margin-bottom: 50px;
+                padding: 3rem 0;
+
+                img {
+                    height: 100px;
+                    width: auto;
+                    margin: 0 30%;
+                    text-align: center;
+                }
+
+                p {
+                    font-size: 13px;
+                }
             }
         }
 

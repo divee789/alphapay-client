@@ -5,8 +5,8 @@ import Pic from '../../../assets/images/young.jpg'
 import './index.scss'
 const Staff = props => (
     <>
-        <div className="staff_section_container">x
-        <section className='staff_section'>
+        <div className="staff_section_container">
+            <section className='staff_section'>
                 <h1>Our Core Values</h1>
                 <div className='card_container'>
                     <div className="card">

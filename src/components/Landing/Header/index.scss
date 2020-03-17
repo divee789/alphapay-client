@@ -39,8 +39,9 @@
 
         @media screen and (max-width:600px) {
             flex-direction: column;
-            width: 100%;
+            width: 80%;
             margin: 0 auto;
+            padding: unset;
         }
 
         .form-group {
@@ -109,7 +110,7 @@
         background-image: url('../../../assets/images/back.png');
         background-size: cover;
         background-repeat: no-repeat;
-        padding-bottom: 10rem;
+        padding-bottom: 30rem;
         margin-top: 6.5rem;
 
         h1 {
@@ -130,6 +131,7 @@
         .solution_text {
             width: 90%;
             font-size: 13px;
+
         }
 
         .get-started {
@@ -137,10 +139,18 @@
             margin: 8% auto;
 
             form {
-                padding: 5px;
+
+                .form-group {
+                    width: 100%;
+                }
+
+                input {
+                    padding: 0 inherit;
+                    border-radius: 5px;
+                }
 
                 button {
-                    margin-top: 10px;
+                    margin-right: 0;
                 }
             }
         }

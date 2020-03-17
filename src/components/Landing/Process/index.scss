@@ -50,7 +50,24 @@
             div {
                 width: 100%;
                 margin-bottom: 3rem;
+                text-align: center;
+
+                h1 {
+                    font-size: 28px;
+                }
+
+                h2 {
+                    font-size: 26px;
+                }
+
+                p {
+                    font-size: 13px;
+                }
             }
+        }
+
+        button {
+            width: 100%;
         }
 
         .process_odd {
