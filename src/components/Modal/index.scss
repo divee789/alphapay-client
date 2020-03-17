@@ -4,7 +4,7 @@
     padding: 2rem;
     width: 40%;
     position: fixed;
-    top: 30%;
+    top: 10rem;
     right: 30%;
     // max-width: 800px;
     z-index: 200;
@@ -16,6 +16,7 @@
     @media screen and (max-width:600px) {
         width: 100%;
         right: 0;
+        top: 4rem;
     }
 
     .close-modal {
