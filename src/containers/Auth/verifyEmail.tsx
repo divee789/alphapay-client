@@ -83,7 +83,7 @@ const VerifyEmail: React.FC = (props: any) => {
                                                 <div className="input-container btn_container">
                                                     {/* <button disabled={formProps.isSubmitting}>{text}</button> */}
                                                     <Button disabled={formProps.isSubmitting} colored>{text}</Button>
-                                                    <p>Did not receive an email? <Link to='/password_reset_request'>Resend Email</Link></p>
+                                                    <p>Did not receive an email? <Link to='/'>Resend Email</Link></p>
                                                 </div>
                                             </Form>
                                         </>

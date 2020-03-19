@@ -313,12 +313,12 @@ export default class APIRequest {
 
     passwordReset = async (data) => {
         const res = await this.instance.get(`/auth/password_reset_request?email=${data}`)
-        return res
+        return res.data
     }
 
     confirmPasswordReset = async (token: string) => {
         const res = await this.instance.get(`/auth/password_reset_confirmation?password_reset_token=${token}`)
-        return res
+        return res.data
     }
 
     passwordResetEmail = async (data) => {
@@ -327,7 +327,7 @@ export default class APIRequest {
             email: data.email,
             password: data.password.trim()
         })
-        return res
+        return res.data
     }
 
     uploadProfileImage = async (data: any) => {

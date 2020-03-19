@@ -12,8 +12,8 @@ import Careers from './containers/Careers'
 import NotFound from './containers/404'
 import Loading from './components/Loading'
 import VerifyEmail from './containers/Auth/verifyEmail'
-import PasswordReset from './components/ForgotPassword'
-import PasswordConfirmation from './components/ForgotPassword/PasswordReset'
+import PasswordReset from './containers/Auth/ForgotPassword'
+import PasswordConfirmation from './containers/Auth/ForgotPassword/PasswordReset'
 
 import testRave from './components/payments/rave'
 import testKorapay from './components/payments/korapay'
@@ -94,10 +94,9 @@ const App = (props: any) => {
         <Route path="/auth/login" render={props => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
         <Route path="/auth/signup" render={props => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />
         <Route path='/auth/verify_email' component={VerifyEmail} />
-        <Route path='/password_reset_request' component={PasswordReset} />
-        <Route path='/password_reset/:token' component={PasswordConfirmation} />
+        <Route path='/auth/password_reset_request' component={PasswordReset} />
+        <Route path='/auth/password_reset/:token' component={PasswordConfirmation} />
         <Route path={`/dashboard`} render={props => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
-        <Route path={'/test/dashboard'} component={Dashboard} />
         <Route path="/404" component={testRave} />
         <Route path="/korapay" component={testKorapay} />
         <Redirect to='/404' />

@@ -3,13 +3,17 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { login } from '../../store/actions';
 
-import logo from '../../assets/images/alp.png'
+import Request from '../../../services/api-services'
 
-import Button from '../../components/Button'
 
-import './auth.scss';
+import logo from '../../../assets/images/alp.png'
+
+import Button from '../../../components/Button'
+
+// import './auth.scss';
+
+const api = new Request(process.env.BASE_URL)
 
 const styles = {
     padding: '1rem',
@@ -19,45 +23,31 @@ const styles = {
 }
 
 
-const LogIn: React.FC = (props: any) => {
+const ForgotPassword: React.FC = (props: any) => {
+
+    const [processing, setProcessing] = useState(false)
     const [feedback, setFeedback] = useState(null)
-    const { processing, error } = useSelector((state: any) => state.auth);
     const dispatch = useDispatch();
 
     interface FormValues {
-        email: string;
-        password: string;
+        email: string
     }
     const initialValues: FormValues = {
-        email: '',
-        password: ''
+        email: ''
     }
 
     let text = 'CONTINUE';
     if (processing) text = 'Please wait...';
-    if (error) {
 
-    }
-    const logvalidationSchema = Yup.object().shape({
-        email: Yup.string().email('Provide a valid email please')
-            .required('Provide email please'),
-        password: Yup.string()
-            .min(9, 'Password must be 9 characters or longer')
-            .required('Provide a password please')
-            .matches(
-                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-            )
-    });
+
 
     const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
         try {
-            console.log(values)
-            await dispatch(login(values))
-            props.history.push(`/dashboard/overview`);
+            const res = await api.passwordReset(values.email)
+            setFeedback(res.message)
         } catch (err) {
             console.log('log err', err);
-            setFeedback(err.message)
+            setFeedback(err.response.data.message)
             setTimeout(() => setFeedback(null), 3000)
             setSubmitting(false);
         }
@@ -74,28 +64,27 @@ const LogIn: React.FC = (props: any) => {
                         <div className='page_content_container2'>
                             <Formik
                                 initialValues={initialValues}
-                                validationSchema={logvalidationSchema}
                                 onSubmit={handleSubmit}
+                                validationSchema={Yup.object().shape({
+                                    email: Yup.string().email('Provide a valid email please')
+                                        .required('Provide your email please')
+                                })
+                                }
                                 render={formProps => {
                                     return (
                                         <>
                                             {feedback && <p style={styles} className='error_message' onClick={() => setFeedback(null)}>{feedback}</p>}
                                             <Form className="form">
-                                                <h2>Log In</h2>
-                                                <p>Welcome back,please log in to your account to access your dashboard</p>
+                                                <h2>Forgot your Password?</h2>
+                                                <p>Please provide your email.and we will send a password reset link to you</p>
                                                 <div className="input-container">
-                                                    <Field type="text" name="email" placeholder="example@gmail.com" />
+                                                    <Field type="text" name="email" placeholder="Your email" />
                                                     <ErrorMessage name="email" render={msg => <div className="error">{msg}</div>} />
-                                                </div>
-                                                <div className="input-container">
-                                                    <Field type="password" name="password" placeholder="Password" className='password' />
-                                                    <ErrorMessage name="password" render={msg => <div className="error">{msg}</div>} />
                                                 </div>
                                                 <div className="input-container btn_container">
                                                     {/* <button disabled={formProps.isSubmitting}>{text}</button> */}
                                                     <Button disabled={formProps.isSubmitting} colored>{text}</Button>
-                                                    <p>Can't remember your password? <Link to='/auth/password_reset_request'>Reset</Link></p>
-                                                    <p>Don't have an account? <Link to="/auth/signup">Click here to register</Link></p>
+                                                    <p>Did not receive an email? <Link to='/'>Resend Email</Link></p>
                                                 </div>
                                             </Form>
                                         </>
@@ -110,4 +99,4 @@ const LogIn: React.FC = (props: any) => {
     );
 };
 
-export default withRouter(LogIn);
+export default withRouter(ForgotPassword);
