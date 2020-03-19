@@ -84,6 +84,13 @@ const authReducer = (state = initialState, action: any) => {
                 user: action.client.client,
                 error: null
             };
+        case actionTypes.authConstants.FETCH_USER_SUCCESS:
+            return {
+                ...state,
+                processing: false,
+                user: action.client,
+                error: null
+            };
         case actionTypes.authConstants.LOGOUT:
             return {
                 ...state,

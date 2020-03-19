@@ -8,8 +8,8 @@ import decode from 'jwt-decode';
 import { logout } from '../store/actions';
 import store from '../store'
 
-const APIBaseURL = 'http://157.245.36.216:7000'
-// const APIBaseURL = 'http://localhost:7000'
+// const APIBaseURL = 'http://157.245.36.216:7000'
+const APIBaseURL = 'http://localhost:7000'
 // const APIBaseURL = 'https://alphapay-api.herokuapp.com'
 
 
@@ -62,6 +62,56 @@ export default class APIRequest {
         );
 
         this.instance.interceptors.response.use(
+            (response: any) => {
+                Logger.info('Response: ', response.config.method, response.config.url, response.status);
+                return response;
+            },
+            (error: any) => {
+                console.log(error)
+                if (!error.response) {
+                    Logger.error('Response: ', 'Network Error');
+                    return Promise.reject(
+                        new APIServiceError({
+                            status: 500,
+                            data: {
+                                message: 'Network Error, try again',
+                                error: 'server_error',
+                                data: null
+                            }
+                        })
+                    );
+                }
+                Logger.warn('Response: ', error.response);
+                return Promise.reject(new APIServiceError(error.response));
+            }
+        );
+        this.instance2.interceptors.request.use(
+            (config: any) => {
+                console.log(config)
+                const userToken = this.setAuthorization();
+
+                //Check if user is logged in,if not abort api request and log user out
+                const token = Storage.checkAuthentication();
+                if (token) {
+                    const auth = this.isloggedIn()
+                    console.log('api-request', auth)
+                    if (!auth) {
+                        return store.dispatch(logout())
+                    }
+                }
+
+
+                config.headers.Authorization = userToken;
+                Logger.info('Request: ', config.url, config.headers);
+                return config;
+            },
+            (error: any) => {
+                Logger.error('Request Error: ', error);
+                return Promise.reject(error);
+            }
+        );
+
+        this.instance2.interceptors.response.use(
             (response: any) => {
                 Logger.info('Response: ', response.config.method, response.config.url, response.status);
                 return response;
@@ -246,9 +296,19 @@ export default class APIRequest {
         this.clearHeader()
     }
 
+    getUser = async () => {
+        const res = await this.instance.get('/auth/client')
+        return res.data.data
+    }
+
     verifyEmail = async (data) => {
         const res = await this.instance.get('/auth/verify?token=' + data)
-        return res
+        return res.data
+    }
+
+    sendEmail = async () => {
+        const res = await this.instance.post('/auth/send_email')
+        return res.data
     }
 
     passwordReset = async (data) => {

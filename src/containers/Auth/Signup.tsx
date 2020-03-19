@@ -78,7 +78,8 @@ const SignUp: React.FC = (props: any) => {
         try {
             console.log(values)
             await dispatch(signup(values))
-            return props.history.push(`/dashboard/overview`);
+            // return props.history.push(`/dashboard/overview`);
+            return props.history.push(`/auth/verify_email`);
         } catch (err) {
             console.log('log err', err);
             setFeedback(err.message)

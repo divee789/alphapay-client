@@ -11,7 +11,7 @@ import Blog from './containers/Blog'
 import Careers from './containers/Careers'
 import NotFound from './containers/404'
 import Loading from './components/Loading'
-import VerifyEmail from './components/verifyEmail'
+import VerifyEmail from './containers/Auth/verifyEmail'
 import PasswordReset from './components/ForgotPassword'
 import PasswordConfirmation from './components/ForgotPassword/PasswordReset'
 
@@ -40,33 +40,27 @@ const App = (props: any) => {
 
 
   useEffect(() => {
-    console.log('effect')
+
     const token = Storage.checkAuthentication();
-    console.log('token', token)
     if (token) {
       const decoded: any = decode(token);
-      console.log(decoded);
-      console.log(Date.now());
       const refreshToken = Storage.getItem('refreshToken');
       const refreshThreshold = Math.floor((Date.now() + 120000) / 1000);
       if (refreshToken && decoded.exp < refreshThreshold) {
         const check = async () => {
           try {
             const ref = await api.refresh(refreshToken);
-            console.log(ref);
             if (ref.status === 401) {
               dispatch(logout(user.email));
             }
           } catch (error) {
             // if refresh token has expired, dispatch LOGOUT THINGS
-            console.log('error', error);
             dispatch(logout());
             throw error;
           }
         };
         check();
       } else {
-        console.log('hi thee')
         const check2 = async () => {
           //Log out user when he closes the browser or browser tab
           if (sessionStorage.getItem('logged') !== 'success') {
@@ -74,7 +68,6 @@ const App = (props: any) => {
           }
           // log out user if access_token is expired
           let isLoggedIn = api.isloggedIn()
-          console.log('isLoggedIn', isLoggedIn)
           if (!isLoggedIn) {
             console.log(isAuth)
             await dispatch(logout())
@@ -100,7 +93,7 @@ const App = (props: any) => {
         <Route path='/careers' component={Careers} />
         <Route path="/auth/login" render={props => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
         <Route path="/auth/signup" render={props => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />
-        <Route path='/verify_email/:token' component={VerifyEmail} />
+        <Route path='/auth/verify_email' component={VerifyEmail} />
         <Route path='/password_reset_request' component={PasswordReset} />
         <Route path='/password_reset/:token' component={PasswordConfirmation} />
         <Route path={`/dashboard`} render={props => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />

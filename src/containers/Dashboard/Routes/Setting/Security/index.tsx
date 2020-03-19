@@ -20,11 +20,11 @@ function success(wallet: Wallet) {
 }
 
 
-const Security = () => {
+const Security = (props: any) => {
 
     const [feedback, setFeedback] = useState(null)
     const [feedback2, setFeedback2] = useState(null)
-    const { processing, error } = useSelector((state: any) => state.auth);
+    const { processing, error, user } = useSelector((state: any) => state.auth);
     const { wallet } = useSelector((state: any) => state.wallet)
     const dispatch = useDispatch();
 
@@ -140,6 +140,15 @@ const Security = () => {
                     />
                 </div>
             </section>
+            {!user.email_verified && <div>
+                <div className='two_fa'>
+                    <p>Please verify your email to confirm your identity</p>
+                    <Button className='bordered' onClick={async () => {
+                        await api.sendEmail()
+                        props.history.push('/auth/verify_email')
+                    }}>Verify Email</Button>
+                </div>
+            </div>}
             <div className='two_fa'>
                 <p>You are strongly advised to enable 2 factor authentication in order to add an extra layer of security to your account</p>
                 <Button className='bordered'>Enable 2 factor authentication</Button>
