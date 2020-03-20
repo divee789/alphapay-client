@@ -24,7 +24,7 @@ const Header = props => {
                     </form>
                 </div>
             </section>
-            <img src={back} className='header_image' />
+            <img src={back} className='header_image' alt='header_image' />
         </>
     )
 }

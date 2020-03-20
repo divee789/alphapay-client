@@ -110,12 +110,12 @@ const Dashboard = (props: any) => {
                     <div onClick={() => {
                         setSideBarOpen(true)
                     }} className='open_sidenav'>
-                        <img src={hamburger} className='bell' />
+                        <img src={hamburger} className='bell' alt='menu' />
                     </div>
 
                     <div className='profile_details'>
-                        <img src={Notify} className='bell' />
-                        <img src={user.profile_image ? user.profile_image : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"} alt="" className='img' />
+                        <img src={Notify} className='bell' alt='notifications' />
+                        <img src={user.profile_image ? user.profile_image : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"} alt="profile_image" className='img' />
                         {user ? user.first_name : 'test'} {user ? user.last_name : 'test'}
                     </div>
                 </div>

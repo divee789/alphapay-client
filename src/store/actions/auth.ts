@@ -1,6 +1,5 @@
-import axios from 'axios'
+
 import * as actionTypes from './actionTypes';
-import { Logger, history } from '../../utils/index';
 import APIRequest from '../../services/api-services';
 import APIServiceError from '../../services/error-services';
 

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import img1 from '../../../../assets/images/newpassword.png'
-
 import './index.scss'
 
 const Utilities: React.FC = () => {

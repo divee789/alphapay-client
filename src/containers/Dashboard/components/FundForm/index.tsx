@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
 import * as actionTypes from '../../../../store/actions/actionTypes';
 import { Wallet } from '../../../../store/types'
+import { payWithKorapay, payWithRave } from '../../../../services/payment'
 import Api from '../../../../services/api-services'
 import Button from '../../../../components/Button'
 
@@ -24,19 +25,25 @@ function success(wallet: Wallet) {
 declare global {
     interface Window {
         Korapay: any;
+        getpaidSetup: any;
     }
 }
 
 const FundForm = (props) => {
     const [message, setMessage] = useState(null)
     const [processing, setProcessing] = useState(null)
-    const { wallet } = useSelector((state: any) => state.wallet)
     const { user } = useSelector((state: any) => state.auth)
     const dispatch = useDispatch()
 
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js"
+        document.getElementsByTagName("head")[0].appendChild(script);
+    }, [])
+
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"
         document.getElementsByTagName("head")[0].appendChild(script);
     }, [])
     interface FormValues {
@@ -61,50 +68,38 @@ const FundForm = (props) => {
         try {
             let data = {
                 ...values,
-                processor: 'Korapay',
-                processor_reference: 'Korapay-test-reference',
-                transaction_status: 'success',
-                narration: 'testing'
+                narration: 'testing',
+                ...user
             };
             setProcessing(true)
-            console.log(process.env.REACT_APP_KORAPAY_TEST_PUBLIC_KEY)
+            console.log(process.env.REACT_APP_RAVE_TEST_PUBLIC_KEY)
 
-            window.Korapay.initialize({
-
-                key: process.env.REACT_APP_KORAPAY_TEST_PUBLIC_KEY, // input merchant key
-
-                amount: Number(values.amount), // input amount eg. in naira
-
-                currency: 'NGN', // input currency eg. NGN
-
-                customerName: `${user.first_name} ${user.last_name}`, // input customer name
-
-                customerEmail: `${user.email}`, // input customer email
-
-                callback_url: "", // callback url (optional)
-                onClose: function () {
-                    console.log(':weary:, you are gone')
-                },
-                onSuccess: async function (data) {
-                    console.log(data);
-                    const res = await request.fundWallet(data)
+            await payWithRave(
+                data,
+                async (ref) => {
+                    let feedback = {
+                        ...values, processor: 'Flutterwave',
+                        processor_reference: ref,
+                        transaction_status: 'success',
+                        narration: 'hi'
+                    }
+                    console.log(feedback)
+                    const res = await request.fundWallet(feedback)
                     console.log('funding', res)
                     setProcessing(false)
                     setMessage(res.message)
                     await dispatch(success(res.wallet))
                 },
-                onFailed: function (data) {
-                    console.log(data);
+                () => {
                     setProcessing(false)
-                    // setMessage(error.response.data.message)
+                    setMessage('There has been an error funding your wallet,please try again later')
                 }
-
-            })
+            )
 
         } catch (error) {
             console.log('funding error', error);
             setProcessing(false)
-            setMessage(error.response.data.message)
+            setMessage('There has been an error funding your wallet,please try again later')
         }
     }
 
@@ -113,7 +108,7 @@ const FundForm = (props) => {
         return (
             <>
                 <div className='transfer_feedback'>
-                    <img src={img1} />
+                    <img src={img1} alt='transfer_feedback' />
                     <p>{message}</p>
                 </div>
             </>
@@ -135,11 +130,6 @@ const FundForm = (props) => {
                                     <div className="con">  <span>NGN</span> <Field type='number' name='amount' placeholder='0' /></div>
                                     <ErrorMessage name="amount" render={msg => <div className="error">{msg}</div>} />
                                 </div>
-                                {wallet && wallet.transaction_pin && <div>
-                                    <p>PLEASE PROVIDE YOUR TRANSACTION PIN</p>
-                                    <div className="con"><Field type='text' name='pin' placeholder='1111' /></div>
-                                    <ErrorMessage name="pin" render={msg => <div className="error">{msg}</div>} />
-                                </div>}
                                 <div className="fund_btn">
                                     <Button disabled={formProps.isSubmitting} colored>{text}</Button>
                                 </div>

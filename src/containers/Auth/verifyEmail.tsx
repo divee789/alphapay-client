@@ -38,9 +38,11 @@ const VerifyEmail: React.FC = (props: any) => {
 
     let text = 'CONTINUE';
     if (processing) text = 'Please wait...';
-    if (error) {
 
-    }
+    const validationSchema = Yup.object().shape({
+        email: Yup.string().email('Provide a valid email please')
+            .required('Provide email please')
+    });
 
 
     const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
@@ -68,6 +70,7 @@ const VerifyEmail: React.FC = (props: any) => {
                         <div className='page_content_container2'>
                             <Formik
                                 initialValues={initialValues}
+                                validationSchema={validationSchema}
                                 onSubmit={handleSubmit}
                                 render={formProps => {
                                     return (

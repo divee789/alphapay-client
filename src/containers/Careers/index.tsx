@@ -10,7 +10,7 @@ import { Player } from 'video-react';
 import image1 from '../../assets/images/mart.jpg'
 import image2 from '../../assets/images/work1.jpg'
 import image3 from '../../assets/images/work2.jpg'
-import image4 from '../../assets/images/work3.jpg'
+// import image4 from '../../assets/images/work3.jpg'
 import image5 from '../../assets/images/work4.jpg'
 import clock from '../../assets/images/clock.png'
 

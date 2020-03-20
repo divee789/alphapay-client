@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
@@ -27,7 +26,6 @@ const ForgotPassword: React.FC = (props: any) => {
 
     const [processing, setProcessing] = useState(false)
     const [feedback, setFeedback] = useState(null)
-    const dispatch = useDispatch();
 
     interface FormValues {
         email: string
@@ -43,12 +41,15 @@ const ForgotPassword: React.FC = (props: any) => {
 
     const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
         try {
+            setProcessing(true)
             const res = await api.passwordReset(values.email)
             setFeedback(res.message)
+            setProcessing(false)
         } catch (err) {
             console.log('log err', err);
             setFeedback(err.response.data.message)
             setTimeout(() => setFeedback(null), 3000)
+            setProcessing(false)
             setSubmitting(false);
         }
     };

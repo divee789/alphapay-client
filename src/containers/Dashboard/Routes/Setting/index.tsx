@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Route, Switch, Redirect, useRouteMatch, NavLink, withRouter } from 'react-router-dom';
 import Profile from './Profile'

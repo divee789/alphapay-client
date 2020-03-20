@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 
 
@@ -27,7 +26,9 @@ const PasswordReset: React.FC = (props: any) => {
     const [feedback, setFeedback] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
-    const [apiError, setApiError] = useState('')
+
+    const token = props.match.params.token
+
     useEffect(() => {
         const call = async () => {
             try {
@@ -43,9 +44,8 @@ const PasswordReset: React.FC = (props: any) => {
 
         call()
 
-    }, [' '])
+    }, [token])
 
-    const token = props.match.params.token
 
 
     interface FormValues {

@@ -86,7 +86,7 @@ const Transactions: React.FC = () => {
 
     if (transactions !== null && transactions.length === 0) {
         content = <div className='no_transaction'>
-            <img src={img1} />
+            <img src={img1} alt='no_transactions' />
             <h3>There are no transactions to show</h3>
             <p>You have not made any transactions yet.When you do,they will be shown here</p>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
@@ -19,8 +19,7 @@ function success(wallet: Wallet) {
 const TransferForm = (props) => {
     const [message, setMessage] = useState(null)
     const [pin, setPin] = useState(false)
-    const [data, setData] = useState({})
-    const { fund_processing, error, wallet } = useSelector((state: any) => state.wallet)
+    const { wallet } = useSelector((state: any) => state.wallet)
     const dispatch = useDispatch()
 
     interface FormValues {
@@ -50,7 +49,6 @@ const TransferForm = (props) => {
         try {
             text = 'Please wait'
             console.log(values)
-            setData(values)
             if (wallet.transaction_pin) {
                 setPin(true)
                 return
@@ -93,7 +91,7 @@ const TransferForm = (props) => {
         return (
             <>
                 <div className='transfer_feedback'>
-                    <img src={img1} />
+                    <img src={img1} alt='transfer_feedback' />
                     <p>{message}</p>
                 </div>
             </>

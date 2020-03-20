@@ -8,13 +8,15 @@ import decode from 'jwt-decode';
 import { logout } from '../store/actions';
 import store from '../store'
 
-const APIBaseURL = 'http://157.245.36.216:7000'
-// const APIBaseURL = 'http://localhost:7000'
-// const APIBaseURL = 'https://alphapay-api.herokuapp.com'
+let APIBaseURL
 
-
-
+if (process.env.NODE_ENV === 'development') {
+    APIBaseURL = 'http://localhost:7000'
+} else {
+    APIBaseURL = 'http://157.245.36.216:7000'
+}
 console.log(APIBaseURL)
+
 
 export default class APIRequest {
 
@@ -346,7 +348,7 @@ export default class APIRequest {
     getWallet = async () => {
         const res = await this.instance.get('/api/v1/wallet/get')
         const response = res.data
-        if (response.success == true) {
+        if (response.success === true) {
             return {
                 wallet: response.wallet,
                 message: response.message
@@ -367,7 +369,7 @@ export default class APIRequest {
             transaction_status: data.transaction_status,
             pin: data.pin
         })
-        if (res.data.success == true) {
+        if (res.data.success === true) {
             return {
                 wallet: res.data.data,
                 message: res.data.message
@@ -384,7 +386,7 @@ export default class APIRequest {
     setTransactionPin = async (data: any) => {
         const walletRes = await this.instance.post('/api/v1/wallet/activation', data)
         const response = walletRes.data
-        if (response.success == true) {
+        if (response.success === true) {
             return {
                 message: response.message,
                 wallet: response.data
@@ -397,7 +399,7 @@ export default class APIRequest {
     getTransactions = async () => {
         const transactions = await this.instance.get('/api/v1/transaction/all')
         const response = transactions.data
-        if (response.success == true) {
+        if (response.success === true) {
             return {
                 transactions: response.data,
                 message: response.message
@@ -410,7 +412,7 @@ export default class APIRequest {
     }
     transferFunds = async (data: any) => {
         const res = await this.instance.post('/api/v1/transfer', { ...data })
-        if (res.data.success == true) {
+        if (res.data.success === true) {
             return {
                 amount: res.data.amount,
                 message: res.data.message,

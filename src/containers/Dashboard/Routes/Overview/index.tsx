@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { get_client_wallet } from '../../../../store/actions';
+import { useSelector } from 'react-redux';
 
 import Modal from '../../../../components/Modal'
 import FundForm from '../../components/FundForm'
@@ -18,13 +17,11 @@ import './index.scss'
 
 
 const Overview: React.FC = () => {
-    const dispatch = useDispatch()
+
     const [showFundModal, setShowFundModal] = useState(false)
     const [showTransferModal, setShowTransferModal] = useState(false)
 
-
-    const { user } = useSelector((state: any) => state.auth)
-    const { wallet, processing, error } = useSelector((state: any) => state.wallet);
+    const { wallet, processing } = useSelector((state: any) => state.wallet);
 
     let content: any;
 
@@ -81,19 +78,19 @@ const Overview: React.FC = () => {
                     <div className="option_card" onClick={() => {
                         toggleModal('transfer')
                     }}>
-                        <img src={image1} />
+                        <img src={image1} alt='transfer' />
                         <p>Transfer Funds</p>
                     </div>
                     <div className="option_card">
-                        <img src={image2} />
+                        <img src={image2} alt='request' />
                         <p>Request Funds</p>
                     </div>
                     <div className="option_card">
-                        <img src={image3} />
+                        <img src={image3} alt='pay-bills' />
                         <p>Pay Bills</p>
                     </div>
                     <div className="option_card">
-                        <img src={image4} />
+                        <img src={image4} alt='buy airtime' />
                         <p>Buy Airtime</p>
                     </div>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, withRouter, Link } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 
 import useWindowScrollPosition from '@rehooks/window-scroll-position'

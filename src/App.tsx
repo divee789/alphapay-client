@@ -15,8 +15,6 @@ import VerifyEmail from './containers/Auth/verifyEmail'
 import PasswordReset from './containers/Auth/ForgotPassword'
 import PasswordConfirmation from './containers/Auth/ForgotPassword/PasswordReset'
 
-import testRave from './components/payments/rave'
-import testKorapay from './components/payments/korapay'
 
 
 console.log(process.env)
@@ -83,7 +81,7 @@ const App = (props: any) => {
       dispatch(logout())
     }
 
-  }, [dispatch])
+  }, [dispatch, isAuth, user.email])
 
 
   console.log('auth status', isAuth)
@@ -100,8 +98,7 @@ const App = (props: any) => {
         <Route path='/auth/password_reset_request' component={PasswordReset} />
         <Route path='/auth/password_reset/:token' component={PasswordConfirmation} />
         <Route path={`/dashboard`} render={props => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
-        <Route path="/404" component={testRave} />
-        <Route path="/korapay" component={testKorapay} />
+        <Route path="/404" component={NotFound} />
         <Redirect to='/404' />
       </Switch>
     </Router>

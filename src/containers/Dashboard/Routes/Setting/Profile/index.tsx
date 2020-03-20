@@ -72,7 +72,7 @@ const Profile = (props: any) => {
         <>
             <section className='profile-settings-section'>
                 <div className="profile_image_handler">
-                    <img src={user.profile_image ? user.profile_image : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'} />
+                    <img src={user.profile_image ? user.profile_image : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'} alt='user_profile_image' />
                     <div className="change_profile_image">
                         <input type="file" onChange={fileChangedHandler} required />
                         <Button colored onClick={uploadHandler} className='upload-btn'>{uploadFeedBack ? 'Please wait...' : 'Upload Image'}</Button>

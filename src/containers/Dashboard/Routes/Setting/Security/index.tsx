@@ -24,7 +24,7 @@ const Security = (props: any) => {
 
     const [feedback, setFeedback] = useState(null)
     const [feedback2, setFeedback2] = useState(null)
-    const { processing, error, user } = useSelector((state: any) => state.auth);
+    const { processing, user } = useSelector((state: any) => state.auth);
     const { wallet } = useSelector((state: any) => state.wallet)
     const dispatch = useDispatch();
 
@@ -62,7 +62,7 @@ const Security = (props: any) => {
             }
         } catch (error) {
             console.log('password error', error)
-            if (error.response.status == 409) {
+            if (error.response.status === 409) {
                 setFeedback('Your password is invalid')
             }
         }
