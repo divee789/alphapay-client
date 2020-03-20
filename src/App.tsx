@@ -18,6 +18,9 @@ import PasswordConfirmation from './containers/Auth/ForgotPassword/PasswordReset
 import testRave from './components/payments/rave'
 import testKorapay from './components/payments/korapay'
 
+
+console.log(process.env)
+
 const api = new Request(process.env.BASE_URL);
 
 

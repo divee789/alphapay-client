@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
@@ -20,11 +20,25 @@ function success(wallet: Wallet) {
     return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet }
 }
 
+
+declare global {
+    interface Window {
+        Korapay: any;
+    }
+}
+
 const FundForm = (props) => {
     const [message, setMessage] = useState(null)
     const [processing, setProcessing] = useState(null)
     const { wallet } = useSelector((state: any) => state.wallet)
+    const { user } = useSelector((state: any) => state.auth)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js"
+        document.getElementsByTagName("head")[0].appendChild(script);
+    }, [])
     interface FormValues {
         amount: number,
         narration: string
@@ -53,11 +67,39 @@ const FundForm = (props) => {
                 narration: 'testing'
             };
             setProcessing(true)
-            const res = await request.fundWallet(data)
-            console.log('funding', res)
-            setProcessing(false)
-            setMessage(res.message)
-            await dispatch(success(res.wallet))
+            console.log(process.env.REACT_APP_KORAPAY_TEST_PUBLIC_KEY)
+
+            window.Korapay.initialize({
+
+                key: process.env.REACT_APP_KORAPAY_TEST_PUBLIC_KEY, // input merchant key
+
+                amount: Number(values.amount), // input amount eg. in naira
+
+                currency: 'NGN', // input currency eg. NGN
+
+                customerName: `${user.first_name} ${user.last_name}`, // input customer name
+
+                customerEmail: `${user.email}`, // input customer email
+
+                callback_url: "", // callback url (optional)
+                onClose: function () {
+                    console.log(':weary:, you are gone')
+                },
+                onSuccess: async function (data) {
+                    console.log(data);
+                    const res = await request.fundWallet(data)
+                    console.log('funding', res)
+                    setProcessing(false)
+                    setMessage(res.message)
+                    await dispatch(success(res.wallet))
+                },
+                onFailed: function (data) {
+                    console.log(data);
+                    setProcessing(false)
+                    // setMessage(error.response.data.message)
+                }
+
+            })
 
         } catch (error) {
             console.log('funding error', error);

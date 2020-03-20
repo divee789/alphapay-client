@@ -18,10 +18,10 @@ const PayWithRave = () => {
     }, [])
 
     const pay = () => {
-        console.log(process.env.REACT_APP_KORAPAY_PUBLIC_KEY)
+        console.log(process.env.REACT_APP_TEST_KORAPAY_PUBLIC_KEY)
         window.Korapay.initialize({
 
-            key: process.env.REACT_APP_KORAPAY_PUBLIC_KEY, // input merchant key
+            key: process.env.REACT_APP_KORAPAY_TEST_PUBLIC_KEY, // input merchant key
 
             amount: 5000, // input amount eg. in naira
 

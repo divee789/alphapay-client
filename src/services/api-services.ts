@@ -8,8 +8,8 @@ import decode from 'jwt-decode';
 import { logout } from '../store/actions';
 import store from '../store'
 
-// const APIBaseURL = 'http://157.245.36.216:7000'
-const APIBaseURL = 'http://localhost:7000'
+const APIBaseURL = 'http://157.245.36.216:7000'
+// const APIBaseURL = 'http://localhost:7000'
 // const APIBaseURL = 'https://alphapay-api.herokuapp.com'
 
 
