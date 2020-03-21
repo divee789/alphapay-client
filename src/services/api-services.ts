@@ -10,7 +10,7 @@ import store from '../store'
 
 let APIBaseURL
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.REACT_APP_NODE_ENV === 'development') {
     APIBaseURL = 'http://localhost:7000'
 } else {
     APIBaseURL = 'http://157.245.36.216:7000'
