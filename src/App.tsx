@@ -81,7 +81,7 @@ const App = (props: any) => {
       dispatch(logout())
     }
 
-  }, [dispatch, isAuth, user.email])
+  }, [dispatch, isAuth])
 
 
   console.log('auth status', isAuth)
