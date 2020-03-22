@@ -25,7 +25,6 @@ const PasswordReset: React.FC = (props: any) => {
     const [user, setUser] = useState(null)
     const [feedback, setFeedback] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(false)
 
     const token = props.match.params.token
 
@@ -38,7 +37,6 @@ const PasswordReset: React.FC = (props: any) => {
             } catch (error) {
                 console.log(error)
                 setLoading(false)
-                setError(true)
             }
         }
 

@@ -3,6 +3,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { withRouter } from 'react-router-dom';
+import theme from '../../Theme'
 
 import Button from '../../Button'
 import './index.scss'
@@ -46,33 +47,33 @@ const Contact: React.FC = (props: any) => {
                         render={formProps => {
                             return (
                                 <>
-                                    <Form className='form'>
+                                    <Form className='form' style={theme()}>
                                         <div className="input_container">
                                             <div className='ff'>
                                                 <div className='label'>First Name</div>
-                                                <Field type='text' name='first_name' placeholder='First Name' />
+                                                <Field type='text' name='first_name' placeholder='First Name' style={theme()}/>
                                                 <ErrorMessage name="first_name" render={msg => <div className="error">{msg}</div>} />
                                             </div>
                                             <div className='ll'>
                                                 <div className='label'>Last Name</div>
-                                                <Field type='text' name='last_name' placeholder='Last Name' />
+                                                <Field type='text' name='last_name' placeholder='Last Name' style={theme()} />
                                                 <ErrorMessage name="last_name" render={msg => <div className="error">{msg}</div>} />
                                             </div>
                                         </div>
                                         <div className="inc">
                                             <div className='label'>Your Email Address</div>
-                                            <Field type='email' name='email' placeholder='email' />
+                                            <Field type='email' name='email' placeholder='email' style={theme()}/>
                                             <ErrorMessage name="email" render={msg => <div className="error">{msg}</div>} />
                                         </div>
                                         <div className="inc">
                                             <div className='label'>Your Phone Number</div>
                                             <Field type='number'
-                                                pattern="[0-9]*" name='phone_number' placeholder='08024110355' />
+                                                pattern="[0-9]*" name='phone_number' placeholder='08024110355' style={theme()}/>
                                             <ErrorMessage name="phone_number" render={msg => <div className="error">{msg}</div>} />
                                         </div>
                                         <div className="inc">
                                             <div className='label'>Your Message</div>
-                                            <Field name="message" as="textarea" placeholder='Please, provide a short description of your challenge here' />
+                                            <Field name="message" as="textarea" placeholder='Please, provide a short description of your challenge here' style={theme()}/>
                                             <ErrorMessage name="message" render={msg => <div className="error">{msg}</div>} />
                                         </div>
                                         <div className='btn'>

@@ -26,7 +26,7 @@ const styles = {
 
 const VerifyEmail: React.FC = (props: any) => {
     const [feedback, setFeedback] = useState(null)
-    const { processing, error } = useSelector((state: any) => state.auth);
+    const { processing } = useSelector((state: any) => state.auth);
     const dispatch = useDispatch();
 
     interface FormValues {

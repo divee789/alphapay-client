@@ -196,7 +196,7 @@ export default class APIRequest {
             return false;
         }
     };
-    setAuthorization = () => {
+    setAuthorization = (): any => {
         const userToken = Storage.getItem('userToken');
         // Check if user if authenticated if not return client token
         if (userToken) {
@@ -383,7 +383,7 @@ export default class APIRequest {
     }
 
 
-    setTransactionPin = async (data: any) => {
+    setTransactionPin = async (data: any): Promise<{ message: string, wallet?: any }> => {
         const walletRes = await this.instance.post('/api/v1/wallet/activation', data)
         const response = walletRes.data
         if (response.success === true) {
@@ -391,6 +391,9 @@ export default class APIRequest {
                 message: response.message,
                 wallet: response.data
             }
+        }
+        return {
+            message: 'There has been an error in setting your pin,please try again later or contact support'
         }
     }
 

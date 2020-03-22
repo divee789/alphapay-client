@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
 import * as actionTypes from '../../../../store/actions/actionTypes';
 import { Wallet } from '../../../../store/types'
-import { payWithKorapay, payWithRave } from '../../../../services/payment'
+import { payWithRave } from '../../../../services/payment'
 import Api from '../../../../services/api-services'
 import Button from '../../../../components/Button'
 

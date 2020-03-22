@@ -1,8 +1,8 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { history } from './utils'
-import { logout } from './store/actions';
+import { logout, switch_mode } from './store/actions';
 import Request from './services/api-services';
 import { Storage } from './services/storage-services';
 import decode from 'jwt-decode'
@@ -14,12 +14,8 @@ import Loading from './components/Loading'
 import VerifyEmail from './containers/Auth/verifyEmail'
 import PasswordReset from './containers/Auth/ForgotPassword'
 import PasswordConfirmation from './containers/Auth/ForgotPassword/PasswordReset'
+import './App.scss'
 
-
-
-console.log(process.env)
-
-const api = new Request(process.env.BASE_URL);
 
 
 const Signup = React.lazy(() => {
@@ -33,11 +29,13 @@ const Dashboard = React.lazy(() => {
   return import('./containers/Dashboard');
 });
 
+const api = new Request(process.env.BASE_URL);
 
 
 const App = (props: any) => {
   const dispatch = useDispatch();
   const { isAuth, user } = useSelector((state: any) => state.auth);
+  const [theme, setTheme] = useState(true)
 
 
   useEffect(() => {
@@ -83,7 +81,14 @@ const App = (props: any) => {
 
   }, [dispatch, isAuth])
 
-
+  const toggleTheme = () => {
+    setTheme(!theme)
+    if (theme) {
+      dispatch(switch_mode('dark'))
+    } else {
+      dispatch(switch_mode('light'))
+    }
+  }
   console.log('auth status', isAuth)
 
   let routes = (
@@ -105,8 +110,10 @@ const App = (props: any) => {
   );
 
   return (
-
-    <Suspense fallback={<Loading />}>{routes}</Suspense>
+    <>
+      <Suspense fallback={<Loading />}>{routes}</Suspense>
+      <button onClick={toggleTheme} className='toggle_button'>Toggle theme</button>
+    </>
 
   );
 };

@@ -2,7 +2,7 @@ import React from "react"
 
 
 
-const Backdrop = (props) => {
+const Backdrop = (props: any) => {
 
     const style1: React.CSSProperties = {
         width: props.show ? '100%' : 0,

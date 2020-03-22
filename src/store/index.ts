@@ -14,13 +14,15 @@ import logger from 'redux-logger'
 import authReducer from './reducers/auth'
 import walletReducer from './reducers/wallet'
 import transactionReducer from './reducers/transaction'
+import uiReducer from './reducers/ui'
 
 
 
 const rootReducer = combineReducers({
     auth: authReducer,
     wallet: walletReducer,
-    transaction: transactionReducer
+    transaction: transactionReducer,
+    ui: uiReducer
 })
 
 const persistConfig = {

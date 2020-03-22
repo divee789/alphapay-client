@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import useWindowScrollPosition from '@rehooks/window-scroll-position'
 import SideNav from '../SideNav'
+import theme from '../Theme'
 
 import Logo from '../../assets/images/alp.png'
 import Hamburger from '../../assets/images/menu.png'
@@ -43,7 +44,8 @@ const Navbar = (props: any) => {
     const navStyle: React.CSSProperties = {
         marginBottom: change ? '15px' : '30px',
         marginTop: change ? '15px' : '30px',
-        transition: 'all 0.5s'
+        transition: 'all 0.5s',
+        paddingTop: change ? 0 : '30px'
     }
 
     let link
@@ -57,7 +59,7 @@ const Navbar = (props: any) => {
     }
     return (
         <>
-            <div className="nav_container" style={style}>
+            <div className="nav_container" style={{ ...style, ...theme() }}>
                 <nav className='nav' style={navStyle}>
                     <div className='logo' onClick={() => {
                         props.history.push('/');

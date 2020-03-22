@@ -9,7 +9,7 @@ import Button from '../Button'
 import Close from '../../assets/images/close.png'
 import './index.scss'
 
-const SideNav = ({ isActive, onClose }) => {
+const SideNav = ({ isActive, onClose }: any) => {
     const { isAuth } = useSelector((state: any) => state.auth)
 
     const handleOnClose = () => {

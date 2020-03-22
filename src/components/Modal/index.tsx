@@ -5,7 +5,7 @@ import Backdrop from './Backdrop'
 import './index.scss'
 
 
-const Modal = props => {
+const Modal = (props: any) => {
     let attachedClasses = ['modal', 'default', props.className]
     if (props.open) {
         attachedClasses = ['modal', 'open', props.className]

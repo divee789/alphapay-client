@@ -5,7 +5,7 @@ import back from '../../../assets/images/back.png'
 
 import './index.scss'
 
-const Header = props => {
+const Header = (props: any) => {
     return (
         <>
             <section className='solution_header'>

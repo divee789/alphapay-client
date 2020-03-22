@@ -3,9 +3,9 @@ import React from 'react';
 import './index.scss'
 
 
-const Button = props => {
+const Button = (props: any) => {
 
-    let style;
+    let style: any
 
     style = {
         backgroundColor: 'white',

@@ -1,5 +1,8 @@
 import React from 'react';
 
+import theme from '../../Theme'
+
+
 import logo from '../../../assets/images/alp.png'
 
 import facebook from '../../../assets/images/facebook.jpg'
@@ -10,8 +13,8 @@ import what from '../../../assets/images/What.jpg'
 import './index.scss'
 
 const Footer: React.FC = () => (
-    <>
-        <section className='footer'>
+    <section style={{ ...theme(), zIndex: -99999, position: 'relative', paddingTop: '2rem', marginTop: '-5rem' }}>
+        <section className='footer' >
             <div className="footer_logo">
                 <img src={logo} alt="Logo" className='logo_image' />
             </div>
@@ -63,7 +66,7 @@ const Footer: React.FC = () => (
             </div>
         </section>
 
-    </>
+    </section>
 )
 
 export default Footer
