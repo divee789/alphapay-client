@@ -33,6 +33,7 @@ const FundForm = (props) => {
     const [message, setMessage] = useState(null)
     const [processing, setProcessing] = useState(null)
     const { user } = useSelector((state: any) => state.auth)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -49,6 +50,10 @@ const FundForm = (props) => {
     interface FormValues {
         amount: number,
         narration: string
+    }
+
+    const linkStyle = {
+        color: props.mode === 'dark' ? '#00C9B6' : ''
     }
 
     const initialValues: FormValues = {
@@ -72,7 +77,7 @@ const FundForm = (props) => {
                 ...user
             };
             setProcessing(true)
-            console.log(process.env.REACT_APP_RAVE_TEST_PUBLIC_KEY)
+
 
             await payWithRave(
                 data,
@@ -127,7 +132,7 @@ const FundForm = (props) => {
                                 <h2>FUND YOUR WALLET</h2>
                                 <div>
                                     <p>HOW MUCH DO YOU WANT TO FUND?</p>
-                                    <div className="con">  <span>NGN</span> <Field type='number' name='amount' placeholder='0' /></div>
+                                    <div className="con">  <span>NGN</span> <Field type='number' name='amount' placeholder='0' style={linkStyle} /></div>
                                     <ErrorMessage name="amount" render={msg => <div className="error">{msg}</div>} />
                                 </div>
                                 <div className="fund_btn">

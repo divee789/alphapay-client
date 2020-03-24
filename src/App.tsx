@@ -6,6 +6,8 @@ import { logout, switch_mode } from './store/actions';
 import Request from './services/api-services';
 import { Storage } from './services/storage-services';
 import decode from 'jwt-decode'
+import SwitchC from 'react-switch'
+
 import Landing from './containers/Home'
 import Blog from './containers/Blog'
 import Careers from './containers/Careers'
@@ -35,7 +37,9 @@ const api = new Request(process.env.BASE_URL);
 const App = (props: any) => {
   const dispatch = useDispatch();
   const { isAuth, user } = useSelector((state: any) => state.auth);
-  const [theme, setTheme] = useState(true)
+  const { mode } = useSelector((state: any) => state.ui)
+  // const [theme, setTheme] = useState('light')
+  const [check, setCheck] = useState(mode === 'light' ? false : true)
 
 
   useEffect(() => {
@@ -81,11 +85,13 @@ const App = (props: any) => {
 
   }, [dispatch, isAuth])
 
-  const toggleTheme = () => {
-    setTheme(!theme)
-    if (theme) {
+  const toggleTheme = async (value) => {
+
+    if (mode === 'light') {
+      setCheck(true)
       dispatch(switch_mode('dark'))
     } else {
+      setCheck(false)
       dispatch(switch_mode('light'))
     }
   }
@@ -112,7 +118,9 @@ const App = (props: any) => {
   return (
     <>
       <Suspense fallback={<Loading />}>{routes}</Suspense>
-      <button onClick={toggleTheme} className='toggle_button'>Toggle theme</button>
+      <div className="toggle_button">
+        <SwitchC onChange={toggleTheme} checked={check} />
+      </div>
     </>
 
   );

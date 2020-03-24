@@ -10,7 +10,8 @@ const Button = (props: any) => {
     style = {
         backgroundColor: 'white',
         borderColor: '#9D60EB',
-        borderWidth: '1px'
+        borderWidth: '1px',
+
     }
 
     if (props.dashboard) {
@@ -33,7 +34,7 @@ const Button = (props: any) => {
 
     return (
         <>
-            <button className={'button ' + props.className} style={style} onClick={props.onClick} disabled={props.disabled} type={props.type}> {props.children} </button>
+            <button className={'button ' + props.className} style={{ ...style, ...props.style }} onClick={props.onClick} disabled={props.disabled} type={props.type}> {props.children} </button>
         </>
     )
 }

@@ -3,8 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import * as Yup from 'yup';
+import theme from '../../components/Theme'
+
 import { signup } from '../../store/actions';
 
+import back from '../../assets/images/back.png'
 import logo from '../../assets/images/alp.png'
 
 import Button from '../../components/Button'
@@ -90,7 +93,7 @@ const SignUp: React.FC = (props: any) => {
 
     return (
         <>
-            <section className='login_auth'>
+            <section className='login_auth' style={theme()}>
 
                 <div className="logo">
                     <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
@@ -181,6 +184,7 @@ const SignUp: React.FC = (props: any) => {
                         </div>
                     </div>
                 </div>
+                <img src={back} className='auth_image' alt='header_image' />
             </section>
         </>
     );

@@ -36,6 +36,9 @@ const TransferForm = (props) => {
         transaction_type: 'Internal'
     }
 
+    const linkStyle = {
+        color: props.mode === 'dark' ? '#00C9B6' : ''
+    }
     let text = 'TRANSFER FUNDS'
 
 
@@ -112,7 +115,7 @@ const TransferForm = (props) => {
                         <Form className='fund_wallet_form'>
                             <div>
                                 <p>PLEASE PROVIDE YOUR TRANSACTION PIN</p>
-                                <div className="con"><Field type='text' name='pin' placeholder='1111' /></div>
+                                <div className="con"><Field type='text' name='pin' placeholder='1111' style={linkStyle} /></div>
                                 <ErrorMessage name="pin" render={msg => <div className="error">{msg}</div>} />
                             </div>
                             <div className="fund_btn">
@@ -138,17 +141,17 @@ const TransferForm = (props) => {
                                 <h2>TRANSFER FUNDS</h2>
                                 <div>
                                     <p>HOW MUCH DO YOU WANT TO TRANSFER?</p>
-                                    <div className="con">  <span>NGN</span> <Field type='number' name='amount' placeholder='0' /></div>
+                                    <div className="con">  <span>NGN</span> <Field type='number' name='amount' placeholder='0' style={linkStyle} /></div>
                                     <ErrorMessage name="amount" render={msg => <div className="error">{msg}</div>} />
                                 </div>
                                 <div>
                                     <p>WHO DO YOU WANT TO TRANSFER TO?</p>
-                                    <div className="con"><Field type='text' name='recipient_phone_number' placeholder='08024110355' /></div>
+                                    <div className="con"><Field type='text' name='recipient_phone_number' placeholder='08024110355' style={linkStyle} /></div>
                                     <ErrorMessage name="recipient_phone-number" render={msg => <div className="error">{msg}</div>} />
                                 </div>
                                 <div>
                                     <p>WHY ARE YOU TRANSFERRING?</p>
-                                    <div className="con"><Field type='textarea' name='narration' placeholder='To pay my levy' /></div>
+                                    <div className="con"><Field type='textarea' name='narration' placeholder='To pay my levy' style={linkStyle} /></div>
                                     <ErrorMessage name="narration" render={msg => <div className="error">{msg}</div>} />
                                 </div>
                                 <div className="fund_btn">

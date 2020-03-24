@@ -1,11 +1,13 @@
 import React from 'react';
 
+import theme from '../../components/Theme'
 import ScrollToTop from '../../components/ScrollToTop'
 import Navbar from '../../components/NavBar/newBar'
 import Contact from '../../components/Landing/Contact'
 import Footer from '../../components/Landing/Footer'
 import './index.scss'
 
+import back from '../../assets/images/back.png'
 import blogpic from '../../assets/images/code.jpg'
 
 const blogs = [
@@ -66,15 +68,19 @@ interface Blog {
     date: string
 }
 
+
+
 const Home: React.FC = () => {
+
+
 
     return (
         <>
-            <main className='main-container'>
+            <main className='main-container' style={theme()}>
                 <ScrollToTop />
                 <Navbar />
-                <section className='blog_section'>
-                    <header>
+                <section className='blog_section' style={theme()}>
+                    <header style={theme(`url(${back})`)}>
                         <h1>Blog</h1>
                         <p>Democratizing Information</p>
                     </header>
@@ -89,7 +95,6 @@ const Home: React.FC = () => {
                                         {blog.title}
                                     </h3>
                                     <p className='author'>By {blog.author} {blog.date}</p>
-                                    <p className='text'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo optio ipsam, nisi, quidem accusantium eveniet libero ratione excepturi .</p>
                                     <p className='details'>View Details</p>
                                 </div>
                             </div>
@@ -103,5 +108,8 @@ const Home: React.FC = () => {
     )
 
 }
+
+
+
 
 export default Home

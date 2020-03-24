@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { withRouter } from 'react-router-dom';
+import theme from '../../../components/Theme'
+
 import * as Yup from 'yup';
 
 
@@ -35,6 +37,7 @@ const PasswordReset: React.FC = (props: any) => {
                 setUser(res.client)
                 setLoading(false)
             } catch (error) {
+                setFeedback('There has been an issue verifying your identity,please contact support')
                 console.log(error)
                 setLoading(false)
             }
@@ -82,7 +85,7 @@ const PasswordReset: React.FC = (props: any) => {
 
     return (
         <>
-            <section className='login_auth'>
+            <section className='login_auth' style={theme()}>
                 <div className="logo">
                     <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
                 </div>

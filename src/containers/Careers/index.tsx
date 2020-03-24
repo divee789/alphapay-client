@@ -6,6 +6,7 @@ import Button from '../../components/Button'
 import Contact from '../../components/Landing/Contact'
 import Footer from "../../components/Landing/Footer";
 import { Player } from 'video-react';
+import theme from '../../components/Theme'
 
 import image1 from '../../assets/images/mart.jpg'
 import image2 from '../../assets/images/work1.jpg'
@@ -72,11 +73,11 @@ const Careers = (props: any) => {
 
     return (
         <>
-            <main className='main-container'>
+            <main className='main-container' style={theme()}>
                 <ScrollToTop />
                 <Navbar />
                 <section className='careers_section'>
-                    <header>
+                    <header style={theme('url("../../assets/images/contact_bg.jpg")')}>
                         <h1>Career</h1>
                         <p>Talent oriented</p>
                     </header>

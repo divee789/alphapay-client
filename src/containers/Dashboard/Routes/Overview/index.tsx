@@ -22,8 +22,14 @@ const Overview: React.FC = () => {
     const [showTransferModal, setShowTransferModal] = useState(false)
 
     const { wallet, processing } = useSelector((state: any) => state.wallet);
+    const { mode } = useSelector((state: any) => state.ui)
 
     let content: any;
+
+
+    const linkStyle = {
+        color: mode === 'dark' ? '#00C9B6' : ''
+    }
 
     const modalHandler = async (category) => {
 
@@ -51,7 +57,7 @@ const Overview: React.FC = () => {
         content = <p style={{ textAlign: 'center' }}>There has been an error fetching your wallet</p>
     }
 
-    let btn = <Button dashboard>Withdraw Funds</Button>
+    let btn = <Button dashboard style={linkStyle}>Withdraw Funds</Button>
     if (wallet && wallet.available_balance <= 100) {
         btn = <Button dashboard disabled>Withdraw Funds</Button>
     }
@@ -65,7 +71,7 @@ const Overview: React.FC = () => {
                     <div className='btn_fund'>
                         <Button dashboard onClick={() => {
                             toggleModal('fund')
-                        }}>Fund Wallet</Button>
+                        }} style={linkStyle}>Fund Wallet</Button>
                         {
                             btn
                         }
@@ -99,10 +105,10 @@ const Overview: React.FC = () => {
 
             </div>
             {showFundModal && <Modal open={showFundModal} closed={() => modalHandler('fund')}>
-                <FundForm close={() => modalHandler('fund')} />
+                <FundForm close={() => modalHandler('fund')} mode={mode} />
             </Modal>}
             {showTransferModal && <Modal open={showTransferModal} closed={() => modalHandler('transfer')}>
-                <TransferForm close={() => modalHandler('transfer')} />
+                <TransferForm close={() => modalHandler('transfer')} mode={mode} />
             </Modal>}
         </>
     )

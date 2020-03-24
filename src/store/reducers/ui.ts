@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes'
 
 
 const initialState = {
-    mode: 'light'
+    mode: ''
 }
 
 const UIReducer = (state = initialState, action: any) => {

@@ -40,7 +40,7 @@ export const payWithRave = (values: any, success, failure) => {
         txref: getRandomString(),
         currency: "NGN",
         onclose: function () {
-
+            failure()
         },
         callback: async function (response) {
             const txref = response.tx.txRef; // collect txRef returned and pass to a server page to complete status check.
