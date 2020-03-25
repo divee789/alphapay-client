@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Modal from '../../../../components/Modal'
 import Transaction from '../../components/Transaction'
+import Button from '../../../../components/Button'
 
 import './index.scss'
 
@@ -25,7 +26,8 @@ const Transactions: React.FC = () => {
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false)
     const [transRef, setTransRef] = useState(null)
-    const { processing, transactions, error } = useSelector((state: any) => state.transaction)
+    const { processing, transactions, pager, error } = useSelector((state: any) => state.transaction)
+    const { mode } = useSelector((state: any) => state.ui)
     let content
 
 
@@ -39,6 +41,10 @@ const Transactions: React.FC = () => {
         }
         trans()
     }, [dispatch])
+
+    const linkStyle = {
+        color: mode === 'dark' ? '#00C9B6' : ''
+    }
 
     const refreshTransactionHandler = async () => {
         try {
@@ -69,8 +75,8 @@ const Transactions: React.FC = () => {
         }
     };
     if (processing) {
-        return (
-            <p>Getting your transactions</p>
+        content = (
+            <p style={{ textAlign: 'center' }}>Getting your transactions</p>
         )
     }
 
@@ -78,7 +84,6 @@ const Transactions: React.FC = () => {
         content = (
             <>
                 <p>There has been an error getting your transactions</p>
-                <p>{error.response.data.message}</p>
             </>
         )
     }
@@ -99,7 +104,7 @@ const Transactions: React.FC = () => {
                 <p>reference</p>
                 <p>type</p>
             </div>
-            {transactions.reverse().map((transaction: ITransaction) => {
+            {transactions.map((transaction: ITransaction) => {
 
                 return (
                     <>
@@ -135,6 +140,14 @@ const Transactions: React.FC = () => {
             <section className='dashboard_transactions'>
                 <div className='refresh_transaction_button' onClick={refreshTransactionHandler}>Refresh transactions</div>
                 {content}
+                <div className="pagination">
+                    <Button dashboard style={linkStyle} onClick={() => {
+                        dispatch(get_client_transactions(pager.currentPage - 1))
+                    }}>Previous Page</Button>
+                    <Button dashboard style={linkStyle} onClick={() => {
+                        dispatch(get_client_transactions(pager.currentPage + 1))
+                    }}>Next Page</Button>
+                </div>
             </section>
             {showModal && <Modal open={showModal} closed={modalHandler} className='trans-modal'>
                 <Transaction transaction={transRef} />

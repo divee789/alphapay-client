@@ -57,10 +57,10 @@ const Overview: React.FC = () => {
         content = <p style={{ textAlign: 'center' }}>There has been an error fetching your wallet</p>
     }
 
-    let btn = <Button dashboard style={linkStyle}>Withdraw Funds</Button>
-    if (wallet && wallet.available_balance <= 100) {
-        btn = <Button dashboard disabled>Withdraw Funds</Button>
-    }
+    // let btn = <Button dashboard style={linkStyle}>Withdraw Funds</Button>
+    // if (wallet && wallet.available_balance <= 100) {
+    //     btn = <Button dashboard disabled>Withdraw Funds</Button>
+    // }
 
     return (
         <>
@@ -73,7 +73,7 @@ const Overview: React.FC = () => {
                             toggleModal('fund')
                         }} style={linkStyle}>Fund Wallet</Button>
                         {
-                            btn
+                            wallet.available_balance <= 100 ? <Button dashboard disabled>Withdraw Funds</Button> : <Button dashboard style={linkStyle}>Withdraw Funds</Button>
                         }
 
                     </div>

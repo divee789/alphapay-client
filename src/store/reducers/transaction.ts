@@ -6,7 +6,8 @@ const initialState = {
     transactions: null,
     processing: false,
     error: null,
-    transaction: null
+    transaction: null,
+    pager: null
 }
 
 const transactionReducer = (state = initialState, action: any) => {
@@ -28,8 +29,9 @@ const transactionReducer = (state = initialState, action: any) => {
 
             return {
                 ...state,
-                transactions: action.transactions,
+                transactions: action.data.transactions,
                 processing: false,
+                pager: action.data.pager,
                 error: null
             };
         default:

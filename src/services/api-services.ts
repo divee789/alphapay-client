@@ -399,13 +399,14 @@ export default class APIRequest {
 
     //Transaction apis
 
-    getTransactions = async () => {
-        const transactions = await this.instance.get('/api/v1/transaction/all')
+    getTransactions = async (page?: number) => {
+        const transactions = await this.instance.get('/api/v1/transaction/all?page=' + page)
         const response = transactions.data
         if (response.success === true) {
             return {
                 transactions: response.data,
-                message: response.message
+                message: response.message,
+                pager: response.pager
             }
         }
         return {
