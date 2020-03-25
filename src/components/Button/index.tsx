@@ -30,7 +30,7 @@ const Button = (props: any) => {
         }
     }
 
-
+    console.log('button', props)
 
     return (
         <>

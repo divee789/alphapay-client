@@ -8,6 +8,8 @@ import Modal from '../../../../components/Modal'
 import Transaction from '../../components/Transaction'
 import Button from '../../../../components/Button'
 
+import Turn from '../../../../components/Loaders/Turning'
+
 import './index.scss'
 
 interface ITransaction {
@@ -35,6 +37,7 @@ const Transactions: React.FC = () => {
         const trans = async () => {
             try {
                 await dispatch(get_client_transactions())
+                console.log(pager.currentPage, pager.startPage)
             } catch (error) {
                 content = <p>There has been an error getting your transactions</p>
             }
@@ -76,14 +79,16 @@ const Transactions: React.FC = () => {
     };
     if (processing) {
         content = (
-            <p style={{ textAlign: 'center' }}>Getting your transactions</p>
+            <div style={{ margin: '5rem 0' }}>
+                <Turn />
+            </div>
         )
     }
 
     if (error) {
         content = (
             <>
-                <p>There has been an error getting your transactions</p>
+                <p style={{ textAlign: 'center', margin: '5rem 0' }}>{error.response.data.message}</p>
             </>
         )
     }
@@ -141,12 +146,16 @@ const Transactions: React.FC = () => {
                 <div className='refresh_transaction_button' onClick={refreshTransactionHandler}>Refresh transactions</div>
                 {content}
                 <div className="pagination">
-                    <Button dashboard style={linkStyle} onClick={() => {
+                    {pager.currentPage !== pager.startPage ? <Button dashboard style={linkStyle} onClick={() => {
                         dispatch(get_client_transactions(pager.currentPage - 1))
-                    }}>Previous Page</Button>
-                    <Button dashboard style={linkStyle} onClick={() => {
+                    }}>Previous Page</Button> : <Button dashboard style={linkStyle} disabled>Previous Page</Button>}
+                    <div>
+                        {pager.currentPage}
+                    </div>
+                    {pager.currentPage !== pager.endPage ? <Button dashboard style={linkStyle} onClick={() => {
                         dispatch(get_client_transactions(pager.currentPage + 1))
-                    }}>Next Page</Button>
+                    }}>Next Page</Button> : <Button dashboard style={linkStyle} disabled>Previous Page</Button>}
+
                 </div>
             </section>
             {showModal && <Modal open={showModal} closed={modalHandler} className='trans-modal'>

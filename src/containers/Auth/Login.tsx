@@ -7,6 +7,7 @@ import theme from '../../components/Theme'
 
 import { login } from '../../store/actions';
 
+
 import logo from '../../assets/images/alp.png'
 import back from '../../assets/images/back.png'
 
@@ -24,7 +25,7 @@ const styles = {
 
 const LogIn: React.FC = (props: any) => {
     const [feedback, setFeedback] = useState(null)
-    const { processing, error } = useSelector((state: any) => state.auth);
+    const { processing } = useSelector((state: any) => state.auth);
     const dispatch = useDispatch();
 
     interface FormValues {
@@ -38,9 +39,7 @@ const LogIn: React.FC = (props: any) => {
 
     let text = 'CONTINUE';
     if (processing) text = 'Please wait...';
-    if (error) {
 
-    }
     const logvalidationSchema = Yup.object().shape({
         email: Yup.string().email('Provide a valid email please')
             .required('Provide email please'),

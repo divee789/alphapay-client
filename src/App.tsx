@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { history } from './utils'
@@ -37,9 +37,8 @@ const api = new Request(process.env.BASE_URL);
 const App = (props: any) => {
   const dispatch = useDispatch();
   const { isAuth, user } = useSelector((state: any) => state.auth);
-  const { mode } = useSelector((state: any) => state.ui)
-  // const [theme, setTheme] = useState('light')
-  const [check, setCheck] = useState(mode === 'light' ? false : true)
+  const { mode, checked } = useSelector((state: any) => state.ui)
+  // const [check, setCheck] = useState(mode === 'light' ? false : true)
 
 
   useEffect(() => {
@@ -88,10 +87,10 @@ const App = (props: any) => {
   const toggleTheme = async (value) => {
 
     if (mode === 'light') {
-      setCheck(true)
+      // setCheck(true)
       dispatch(switch_mode('dark'))
     } else {
-      setCheck(false)
+      // setCheck(false)
       dispatch(switch_mode('light'))
     }
   }
@@ -119,7 +118,7 @@ const App = (props: any) => {
     <>
       <Suspense fallback={<Loading />}>{routes}</Suspense>
       <div className="toggle_button">
-        <SwitchC onChange={toggleTheme} checked={check} />
+        <SwitchC onChange={toggleTheme} checked={checked} />
       </div>
     </>
 

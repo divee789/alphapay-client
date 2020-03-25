@@ -26,17 +26,10 @@ const Overview: React.FC = () => {
 
     let content: any;
 
-
-    const linkStyle = {
-        color: mode === 'dark' ? '#00C9B6' : ''
-    }
-
     const modalHandler = async (category) => {
 
         if (category === 'fund') setShowFundModal(false);
-        if (category === 'transfer') {
-            setShowTransferModal(false)
-        }
+        if (category === 'transfer') setShowTransferModal(false)
     };
     const toggleModal = (form) => {
         if (form === 'fund') setShowFundModal(!showFundModal);
@@ -49,31 +42,27 @@ const Overview: React.FC = () => {
         content = <p className='info_alert'>Getting your wallet</p>
     }
     if (wallet !== null) {
-        content = <div className='wallet_card'>
-            <p>Wallet Balance</p>
-            <p>NGN {wallet.available_balance.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
-        </div>
+        content = <p>NGN {wallet.available_balance.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
     } else {
-        content = <p style={{ textAlign: 'center' }}>There has been an error fetching your wallet</p>
+        content = <p style={{ textAlign: 'center', fontSize: '14px' }}>There has been an error fetching your wallet</p>
     }
 
-    // let btn = <Button dashboard style={linkStyle}>Withdraw Funds</Button>
-    // if (wallet && wallet.available_balance <= 100) {
-    //     btn = <Button dashboard disabled>Withdraw Funds</Button>
-    // }
 
     return (
         <>
 
             <div className="overview_details">
                 <div className='item'>
-                    {content}
+                    <div className='wallet_card'>
+                        <p>Wallet Balance</p>
+                        {content}
+                    </div>
                     <div className='btn_fund'>
                         <Button dashboard onClick={() => {
                             toggleModal('fund')
-                        }} style={linkStyle}>Fund Wallet</Button>
+                        }} style={{ color: mode === 'dark' ? '#00C9B6' : '' }}>Fund Wallet</Button>
                         {
-                            wallet.available_balance <= 100 ? <Button dashboard disabled>Withdraw Funds</Button> : <Button dashboard style={linkStyle}>Withdraw Funds</Button>
+                            wallet && wallet.available_balance <= 100 ? <Button dashboard disabled>Withdraw Funds</Button> : <Button dashboard style={{ color: mode === 'dark' ? '#00C9B6' : '' }}>Withdraw Funds</Button>
                         }
 
                     </div>
