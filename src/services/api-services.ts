@@ -414,6 +414,24 @@ export default class APIRequest {
             message: response.message
         }
     }
+
+    filterTransactions = async (data: any, page?: number) => {
+        const transactions = await this.instance.post('/api/v1/transaction/filter?page=' + page, { ...data })
+        const response = transactions.data
+        if (response.success === true) {
+            return {
+                transactions: response.data,
+                message: response.message,
+                pager: response.pager
+            }
+        }
+        return {
+            error: true,
+            message: response.message
+        }
+
+    }
+
     transferFunds = async (data: any) => {
         const res = await this.instance.post('/api/v1/transfer', { ...data })
         if (res.data.success === true) {

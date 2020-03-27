@@ -30,8 +30,6 @@ const Button = (props: any) => {
         }
     }
 
-    console.log('button', props)
-
     return (
         <>
             <button className={'button ' + props.className} style={{ ...style, ...props.style }} onClick={props.onClick} disabled={props.disabled} type={props.type}> {props.children} </button>
