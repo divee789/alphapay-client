@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as Yup from "yup";
-// import dayjs from "dayjs";
 
 import { filter_client_transactions } from "../../../../store/actions";
 import theme from "../../../../components/Theme";
@@ -13,7 +12,7 @@ import Button from "../../../../components/Button";
 const DatePickerField = ({ name, value, onChange }) => {
   return (
     <DatePicker
-      selected={(value && new Date(value)) || null}
+      selected={value || null}
       onChange={val => {
         onChange(name, val);
       }}
@@ -24,10 +23,14 @@ const DatePickerField = ({ name, value, onChange }) => {
 const SearchForm = () => {
   const dispatch = useDispatch();
 
+  const [feedback, setFeedback] = useState("");
+
   const handleSubmit = async (
     values: any,
     { setSubmitting, setErrors }: any
   ) => {
+    setFeedback("");
+
     let data = {
       ...values,
       date: {
@@ -35,6 +38,16 @@ const SearchForm = () => {
         to: values.to
       }
     };
+
+    if (values.from !== "" && values.from !== null) {
+      if (new Date(values.to) < new Date(values.from)) {
+        setFeedback("Please put valid date ranges");
+        return;
+      }
+      delete data["from"];
+      delete data["to"];
+    }
+
     for (var property in values) {
       if (
         typeof values[property] === "string" &&
@@ -48,8 +61,6 @@ const SearchForm = () => {
       }
     }
 
-    console.log(values);
-    console.log(data);
     await dispatch(filter_client_transactions(data));
     setSubmitting(false);
   };
@@ -65,6 +76,7 @@ const SearchForm = () => {
   return (
     <>
       <section style={theme()}>
+        <div>{feedback}</div>
         <Formik
           validationSchema={searchValidationSchema}
           onSubmit={handleSubmit}

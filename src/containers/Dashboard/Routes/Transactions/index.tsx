@@ -52,6 +52,7 @@ const Transactions: React.FC = () => {
 
   const refreshTransactionHandler = async () => {
     try {
+      setSearchActive(false);
       await dispatch(get_client_transactions());
     } catch (error) {
       content = <p>There has been an error getting your transactions</p>;
@@ -178,7 +179,7 @@ const Transactions: React.FC = () => {
             justifyContent: "space-between",
             alignItems: "center",
             marginRight: "1.5rem",
-            marginBottom: "1.5rem"
+            marginBottom: "4rem"
           }}
         >
           <div
@@ -204,7 +205,7 @@ const Transactions: React.FC = () => {
         {content}
 
         <div className="pagination">
-          {pager.currentPage !== pager.startPage ? (
+          {pager && pager.currentPage !== pager.startPage ? (
             <Button
               dashboard
               style={linkStyle}
@@ -220,9 +221,9 @@ const Transactions: React.FC = () => {
             </Button>
           )}
           <div>
-            {pager.currentPage} of {pager.endPage}
+            {pager && pager.currentPage} of {pager && pager.endPage}
           </div>
-          {pager.currentPage !== pager.endPage ? (
+          {pager && pager.currentPage !== pager.endPage ? (
             <Button
               dashboard
               style={linkStyle}
