@@ -10,7 +10,7 @@
     }
 
     .transaction_container {
-        width: 95%;
+        width: 99%;
         margin: 0 auto;
         margin-bottom: 5rem;
 
@@ -77,6 +77,10 @@
         align-items: center;
         justify-content: space-evenly;
     }
+
+    .filter-box {
+        display: none;
+    }
 }
 
 .refresh_transaction_button {
@@ -90,11 +94,12 @@
     cursor: pointer;
     padding: 10px 15px;
     margin-bottom: 10px;
-    transition-property: opacity, background-color;
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
     border-radius: 8px;
     font-size: 17px;
+
+    @media screen and (max-width:600px) {
+        font-size: 14px;
+    }
 }
 
 .trans-modal {

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as Yup from "yup";
 
 import { filter_client_transactions } from "../../../../store/actions";
-import theme from "../../../../components/Theme";
 import Button from "../../../../components/Button";
+
+import "./index.scss";
 
 const DatePickerField = ({ name, value, onChange }) => {
   return (
@@ -25,17 +27,24 @@ const SearchForm = () => {
 
   const [feedback, setFeedback] = useState("");
 
+  const { mode } = useSelector((state: any) => state.ui);
+
+  const styles = {
+    backgroundColor: mode === "dark" ? "black" : "#eff3fb"
+  };
+
   const handleSubmit = async (
     values: any,
     { setSubmitting, setErrors }: any
   ) => {
     setFeedback("");
+    console.log(values);
 
     let data = {
       ...values,
       date: {
         from: values.from,
-        to: values.to
+        to: values.to.setDate(values.to.getDate() + 1)
       }
     };
 
@@ -74,62 +83,86 @@ const SearchForm = () => {
     type: Yup.string()
   });
   return (
-    <>
-      <section style={theme()}>
-        <div>{feedback}</div>
-        <Formik
-          validationSchema={searchValidationSchema}
-          onSubmit={handleSubmit}
-          initialValues={{
-            status: "",
-            amount: "",
-            reference: "",
-            transaction_type: "",
-            from: "",
-            to: ""
-          }}
-        >
-          {formProps => {
-            return (
-              <>
-                <Form className="search_form">
+    <section className="search-section" style={styles}>
+      <div>{feedback}</div>
+      <Formik
+        validationSchema={searchValidationSchema}
+        onSubmit={handleSubmit}
+        initialValues={{
+          status: "",
+          amount: "",
+          reference: "",
+          transaction_type: "",
+          from: new Date("1/1/2019"),
+          to: new Date()
+        }}
+      >
+        {formProps => {
+          return (
+            <>
+              <Form className="search_form">
+                <div className="option">
                   <div className="status">
-                    <label>
-                      <input
-                        type="radio"
-                        name="status"
-                        value="success"
-                        checked={formProps.values.status === "success"}
-                        onChange={() =>
-                          formProps.setFieldValue("status", "success")
-                        }
-                      />
-                      Successful
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="test"
-                        value="failed"
-                        checked={formProps.values.status === "failed"}
-                        onChange={() =>
-                          formProps.setFieldValue("status", "failed")
-                        }
-                      />
-                      Failed
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="test"
-                        value="failed"
-                        checked={formProps.values.status === ""}
-                        onChange={() => formProps.setFieldValue("status", "")}
-                      />
-                      Both
-                    </label>
+                    <div
+                      className="status_option success"
+                      onClick={() => {
+                        formProps.setFieldValue("status", "success");
+                      }}
+                    >
+                      <label>
+                        <input
+                          type="radio"
+                          name="status"
+                          value="success"
+                          checked={formProps.values.status === "success"}
+                          onChange={() =>
+                            formProps.setFieldValue("status", "success")
+                          }
+                        />
+                        Successful
+                      </label>
+                    </div>
+                    <div
+                      className="status_option failure"
+                      onClick={() => {
+                        formProps.setFieldValue("status", "failed");
+                      }}
+                    >
+                      <label>
+                        <input
+                          type="radio"
+                          name="test"
+                          value="failed"
+                          checked={formProps.values.status === "failed"}
+                          onChange={() =>
+                            formProps.setFieldValue("status", "failed")
+                          }
+                        />
+                        Failed
+                      </label>
+                    </div>
+                    <div
+                      className="status_option both"
+                      onClick={() => {
+                        formProps.setFieldValue("status", "");
+                      }}
+                    >
+                      <label>
+                        <input
+                          type="radio"
+                          name="test"
+                          value="failed"
+                          checked={formProps.values.status === ""}
+                          onChange={() => formProps.setFieldValue("status", "")}
+                        />
+                        Both
+                      </label>
+                    </div>
                   </div>
+                </div>
+                <div className="option">
                   <div className="dual">
+                    <span>Amount</span>
                     <Field type="number" name="amount" placeholder="0.00" />
                     <ErrorMessage
                       name="amount"
@@ -137,6 +170,7 @@ const SearchForm = () => {
                     />
                   </div>
                   <div>
+                    <span>Type</span>
                     <select
                       name="transaction_type"
                       onChange={formProps.handleChange}
@@ -146,16 +180,17 @@ const SearchForm = () => {
                           : "Transaction type"
                       }
                     >
-                      <option value="" label="Select transaction type" />
+                      <option value="" label="All" />
                       <option value="Internal" label="Internal" />
                       <option value="deposit" label="Deposit" />
                     </select>
                     <ErrorMessage
-                      name="type"
+                      name="transaction_type"
                       render={msg => <div className="error">{msg}</div>}
                     />
                   </div>
                   <div className="dual">
+                    <span>Reference</span>
                     <Field
                       type="text"
                       name="reference"
@@ -166,6 +201,9 @@ const SearchForm = () => {
                       render={msg => <div className="error">{msg}</div>}
                     />
                   </div>
+                </div>
+                <div className="option">
+                  <div>Transaction period</div>
                   <div>
                     from:
                     <DatePickerField
@@ -183,17 +221,36 @@ const SearchForm = () => {
                     />
                   </div>
                   <div className="btn_c">
-                    <Button dashboard type="submit">
+                    <Button
+                      dashboard
+                      type="submit"
+                      style={{
+                        color: mode === "dark" ? "rgb(0, 201, 182)" : "inherit"
+                      }}
+                    >
                       Search
                     </Button>
+                    <Button
+                      dashboard
+                      type="button"
+                      style={{
+                        color: mode === "dark" ? "rgb(0, 201, 182)" : "inherit"
+                      }}
+                      onClick={e => {
+                        e.preventDefault();
+                        formProps.resetForm();
+                      }}
+                    >
+                      Clear
+                    </Button>
                   </div>
-                </Form>
-              </>
-            );
-          }}
-        </Formik>
-      </section>
-    </>
+                </div>
+              </Form>
+            </>
+          );
+        }}
+      </Formik>
+    </section>
   );
 };
 
