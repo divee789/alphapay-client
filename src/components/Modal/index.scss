@@ -1,12 +1,12 @@
 .modal {
     // height: 30rem;
-    background: #faf8f5;
+    background: #fff;
     padding: 2rem;
-    width: 40%;
+    width: 40rem;
     position: fixed;
     top: 10rem;
-    right: 30%;
-    // max-width: 800px;
+    right: 0;
+    left: 0;
     z-index: 200;
     margin: 0 auto;
     border-radius: 5px;
@@ -15,12 +15,10 @@
 
     @media screen and (max-width:600px) {
         width: 100%;
-        right: 0;
-        top: 4rem;
     }
 
     .close-modal {
-        position: absolute;
+        position: fixed;
         top: 10px;
         right: 10px;
         font-size: 14px;

@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import Button from "../../Button";
+import Button from "../../../../components/Button";
 
-import image1 from "../../../assets/images/image2.jpg";
-import image4 from "../../../assets/images/request-funds.png";
-import Background from "../../../assets/images/contact_bg.jpg";
+import image1 from "../../../../assets/images/image2.jpg";
+import image4 from "../../../../assets/images/request-funds.png";
+import Background from "../../../../assets/images/contact_bg.jpg";
 
 import "./index.scss";
 const Process = () => {

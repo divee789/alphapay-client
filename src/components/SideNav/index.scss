@@ -1,20 +1,20 @@
 @keyframes fadeModalIn {
     0% {
-        transform: translateY(-200px);
+        transform: translateX(-500px);
     }
 
     100% {
-        transform: translateY(0);
+        transform: translateX(0);
     }
 }
 
 @keyframes fadeModalUp {
     0% {
-        transform: translateY(0);
+        transform: translateX(0);
     }
 
     100% {
-        transform: translateY(-250px);
+        transform: translateX(-500px);
     }
 }
 
@@ -28,12 +28,12 @@
     padding: 1.5rem 2rem;
     box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.15);
 
-    &.open-modal {
+    &.open-side_nav {
         animation-name: fadeModalIn;
         animation-duration: 0.5s;
     }
 
-    &.close-modal {
+    &.close-side_nav {
         animation-name: fadeModalUp;
         animation-duration: 0.5s;
     }

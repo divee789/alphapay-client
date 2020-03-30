@@ -189,18 +189,6 @@ const SearchForm = () => {
                       render={msg => <div className="error">{msg}</div>}
                     />
                   </div>
-                  <div className="dual">
-                    <span>Reference</span>
-                    <Field
-                      type="text"
-                      name="reference"
-                      placeholder="Transaction reference"
-                    />
-                    <ErrorMessage
-                      name="reference"
-                      render={msg => <div className="error">{msg}</div>}
-                    />
-                  </div>
                 </div>
                 <div className="option">
                   <div>Transaction period</div>
@@ -218,6 +206,20 @@ const SearchForm = () => {
                       name="to"
                       value={formProps.values.to}
                       onChange={formProps.setFieldValue}
+                    />
+                  </div>
+                </div>
+                <div className="option">
+                  <div className="dual">
+                    <span>Reference</span>
+                    <Field
+                      type="text"
+                      name="reference"
+                      placeholder="Transaction reference"
+                    />
+                    <ErrorMessage
+                      name="reference"
+                      render={msg => <div className="error">{msg}</div>}
                     />
                   </div>
                   <div className="btn_c">

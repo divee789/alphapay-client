@@ -24,6 +24,12 @@
     .solution_text {
         width: 40%;
         margin: 0 auto;
+        margin-bottom: 1rem;
+    }
+
+    span {
+        color: #FC199B;
+        font-family: Sailec;
     }
 
     form {
@@ -39,7 +45,7 @@
 
         @media screen and (max-width:600px) {
             flex-direction: column;
-            width: 80%;
+            width: 90%;
             margin: 0 auto;
             padding: unset;
         }
@@ -58,6 +64,7 @@
 
             @media screen and (max-width:600px) {
                 width: 100%;
+                margin-bottom: 10px;
             }
 
             &:focus {
@@ -86,8 +93,11 @@
             }
 
             @media screen and (max-width:600px) {
-                width: 100%;
+                width: 95%;
                 max-width: unset;
+                margin-bottom: 10px;
+                font-weight: bold;
+                font-family: Sailec;
             }
         }
     }
@@ -107,7 +117,7 @@
     }
 
     .solution_header {
-        background-image: url('../../../assets/images/back.png');
+        background-image: url('../../../../assets/images/back.png');
         background-size: cover;
         background-repeat: no-repeat;
         padding-bottom: 30rem;

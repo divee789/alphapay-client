@@ -29,23 +29,47 @@
 
 }
 
-.two_fa {
-    margin: 0 auto;
-    margin-top: 5rem;
+.security-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 90%;
+    margin: 0 auto;
+    margin-top: 3rem;
 
-    p {
-        width: 70%;
-    }
+    .two_fa {
+        width: 40%;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 20rem;
+        transition: all 0.6s;
+        text-align: center;
+        margin-bottom: 20px;
+        box-shadow: 26px 4px 6px rgba(50, 50, 93, 0.11), 1px 1px 23px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
+        padding: 2rem;
 
-    button {
+        button {
+            width: 100%;
+        }
 
-        width: 70%;
-        padding: 1rem 0;
-        height: unset;
-        font-size: 15px;
-        text-transform: uppercase;
-        font-family: firma-bold;
+        p {
+            width: 80%;
+            font-size: 13px;
+        }
+
+        &:hover {
+            transform: translateY(2px);
+
+        }
+
+        img {
+            height: 100px;
+            width: auto;
+        }
     }
 }
 
@@ -69,12 +93,10 @@
         }
     }
 
-    .two_fa {
-        p {
-            width: 100%;
-        }
+    .security-options {
+        flex-direction: column;
 
-        button {
+        .two_fa {
             width: 100%;
         }
     }

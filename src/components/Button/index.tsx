@@ -1,9 +1,12 @@
 import React from 'react';
+import {useSelector} from 'react-redux' 
 
 import './index.scss'
 
 
 const Button = (props: any) => {
+
+    const {mode} = useSelector((state:any)=>state.ui)
 
     let style: any
 
@@ -16,8 +19,8 @@ const Button = (props: any) => {
 
     if (props.dashboard) {
         style = {
-            backgroundColor: 'rgba(71, 212, 82, 0.103)',
-            color: '#0a2e65',
+            backgroundColor: 'rgba(71, 212, 82, 0.303)',
+            color: mode === 'dark'?'white':'#0a2e65',
             fontWeight: '800',
             fontFamily: 'Sailec'
         }

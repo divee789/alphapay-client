@@ -12,48 +12,70 @@ const Transaction = ({ transaction }) => {
           <>
             <div>
               <p>
-                status: <span>{transaction.status}</span>
+                Status: <span>{transaction.status}</span>
               </p>
+            </div>
+            <div>
               <p>
-                amount: <span>{transaction.amount}</span>
+                Amount: <span>{transaction.amount}</span>
               </p>
-              <p>narration:</p>
-              <p className="span">{transaction.narration}</p>
+            </div>
+            <div>
               <p>
-                recipient:{" "}
+                Reference: <span>{transaction.reference}</span>
+              </p>
+            </div>
+            <div>
+              <p>
+                Recipient:{" "}
                 <span>
                   {transaction.recipient.first_name}{" "}
                   {transaction.recipient.last_name}
                 </span>
               </p>
+            </div>
+            <div>
               <p>
-                recipient-email: <span>{transaction.recipient.email}</span>
-              </p>
-              <p>
-                recipient-phone_number:{" "}
-                <span>{transaction.recipient.phone_number}</span>
+                Recipient-email: <span>{transaction.recipient.email}</span>
               </p>
             </div>
             <div>
               <p>
-                Date:{" "}
-                <span>{dayjs(transaction.createdAt).format("D MMM YYYY")}</span>
+                Recipient-phone_number:{" "}
+                <span>{transaction.recipient.phone_number}</span>
               </p>
+            </div>
+
+            <div>
               <p>
-                Time:{" "}
+                Transaction-type: <span>{transaction.transaction_type}</span>
+              </p>
+            </div>
+
+            <div>
+              <p>
+                Date:{" "}
+                <span>{dayjs(transaction.createdAt).format("D MMM YYYY")}</span>{" "}
                 <span>{dayjs(transaction.createdAt).format("h:mm:ss a")}</span>
               </p>
-              <div>
-                <h3>Deposits</h3>
-                <p>
-                  Processor: <span>{transaction.processor}</span>
-                </p>
-                <p>
-                  Processor_reference:{" "}
-                  <span>{transaction.processor_reference}</span>
-                </p>
-              </div>
             </div>
+            {transaction.processor && (
+              <>
+                <div>
+                  <p>
+                    Processor: <span>{transaction.processor || "korapay"}</span>
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    Processor_reference:{" "}
+                    <span>
+                      {transaction.processor_reference || "kp-uyeueieiei"}
+                    </span>
+                  </p>
+                </div>
+              </>
+            )}
           </>
         )}
       </div>
