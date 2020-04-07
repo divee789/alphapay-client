@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
-import "./index.scss";
+import './index.scss';
 
 const Transaction = ({ transaction }) => {
   return (
@@ -27,10 +27,9 @@ const Transaction = ({ transaction }) => {
             </div>
             <div>
               <p>
-                Recipient:{" "}
+                Recipient:{' '}
                 <span>
-                  {transaction.recipient.first_name}{" "}
-                  {transaction.recipient.last_name}
+                  {transaction.recipient.first_name} {transaction.recipient.last_name}
                 </span>
               </p>
             </div>
@@ -41,8 +40,7 @@ const Transaction = ({ transaction }) => {
             </div>
             <div>
               <p>
-                Recipient-phone_number:{" "}
-                <span>{transaction.recipient.phone_number}</span>
+                Recipient-phone_number: <span>{transaction.recipient.phone_number}</span>
               </p>
             </div>
 
@@ -54,24 +52,20 @@ const Transaction = ({ transaction }) => {
 
             <div>
               <p>
-                Date:{" "}
-                <span>{dayjs(transaction.createdAt).format("D MMM YYYY")}</span>{" "}
-                <span>{dayjs(transaction.createdAt).format("h:mm:ss a")}</span>
+                Date: <span>{dayjs(transaction.createdAt).format('D MMM YYYY')}</span>{' '}
+                <span>{dayjs(transaction.createdAt).format('h:mm:ss a')}</span>
               </p>
             </div>
             {transaction.processor && (
               <>
                 <div>
                   <p>
-                    Processor: <span>{transaction.processor || "korapay"}</span>
+                    Processor: <span>{transaction.processor || 'korapay'}</span>
                   </p>
                 </div>
                 <div>
                   <p>
-                    Processor_reference:{" "}
-                    <span>
-                      {transaction.processor_reference || "kp-uyeueieiei"}
-                    </span>
+                    Processor_reference: <span>{transaction.processor_reference}</span>
                   </p>
                 </div>
               </>

@@ -6,7 +6,8 @@ const initialState = {
     wallet: null,
     processing: false,
     error: null,
-    fund_processing: false
+    fund_processing: false,
+    notifications:null
 }
 
 const walletReducer = (state = initialState, action: any) => {
@@ -51,6 +52,11 @@ const walletReducer = (state = initialState, action: any) => {
                 fund_processing: false,
                 error: null
             };
+            case actionTypes.walletConstants.SET_NOTIFICATIONS:
+                return{
+                    ...state,
+                    notifications:action.notifications
+                }
         default:
             return state;
     }

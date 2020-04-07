@@ -1,27 +1,27 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import $ from "jquery";
-import { useSelector } from "react-redux";
-import Button from "../Button";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import $ from 'jquery';
+import { useSelector } from 'react-redux';
+import Button from '../Button';
 
-import Close from "../../assets/images/close.png";
-import "./index.scss";
+import Close from '../../assets/images/close.png';
+import './index.scss';
 
 const SideNav = ({ isActive, onClose }: any) => {
   const { isAuth } = useSelector((state: any) => state.auth);
 
   const handleOnClose = () => {
-    $(".sidenav_container").addClass("close-side_nav");
+    $('.sidenav_container').addClass('close-side_nav');
     setTimeout(() => {
       onClose();
     }, 500);
   };
 
-  const link = isAuth ? "/dashboard/overview" : "/auth/login";
-  const text = isAuth ? "My Dashboard" : "Log In";
+  const link = isAuth ? '/dashboard/overview' : '/auth/login';
+  const text = isAuth ? 'My Dashboard' : 'Log In';
 
   return isActive ? (
-    <div className={`sidenav_container ${isActive ? "open-side_nav" : ""}`}>
+    <div className={`sidenav_container ${isActive ? 'open-side_nav' : ''}`}>
       <div className="sidenav_content">
         <ul className="menu_list">
           <li>

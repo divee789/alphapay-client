@@ -1,15 +1,13 @@
 import React from 'react';
 
-import './index.scss'
+import './index.scss';
 
 const Utilities: React.FC = () => {
+  return (
+    <>
+      <p>Pay Bills,Buy Airtime</p>
+    </>
+  );
+};
 
-
-    return (
-        <>
-            <p>Pay Bills,Buy Airtime</p>
-        </>
-    )
-}
-
-export default Utilities
+export default Utilities;

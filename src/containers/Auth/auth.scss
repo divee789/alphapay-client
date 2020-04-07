@@ -52,8 +52,8 @@
         word-wrap: break-word;
         background-color: #fff;
         background-clip: border-box;
-        border: 1px solid rgba(0, 0, 0, .125);
-        border-radius: .25rem;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
         padding: 3rem 1.5rem;
 
         h2 {
@@ -65,7 +65,7 @@
             font-weight: bold;
             line-height: 1.2;
 
-            @media screen and (max-width:600px) {
+            @media screen and (max-width: 600px) {
                 font-size: 1.3rem;
             }
         }
@@ -77,7 +77,7 @@
             padding: 0 5rem;
             margin-bottom: 1rem;
 
-            @media screen and (max-width:600px) {
+            @media screen and (max-width: 600px) {
                 font-size: 13px;
             }
         }
@@ -86,7 +86,7 @@
             margin-bottom: 2rem;
 
             .error {
-                color: #FC199B;
+                color: #fc199b;
                 // padding: 10px 5px;
                 // border: 3px solid red;
                 // background-color: rgba(165, 78, 78, 0.5);
@@ -100,21 +100,21 @@
             display: flex;
             justify-content: space-between;
 
-            @media screen and (max-width:600px) {
+            @media screen and (max-width: 600px) {
                 flex-direction: column;
             }
 
             div {
                 width: 48%;
 
-                @media screen and (max-width:600px) {
+                @media screen and (max-width: 600px) {
                     width: 100%;
                     margin-bottom: 13px;
                 }
             }
 
             .error {
-                color: #FC199B;
+                color: #fc199b;
                 // padding: 10px 5px;
                 // border: 3px solid red;
                 // background-color: rgba(165, 78, 78, 0.5);
@@ -138,20 +138,18 @@
             color: #495057;
             background-clip: padding-box;
             border: none;
-            border-radius: .25rem;
-            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
-            @media screen and (max-width:600px) {
+            @media screen and (max-width: 600px) {
                 font-size: 14px;
             }
         }
 
-
-
         input:focus {
             color: #495057;
             background-color: #fff;
-            border: 3px solid #FC199B;
+            border: 3px solid #fc199b;
             outline: none;
             // box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
         }
@@ -163,7 +161,7 @@
             p {
                 margin-bottom: 3px;
 
-                @media screen and (max-width:600px) {
+                @media screen and (max-width: 600px) {
                     font-size: 13px;
                 }
             }
@@ -175,24 +173,21 @@
                 margin: 0 auto;
                 margin-top: 4px;
                 margin-bottom: 3rem;
-                background-color: #0A2472;
+                background-color: #0a2472;
                 color: white !important;
                 width: 70%;
                 border: none;
                 border-radius: 5px;
-
             }
 
             div {
-                margin-top: .5rem;
+                margin-top: 0.5rem;
             }
         }
-
     }
 }
 
-
-@media screen and (max-width:600px) {
+@media screen and (max-width: 600px) {
     .page_content {
         .form {
             p {

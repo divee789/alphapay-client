@@ -1,70 +1,70 @@
-import React from "react";
+import React from 'react';
 
-import ScrollToTop from "../../components/ScrollToTop";
-import Navbar from "../../components/NavBar/newBar";
-import Button from "../../components/Button";
-import Contact from "../Home/components/Contact";
-import Footer from "../Home/components/Footer";
-import { Player } from "video-react";
-import theme from "../../components/Theme";
+import ScrollToTop from '../../components/ScrollToTop';
+import Navbar from '../../components/NavBar/newBar';
+import Button from '../../components/Button';
+import Contact from '../Home/components/Contact';
+import Footer from '../Home/components/Footer';
+import { Player } from 'video-react';
+import theme from '../../components/Theme';
 
-import image1 from "../../assets/images/mart.jpg";
-import image2 from "../../assets/images/work1.jpg";
-import image3 from "../../assets/images/work2.jpg";
-import image5 from "../../assets/images/work4.jpg";
-import clock from "../../assets/images/clock.png";
+import image1 from '../../assets/images/mart.jpg';
+import image2 from '../../assets/images/work1.jpg';
+import image3 from '../../assets/images/work2.jpg';
+import image5 from '../../assets/images/work4.jpg';
+import clock from '../../assets/images/clock.png';
 
-import "./index.scss";
+import './index.scss';
 
 const positions = [
   {
     id: 1,
-    title: "React Developer",
-    address: "Lekki,Lagos",
+    title: 'React Developer',
+    address: 'Lekki,Lagos',
     text:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt",
-    time: "11 hours ago"
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt',
+    time: '11 hours ago',
   },
   {
     id: 2,
-    title: "React Developer",
-    address: "Lekki,Lagos",
+    title: 'React Developer',
+    address: 'Lekki,Lagos',
     text:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt",
-    time: "11 hours ago"
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt',
+    time: '11 hours ago',
   },
   {
     id: 3,
-    title: "React Developer",
-    address: "Lekki,Lagos",
+    title: 'React Developer',
+    address: 'Lekki,Lagos',
     text:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt",
-    time: "11 hours ago"
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt',
+    time: '11 hours ago',
   },
   {
     id: 4,
-    title: "React Developer",
-    address: "Lekki,Lagos",
+    title: 'React Developer',
+    address: 'Lekki,Lagos',
     text:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt",
-    time: "11 hours ago"
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt',
+    time: '11 hours ago',
   },
   {
     id: 5,
-    title: "React Developer",
-    address: "Lekki,Lagos",
+    title: 'React Developer',
+    address: 'Lekki,Lagos',
     text:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt",
-    time: "11 hours ago"
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt',
+    time: '11 hours ago',
   },
   {
     id: 6,
-    title: "React Developer",
-    address: "Lekki,Lagos",
+    title: 'React Developer',
+    address: 'Lekki,Lagos',
     text:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt",
-    time: "11 hours ago"
-  }
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt',
+    time: '11 hours ago',
+  },
 ];
 
 interface Position {
@@ -90,9 +90,8 @@ const Careers = (props: any) => {
               Why <span>alphapay??</span>
             </h2>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa
-              explicabo tenetur in aliquam, modi reprehenderit? Vitae fugit
-              excepturi officiis repellat iusto nesciunt
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa explicabo tenetur in aliquam, modi
+              reprehenderit? Vitae fugit excepturi officiis repellat iusto nesciunt
             </p>
             <div className="video_container">
               <Player>

@@ -1,37 +1,28 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React from 'react';
 
-import Button from "../../../../components/Button";
+import Button from '../../../../components/Button';
 
-import image1 from "../../../../assets/images/image2.jpg";
-import image4 from "../../../../assets/images/request-funds.png";
-import Background from "../../../../assets/images/contact_bg.jpg";
+import image1 from '../../../../assets/images/image2.jpg';
+import image4 from '../../../../assets/images/request-funds.png';
 
-import "./index.scss";
+import './index.scss';
 const Process = () => {
-  const { mode } = useSelector((state: any) => state.ui);
-
-  const styles = {
-    backgroundImage: mode === "light" ? `url(${Background})` : "unset"
-  };
-
   return (
     <>
-      <div className="section_container" style={styles}>
+      <div className="section_container">
         <section className="process">
           <div>
             <h1>The Process</h1>
             <h2>About Our Work</h2>
 
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Voluptatibus, voluptates temporibus alias cumque animi quod sunt
-              officiis vitae dolorem deleniti consequatur quo voluptate culpa
-              odit. Illo fuga distinctio cupiditate dolorem!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, voluptates temporibus alias cumque
+              animi quod sunt officiis vitae dolorem deleniti consequatur quo voluptate culpa odit. Illo fuga distinctio
+              cupiditate dolorem!
             </p>
             <p>
-              quo voluptate culpa odit. Illo fuga distinctio cupiditate dolore
-              quo voluptate culpa odit. Illo fuga distinctio cupiditate dolorem!
+              quo voluptate culpa odit. Illo fuga distinctio cupiditate dolore quo voluptate culpa odit. Illo fuga
+              distinctio cupiditate dolorem!
             </p>
 
             <Button colored>Know More</Button>
@@ -49,14 +40,13 @@ const Process = () => {
             <h2>always help you</h2>
 
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Voluptatibus, voluptates temporibus alias cumque animi quod sunt
-              officiis vitae dolorem deleniti consequatur quo voluptate culpa
-              odit. Illo fuga distinctio cupiditate dolorem!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, voluptates temporibus alias cumque
+              animi quod sunt officiis vitae dolorem deleniti consequatur quo voluptate culpa odit. Illo fuga distinctio
+              cupiditate dolorem!
             </p>
             <p>
-              quo voluptate culpa odit. Illo fuga distinctio cupiditate dolore
-              quo voluptate culpa odit. Illo fuga distinctio cupiditate dolorem!
+              quo voluptate culpa odit. Illo fuga distinctio cupiditate dolore quo voluptate culpa odit. Illo fuga
+              distinctio cupiditate dolorem!
             </p>
           </div>
         </section>

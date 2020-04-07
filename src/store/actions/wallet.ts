@@ -71,4 +71,20 @@ export function fund_client_wallet(data: {
     }
 }
 
+export function new_notifications(data:any){
+      function set_notifications(notifications: any) {
+        return { type: actionTypes.walletConstants.SET_NOTIFICATIONS,notifications }
+    }
 
+    return async (dispatch: Dispatch) => {
+        try {
+            await dispatch(set_notifications(data))
+        } catch (error) {
+            console.log(error)
+            if (error instanceof APIServiceError) {
+                console.log('error in getting transaction', error);
+                throw error.response.data;
+            }
+        }
+    }
+}

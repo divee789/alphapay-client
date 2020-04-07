@@ -1,8 +1,7 @@
 export default class APIServiceError {
-  
-  public response:any
+  public response: any;
 
-    constructor(response:any) {
-      this.response = response;
-    }
+  constructor(response: any) {
+    this.response = response;
   }
+}

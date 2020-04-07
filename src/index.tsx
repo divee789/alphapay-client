@@ -2,23 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-//TODO
-//remove react bootstrap from npm packages
-
-
 import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import store from './store'
-
-
-
+import store from './store';
 
 const app = (
-    <Provider store={store}>
-        <App />
-    </Provider>
+  <Provider store={store}>
+    <App />
+  </Provider>
 );
 
 ReactDOM.render(app, document.getElementById('root'));

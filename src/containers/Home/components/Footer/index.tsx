@@ -1,24 +1,24 @@
-import React from "react";
+import React from 'react';
 
-import theme from "../../../../components/Theme";
+import theme from '../../../../components/Theme';
 
-import logo from "../../../../assets/images/alp.png";
+import logo from '../../../../assets/images/alp.png';
 
-import facebook from "../../../../assets/images/facebook.jpg";
-import instagram from "../../../../assets/images/instagram.jpg";
-import skype from "../../../../assets/images/skype.jpg";
-import what from "../../../../assets/images/What.jpg";
+import facebook from '../../../../assets/images/facebook.jpg';
+import instagram from '../../../../assets/images/instagram.jpg';
+import skype from '../../../../assets/images/skype.jpg';
+import what from '../../../../assets/images/What.jpg';
 
-import "./index.scss";
+import './index.scss';
 
 const Footer: React.FC = () => (
   <section
     style={{
       ...theme(),
       zIndex: -99999,
-      position: "relative",
-      paddingTop: "2rem",
-      marginTop: "-5rem"
+      position: 'relative',
+      paddingTop: '2rem',
+      marginTop: '-5rem',
     }}
   >
     <section className="footer">

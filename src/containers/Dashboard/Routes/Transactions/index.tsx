@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import $ from "jquery";
-import { useDispatch, useSelector } from "react-redux";
-import { get_client_transactions } from "../../../../store/actions";
+import React, { useState, useEffect } from 'react';
+import $ from 'jquery';
+import { useDispatch, useSelector } from 'react-redux';
+import { get_client_transactions } from '../../../../store/actions';
 
-import img1 from "../../../../assets/images/newpassword.png";
+import img1 from '../../../../assets/images/newpassword.png';
 
-import Modal from "../../../../components/Modal";
-import Transaction from "../../components/Transaction";
-import TransactionSearch from "../../components/SearchForm";
-import Button from "../../../../components/Button";
+import Modal from '../../../../components/Modal';
+import Transaction from '../../components/Transaction';
+import TransactionSearch from '../../components/SearchForm';
+import Button from '../../../../components/Button';
 
-import Turn from "../../../../components/Loaders/Turning";
+import Turn from '../../../../components/Loaders/Turning';
 
-import "./index.scss";
+import './index.scss';
 
 interface ITransaction {
   _id: string;
@@ -30,9 +30,7 @@ const Transactions: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [transRef, setTransRef] = useState(null);
   const [searchActive, setSearchActive] = useState(false);
-  const { processing, transactions, pager, error } = useSelector(
-    (state: any) => state.transaction
-  );
+  const { processing, transactions, pager, error } = useSelector((state: any) => state.transaction);
   const { mode } = useSelector((state: any) => state.ui);
   let content;
 
@@ -48,13 +46,13 @@ const Transactions: React.FC = () => {
   }, [dispatch]);
 
   const linkStyle = {
-    color: mode === "dark" ? "#00C9B6" : ""
+    color: mode === 'dark' ? '#00C9B6' : '',
   };
 
   const refreshTransactionHandler = async () => {
     try {
       setSearchActive(false);
-      $(".filter-box").slideUp(200);
+      $('.filter-box').slideUp(200);
       await dispatch(get_client_transactions());
     } catch (error) {
       content = <p>There has been an error getting your transactions</p>;
@@ -64,26 +62,26 @@ const Transactions: React.FC = () => {
   const modalHandler = async () => {
     setShowModal(false);
   };
-  const toggleModal = reference => {
+  const toggleModal = (reference) => {
     setTransRef(reference);
     setShowModal(!showModal);
   };
 
-  const switchStatus = status => {
+  const switchStatus = (status) => {
     switch (status) {
-      case "success":
-        return "green";
-      case "failed":
-        return "red";
-      case "processing":
-        return "yellow";
+      case 'success':
+        return 'green';
+      case 'failed':
+        return 'red';
+      case 'processing':
+        return 'yellow';
       default:
-        return "dark-grey";
+        return 'dark-grey';
     }
   };
   if (processing) {
     content = (
-      <div style={{ margin: "5rem 0" }}>
+      <div style={{ margin: '5rem 0' }}>
         <Turn />
       </div>
     );
@@ -92,9 +90,7 @@ const Transactions: React.FC = () => {
   if (error) {
     content = (
       <>
-        <p style={{ textAlign: "center", margin: "5rem 0" }}>
-          {error.response.data.message}
-        </p>
+        <p style={{ textAlign: 'center', margin: '5rem 0' }}>{error.response.data.message}</p>
       </>
     );
   }
@@ -104,10 +100,7 @@ const Transactions: React.FC = () => {
       <div className="no_transaction">
         <img src={img1} alt="no_transactions" />
         <h3>There are no transactions to show</h3>
-        <p>
-          You have not made any transactions yet.When you do,they will be shown
-          here
-        </p>
+        <p>You have not made any transactions yet.When you do,they will be shown here</p>
       </div>
     );
   } else if (transactions && transactions.length > 0) {
@@ -130,15 +123,13 @@ const Transactions: React.FC = () => {
                   toggleModal(transaction);
                 }}
               >
-                <p className={`status ${switchStatus(transaction.status)}`}>
-                  {transaction.status}
-                </p>
+                <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>
                 <p>{transaction.recipient.email}</p>
                 <p>
                   {transaction.amount
                     .toFixed(2)
                     .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </p>
                 <p>{transaction.reference}</p>
                 <p>{transaction.transaction_type}</p>
@@ -150,16 +141,14 @@ const Transactions: React.FC = () => {
                   toggleModal(transaction);
                 }}
               >
-                <p className={`status ${switchStatus(transaction.status)}`}>
-                  {transaction.status}
-                </p>
+                <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>
                 <p>Recipient: {transaction.recipient.email}</p>
                 <p>
-                  Amount:{" "}
+                  Amount:{' '}
                   {transaction.amount
                     .toFixed(2)
                     .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </p>
                 <p>Reference: {transaction.reference}</p>
                 <p>Type: {transaction.transaction_type}</p>
@@ -176,17 +165,17 @@ const Transactions: React.FC = () => {
       <section className="dashboard_transactions">
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginRight: "1.5rem"
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginRight: '1.5rem',
           }}
         >
           <div
             className="refresh_transaction_button"
             onClick={refreshTransactionHandler}
-            style={{ color: mode === "dark" ? "rgb(0, 201, 182)" : "inherit" }}
+            style={{ color: mode === 'dark' ? 'rgb(0, 201, 182)' : 'inherit' }}
           >
             Refresh Transactions
           </div>
@@ -194,11 +183,11 @@ const Transactions: React.FC = () => {
             className="refresh_transaction_button"
             onClick={() => {
               setSearchActive(!searchActive);
-              $(".filter-box").slideToggle(250);
+              $('.filter-box').slideToggle(250);
             }}
-            style={{ color: mode === "dark" ? "rgb(0, 201, 182)" : "inherit" }}
+            style={{ color: mode === 'dark' ? 'rgb(0, 201, 182)' : 'inherit' }}
           >
-            {searchActive ? "Close" : "Search/Filter"}
+            {searchActive ? 'Close' : 'Search/Filter'}
           </div>
         </div>
 

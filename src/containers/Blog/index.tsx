@@ -1,70 +1,70 @@
-import React from "react";
+import React from 'react';
 
-import theme from "../../components/Theme";
-import ScrollToTop from "../../components/ScrollToTop";
-import Navbar from "../../components/NavBar/newBar";
-import Contact from "../Home/components/Contact";
-import Footer from "../Home/components/Footer";
-import "./index.scss";
+import theme from '../../components/Theme';
+import ScrollToTop from '../../components/ScrollToTop';
+import Navbar from '../../components/NavBar/newBar';
+import Contact from '../Home/components/Contact';
+import Footer from '../Home/components/Footer';
+import './index.scss';
 
-import back from "../../assets/images/back.png";
-import blogpic from "../../assets/images/code.jpg";
+import back from '../../assets/images/back.png';
+import blogpic from '../../assets/images/code.jpg';
 
 const blogs = [
   {
     id: 1,
-    title: "A Sufficiently long blog title",
-    author: "Divine Olokor",
-    date: "14 Feb,2020"
+    title: 'A Sufficiently long blog title',
+    author: 'Divine Olokor',
+    date: '14 Feb,2020',
   },
   {
     id: 2,
-    title: "A Sufficiently long blog title",
-    author: "Divine Olokor",
-    date: "14 Feb,2020"
+    title: 'A Sufficiently long blog title',
+    author: 'Divine Olokor',
+    date: '14 Feb,2020',
   },
   {
     id: 3,
-    title: "A Sufficiently long blog title",
-    author: "Divine Olokor",
-    date: "14 Feb,2020"
+    title: 'A Sufficiently long blog title',
+    author: 'Divine Olokor',
+    date: '14 Feb,2020',
   },
   {
     id: 4,
-    title: "A Sufficiently long blog title",
-    author: "Divine Olokor",
-    date: "14 Feb,2020"
+    title: 'A Sufficiently long blog title',
+    author: 'Divine Olokor',
+    date: '14 Feb,2020',
   },
   {
     id: 5,
-    title: "A Sufficiently long blog title",
-    author: "Divine Olokor",
-    date: "14 Feb,2020"
+    title: 'A Sufficiently long blog title',
+    author: 'Divine Olokor',
+    date: '14 Feb,2020',
   },
   {
     id: 6,
-    title: "A Sufficiently long blog title",
-    author: "Divine Olokor",
-    date: "14 Feb,2020"
+    title: 'A Sufficiently long blog title',
+    author: 'Divine Olokor',
+    date: '14 Feb,2020',
   },
   {
     id: 7,
-    title: "A Sufficiently long blog title",
-    author: "Divine Olokor",
-    date: "14 Feb,2020"
+    title: 'A Sufficiently long blog title',
+    author: 'Divine Olokor',
+    date: '14 Feb,2020',
   },
   {
     id: 8,
-    title: "A Sufficiently long blog title",
-    author: "Divine Olokor",
-    date: "14 Feb,2020"
+    title: 'A Sufficiently long blog title',
+    author: 'Divine Olokor',
+    date: '14 Feb,2020',
   },
   {
     id: 9,
-    title: "A Sufficiently long blog title",
-    author: "Divine Olokor",
-    date: "14 Feb,2020"
-  }
+    title: 'A Sufficiently long blog title',
+    author: 'Divine Olokor',
+    date: '14 Feb,2020',
+  },
 ];
 
 interface Blog {
@@ -89,7 +89,7 @@ const Home: React.FC = () => {
             {blogs.map((blog: Blog) => (
               <div className="blog_card" key={blog.id}>
                 <div className="img_container">
-                  <img src={blogpic} alt={"blog_pic"} />
+                  <img src={blogpic} alt={'blog_pic'} />
                 </div>
                 <div className="post">
                   <h3 className="title">{blog.title}</h3>

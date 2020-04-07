@@ -30,6 +30,7 @@ export const walletConstants = {
     FUND_WALLET_REQUEST: 'FUND_WALLET_REQUEST',
     FUND_WALLET_FAILURE: 'FUND_WALLET_FAILURE',
     FUND_WALLET_SUCCESS: 'FUND_WALLET_SUCCESS',
+    SET_NOTIFICATIONS: 'SET_NOTIFICATIONS'
 }
 
 export const transactionConstants = {

@@ -1,24 +1,22 @@
 import React, { Suspense, useEffect } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { history } from './utils'
+import { history } from './utils';
 import { logout, switch_mode } from './store/actions';
 import Request from './services/api-services';
 import { Storage } from './services/storage-services';
-import decode from 'jwt-decode'
-import SwitchC from 'react-switch'
+import decode from 'jwt-decode';
+import SwitchC from 'react-switch';
 
-import Landing from './containers/Home'
-import Blog from './containers/Blog'
-import Careers from './containers/Careers'
-import NotFound from './containers/404'
-import Loading from './components/Loading'
-import VerifyEmail from './containers/Auth/verifyEmail'
-import PasswordReset from './containers/Auth/ForgotPassword'
-import PasswordConfirmation from './containers/Auth/ForgotPassword/PasswordReset'
-import './App.scss'
-
-
+import Landing from './containers/Home';
+import Blog from './containers/Blog';
+import Careers from './containers/Careers';
+import NotFound from './containers/404';
+import Loading from './components/Loading';
+import VerifyEmail from './containers/Auth/verifyEmail';
+import PasswordReset from './containers/Auth/ForgotPassword';
+import PasswordConfirmation from './containers/Auth/ForgotPassword/PasswordReset';
+import './App.scss';
 
 const Signup = React.lazy(() => {
   return import('./containers/Auth/Signup');
@@ -33,16 +31,13 @@ const Dashboard = React.lazy(() => {
 
 const api = new Request(process.env.BASE_URL);
 
-
 const App = (props: any) => {
   const dispatch = useDispatch();
   const { isAuth, user } = useSelector((state: any) => state.auth);
-  const { mode, checked } = useSelector((state: any) => state.ui)
+  const { mode, checked } = useSelector((state: any) => state.ui);
   // const [check, setCheck] = useState(mode === 'light' ? false : true)
 
-
   useEffect(() => {
-
     const token = Storage.checkAuthentication();
     if (token) {
       const decoded: any = decode(token);
@@ -66,50 +61,47 @@ const App = (props: any) => {
         const check2 = async () => {
           //Log out user when he closes the browser or browser tab
           if (sessionStorage.getItem('logged') !== 'success') {
-            await dispatch(logout())
+            await dispatch(logout());
           }
           // log out user if access_token is expired
-          let isLoggedIn = api.isloggedIn()
+          let isLoggedIn = api.isloggedIn();
           if (!isLoggedIn) {
-            console.log(isAuth)
-            await dispatch(logout())
+            console.log(isAuth);
+            await dispatch(logout());
           }
-        }
-        check2()
+        };
+        check2();
       }
-
     } else {
-      dispatch(logout())
+      dispatch(logout());
     }
-
-  }, [dispatch, isAuth])
+  }, [dispatch, isAuth]);
 
   const toggleTheme = async (value) => {
-
     if (mode === 'light') {
       // setCheck(true)
-      dispatch(switch_mode('dark'))
+      dispatch(switch_mode('dark'));
     } else {
       // setCheck(false)
-      dispatch(switch_mode('light'))
+      dispatch(switch_mode('light'));
     }
-  }
-  console.log('auth status', isAuth)
+  };
+  console.log('auth status', isAuth);
 
   let routes = (
     <Router history={history}>
       <Switch>
         <Route exact path="/" component={Landing} />
-        <Route path='/blog' component={Blog} />
-        <Route path='/careers' component={Careers} />
-        <Route path="/auth/login" render={props => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
-        <Route path="/auth/signup" render={props => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />
-        <Route path='/auth/verify_email' component={VerifyEmail} />
-        <Route path='/auth/password_reset_request' component={PasswordReset} />
-        <Route path='/auth/password_reset/:token' component={PasswordConfirmation} />
-        <Route path={`/dashboard`} render={props => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
+        <Route path="/blog" component={Blog} />
+        <Route path="/careers" component={Careers} />
+        <Route path="/auth/login" render={(props) => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
+        <Route path="/auth/signup" render={(props) => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />
+        <Route path="/auth/verify_email" component={VerifyEmail} />
+        <Route path="/auth/password_reset_request" component={PasswordReset} />
+        <Route path="/auth/password_reset/:token" component={PasswordConfirmation} />
+        <Route path={`/dashboard`} render={(props) => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
         <Route path="/404" component={NotFound} />
-        <Redirect to='/404' />
+        <Redirect to="/404" />
       </Switch>
     </Router>
   );
@@ -121,9 +113,7 @@ const App = (props: any) => {
         <SwitchC onChange={toggleTheme} checked={checked} />
       </div>
     </>
-
   );
 };
 
 export default App;
-
