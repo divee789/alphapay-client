@@ -1,0 +1,84 @@
+@keyframes fadeBarIn {
+    0% {
+        transform: translateX(25rem);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeBarOut {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(25rem);
+    }
+}
+
+@keyframes fadeBarInM {
+    0% {
+        transform: translateX(300px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeBarOutM {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(350px);
+    }
+}
+
+.notifications_container {
+    width: 25rem;
+    height: 100vh;
+    position: absolute;
+    z-index: 9999;
+    top: 0;
+    right: 0;
+    background-color: rgb(255, 255, 255);
+    padding: 4rem 1rem;
+    box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.15);
+
+    @media screen and (max-width:600px) {
+        width: 95%;
+    }
+
+    &.open-modal {
+        animation-name: fadeBarIn;
+        animation-duration: 0.5s;
+    }
+
+    &.close-modal {
+        animation-name: fadeBarOut;
+        animation-duration: 0.5s;
+
+        @media screen and (max-width:600px) {
+            animation-name: fadeBarOutM;
+        }
+    }
+
+    .notification_content {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 5rem;
+        width: 100%;
+    }
+
+    .close-btn {
+        align-self: flex-start;
+        padding: 0;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+    }
+}

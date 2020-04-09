@@ -1,4 +1,4 @@
-import { getRandomString } from '../utils/misc';
+import { getRandomString } from '../utils/tools';
 
 export const payWithKorapay = async (values: any, success, failure) => {
   window.Korapay.initialize({

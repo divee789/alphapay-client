@@ -67,7 +67,9 @@ const Security = (props: any) => {
       console.log('password error', error);
       if (error.response.status === 409) {
         setFeedback('Your password is invalid');
+        return;
       }
+      setFeedback2(error.response.data.message);
     }
   };
 

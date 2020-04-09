@@ -56,7 +56,6 @@ const SearchForm = () => {
 
     for (var property in values) {
       if (typeof values[property] === 'string' && values[property].length === 0) {
-        console.log('empty', data, property);
         delete data[property];
         if (property === 'from' || property === 'to') {
           delete data['date'];

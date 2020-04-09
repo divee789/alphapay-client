@@ -362,8 +362,52 @@ export default class APIRequest {
     };
   };
 
+  makeNotifications = async (data: any) => {
+    const res = await this.instance.post('/api/v1/transfer/notifications', data);
+    if (res.data.success === true) {
+      return {
+        message: res.data.message,
+      };
+    }
+    return {
+      error: true,
+      message: res.data.message,
+    };
+  };
+
+  getNotifications = async () => {
+    const res = await this.instance.get('/api/v1/transfer/notifications');
+    console.log(res.data);
+    if (res.data.success === true) {
+      return {
+        notifications: res.data.notifications,
+        message: res.data.message,
+      };
+    }
+    return {
+      error: true,
+      message: res.data.message,
+    };
+  };
+
+  deleteNotification = async (id) => {
+    const res = await this.instance.delete('/api/v1/transfer/notifications/' + id);
+    if (res.data.success === true) {
+      return {
+        message: res.data.message,
+      };
+    }
+    return {
+      error: true,
+      message: res.data.message,
+    };
+  };
+
   setTransactionPin = async (data: any): Promise<{ message: string; wallet?: any }> => {
-    const walletRes = await this.instance.post('/api/v1/wallet/activation', data);
+    const body = {
+      transaction_pin: data.transaction_pin,
+    };
+    const walletRes = await this.instance.post('/api/v1/wallet/activation', body);
     const response = walletRes.data;
     if (response.success === true) {
       return {

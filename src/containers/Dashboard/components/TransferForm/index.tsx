@@ -10,6 +10,7 @@ import Button from '../../../../components/Button';
 import img1 from '../../../../assets/images/quick-and-easy.jpg';
 
 const request = new Api(process.env.REACT_APP_STAGING);
+
 //Wallet reducer
 function success(wallet: Wallet) {
   return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet };
@@ -108,7 +109,7 @@ const TransferForm = (props) => {
                 <div>
                   <p>PLEASE PROVIDE YOUR TRANSACTION PIN</p>
                   <div className="con">
-                    <Field type="text" name="pin" placeholder="1111" style={linkStyle} />
+                    <Field type="number" name="pin" placeholder="1111" style={linkStyle} />
                   </div>
                   <ErrorMessage name="pin" render={(msg) => <div className="error">{msg}</div>} />
                 </div>

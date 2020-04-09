@@ -4,6 +4,9 @@ import Pusher from 'pusher-js';
 import { Route, Switch, Redirect, useRouteMatch, NavLink, withRouter } from 'react-router-dom';
 import { Wallet } from '../../store/types';
 import * as actionTypes from '../../store/actions/actionTypes';
+import { get_client_wallet, new_notifications } from '../../store/actions/wallet';
+import { logout } from '../../store/actions';
+import API from '../../services/api-services';
 
 import Logo from '../../assets/images/alp.png';
 import Notify from '../../assets/images/dashboard/bxs-bell.png';
@@ -22,19 +25,20 @@ import Utilities from './Routes/Utilities';
 import Setting from './Routes/Setting';
 import Loading from '../../components/Loading';
 import SideBar from './components/SideBar';
-import { get_client_wallet, new_notifications } from '../../store/actions/wallet';
-import { logout } from '../../store/actions';
+import NotificationBar from './components/Notifications';
 
 import './index.scss';
-import dayjs from 'dayjs';
 
 //Wallet reducer
 function success(wallet: Wallet) {
   return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet };
 }
 
+const Request = new API(process.env.REACT_APP_STAGING);
+
 const Dashboard = (props: any) => {
   const [sidebarOpen, setSideBarOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
 
   const dispatch = useDispatch();
   const { user } = useSelector((state: any) => state.auth);
@@ -47,22 +51,22 @@ const Dashboard = (props: any) => {
   });
 
   useEffect(() => {
-    const transfer_channel = pusher.subscribe('alphapay');
-    transfer_channel.bind(
-      `${user._id}-transfer`,
-      async (data) => {
-        console.log('pusher working', data.notification_data);
-        await dispatch(success(data.notification_data.wallet));
-        await dispatch(
-          new_notifications(
-            `Your wallet was credited by ${data.notification_data.sender} on ${dayjs(
-              data.notification_data.date,
-            ).format('D MMM YYYY')}`,
-          ),
-        );
-      },
-      this,
-    );
+    const notification = async () => {
+      const transfer_channel = pusher.subscribe('alphapay');
+      console.log('notifications', notifications);
+      transfer_channel.bind(
+        `${user._id}-transfer`,
+        async (data) => {
+          console.log('pusher working', data.notification_data);
+          await dispatch(success(data.notification_data.wallet));
+          delete data.notification_data.wallet;
+          await Request.makeNotifications({ ...data.notification_data, beneficiary: user.phone_number });
+          await dispatch(new_notifications());
+        },
+        this,
+      );
+      await dispatch(new_notifications());
+    };
     const check = async () => {
       try {
         await dispatch(get_client_wallet());
@@ -72,8 +76,22 @@ const Dashboard = (props: any) => {
       }
     };
     check();
+    notification();
   }, [dispatch]);
   let { path, url } = useRouteMatch();
+
+  const logOutHandler = async (e) => {
+    e.preventDefault();
+    await dispatch(logout(user.email));
+    props.history.push('/');
+  };
+
+  const deleteNotification = async (id) => {
+    console.log(id);
+    const res = await Request.deleteNotification(id);
+    console.log(res);
+    await dispatch(new_notifications());
+  };
 
   const styles = {
     background: mode === 'dark' ? '#011627' : 'unset',
@@ -88,16 +106,16 @@ const Dashboard = (props: any) => {
     return <Loading />;
   }
 
-  const logOutHandler = async (e) => {
-    e.preventDefault();
-    await dispatch(logout(user.email));
-    props.history.push('/');
-  };
-
   return (
     <>
       <section className="dashboard_main" style={styles}>
         <SideBar isActive={sidebarOpen} onClose={() => setSideBarOpen(false)} url={url} logOutHandler={logOutHandler} />
+        <NotificationBar
+          isActive={notificationOpen}
+          onClose={() => setNotificationOpen(false)}
+          notifications={notifications}
+          remove={deleteNotification}
+        />
 
         <div className="menu">
           <div
@@ -153,7 +171,14 @@ const Dashboard = (props: any) => {
             </div>
 
             <div className="profile_details">
-              <img src={notifications ? not : Notify} className="bell" alt="notifications" />
+              <img
+                src={notifications ? not : Notify}
+                onClick={() => {
+                  setNotificationOpen(true);
+                }}
+                className="bell"
+                alt="notifications"
+              />
               <img
                 src={
                   user.profile_image

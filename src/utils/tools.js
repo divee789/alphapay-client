@@ -1,11 +1,12 @@
 
-import crypto from 'crypto'
+import crypto from 'crypto';
+
 
 /**
  * Generate Random Safe Bytes
  * @param length;
  */
-export const safeRandomBytes = (length: number): any => {
+export const safeRandomBytes = (length) => {
     try {
         return crypto.randomBytes(length);
     } catch (e) {
@@ -13,12 +14,13 @@ export const safeRandomBytes = (length: number): any => {
     }
 };
 
+
 /**
-* Generate Random string (alphanumeric, numeric, alphabetic, hex)
-* @param length;
-* @param type;
-*/
-export const getRandomString = (_length: number = 15, type: string = 'numeric', prefix: string = 'ALP_'): string => {
+ * Generate Random string (alphanumeric, numeric, alphabetic, hex)
+ * @param length;
+ * @param type;
+ */
+export const getRandomString = (_length = 15, type = 'alphanumeric') => {
     let chars;
     let string = '';
 
@@ -57,5 +59,5 @@ export const getRandomString = (_length: number = 15, type: string = 'numeric', 
         }
     }
 
-    return `${prefix}${string}`;
+    return string;
 };

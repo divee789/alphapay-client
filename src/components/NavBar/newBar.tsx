@@ -39,7 +39,7 @@ const Navbar = (props: any) => {
     top: 0,
   };
   const navStyle: React.CSSProperties = {
-    marginBottom: change ? '15px' : '0',
+    marginBottom: change ? '0' : '0',
     marginTop: change ? 0 : '30px',
     transition: 'all 0.5s',
     paddingTop: change ? 0 : '30px',
