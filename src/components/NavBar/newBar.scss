@@ -57,6 +57,34 @@
     }
 }
 
+@media screen and (min-width:600px) and (max-width:865px) {
+
+    .nav {
+        .nav_items {
+            .nav_item {
+                margin-left: 40px;
+            }
+
+            a {
+                font-size: 11px;
+            }
+        }
+
+        .auth {
+            display: inline-block;
+            margin-left: 50px;
+
+            button {
+                width: 110px;
+
+            }
+
+            a {
+                color: white;
+            }
+        }
+    }
+}
 
 @media screen and (max-width:600px) {
     .nav {

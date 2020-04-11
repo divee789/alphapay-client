@@ -74,6 +74,52 @@
 
 }
 
+
+
+//Tablet styling
+@media screen and (min-width:600px) and (max-width:1000px) {
+    .blog_section {
+        .blog_container {
+            width: 90%;
+
+            .blog_card {
+                .img_container {
+
+                    img {
+                        width: 100%;
+                        height: 125px;
+                        object-fit: cover;
+                    }
+                }
+
+                .post {
+                    padding: 0 1rem;
+
+                    .title {
+                        font-size: 18px;
+                    }
+
+                    .author {
+                        font-size: 11px;
+                    }
+
+                    .text {
+                        font-size: 11px;
+                    }
+
+                    .details {
+                        font-size: 11px;
+                    }
+                }
+
+            }
+        }
+
+    }
+}
+
+
+//mobile styling
 @media screen and (max-width:600px) {
     .blog_section {
         .blog_container {

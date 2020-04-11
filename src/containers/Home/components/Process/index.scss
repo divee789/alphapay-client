@@ -42,6 +42,32 @@
 
 }
 
+
+//Tablet styling
+
+@media screen and (min-width:600px) and (max-width:1200px) {
+    .section_container {
+        .process {
+            width: 80%;
+
+            div {
+                width: 45%;
+
+                h1,
+                h2 {
+                    font-size: 30px;
+                }
+
+                p {
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}
+
+
+//Mobile Styling
 @media screen and (max-width:600px) {
     .section_container {
         .process {
@@ -74,6 +100,5 @@
             flex-direction: column-reverse;
         }
     }
-
 
 }

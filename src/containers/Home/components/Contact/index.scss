@@ -84,6 +84,44 @@
     margin-top: -24rem;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+//====Responsiveness
+
+//Small Laptop/desktop styling
+
+@media screen and (min-width: 1000px) and (max-width:1200px) {
+    .contact_form_section {
+
+        .form {
+            width: 70%;
+        }
+    }
+}
+
+
+//Tablet styling
+@media screen and (min-width:600px) and (max-width:1000px) {
+    .contact_form_section {
+
+        .form {
+            width: 80%;
+            padding: 2rem;
+        }
+    }
+}
+
+
+//Mobile styling
 @media screen and (max-width:600px) {
     .contact_form_section {
 

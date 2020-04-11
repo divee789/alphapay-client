@@ -16,6 +16,9 @@ import Loading from './components/Loading';
 import VerifyEmail from './containers/Auth/verifyEmail';
 import PasswordReset from './containers/Auth/ForgotPassword';
 import PasswordConfirmation from './containers/Auth/ForgotPassword/PasswordReset';
+
+import Moon from './assets/images/moon.png';
+import Sun from './assets/images/idea.png';
 import './App.scss';
 
 const Signup = React.lazy(() => {
@@ -110,7 +113,12 @@ const App = (props: any) => {
     <>
       <Suspense fallback={<Loading />}>{routes}</Suspense>
       <div className="toggle_button">
-        <SwitchC onChange={toggleTheme} checked={checked} />
+        <SwitchC
+          onChange={toggleTheme}
+          checked={checked}
+          uncheckedIcon={<img style={{ width: '100%', height: '100%' }} src={Moon} />}
+          checkedIcon={<img style={{ width: '100%', height: '100%' }} src={Sun} />}
+        />
       </div>
     </>
   );

@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import Request from '../../../services/api-services';
 
 import logo from '../../../assets/images/alp.png';
-
+import back from '../../../assets/images/back.png';
 import Button from '../../../components/Button';
 
 const api = new Request('http://localhost:1000');
@@ -23,6 +23,7 @@ const styles = {
 const PasswordReset: React.FC = (props: any) => {
   const [user, setUser] = useState(null);
   const [feedback, setFeedback] = useState(null);
+  const [err, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const token = props.match.params.token;
@@ -35,6 +36,7 @@ const PasswordReset: React.FC = (props: any) => {
         setLoading(false);
       } catch (error) {
         setFeedback('There has been an issue verifying your identity,please contact support');
+        setError(true);
         console.log(error);
         setLoading(false);
       }
@@ -99,16 +101,21 @@ const PasswordReset: React.FC = (props: any) => {
                       )}
                       <Form className="form">
                         <h2>Password Reset</h2>
-                        <p>Hello {user && user.first_name},please provide a new password for your account</p>
-                        <div className="input-container">
-                          <Field type="password" name="password" placeholder="Password" className="password" />
-                          <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
-                        <div className="input-container btn_container">
-                          <Button disabled={formProps.isSubmitting} colored>
-                            {text}
-                          </Button>
-                        </div>
+                        {err && <p>There has been an issue ,please contact support</p>}
+                        {!err && (
+                          <>
+                            <p>Hello {user && user.first_name},please provide a new password for your account</p>
+                            <div className="input-container">
+                              <Field type="password" name="password" placeholder="Password" className="password" />
+                              <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
+                            </div>
+                            <div className="input-container btn_container">
+                              <Button disabled={formProps.isSubmitting} colored>
+                                {text}
+                              </Button>
+                            </div>
+                          </>
+                        )}
                       </Form>
                     </>
                   );
@@ -117,6 +124,7 @@ const PasswordReset: React.FC = (props: any) => {
             </div>
           </div>
         </div>
+        <img src={back} className="auth_image" alt="header_image" style={{ marginTop: '-50%' }} />
       </section>
     </>
   );

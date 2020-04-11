@@ -82,6 +82,17 @@
 //     background: #f6f9fc;
 // }
 
+//Tablet styling
+@media screen and (min-width:600px) and (max-width:1000px) {
+    .footer {
+        width: 90%;
+        margin-top: 5rem;
+
+    }
+}
+
+
+// mobile styling
 @media screen and (max-width:600px) {
     .footer {
         margin-top: 5rem;

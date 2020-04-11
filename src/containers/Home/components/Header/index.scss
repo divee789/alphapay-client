@@ -111,6 +111,100 @@
     opacity: 0.7;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+//====Responsiveness
+
+//Small Laptop/desktop styling
+
+@media screen and (min-width: 1000px) and (max-width:1200px) {
+    .solution_header {
+
+        h1 {
+            font-size: 40px;
+        }
+
+        .h2 {
+            font-size: 37px;
+        }
+
+        .solution_text {
+            font-size: 13px;
+        }
+    }
+}
+
+// Tablet Styling
+
+@media screen and (min-width:600px) and (max-width:1000px) {
+    .header_image {
+        display: none;
+    }
+
+    .solution_header {
+        background-image: url('../../../../assets/images/back.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding-bottom: 12rem;
+        margin-top: 6.5rem;
+
+        h1 {
+            font-size: 33px;
+            width: 80%;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .h2 {
+            font-size: 30px;
+            width: 80%;
+            margin-top: 1px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .solution_text {
+            width: 65%;
+            font-size: 15px;
+
+        }
+
+        .get-started {
+            width: 100%;
+            margin: 8% auto;
+
+            form {
+                width: 55%;
+
+                .form-group {
+                    width: 90%;
+                }
+
+                input {
+                    padding: 0 inherit;
+                    border-radius: 5px;
+                }
+
+                button {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}
+
+
+// Mobile Styling
+
 @media screen and (max-width:600px) {
     .header_image {
         display: none;

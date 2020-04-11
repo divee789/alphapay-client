@@ -71,6 +71,53 @@
     }
 }
 
+@media screen and (min-width: 1000px) and (max-width:1200px) {
+    .staff_section_container {
+        .staff_section {
+            width: 90%;
+        }
+
+        .card_container {
+            .card {
+
+                h2 {
+                    font-size: 17px;
+                }
+
+                p {
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+}
+
+
+//Tablet Styling
+@media screen and (min-width:600px) and (max-width:1000px) {
+
+    .staff_section_container {
+        .staff_section {
+            width: 90%;
+        }
+
+        .card_container {
+            .card {
+                padding: 1%;
+
+                h2 {
+                    font-size: 17px;
+                }
+
+                p {
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+}
+
+//Mobile styling
 @media screen and (max-width:600px) {
     .staff_section_container {
         .staff_section {
@@ -99,10 +146,6 @@
                     font-size: 13px;
                 }
             }
-        }
-
-        .paginate {
-            display: none;
         }
     }
 }

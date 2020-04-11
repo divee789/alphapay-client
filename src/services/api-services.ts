@@ -10,9 +10,9 @@ import store from '../store';
 let APIBaseURL;
 
 if (process.env.REACT_APP_NODE_ENV === 'development') {
-  APIBaseURL = 'http://localhost:7000';
+  APIBaseURL = process.env.REACT_APP_STAGING;
 } else {
-  APIBaseURL = 'http://157.245.36.216:7000';
+  APIBaseURL = process.env.REACT_APP_SERVER_URL;
 }
 
 export default class APIRequest {
