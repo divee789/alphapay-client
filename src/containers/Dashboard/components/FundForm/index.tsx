@@ -10,6 +10,7 @@ import Button from '../../../../components/Button';
 
 import './index.scss';
 import img1 from '../../../../assets/images/quick-and-easy.jpg';
+import APIServiceError from '../../../../services/error-services';
 
 const request = new Api(process.env.REACT_APP_STAGING);
 
@@ -38,11 +39,11 @@ const FundForm = (props) => {
     document.getElementsByTagName('head')[0].appendChild(script);
   }, []);
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js';
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }, []);
+  // useEffect(() => {
+  //   const script = document.createElement('script');
+  //   script.src = 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js';
+  //   document.getElementsByTagName('head')[0].appendChild(script);
+  // }, []);
   interface FormValues {
     amount: number;
     narration: string;
@@ -57,9 +58,12 @@ const FundForm = (props) => {
     narration: '',
   };
 
-  let text = 'FUND WALLET';
-  if (processing) text = 'Please wait....';
-
+  let text;
+  if (processing) {
+    text = 'Please wait....';
+  } else {
+    text = 'FUND WALLET';
+  }
   const walletValidationSchema = Yup.object().shape({
     amount: Yup.number().required('Please provide the amount you want to inject'),
     pin: Yup.number(),
@@ -84,12 +88,20 @@ const FundForm = (props) => {
             transaction_status: 'success',
             narration: 'hi',
           };
-          console.log(feedback);
-          const res = await request.fundWallet(feedback);
-          console.log('funding', res);
-          setProcessing(false);
-          setMessage(res.message);
-          await dispatch(success(res.wallet));
+          try {
+            const res = await request.fundWallet(feedback);
+            console.log('funding', res);
+            setProcessing(false);
+            setMessage(res.message);
+            await dispatch(success(res.wallet));
+          } catch (error) {
+            if (error instanceof APIServiceError) {
+              setProcessing(false);
+              setMessage(
+                'Oops,it looks like your network is disconnected or our server is down,either way we apologize for the trouble,please contact support as soon as possible and your funds will be sorted out',
+              );
+            }
+          }
         },
         () => {
           setProcessing(false);
@@ -104,9 +116,9 @@ const FundForm = (props) => {
   };
 
   if (message) {
-    setTimeout(function () {
-      setMessage(null);
-    }, 5000);
+    // setTimeout(function () {
+    //   setMessage(null);
+    // }, 5000);
     return (
       <>
         <div className="transfer_feedback">

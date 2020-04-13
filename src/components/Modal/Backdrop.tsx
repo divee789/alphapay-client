@@ -8,7 +8,7 @@ const Backdrop = (props: any) => {
     zIndex: 99,
     left: 0,
     top: 0,
-    background: 'rgba(71, 212, 82, 0.1)',
+    background: 'rgba(0, 0, 0, 0.7)',
   };
 
   return props.show ? <div style={style1} onClick={props.clicked}></div> : null;

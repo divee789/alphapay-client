@@ -1,12 +1,13 @@
 import React, { Suspense, useEffect } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import decode from 'jwt-decode';
+import SwitchC from 'react-switch';
+
 import { history } from './utils';
 import { logout, switch_mode } from './store/actions';
 import Request from './services/api-services';
 import { Storage } from './services/storage-services';
-import decode from 'jwt-decode';
-import SwitchC from 'react-switch';
 
 import Landing from './containers/Home';
 import Blog from './containers/Blog';
@@ -38,7 +39,6 @@ const App = (props: any) => {
   const dispatch = useDispatch();
   const { isAuth, user } = useSelector((state: any) => state.auth);
   const { mode, checked } = useSelector((state: any) => state.ui);
-  // const [check, setCheck] = useState(mode === 'light' ? false : true)
 
   useEffect(() => {
     const token = Storage.checkAuthentication();
@@ -80,16 +80,15 @@ const App = (props: any) => {
     }
   }, [dispatch, isAuth]);
 
-  const toggleTheme = async (value) => {
+  const toggleTheme = async () => {
     if (mode === 'light') {
-      // setCheck(true)
+      Storage.setItem('mode', 'dark');
       dispatch(switch_mode('dark'));
     } else {
-      // setCheck(false)
+      Storage.setItem('mode', 'light');
       dispatch(switch_mode('light'));
     }
   };
-  console.log('auth status', isAuth);
 
   let routes = (
     <Router history={history}>

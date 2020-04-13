@@ -1,7 +1,9 @@
 import React from 'react';
 import $ from 'jquery';
-import Close from '../../../../assets/images/close.png';
 import dayjs from 'dayjs';
+import theme from '../../../../components/Theme';
+import Close from '../../../../assets/images/close.png';
+
 import './index.scss';
 
 const NotificationsBar = ({ isActive, onClose, notifications, remove }) => {
@@ -42,7 +44,7 @@ const NotificationsBar = ({ isActive, onClose, notifications, remove }) => {
 
   return isActive ? (
     <>
-      <div className={`notifications_container ${isActive ? 'open-modal' : ''}`}>
+      <div className={`notifications_container ${isActive ? 'open-modal' : ''}`} style={theme('rgb(255, 255, 255)')}>
         <div className="notifications_content">{content}</div>
         <div className="close-btn" onClick={handleOnClose}>
           <img src={Close} alt="close_icon" />

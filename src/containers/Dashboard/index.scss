@@ -10,8 +10,17 @@
          width: 15rem;
          padding: 2rem;
 
+         @media screen and (min-width:600px) and (max-width:1023px) {
+             width: 4rem;
+             padding: 0;
+         }
+
          .logo {
              cursor: pointer;
+
+             @media screen and (min-width:600px) and (max-width:1023px) {
+                 display: none;
+             }
          }
      }
 
@@ -37,9 +46,7 @@
              align-items: center;
              opacity: 0.8;
              padding: 10px 15px;
-             //  margin: 0 auto;
              margin-bottom: 10px;
-             //  width: 90%;
              transition-property: opacity, background-color;
              transition-duration: 0.2s;
              transition-timing-function: ease;
@@ -48,9 +55,20 @@
              border-radius: 8px;
              font-size: 17px;
 
+             //Tablet styling
+
+             @media screen and (min-width:600px) and (max-width:1023px) {
+                 padding: 0;
+                 margin: 30px auto;
+
+                 span {
+                     display: none;
+                 }
+             }
+
              img {
                  margin-right: 10px;
-               
+
              }
 
              //  &:hover,
@@ -93,8 +111,8 @@
                  .bell {
                      cursor: pointer;
                      margin-right: 20px;
-                       width:30px;
-                 height:30px;
+                     width: 25px;
+                     height: 20px;
                  }
              }
 
@@ -110,6 +128,10 @@
                  font-size: 1rem;
                  font-family: firma;
 
+                 @media screen and (min-width:600px) and (max-width:1023px) {
+                     font-size: 13px;
+                 }
+
                  .img {
                      border-radius: 50%;
                      width: 40px;
@@ -121,8 +143,8 @@
                  .bell {
                      cursor: pointer;
                      margin-right: 20px;
-                       width:30px;
-                 height:30px;
+                     width: 30px;
+                     height: 30px;
                  }
              }
 
@@ -168,6 +190,10 @@
  }
 
 
+
+
+
+ //Mobile styling
  @media screen and (max-width:600px) {
      .dashboard_main {
          .container {

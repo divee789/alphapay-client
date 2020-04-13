@@ -131,26 +131,26 @@ const Dashboard = (props: any) => {
               <div className="sidenav-list">
                 <NavLink to={`${url}/overview`} style={linkStyle}>
                   <img src={im_logo} alt="" />
-                  Overview
+                  <span> Overview</span>
                 </NavLink>
                 <NavLink to={`${url}/cards`} style={linkStyle}>
                   <img src={card_logo} alt="" />
-                  Cards
+                  <span>Cards</span>
                 </NavLink>
                 <NavLink to={`${url}/transactions`} style={linkStyle}>
                   <img src={transact_logo} alt="" />
-                  Transactions
+                  <span>Transactions</span>
                 </NavLink>
                 <NavLink to={`${url}/utilities`} style={linkStyle}>
                   <img src={utils_logo} alt="" />
-                  Utilities
+                  <span>Utilities</span>
                 </NavLink>
                 <NavLink to={`${url}/settings`} style={linkStyle}>
                   <img src={settings} alt="" />
-                  Settings
+                  <span>Settings</span>
                 </NavLink>
                 <a href="#" onClick={logOutHandler} style={linkStyle}>
-                  Log Out
+                  <span>Log Out</span>
                 </a>
               </div>
             </div>

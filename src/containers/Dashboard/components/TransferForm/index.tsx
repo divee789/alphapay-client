@@ -50,7 +50,7 @@ const TransferForm = (props) => {
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
       text = 'Please wait';
-      if (wallet.transaction_pin) {
+      if (wallet && wallet.transaction_pin) {
         setPin(true);
         return;
       }
@@ -62,6 +62,7 @@ const TransferForm = (props) => {
       await dispatch(success(res.wallet));
       // props.close()
     } catch (error) {
+      console.error(error);
       setMessage(error.response.data.message);
       setSubmitting(false);
     }
@@ -148,9 +149,9 @@ const TransferForm = (props) => {
                 <div>
                   <p>WHO DO YOU WANT TO TRANSFER TO?</p>
                   <div className="con">
-                    <Field type="text" name="recipient_phone_number" placeholder="08024110355" style={linkStyle} />
+                    <Field type="number" name="recipient_phone_number" placeholder="08024110355" style={linkStyle} />
                   </div>
-                  <ErrorMessage name="recipient_phone-number" render={(msg) => <div className="error">{msg}</div>} />
+                  <ErrorMessage name="recipient_phone_number" render={(msg) => <div className="error">{msg}</div>} />
                 </div>
                 <div>
                   <p>WHY ARE YOU TRANSFERRING?</p>

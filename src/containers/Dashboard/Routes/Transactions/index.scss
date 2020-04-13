@@ -14,6 +14,14 @@
         margin: 0 auto;
         margin-bottom: 5rem;
 
+        .title {
+            p {
+                @media screen and (min-width:600px) and (max-width:1000px) {
+                    font-size: 10px;
+                }
+            }
+        }
+
         .green {
             color: green;
         }
@@ -53,7 +61,10 @@
             }
 
             p {
-                // border-left: 1px solid black;
+
+                @media screen and (max-width:1000px) {
+                    font-size: 12px;
+                }
             }
         }
 
@@ -97,7 +108,7 @@
     border-radius: 8px;
     font-size: 17px;
 
-    @media screen and (max-width:600px) {
+    @media screen and (max-width:1000px) {
         font-size: 14px;
     }
 }

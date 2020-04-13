@@ -11,7 +11,7 @@
         flex-direction: row;
         justify-content: space-between;
 
-        @media screen and (max-width:600px) {
+        @media screen and (max-width:1024px) {
             flex-direction: column;
         }
 
@@ -20,7 +20,7 @@
             width: 23%;
             font-size: 13px;
 
-            @media screen and (max-width:600px) {
+            @media screen and (max-width:1024px) {
                 width: 100%;
             }
 

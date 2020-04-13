@@ -20,8 +20,6 @@ const Contact: React.FC = (props: any) => {
   });
 
   const handleSubmit = (values: any, { setSubmitting, setErrors }: any) => {
-    alert('hello');
-    console.log('values', values);
     setSubmitting(false);
     return;
   };
@@ -47,7 +45,7 @@ const Contact: React.FC = (props: any) => {
             render={(formProps) => {
               return (
                 <>
-                  <Form className="form" style={theme()}>
+                  <Form className="form" style={theme('white')}>
                     <div className="input_container">
                       <div className="ff">
                         <div className="label">First Name</div>
@@ -98,7 +96,6 @@ const Contact: React.FC = (props: any) => {
           />
         </div>
       </section>
-      {/* <img src={image3} alt="people" className='form-image' /> */}
     </>
   );
 };

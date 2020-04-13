@@ -181,6 +181,48 @@
 }
 
 
+//Tablet styling
+@media screen and (min-width:600px) and (max-width:1000px) {
+    .careers_section {
+        .careers_info {
+            h2 {
+                font-size: 33px;
+            }
+
+            p {
+                width: 70%;
+                font-size: 13px;
+            }
+
+            .video_container {
+                width: 80%;
+            }
+        }
+
+        .life_info {
+            width: 80%;
+        }
+
+        .available_positions {
+            width: 85%;
+
+            .btn_positions {
+                width: 100%;
+            }
+
+            .available_positions_container {
+                flex-direction: column;
+
+                .position_card {
+                    width: 80%;
+                    margin: 0 auto;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}
+
 
 
 

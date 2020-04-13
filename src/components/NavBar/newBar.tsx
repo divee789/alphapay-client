@@ -43,7 +43,6 @@ const Navbar = (props: any) => {
     marginTop: change ? 0 : '30px',
     transition: 'all 0.5s',
     paddingTop: change ? 0 : '30px',
-    backgroundColor: 'unset',
   };
 
   const link = isAuth ? '/dashboard/overview' : '/auth/login';
@@ -51,7 +50,7 @@ const Navbar = (props: any) => {
 
   return (
     <>
-      <div className="nav_container" style={{ ...style, ...theme() }}>
+      <div className="nav_container" style={{ ...style, ...theme('white') }}>
         <nav className="nav" style={navStyle}>
           <div
             className="logo"

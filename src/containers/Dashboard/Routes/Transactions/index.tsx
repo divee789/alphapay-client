@@ -124,7 +124,7 @@ const Transactions: React.FC = () => {
                 }}
               >
                 <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>
-                <p>{transaction.recipient.email}</p>
+                <p>{transaction.recipient.phone_number}</p>
                 <p>
                   {transaction.amount
                     .toFixed(2)
@@ -142,7 +142,7 @@ const Transactions: React.FC = () => {
                 }}
               >
                 <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>
-                <p>Recipient: {transaction.recipient.email}</p>
+                <p>Recipient: {transaction.recipient.phone_number}</p>
                 <p>
                   Amount:{' '}
                   {transaction.amount

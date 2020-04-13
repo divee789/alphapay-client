@@ -64,12 +64,16 @@ const Security = (props: any) => {
           return resetForm();
       }
     } catch (error) {
-      console.log('password error', error);
-      if (error.response.status === 409) {
-        setFeedback('Your password is invalid');
-        return;
+      switch (values.type) {
+        case 'Password':
+          setFeedback(error.response.data.message);
+          if (error.response.status === 409) {
+            setFeedback('Your password is invalid');
+            return;
+          }
+        case 'Transaction':
+          setFeedback2(error.response.data.message);
       }
-      setFeedback2(error.response.data.message);
     }
   };
 
@@ -99,13 +103,12 @@ const Security = (props: any) => {
                         {processing ? 'please wait...' : 'UPDATE PASSWORD'}
                       </Button>
                     </div>
+                    {feedback && <p>{feedback}</p>}
                   </Form>
                 </>
               );
             }}
           />
-
-          {feedback && <p>{feedback}</p>}
         </div>
 
         <div className="transaction_options">

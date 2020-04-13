@@ -40,7 +40,7 @@
     .page_content_container2 {
         flex: 0 0 50%;
         max-width: 50%;
-        margin-left: 25%;
+        margin: 0 auto;
     }
 
     .form {
@@ -187,6 +187,17 @@
     }
 }
 
+//Tablet Styling
+@media screen and (min-width:600px) and (max-width: 1000px) {
+    .page_content {
+        .page_content_container2 {
+            max-width: 70%;
+        }
+    }
+}
+
+
+//Mobile styling
 @media screen and (max-width: 600px) {
     .page_content {
         .form {

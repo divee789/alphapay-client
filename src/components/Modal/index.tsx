@@ -2,9 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import Backdrop from './Backdrop';
-
 import Close from '../../assets/images/close.png';
-
 import './index.scss';
 
 const Modal = (props: any) => {
@@ -13,10 +11,8 @@ const Modal = (props: any) => {
   const linkStyle = {
     background: mode === 'dark' ? '#011627' : '',
   };
-  let attachedClasses = ['modal', 'default', props.className];
-  if (props.open) {
-    attachedClasses = ['modal', 'open', props.className];
-  }
+  let attachedClasses = props.open ? ['modal', 'open', props.className] : ['modal', 'default', props.className];
+
   return (
     <>
       <Backdrop show={props.open} clicked={props.closed} />
