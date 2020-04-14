@@ -40,7 +40,7 @@ const VerifyEmail: React.FC = (props: any) => {
   if (processing) text = 'Please wait...';
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Provide a valid email please').required('Provide email please'),
+    token: Yup.string().required('Provide provide a valid tokens'),
   });
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
@@ -92,7 +92,7 @@ const VerifyEmail: React.FC = (props: any) => {
                             {text}
                           </Button>
                           <p>
-                            Did not receive an email? <Link to="/">Resend Email</Link>
+                            Did not receive an email? <Link to="/">Resend</Link>
                           </p>
                         </div>
                       </Form>
