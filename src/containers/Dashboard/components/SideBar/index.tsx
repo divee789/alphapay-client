@@ -1,5 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import theme from '../../../../components/Theme';
+
 import im_logo from '../../../../assets/images/dashboard/home.png';
 import card_logo from '../../../../assets/images/dashboard/card.png';
 import transact_logo from '../../../../assets/images/dashboard/transactions.png';
@@ -10,30 +12,30 @@ import './index.scss';
 
 const SideNav = ({ isActive, onClose, url, logOutHandler }) => {
   return (
-    <div className={`sidebar_container ${isActive ? 'open-modal' : 'close-modal'}`}>
+    <div className={`sidebar_container ${isActive ? 'open-modal' : 'close-modal'}`} style={theme('white')}>
       <div className="sidebar_content">
         <div className="sidenav-list">
           <NavLink to={`${url}/overview`}>
             <img src={im_logo} alt="" />
-            Overview
+            <span style={{ color: theme().color }}>Overview</span>
           </NavLink>
           <NavLink to={`${url}/cards`}>
             <img src={card_logo} alt="" />
-            Cards
+            <span style={{ color: theme().color }}>Cards</span>
           </NavLink>
           <NavLink to={`${url}/transactions`}>
             <img src={transact_logo} alt="" />
-            Transactions
+            <span style={{ color: theme().color }}>Transactions</span>
           </NavLink>
           <NavLink to={`${url}/utilities`}>
             <img src={utils_logo} alt="" />
-            Utilities
+            <span style={{ color: theme().color }}>Utilities</span>
           </NavLink>
           <NavLink to={`${url}/settings`}>
             <img src={settings} alt="" />
-            Settings
+            <span style={{ color: theme().color }}>Settings</span>
           </NavLink>
-          <a href="#" onClick={logOutHandler}>
+          <a href="#" onClick={logOutHandler} style={{ color: theme().color }}>
             Log Out
           </a>
         </div>

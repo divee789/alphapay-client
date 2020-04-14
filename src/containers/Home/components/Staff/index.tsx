@@ -11,7 +11,7 @@ const Staff = (props: any) => {
           <h1>Our Core Values</h1>
           <div className="card_container">
             <div className="card">
-              <img src={Pic} alt="profile_pic" />
+              <img src={Pic} alt="profile_pic" loading="lazy" />
               <h2>
                 Quick <span>Response</span>
               </h2>
@@ -21,7 +21,7 @@ const Staff = (props: any) => {
               </p>
             </div>
             <div className="card">
-              <img src={Pic} alt="profile_pic" />
+              <img src={Pic} alt="profile_pic" loading="lazy" />
               <h2>
                 Great <span>Communication</span>
               </h2>
@@ -31,7 +31,7 @@ const Staff = (props: any) => {
               </p>
             </div>
             <div className="card">
-              <img src={Pic} alt="profile_pic" />
+              <img src={Pic} alt="profile_pic" loading="lazy" />
               <h2>
                 Customer <span>Satisfaction</span>
               </h2>

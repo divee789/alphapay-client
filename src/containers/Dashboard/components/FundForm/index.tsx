@@ -143,7 +143,8 @@ const FundForm = (props) => {
                   <p>HOW MUCH DO YOU WANT TO FUND?</p>
                   <div className="con">
                     {' '}
-                    <span>NGN</span> <Field type="number" name="amount" placeholder="0" style={linkStyle} />
+                    <span>NGN</span>{' '}
+                    <Field type="number" name="amount" placeholder="0" style={linkStyle} className="amount_input" />
                   </div>
                   <ErrorMessage name="amount" render={(msg) => <div className="error modal_error">{msg}</div>} />
                 </div>

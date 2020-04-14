@@ -1,5 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+
+import theme from '../Theme';
 import Button from '../Button';
 
 import Close from '../../assets/images/close.png';
@@ -7,7 +9,10 @@ import './index.scss';
 
 const SideNav = ({ isActive, onClose, isAuth }: { isActive: boolean; onClose: any; isAuth: boolean }) => {
   return (
-    <div className={`sidenav_container ${isActive ? 'open-side_nav' : 'close-side_nav'}`}>
+    <div
+      className={`sidenav_container ${isActive ? 'open-side_nav' : 'close-side_nav'}`}
+      style={theme('rgb(255, 255, 255)')}
+    >
       <div className="sidenav_content">
         <ul className="menu_list">
           <li>

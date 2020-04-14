@@ -14,7 +14,6 @@
         opacity: 0.8;
         font-weight: bold;
         margin-bottom: 0.3rem;
-        ;
 
         @media screen and (max-width:600px) {
             font-size: 9px;
@@ -24,9 +23,10 @@
 
     span {
         font-weight: bold;
-        font-size: 1.3rem;
+        font-size: 1.26rem;
         font-family: Sailec;
         padding: 10px;
+        position: absolute;
 
         @media screen and (max-width:600px) {
             font-size: 16px;
@@ -40,13 +40,13 @@
 
     input {
         width: 90%;
-        border: none;
-        border-bottom: 1px solid #ccc;
+        border: 1px solid #ccc;
         background: transparent;
         padding: 10px;
         font-size: 1.3rem;
         font-family: firma-bold;
         margin-bottom: 10px;
+        border-radius: 10px;
 
         @media screen and (max-width:600px) {
             font-size: 16px;
@@ -55,6 +55,11 @@
         &:focus {
             outline: none;
         }
+    }
+
+    .amount_input {
+        padding-left: 4rem;
+        border: 2px solid #ccc;
     }
 
     .error {

@@ -82,10 +82,10 @@ const App = (props: any) => {
 
   const toggleTheme = async () => {
     if (mode === 'light') {
-      Storage.setItem('mode', 'dark');
+      localStorage.setItem('mode', 'dark');
       dispatch(switch_mode('dark'));
     } else {
-      Storage.setItem('mode', 'light');
+      localStorage.setItem('mode', 'light');
       dispatch(switch_mode('light'));
     }
   };
