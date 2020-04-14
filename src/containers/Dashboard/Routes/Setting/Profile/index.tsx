@@ -91,7 +91,7 @@ const Profile = (props: any) => {
               return (
                 <>
                   {/* {update_error && <p>{update_error.response.data.message}</p>} */}
-                  {feedBack && <p>{feedBack}</p>}
+                  {feedBack && <p className="modal_error">{feedBack}</p>}
                   <Form>
                     <div className="input-container-dual">
                       <div>

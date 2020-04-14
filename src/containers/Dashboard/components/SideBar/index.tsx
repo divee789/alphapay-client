@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import $ from 'jquery';
 import im_logo from '../../../../assets/images/dashboard/home.png';
 import card_logo from '../../../../assets/images/dashboard/card.png';
 import transact_logo from '../../../../assets/images/dashboard/transactions.png';
@@ -10,15 +9,8 @@ import Close from '../../../../assets/images/close.png';
 import './index.scss';
 
 const SideNav = ({ isActive, onClose, url, logOutHandler }) => {
-  const handleOnClose = () => {
-    $('.sidebar_container').addClass('close-modal');
-    $('.sidebar_container').removeClass('open-modal');
-    setTimeout(() => {
-      onClose();
-    }, 500);
-  };
-  return isActive ? (
-    <div className={`sidebar_container ${isActive ? 'open-modal' : ''}`}>
+  return (
+    <div className={`sidebar_container ${isActive ? 'open-modal' : 'close-modal'}`}>
       <div className="sidebar_content">
         <div className="sidenav-list">
           <NavLink to={`${url}/overview`}>
@@ -45,12 +37,12 @@ const SideNav = ({ isActive, onClose, url, logOutHandler }) => {
             Log Out
           </a>
         </div>
-        <div className="close-btn" onClick={handleOnClose}>
+        <div className="close-btn" onClick={onClose}>
           <img src={Close} alt="close_icon" />
         </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default SideNav;

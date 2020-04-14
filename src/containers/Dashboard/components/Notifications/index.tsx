@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 import dayjs from 'dayjs';
 import theme from '../../../../components/Theme';
 import Close from '../../../../assets/images/close.png';
@@ -7,14 +6,6 @@ import Close from '../../../../assets/images/close.png';
 import './index.scss';
 
 const NotificationsBar = ({ isActive, onClose, notifications, remove }) => {
-  const handleOnClose = () => {
-    $('.notifications_container').addClass('close-modal');
-    $('.notifications_container').removeClass('open-modal');
-    setTimeout(() => {
-      onClose();
-    }, 500);
-  };
-
   let content;
 
   if (notifications && notifications.length > 0) {
@@ -42,16 +33,19 @@ const NotificationsBar = ({ isActive, onClose, notifications, remove }) => {
     content = <p>You do not have any notifications right now.</p>;
   }
 
-  return isActive ? (
+  return (
     <>
-      <div className={`notifications_container ${isActive ? 'open-modal' : ''}`} style={theme('rgb(255, 255, 255)')}>
+      <div
+        className={`notifications_container ${isActive ? 'open-modal' : 'close-modal'}`}
+        style={theme('rgb(255, 255, 255)')}
+      >
         <div className="notifications_content">{content}</div>
-        <div className="close-btn" onClick={handleOnClose}>
+        <div className="close-btn" onClick={onClose}>
           <img src={Close} alt="close_icon" />
         </div>
       </div>
     </>
-  ) : null;
+  );
 };
 
 export default NotificationsBar;

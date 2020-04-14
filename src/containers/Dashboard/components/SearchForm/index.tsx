@@ -73,11 +73,10 @@ const SearchForm = () => {
     to: Yup.date(),
     amount: Yup.number(),
     reference: Yup.string().min(11, 'Invalid transaction reference'),
-    type: Yup.string(),
+    transaction_type: Yup.string(),
   });
   return (
     <section className="search-section" style={styles}>
-      <div>{feedback}</div>
       <Formik
         validationSchema={searchValidationSchema}
         onSubmit={handleSubmit}
@@ -153,20 +152,23 @@ const SearchForm = () => {
                   <div className="dual">
                     <span>Amount</span>
                     <Field type="number" name="amount" placeholder="0.00" />
-                    <ErrorMessage name="amount" render={(msg) => <div className="error">{msg}</div>} />
+                    <ErrorMessage name="amount" render={(msg) => <div className="error modal_error">{msg}</div>} />
                   </div>
                   <div>
                     <span>Type</span>
                     <select
                       name="transaction_type"
                       onChange={formProps.handleChange}
-                      value={formProps.values ? formProps.values.type : 'Transaction type'}
+                      value={formProps.values ? formProps.values.transaction_type : 'Transaction type'}
                     >
                       <option value="" label="All" />
                       <option value="Internal" label="Internal" />
                       <option value="deposit" label="Deposit" />
                     </select>
-                    <ErrorMessage name="transaction_type" render={(msg) => <div className="error">{msg}</div>} />
+                    <ErrorMessage
+                      name="transaction_type"
+                      render={(msg) => <div className="error modal_error">{msg}</div>}
+                    />
                   </div>
                 </div>
                 <div className="option">
@@ -184,7 +186,7 @@ const SearchForm = () => {
                   <div className="dual">
                     <span>Reference</span>
                     <Field type="text" name="reference" placeholder="Transaction reference" />
-                    <ErrorMessage name="reference" render={(msg) => <div className="error">{msg}</div>} />
+                    <ErrorMessage name="reference" render={(msg) => <div className="error modal_error">{msg}</div>} />
                   </div>
                   <div className="btn_c">
                     <Button
@@ -210,6 +212,7 @@ const SearchForm = () => {
                       Clear
                     </Button>
                   </div>
+                  <div className="modal_error">{feedback}</div>
                 </div>
               </Form>
             </>

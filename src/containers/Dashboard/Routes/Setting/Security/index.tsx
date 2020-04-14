@@ -92,18 +92,21 @@ const Security = (props: any) => {
                     <h3>Change Password</h3>
                     <div className="old_password_form">
                       <Field type="password" name="password" placeholder="Old Password" />
-                      <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
+                      <ErrorMessage name="password" render={(msg) => <div className="error modal_error">{msg}</div>} />
                     </div>
                     <div className="new_password_form">
                       <Field type="password" name="new_password" placeholder="New Password" />
-                      <ErrorMessage name="new_password" render={(msg) => <div className="error">{msg}</div>} />
+                      <ErrorMessage
+                        name="new_password"
+                        render={(msg) => <div className="error modal_error">{msg}</div>}
+                      />
                     </div>
                     <div className="btn_cont">
                       <Button disabled={formProps.isSubmitting} dashboard>
                         {processing ? 'please wait...' : 'UPDATE PASSWORD'}
                       </Button>
                     </div>
-                    {feedback && <p>{feedback}</p>}
+                    {feedback && <p className="modal_error">{feedback}</p>}
                   </Form>
                 </>
               );
@@ -123,7 +126,10 @@ const Security = (props: any) => {
                     <h3>Activate Transaction Pin</h3>
                     <div className="transaction_pin_form">
                       <Field type="text" name="transaction_pin" placeholder="1234" />
-                      <ErrorMessage name="transaction_pin" render={(msg) => <div className="error">{msg}</div>} />
+                      <ErrorMessage
+                        name="transaction_pin"
+                        render={(msg) => <div className="error modal_error">{msg}</div>}
+                      />
                     </div>
                     <div className="btn_cont">
                       {wallet && (
@@ -133,7 +139,7 @@ const Security = (props: any) => {
                       )}
                     </div>
                   </Form>
-                  {feedback2 && <p>{feedback2}</p>}
+                  {feedback2 && <p className="modal_error">{feedback2}</p>}
                 </>
               );
             }}

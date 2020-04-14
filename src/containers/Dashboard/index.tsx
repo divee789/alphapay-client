@@ -87,9 +87,7 @@ const Dashboard = (props: any) => {
   };
 
   const deleteNotification = async (id) => {
-    console.log(id);
-    const res = await Request.deleteNotification(id);
-    console.log(res);
+    await Request.deleteNotification(id);
     await dispatch(new_notifications());
   };
 

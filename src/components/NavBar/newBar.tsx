@@ -91,7 +91,7 @@ const Navbar = (props: any) => {
             <img src={Hamburger} alt="menu_icon" />
           </div>
         </nav>
-        <SideNav isActive={isActive} onClose={() => setIsActive(!isActive)} />
+        <SideNav isActive={isActive} onClose={() => setIsActive(!isActive)} isAuth={isAuth} />
       </div>
     </>
   );

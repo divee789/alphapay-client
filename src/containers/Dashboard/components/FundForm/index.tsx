@@ -145,7 +145,7 @@ const FundForm = (props) => {
                     {' '}
                     <span>NGN</span> <Field type="number" name="amount" placeholder="0" style={linkStyle} />
                   </div>
-                  <ErrorMessage name="amount" render={(msg) => <div className="error">{msg}</div>} />
+                  <ErrorMessage name="amount" render={(msg) => <div className="error modal_error">{msg}</div>} />
                 </div>
                 <div className="fund_btn">
                   <Button disabled={formProps.isSubmitting} colored>

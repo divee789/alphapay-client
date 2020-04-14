@@ -65,6 +65,7 @@ export default class APIRequest {
       },
       (error: any) => {
         console.log(error);
+
         if (!error.response) {
           Logger.error('Response: ', 'Network Error');
           return Promise.reject(
@@ -156,9 +157,11 @@ export default class APIRequest {
       const expired = this.isTokenExpired(token);
       //check if token is not expired
       if (!expired) {
+        console.log('not expired token');
         return true;
       } else {
         //If token is expired return false
+        console.log('expired token');
         return false;
       }
     }

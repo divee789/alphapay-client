@@ -144,21 +144,24 @@ const TransferForm = (props) => {
                     {' '}
                     <span>NGN</span> <Field type="number" name="amount" placeholder="0" style={linkStyle} />
                   </div>
-                  <ErrorMessage name="amount" render={(msg) => <div className="error">{msg}</div>} />
+                  <ErrorMessage name="amount" render={(msg) => <div className="error modal_error">{msg}</div>} />
                 </div>
                 <div>
                   <p>WHO DO YOU WANT TO TRANSFER TO?</p>
                   <div className="con">
                     <Field type="number" name="recipient_phone_number" placeholder="08024110355" style={linkStyle} />
                   </div>
-                  <ErrorMessage name="recipient_phone_number" render={(msg) => <div className="error">{msg}</div>} />
+                  <ErrorMessage
+                    name="recipient_phone_number"
+                    render={(msg) => <div className="error modal_error">{msg}</div>}
+                  />
                 </div>
                 <div>
                   <p>WHY ARE YOU TRANSFERRING?</p>
                   <div className="con">
                     <Field type="textarea" name="narration" placeholder="To pay my levy" style={linkStyle} />
                   </div>
-                  <ErrorMessage name="narration" render={(msg) => <div className="error">{msg}</div>} />
+                  <ErrorMessage name="narration" render={(msg) => <div className="error modal_error">{msg}</div>} />
                 </div>
                 <div className="fund_btn">
                   <Button disabled={formProps.isSubmitting} colored>

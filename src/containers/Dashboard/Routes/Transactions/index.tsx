@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import $ from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
 import { get_client_transactions } from '../../../../store/actions';
-
-import img1 from '../../../../assets/images/newpassword.png';
 
 import Modal from '../../../../components/Modal';
 import Transaction from '../../components/Transaction';
@@ -12,6 +9,7 @@ import Button from '../../../../components/Button';
 
 import Turn from '../../../../components/Loaders/Turning';
 
+import img1 from '../../../../assets/images/newpassword.png';
 import './index.scss';
 
 interface ITransaction {
@@ -52,7 +50,6 @@ const Transactions: React.FC = () => {
   const refreshTransactionHandler = async () => {
     try {
       setSearchActive(false);
-      $('.filter-box').slideUp(200);
       await dispatch(get_client_transactions());
     } catch (error) {
       content = <p>There has been an error getting your transactions</p>;
@@ -183,7 +180,6 @@ const Transactions: React.FC = () => {
             className="refresh_transaction_button"
             onClick={() => {
               setSearchActive(!searchActive);
-              $('.filter-box').slideToggle(250);
             }}
             style={{ color: mode === 'dark' ? 'rgb(0, 201, 182)' : 'inherit' }}
           >
@@ -191,7 +187,7 @@ const Transactions: React.FC = () => {
           </div>
         </div>
 
-        <div className="filter-box">
+        <div className={`filter-box ${searchActive ? 'open-box' : 'close-box'}`}>
           <TransactionSearch />
         </div>
         {content}

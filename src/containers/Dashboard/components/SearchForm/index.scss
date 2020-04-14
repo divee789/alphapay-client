@@ -17,7 +17,7 @@
 
         .option {
             margin-right: 10px;
-            width: 23%;
+            width: 24%;
             font-size: 13px;
 
             @media screen and (max-width:1024px) {
@@ -54,7 +54,7 @@
             input[type=text],
             input[type=number],
             select {
-                width: 100%;
+                width: 90%;
                 padding: .375rem .75rem;
                 font-size: 1rem;
                 font-weight: 400;
@@ -75,6 +75,19 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+        }
+    }
+
+
+    @media screen and (max-width: 600px) {
+        .search_form {
+            .option {
+
+                input,
+                select {
+                    font-size: 12px !important;
+                }
+            }
         }
     }
 }
