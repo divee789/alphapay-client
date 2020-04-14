@@ -44,7 +44,7 @@ const TransferForm = (props) => {
   const walletValidationSchema = Yup.object().shape({
     amount: Yup.number().required('Please provide the amount you want to transfer'),
     narration: Yup.string().required('Please provide a narration for this transaction'),
-    recipient_phone_number: Yup.number().required('Please provide the recipient phone number'),
+    recipient_phone_number: Yup.string().required('Please provide the recipient phone number'),
   });
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
@@ -150,7 +150,7 @@ const TransferForm = (props) => {
                 <div>
                   <p>WHO DO YOU WANT TO TRANSFER TO?</p>
                   <div className="con">
-                    <Field type="number" name="recipient_phone_number" placeholder="08024110355" style={linkStyle} />
+                    <Field type="string" name="recipient_phone_number" placeholder="08024110355" style={linkStyle} />
                   </div>
                   <ErrorMessage
                     name="recipient_phone_number"
