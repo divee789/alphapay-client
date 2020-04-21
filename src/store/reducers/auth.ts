@@ -1,51 +1,10 @@
 import * as actionTypes from '../actions/actionTypes';
 import { Storage } from '../../services/storage-services';
-import decode from 'jwt-decode';
-
-const isloggedIn = () => {
-  // Checks if there is a saved token and it's still valid
-  const token = Storage.checkAuthentication();
-  //Check for existence of token
-  if (token !== false) {
-    const expired = isTokenExpired(token);
-    console.log('expired', expired);
-    //check if token is not expired
-    if (!expired) {
-      console.log('wooaah');
-      return true;
-    } else {
-      console.log('hey');
-      //If token is expired return false
-      return false;
-    }
-  }
-  console.log('wow');
-  return false;
-};
-
-const isTokenExpired = (token: string) => {
-  try {
-    const decoded: any = decode(token);
-    const exp: number = decoded.exp;
-    const date = Date.now() / 1000;
-    if (exp < date) {
-      this.logOut();
-      return true;
-    } else {
-      return false;
-    }
-  } catch (err) {
-    console.log('expired check failed');
-    console.log(err);
-    return false;
-  }
-};
 
 const initialState = {
-  token: null,
   user: null,
   processing: false,
-  isAuth: isloggedIn(),
+  isAuth: Storage.checkAuthentication(),
   error: null,
   update_error: null,
   message: null,
@@ -63,14 +22,12 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         processing: false,
-        token: null,
         isAuth: false,
         error: action.errors.response.data,
       };
     case actionTypes.authConstants.LOGIN_SUCCESS:
       return {
         ...state,
-        token: action.client.data.access_token,
         isAuth: true,
         processing: false,
         user: action.client.client,
@@ -86,7 +43,6 @@ const authReducer = (state = initialState, action: any) => {
     case actionTypes.authConstants.LOGOUT:
       return {
         ...state,
-        token: null,
         isAuth: false,
         processing: false,
         user: null,
@@ -103,14 +59,12 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         processing: false,
-        token: null,
         isAuth: false,
         error: action.errors.response.data,
       };
     case actionTypes.authConstants.SIGNUP_SUCCESS:
       return {
         ...state,
-        token: action.user.access_token,
         isAuth: true,
         processing: false,
         user: action.user.client,

@@ -5,6 +5,7 @@ import { Route, Switch, Redirect, useRouteMatch, NavLink, withRouter } from 'rea
 import { Wallet } from '../../store/types';
 import * as actionTypes from '../../store/actions/actionTypes';
 import { get_client_wallet, new_notifications } from '../../store/actions/wallet';
+import { getUser } from '../../store/actions/auth';
 import { logout } from '../../store/actions';
 import API from '../../services/api-services';
 
@@ -34,7 +35,7 @@ function success(wallet: Wallet) {
   return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet };
 }
 
-const Request = new API(process.env.REACT_APP_STAGING);
+const Request = new API();
 
 const Dashboard = (props: any) => {
   const [sidebarOpen, setSideBarOpen] = useState(false);
@@ -51,31 +52,37 @@ const Dashboard = (props: any) => {
   });
 
   useEffect(() => {
-    const notification = async () => {
-      const transfer_channel = pusher.subscribe('alphapay');
-      console.log('notifications', notifications);
-      transfer_channel.bind(
-        `${user._id}-transfer`,
-        async (data) => {
-          console.log('pusher working', data.notification_data);
-          await dispatch(success(data.notification_data.wallet));
-          delete data.notification_data.wallet;
-          await Request.makeNotifications({ ...data.notification_data, beneficiary: user.phone_number });
-          await dispatch(new_notifications());
-        },
-        this,
-      );
-      await dispatch(new_notifications());
-    };
     const check = async () => {
       try {
         await dispatch(get_client_wallet());
+        await dispatch(getUser());
+        return true;
       } catch (error) {
         console.log('error', error);
         throw error;
       }
     };
-    check();
+    const notification = async () => {
+      const re = await check();
+      if (!re) return;
+      const transfer_channel = pusher.subscribe('alphapay');
+      if (user) {
+        transfer_channel.bind(
+          `${user._id}-transfer`,
+          async (data) => {
+            console.log('pusher working', data.notification_data);
+            await dispatch(success(data.notification_data.wallet));
+            delete data.notification_data.wallet;
+            await Request.makeNotifications({ ...data.notification_data, beneficiary: user.phone_number });
+            await dispatch(new_notifications());
+          },
+          this,
+        );
+      }
+
+      await dispatch(new_notifications());
+    };
+
     notification();
   }, [dispatch]);
   let { path, url } = useRouteMatch();
@@ -157,7 +164,7 @@ const Dashboard = (props: any) => {
 
         <div className="main">
           <div className="dashboard_nav">
-            <div className="profile_details mobile">Account Number: {user.phone_number}</div>
+            <div className="profile_details mobile">Account Number: {user && user.phone_number}</div>
 
             <div
               onClick={() => {
@@ -179,14 +186,16 @@ const Dashboard = (props: any) => {
               />
               <img
                 src={
-                  user.profile_image
+                  user
                     ? user.profile_image
+                      ? user.profile_image
+                      : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
                     : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
                 }
                 alt="profile_image"
                 className="img"
               />
-              {user ? user.first_name : 'test'} {user ? user.last_name : 'test'}
+              {user && user.first_name} {user && user.last_name}
             </div>
           </div>
           <section>

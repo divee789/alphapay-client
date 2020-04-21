@@ -2,22 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import * as actionTypes from '../../../../store/actions/actionTypes';
-import { Wallet } from '../../../../store/types';
+import { fund_client_wallet } from '../../../../store/actions';
 import { payWithKorapay } from '../../../../services/payment';
-import Api from '../../../../services/api-services';
 import Button from '../../../../components/Button';
 
 import './index.scss';
 import img1 from '../../../../assets/images/quick-and-easy.jpg';
 import APIServiceError from '../../../../services/error-services';
-
-const request = new Api(process.env.REACT_APP_STAGING);
-
-//Wallet reducer
-function success(wallet: Wallet) {
-  return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet };
-}
 
 declare global {
   interface Window {
@@ -86,14 +77,14 @@ const FundForm = (props) => {
             processor: 'Korapay',
             processor_reference: ref,
             transaction_status: 'success',
-            narration: 'hi',
+            narration: 'Deposit funds to wallet',
           };
           try {
-            const res = await request.fundWallet(feedback);
+            // const res = await request.fundWallet(feedback);
+            const res = await dispatch(fund_client_wallet(feedback));
             console.log('funding', res);
             setProcessing(false);
-            setMessage(res.message);
-            await dispatch(success(res.wallet));
+            setMessage('Transaction successful');
           } catch (error) {
             if (error instanceof APIServiceError) {
               setProcessing(false);
@@ -116,9 +107,6 @@ const FundForm = (props) => {
   };
 
   if (message) {
-    // setTimeout(function () {
-    //   setMessage(null);
-    // }, 5000);
     return (
       <>
         <div className="transfer_feedback">

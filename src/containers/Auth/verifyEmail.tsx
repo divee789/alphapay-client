@@ -15,7 +15,7 @@ import Button from '../../components/Button';
 
 import './auth.scss';
 
-const api = new Request(process.env.BASE_URL);
+const api = new Request();
 
 const styles = {
   padding: '1rem',

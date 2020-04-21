@@ -1,13 +1,10 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import decode from 'jwt-decode';
 import SwitchC from 'react-switch';
 
 import { history } from './utils';
-import { logout, switch_mode } from './store/actions';
-import Request from './services/api-services';
-import { Storage } from './services/storage-services';
+import { switch_mode } from './store/actions';
 
 import Landing from './containers/Home';
 import Blog from './containers/Blog';
@@ -33,52 +30,10 @@ const Dashboard = React.lazy(() => {
   return import('./containers/Dashboard');
 });
 
-const api = new Request(process.env.BASE_URL);
-
 const App = (props: any) => {
   const dispatch = useDispatch();
-  const { isAuth, user } = useSelector((state: any) => state.auth);
+  const { isAuth } = useSelector((state: any) => state.auth);
   const { mode, checked } = useSelector((state: any) => state.ui);
-
-  useEffect(() => {
-    const token = Storage.checkAuthentication();
-    if (token) {
-      const decoded: any = decode(token);
-      const refreshToken = Storage.getItem('refreshToken');
-      const refreshThreshold = Math.floor((Date.now() + 120000) / 1000);
-      if (refreshToken && decoded.exp < refreshThreshold) {
-        const check = async () => {
-          try {
-            const ref = await api.refresh(refreshToken);
-            if (ref.status === 401) {
-              dispatch(logout(user.email));
-            }
-          } catch (error) {
-            // if refresh token has expired, dispatch LOGOUT THINGS
-            dispatch(logout());
-            throw error;
-          }
-        };
-        check();
-      } else {
-        const check2 = async () => {
-          //Log out user when he closes the browser or browser tab
-          if (sessionStorage.getItem('logged') !== 'success') {
-            await dispatch(logout());
-          }
-          // log out user if access_token is expired
-          let isLoggedIn = api.isloggedIn();
-          if (!isLoggedIn) {
-            console.log(isAuth);
-            await dispatch(logout());
-          }
-        };
-        check2();
-      }
-    } else {
-      dispatch(logout());
-    }
-  }, [dispatch, isAuth]);
 
   const toggleTheme = async () => {
     if (mode === 'light') {

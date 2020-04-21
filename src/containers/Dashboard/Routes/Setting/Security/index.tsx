@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import * as actionTypes from '../../../../../store/actions/actionTypes';
-import { Wallet } from '../../../../../store/types';
+import { set_transaction_pin } from '../../../../../store/actions';
 import * as Yup from 'yup';
 import Request from '../../../../../services/api-services';
 import Button from '../../../../../components/Button';
@@ -12,23 +11,18 @@ import phoneVer from '../../../../../assets/images/andela1.png';
 
 import './index.scss';
 
-const api = new Request(process.env.REACT_SERVER_URL);
-
-//Wallet reducer
-function success(wallet: Wallet) {
-  return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet };
-}
+const api = new Request();
 
 const Security = (props: any) => {
   const [feedback, setFeedback] = useState(null);
   const [feedback2, setFeedback2] = useState(null);
   const { processing, user } = useSelector((state: any) => state.auth);
-  const { wallet } = useSelector((state: any) => state.wallet);
+  const { wallet, pin_error } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
 
   const initialValues = {
-    old_password: undefined,
-    password: undefined,
+    old_password: '',
+    new_password: '',
     type: 'Password',
   };
 
@@ -42,7 +36,7 @@ const Security = (props: any) => {
   });
 
   const transactionValidationSchema = Yup.object().shape({
-    transaction_pin: Yup.number()
+    transaction_pin: Yup.string()
       .min(4, 'Your pin must be at least 4 digits')
       .required('Provide a transaction pin please'),
   });
@@ -57,10 +51,9 @@ const Security = (props: any) => {
           setSubmitting(false);
           return resetForm();
         case 'Transaction':
-          const request = await api.setTransactionPin(values);
-          setFeedback2(request.message);
+          await dispatch(set_transaction_pin(values));
+          setFeedback2('Request successful');
           setSubmitting(false);
-          await dispatch(success(request.wallet));
           return resetForm();
       }
     } catch (error) {
@@ -72,7 +65,7 @@ const Security = (props: any) => {
             return;
           }
         case 'Transaction':
-          setFeedback2(error.response.data.message);
+          setFeedback2(pin_error);
       }
     }
   };
@@ -147,7 +140,7 @@ const Security = (props: any) => {
         </div>
       </section>
       <div className="security-options">
-        {!user.email_verified && (
+        {user && !user.email_verified && (
           <div className="two_fa">
             <img src={emailImg} alt="email" />
             <p>Please verify your email to confirm your identity</p>

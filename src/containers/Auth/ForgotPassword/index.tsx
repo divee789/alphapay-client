@@ -11,7 +11,7 @@ import back from '../../../assets/images/back.png';
 
 import Button from '../../../components/Button';
 
-const api = new Request(process.env.BASE_URL);
+const api = new Request();
 
 const styles = {
   padding: '1rem',

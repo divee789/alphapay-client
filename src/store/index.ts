@@ -1,11 +1,9 @@
 import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 //Middlewares
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import requestMiddleware from './middlewares/request';
 
 //Reducers
 import authReducer from './reducers/auth';
@@ -20,12 +18,7 @@ const rootReducer = combineReducers({
   ui: uiReducer,
 });
 
-const persistConfig = {
-  key: 'root',
-  storage: storage,
-  stateReconciler: autoMergeLevel2,
-  blacklist: [], // see "Merge Process" section for details.
-};
+const middlewares = [thunk, requestMiddleware()];
 
 declare global {
   interface Window {
@@ -34,17 +27,16 @@ declare global {
 }
 
 let composeEnhancers;
-let store;
+let options;
 //Configuring ReduxDevTools
 if (process.env.REACT_APP_NODE_ENV === 'development') {
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const pReducer = persistReducer(persistConfig, rootReducer);
-  store = createStore(pReducer, composeEnhancers(applyMiddleware(thunk, logger)));
+  middlewares.push(logger);
+  options = composeEnhancers(applyMiddleware(...middlewares));
 } else {
-  const pReducer = persistReducer(persistConfig, rootReducer);
-  store = createStore(pReducer, applyMiddleware(thunk));
+  options = applyMiddleware(...middlewares);
 }
 
-persistStore(store);
+const store = createStore(rootReducer, options);
 
 export default store;

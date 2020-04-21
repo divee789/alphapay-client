@@ -4,9 +4,6 @@ import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
 import decode from 'jwt-decode';
 
-import { logout } from '../store/actions';
-import store from '../store';
-
 let APIBaseURL;
 
 if (process.env.REACT_APP_NODE_ENV === 'development') {
@@ -18,7 +15,7 @@ if (process.env.REACT_APP_NODE_ENV === 'development') {
 export default class APIRequest {
   public instance: any;
   public instance2: any;
-  constructor(baseURL: any) {
+  constructor() {
     this.instance = axios.create({
       baseURL: APIBaseURL,
       timeout: 50000,
@@ -27,30 +24,20 @@ export default class APIRequest {
       },
     });
     this.instance2 = axios.create({
-      baseURL: baseURL || APIBaseURL,
+      baseURL: APIBaseURL,
       timeout: 50000,
       headers: {
         Accept: 'multipart/form-data',
       },
     });
     this.instance.interceptors.request.use(
-      (config: any) => {
-        console.log(config);
+      async (config: any) => {
+        const altCopy = config;
         const userToken = this.setAuthorization();
+        altCopy.headers = { ...config.headers, Authorization: userToken };
 
-        //Check if user is logged in,if not abort api request and log user out
-        const token = Storage.checkAuthentication();
-        if (token) {
-          const auth = this.isloggedIn();
-          console.log('api-request', auth);
-          if (!auth) {
-            return store.dispatch(logout());
-          }
-        }
-
-        config.headers.Authorization = userToken;
-        Logger.info('Request: ', config.url, config.headers);
-        return config;
+        Logger.info('Request: ', altCopy.url, altCopy.headers);
+        return altCopy;
       },
       (error: any) => {
         Logger.error('Request Error: ', error);
@@ -64,8 +51,6 @@ export default class APIRequest {
         return response;
       },
       (error: any) => {
-        console.log(error);
-
         if (!error.response) {
           Logger.error('Response: ', 'Network Error');
           return Promise.reject(
@@ -85,22 +70,12 @@ export default class APIRequest {
     );
     this.instance2.interceptors.request.use(
       (config: any) => {
-        console.log(config);
+        const altCopy = config;
         const userToken = this.setAuthorization();
+        altCopy.headers = { ...config.headers, Authorization: userToken };
 
-        //Check if user is logged in,if not abort api request and log user out
-        const token = Storage.checkAuthentication();
-        if (token) {
-          const auth = this.isloggedIn();
-          console.log('api-request', auth);
-          if (!auth) {
-            return store.dispatch(logout());
-          }
-        }
-
-        config.headers.Authorization = userToken;
-        Logger.info('Request: ', config.url, config.headers);
-        return config;
+        Logger.info('Request: ', altCopy.url, altCopy.headers);
+        return altCopy;
       },
       (error: any) => {
         Logger.error('Request Error: ', error);
@@ -149,7 +124,7 @@ export default class APIRequest {
     delete this.instance.defaults.headers.common.Authorization;
     delete this.instance2.defaults.headers.common.Authorization;
   }
-  isloggedIn = () => {
+  isloggedIn = async () => {
     // Checks if there is a saved token and it's still valid
     const token = Storage.checkAuthentication();
     //Check for existence of token
@@ -162,6 +137,10 @@ export default class APIRequest {
       } else {
         //If token is expired return false
         console.log('expired token');
+        const res = await this.refresh(Storage.getRefreshToken());
+        if (res) {
+          return true;
+        }
         return false;
       }
     }
@@ -174,7 +153,6 @@ export default class APIRequest {
       const exp: number = decoded.exp;
       const date = Date.now() / 1000;
       if (exp < date) {
-        this.logOut();
         return true;
       } else {
         return false;
@@ -189,12 +167,14 @@ export default class APIRequest {
     if (userToken) {
       return `Bearer ${userToken}`;
     }
+
+    return null;
   };
 
   storeUserToken = (token: string, refreshToken: string) => {
     Storage.setItem('userToken', token);
     Storage.setItem('refreshToken', refreshToken);
-    sessionStorage.setItem('logged', 'success');
+    sessionStorage.setItem('logged', 'true');
   };
 
   logIn = async (data: any) => {
@@ -220,6 +200,18 @@ export default class APIRequest {
     const profileResponse = authResponse.data.client;
     return { ...authResponse, client: profileResponse };
   };
+  refresh = async (refresh_token: string) => {
+    const body = {
+      refresh_token,
+    };
+    const response = await this.instance.post('/auth/client/token', body);
+    const authResponse = response.data;
+    console.log('refresh', authResponse);
+    Storage.setItem('userToken', authResponse.access_token);
+    this.setHeader(authResponse.access_token);
+    return authResponse;
+  };
+
   update = async (data: any) => {
     const body = {
       ...data,
@@ -238,6 +230,13 @@ export default class APIRequest {
   };
 
   changePassword = async (data: any) => {
+    const check = await this.isloggedIn();
+    if (!check) {
+      return {
+        error: true,
+        message: 'Your session has expired, please log in again',
+      };
+    }
     const body = {
       ...data,
     };
@@ -251,20 +250,6 @@ export default class APIRequest {
       error: true,
       message: response.data.message,
     };
-  };
-  refresh = async (refresh_token: string) => {
-    const body = {
-      refresh_token,
-    };
-    const response = await this.instance.post('/client/token', body);
-    if (!response) {
-      console.log('no response');
-    }
-    const authResponse = response.data;
-    console.log('refresh', authResponse);
-    this.storeUserToken(authResponse.access_token, authResponse.refresh_token);
-    this.setHeader(authResponse.access_token);
-    return authResponse;
   };
 
   logOut = async (client_email?: string) => {
@@ -394,6 +379,13 @@ export default class APIRequest {
   };
 
   deleteNotification = async (id) => {
+    const check = await this.isloggedIn();
+    if (!check) {
+      return {
+        error: true,
+        message: 'Your session has expired, please log in again',
+      };
+    }
     const res = await this.instance.delete('/api/v1/transfer/notifications/' + id);
     if (res.data.success === true) {
       return {

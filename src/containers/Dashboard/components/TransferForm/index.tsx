@@ -2,19 +2,10 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import Api from '../../../../services/api-services';
-import * as actionTypes from '../../../../store/actions/actionTypes';
-import { Wallet } from '../../../../store/types';
+import { transfer_funds } from '../../../../store/actions';
+
 import Button from '../../../../components/Button';
-
 import img1 from '../../../../assets/images/quick-and-easy.jpg';
-
-const request = new Api(process.env.REACT_APP_STAGING);
-
-//Wallet reducer
-function success(wallet: Wallet) {
-  return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet };
-}
 
 const TransferForm = (props) => {
   const [message, setMessage] = useState(null);
@@ -23,16 +14,16 @@ const TransferForm = (props) => {
   const dispatch = useDispatch();
 
   interface FormValues {
-    amount: number;
+    amount: any;
     narration: string;
-    recipient_phone_number: number;
+    recipient_phone_number: any;
     transaction_type: string;
   }
 
   const initialValues: FormValues = {
-    amount: undefined,
+    amount: '',
     narration: '',
-    recipient_phone_number: undefined,
+    recipient_phone_number: '',
     transaction_type: 'Internal',
   };
 
@@ -57,25 +48,24 @@ const TransferForm = (props) => {
       let data = {
         ...values,
       };
-      const res = await request.transferFunds(data);
-      setMessage(res.message);
-      await dispatch(success(res.wallet));
-      // props.close()
+      const transRes = await dispatch(transfer_funds(data));
+      console.log(transRes);
+      setMessage('Transaction successful');
     } catch (error) {
       console.error(error);
-      setMessage(error.response.data.message);
+      setMessage(error.message);
       setSubmitting(false);
     }
   };
 
   const transfer = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
-      const res = await request.transferFunds(values);
-      setMessage(res.message);
-      await dispatch(success(res.wallet));
+      const transRes = await dispatch(transfer_funds(values));
+      console.log(transRes);
+      setMessage('Transaction successful');
       setPin(false);
     } catch (error) {
-      setMessage(error.response.data.message);
+      setMessage(error.message);
       setPin(false);
       setSubmitting(false);
     }
@@ -98,9 +88,13 @@ const TransferForm = (props) => {
   if (pin) {
     return (
       <Formik
-        initialValues={{ transaction_pin: '' }}
+        initialValues={{ pin: '' }}
         validationSchema={Yup.object().shape({
-          pin: Yup.number().required('Please provide your transaction pin'),
+          pin: Yup.string()
+            .required()
+            .matches(/^[0-9]+$/, 'Must be only digits')
+            .min(4, 'Must be exactly 4 digits')
+            .max(4, 'Must be exactly 4 digits'),
         })}
         onSubmit={transfer}
         render={(formProps) => {
@@ -110,7 +104,7 @@ const TransferForm = (props) => {
                 <div>
                   <p>PLEASE PROVIDE YOUR TRANSACTION PIN</p>
                   <div className="con">
-                    <Field type="number" name="pin" placeholder="1111" style={linkStyle} />
+                    <Field type="string" name="pin" placeholder="1111" style={linkStyle} />
                   </div>
                   <ErrorMessage name="pin" render={(msg) => <div className="error">{msg}</div>} />
                 </div>

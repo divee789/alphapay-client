@@ -6,8 +6,7 @@ import { Wallet } from '../types';
 import APIRequest from '../../services/api-services';
 import APIServiceError from '../../services/error-services';
 
-const BaseURL = process.env.REACT_APP_STAGING;
-const Request = new APIRequest(BaseURL);
+const Request = new APIRequest();
 
 export function get_client_wallet() {
   function request() {
@@ -42,7 +41,6 @@ export function fund_client_wallet(data: {
   processor: string;
   processor_reference: string;
   transaction_status: string;
-  transaction_pin: number;
 }) {
   function request() {
     return { type: actionTypes.walletConstants.FUND_WALLET_REQUEST };
@@ -58,12 +56,61 @@ export function fund_client_wallet(data: {
     try {
       await dispatch(request());
       const wallet = await Request.fundWallet(data);
-      console.log('fund_wallet', wallet.wallet);
       dispatch(success(wallet.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
-        console.log('error in getting wallet', error);
         dispatch(failure(error));
+        throw error.response.data;
+      }
+    }
+  };
+}
+
+export function transfer_funds(data: {
+  amount: number;
+  narration: string;
+  recipient_phone_number: string;
+  transaction_pin?: number;
+}) {
+  function request() {
+    return { type: actionTypes.walletConstants.FUND_WALLET_REQUEST };
+  }
+  function success(wallet: Wallet) {
+    return { type: actionTypes.walletConstants.FUND_WALLET_SUCCESS, wallet };
+  }
+
+  return async (dispatch: Dispatch) => {
+    try {
+      await dispatch(request());
+      const wallet = await Request.transferFunds(data);
+      dispatch(success(wallet.wallet));
+    } catch (error) {
+      if (error instanceof APIServiceError) {
+        throw error.response.data;
+      }
+    }
+  };
+}
+
+export function set_transaction_pin(data: { transaction_pin: number }) {
+  function request() {
+    return { type: actionTypes.walletConstants.FUND_WALLET_REQUEST };
+  }
+  function success(wallet: Wallet) {
+    return { type: actionTypes.walletConstants.FUND_WALLET_SUCCESS, wallet };
+  }
+  function failure(error: any) {
+    return { type: actionTypes.walletConstants.SET_PIN_FAILURE, error };
+  }
+
+  return async (dispatch: Dispatch) => {
+    try {
+      await dispatch(request());
+      const req = await Request.setTransactionPin(data);
+      dispatch(success(req.wallet));
+    } catch (error) {
+      if (error instanceof APIServiceError) {
+        dispatch(failure(error.response.data.message));
         throw error.response.data;
       }
     }

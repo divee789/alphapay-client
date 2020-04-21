@@ -11,7 +11,7 @@ import logo from '../../../assets/images/alp.png';
 import back from '../../../assets/images/back.png';
 import Button from '../../../components/Button';
 
-const api = new Request('http://localhost:1000');
+const api = new Request();
 
 const styles = {
   padding: '1rem',

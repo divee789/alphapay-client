@@ -8,7 +8,7 @@ import Request from '../../../../../services/api-services';
 import Button from '../../../../../components/Button';
 import './index.scss';
 
-const api = new Request(process.env.SERVER_URL);
+const api = new Request();
 
 const Profile = (props: any) => {
   const dispatch = useDispatch();
