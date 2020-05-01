@@ -54,8 +54,8 @@ const Dashboard = (props: any) => {
   useEffect(() => {
     const check = async () => {
       try {
-        await dispatch(get_client_wallet());
         await dispatch(getUser());
+        await dispatch(get_client_wallet());
         return true;
       } catch (error) {
         console.log('error', error);

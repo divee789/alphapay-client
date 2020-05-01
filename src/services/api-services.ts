@@ -30,85 +30,55 @@ export default class APIRequest {
         Accept: 'multipart/form-data',
       },
     });
-    this.instance.interceptors.request.use(
-      async (config: any) => {
-        const altCopy = config;
-        const userToken = this.setAuthorization();
-        altCopy.headers = { ...config.headers, Authorization: userToken };
 
-        Logger.info('Request: ', altCopy.url, altCopy.headers);
-        return altCopy;
-      },
-      (error: any) => {
-        Logger.error('Request Error: ', error);
-        return Promise.reject(error);
-      },
-    );
+    this.instance.interceptors.request.use(this.config, (error: any) => {
+      Logger.error('Request Error: ', error);
+      return Promise.reject(error);
+    });
 
-    this.instance.interceptors.response.use(
-      (response: any) => {
-        Logger.info('Response: ', response.config.method, response.config.url, response.status);
-        return response;
-      },
-      (error: any) => {
-        if (!error.response) {
-          Logger.error('Response: ', 'Network Error');
-          return Promise.reject(
-            new APIServiceError({
-              status: 500,
-              data: {
-                message: 'Network Error, try again',
-                error: 'server_error',
-                data: null,
-              },
-            }),
-          );
-        }
-        Logger.warn('Response: ', error.response);
-        return Promise.reject(new APIServiceError(error.response));
-      },
-    );
-    this.instance2.interceptors.request.use(
-      (config: any) => {
-        const altCopy = config;
-        const userToken = this.setAuthorization();
-        altCopy.headers = { ...config.headers, Authorization: userToken };
+    this.instance.interceptors.response.use((response: any) => {
+      Logger.info('Response: ', response.config.method, response.config.url, response.status);
+      return response;
+    }, this.configError);
 
-        Logger.info('Request: ', altCopy.url, altCopy.headers);
-        return altCopy;
-      },
-      (error: any) => {
-        Logger.error('Request Error: ', error);
-        return Promise.reject(error);
-      },
-    );
+    this.instance2.interceptors.request.use(this.config, (error: any) => {
+      Logger.error('Request Error: ', error);
+      return Promise.reject(error);
+    });
 
-    this.instance2.interceptors.response.use(
-      (response: any) => {
-        Logger.info('Response: ', response.config.method, response.config.url, response.status);
-        return response;
-      },
-      (error: any) => {
-        console.log(error);
-        if (!error.response) {
-          Logger.error('Response: ', 'Network Error');
-          return Promise.reject(
-            new APIServiceError({
-              status: 500,
-              data: {
-                message: 'Network Error, try again',
-                error: 'server_error',
-                data: null,
-              },
-            }),
-          );
-        }
-        Logger.warn('Response: ', error.response);
-        return Promise.reject(new APIServiceError(error.response));
-      },
-    );
+    this.instance2.interceptors.response.use((response: any) => {
+      Logger.info('Response: ', response.config.method, response.config.url, response.status);
+      return response;
+    }, this.configError);
     this.checkAuthToken();
   }
+
+  config = (config: any) => {
+    const altCopy = config;
+    const userToken = this.setAuthorization();
+    altCopy.headers = { ...config.headers, Authorization: userToken };
+
+    Logger.info('Request: ', altCopy.url);
+    return altCopy;
+  };
+
+  configError = (error: any) => {
+    if (!error.response) {
+      Logger.error('Response: ', 'Network Error');
+      return Promise.reject(
+        new APIServiceError({
+          status: 500,
+          data: {
+            message: 'Network Error, try again',
+            error: 'server_error',
+            data: null,
+          },
+        }),
+      );
+    }
+    Logger.warn('Response: ', error.response);
+    return Promise.reject(new APIServiceError(error.response));
+  };
 
   checkAuthToken = () => {
     const token = Storage.checkAuthentication();
@@ -182,7 +152,6 @@ export default class APIRequest {
       ...data,
     };
     const response = await this.instance.post('/auth/login', body);
-    console.log(response);
     this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
     // this.setHeader(response.data.data.access_token);
     const profileResponse = response.data.data.client;
@@ -304,6 +273,13 @@ export default class APIRequest {
 
   uploadProfileImage = async (data: any) => {
     try {
+      const check = await this.isloggedIn();
+      if (!check) {
+        return {
+          error: true,
+          message: 'Your session has expired, please log in again',
+        };
+      }
       const res = await this.instance2.post('/auth/upload', data);
       console.log('upload', res);
       return res.data.client;

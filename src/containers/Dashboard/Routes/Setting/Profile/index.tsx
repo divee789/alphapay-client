@@ -46,6 +46,11 @@ const Profile = (props: any) => {
       formData.append('profile_image', image);
       setUploadFeedBack(true);
       let resData = await api.uploadProfileImage(formData);
+      if (resData.error) {
+        setUploadFeedBack(false);
+        alert('Your session has expired, please log in again');
+        return;
+      }
       await dispatch(update(resData));
       setUploadFeedBack(false);
     } catch (error) {
