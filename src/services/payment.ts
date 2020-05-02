@@ -1,29 +1,24 @@
 import { getRandomString } from '../utils/tools';
 
-export const payWithKorapay = async (values: any, success, failure) => {
+export const payWithKorapay = (values: any, success: Function, failure: Function, onClose: Function): void => {
   window.Korapay.initialize({
-    key: process.env.REACT_APP_KORAPAY_TEST_PUBLIC_KEY, // input merchant key
-
-    amount: Number(values.amount), // input amount eg. in naira
-
-    currency: 'NGN', // input currency eg. NGN
-
-    customerName: `${values.first_name} ${values.last_name}`, // input customer name
-
-    customerEmail: `${values.email}`, // input customer email
-
-    callback_url: '', // callback url (optional)
+    key: process.env.REACT_APP_KORAPAY_TEST_PUBLIC_KEY,
+    amount: Number(values.amount),
+    currency: 'NGN',
+    customer: {
+      name: `${values.first_name} ${values.last_name}`,
+      email: `${values.email}`,
+    },
+    notification_url: '',
     onClose: function () {
-      console.log(':weary:, you are gone');
-      success('test-reference');
+      onClose();
     },
     onSuccess: async function (data) {
       console.log(data);
-      success('test-reference');
+      await success(data.reference);
     },
-    onFailed: function (data) {
-      console.log(data);
-      failure('test-refernce');
+    onFailed: function () {
+      failure();
     },
   });
 };

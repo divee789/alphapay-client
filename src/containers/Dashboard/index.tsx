@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Pusher from 'pusher-js';
+import Pusher, { Channel } from 'pusher-js';
 import { Route, Switch, Redirect, useRouteMatch, NavLink, withRouter } from 'react-router-dom';
 import { Wallet } from '../../store/types';
 import * as actionTypes from '../../store/actions/actionTypes';
@@ -52,7 +52,13 @@ const Dashboard = (props: any) => {
   });
 
   useEffect(() => {
-    const check = async () => {
+    const script = document.createElement('script');
+    script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
+    document.getElementsByTagName('head')[0].appendChild(script);
+    // const script = document.createElement('script');
+    // script.src = 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js';
+    // document.getElementsByTagName('head')[0].appendChild(script);
+    const check = async (): Promise<boolean> => {
       try {
         await dispatch(getUser());
         await dispatch(get_client_wallet());
@@ -62,10 +68,10 @@ const Dashboard = (props: any) => {
         throw error;
       }
     };
-    const notification = async () => {
+    const notification = async (): Promise<void> => {
       const re = await check();
       if (!re) return;
-      const transfer_channel = pusher.subscribe('alphapay');
+      const transfer_channel: Channel = pusher.subscribe('alphapay');
       if (user) {
         transfer_channel.bind(
           `${user._id}-transfer`,
@@ -87,13 +93,13 @@ const Dashboard = (props: any) => {
   }, [dispatch]);
   let { path, url } = useRouteMatch();
 
-  const logOutHandler = async (e) => {
+  const logOutHandler = async (e): Promise<void> => {
     e.preventDefault();
     await dispatch(logout(user.email));
     props.history.push('/');
   };
 
-  const deleteNotification = async (id) => {
+  const deleteNotification = async (id): Promise<void> => {
     await Request.deleteNotification(id);
     await dispatch(new_notifications());
   };

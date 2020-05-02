@@ -14,15 +14,13 @@ const TransferForm = (props) => {
   const dispatch = useDispatch();
 
   interface FormValues {
-    amount: any;
-    narration: string;
+    amount: number;
     recipient_phone_number: any;
     transaction_type: string;
   }
 
   const initialValues: FormValues = {
-    amount: '',
-    narration: '',
+    amount: ('' as unknown) as number,
     recipient_phone_number: '',
     transaction_type: 'Internal',
   };
@@ -34,7 +32,6 @@ const TransferForm = (props) => {
 
   const walletValidationSchema = Yup.object().shape({
     amount: Yup.number().required('Please provide the amount you want to transfer'),
-    narration: Yup.string().required('Please provide a narration for this transaction'),
     recipient_phone_number: Yup.string().required('Please provide the recipient phone number'),
   });
 
@@ -150,13 +147,6 @@ const TransferForm = (props) => {
                     name="recipient_phone_number"
                     render={(msg) => <div className="error modal_error">{msg}</div>}
                   />
-                </div>
-                <div>
-                  <p>WHY ARE YOU TRANSFERRING?</p>
-                  <div className="con">
-                    <Field type="textarea" name="narration" placeholder="To pay my levy" style={linkStyle} />
-                  </div>
-                  <ErrorMessage name="narration" render={(msg) => <div className="error modal_error">{msg}</div>} />
                 </div>
                 <div className="fund_btn">
                   <Button disabled={formProps.isSubmitting} colored>

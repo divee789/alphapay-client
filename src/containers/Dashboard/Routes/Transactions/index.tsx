@@ -17,23 +17,22 @@ interface ITransaction {
   transaction_type: string;
   amount: number;
   reference: number;
-  narration: string;
   status: string;
   recipient: any;
   createdAt: Date;
 }
 
-const Transactions: React.FC = () => {
+const Transactions = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
-  const [transRef, setTransRef] = useState(null);
+  const [trans, setTrans] = useState(null);
   const [searchActive, setSearchActive] = useState(false);
   const { processing, transactions, pager, error } = useSelector((state: any) => state.transaction);
   const { mode } = useSelector((state: any) => state.ui);
   let content;
 
   useEffect(() => {
-    const trans = async () => {
+    const trans = async (): Promise<void> => {
       try {
         await dispatch(get_client_transactions());
       } catch (error) {
@@ -47,7 +46,7 @@ const Transactions: React.FC = () => {
     color: mode === 'dark' ? '#00C9B6' : '',
   };
 
-  const refreshTransactionHandler = async () => {
+  const refreshTransactionHandler = async (): Promise<void> => {
     try {
       setSearchActive(false);
       await dispatch(get_client_transactions());
@@ -56,15 +55,15 @@ const Transactions: React.FC = () => {
     }
   };
 
-  const modalHandler = async () => {
+  const modalHandler = async (): Promise<void> => {
     setShowModal(false);
   };
-  const toggleModal = (reference) => {
-    setTransRef(reference);
+  const toggleModal = (transaction: ITransaction): void => {
+    setTrans(transaction);
     setShowModal(!showModal);
   };
 
-  const switchStatus = (status) => {
+  const switchStatus = (status: string): string => {
     switch (status) {
       case 'success':
         return 'green';
@@ -92,7 +91,7 @@ const Transactions: React.FC = () => {
     );
   }
 
-  if (transactions !== null && transactions.length === 0) {
+  if (transactions && transactions.length === 0) {
     content = (
       <div className="no_transaction">
         <img src={img1} alt="no_transactions" />
@@ -192,7 +191,7 @@ const Transactions: React.FC = () => {
         </div>
         {content}
 
-        {transactions !== null && transactions.length !== 0 && (
+        {transactions && transactions.length !== 0 && (
           <div className="pagination">
             {pager && pager.currentPage !== pager.startPage ? (
               <Button
@@ -232,7 +231,7 @@ const Transactions: React.FC = () => {
       </section>
       {showModal && (
         <Modal open={showModal} closed={modalHandler} className="trans-modal">
-          <Transaction transaction={transRef} />
+          <Transaction transaction={trans} />
         </Modal>
       )}
     </>

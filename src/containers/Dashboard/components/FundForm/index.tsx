@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -23,21 +23,8 @@ const FundForm = (props) => {
   const { user } = useSelector((state: any) => state.auth);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }, []);
-
-  // useEffect(() => {
-  //   const script = document.createElement('script');
-  //   script.src = 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js';
-  //   document.getElementsByTagName('head')[0].appendChild(script);
-  // }, []);
   interface FormValues {
     amount: number;
-    narration: string;
   }
 
   const linkStyle = {
@@ -45,31 +32,22 @@ const FundForm = (props) => {
   };
 
   const initialValues: FormValues = {
-    amount: undefined,
-    narration: '',
+    amount: ('' as unknown) as number,
   };
 
-  let text;
-  if (processing) {
-    text = 'Please wait....';
-  } else {
-    text = 'FUND WALLET';
-  }
   const walletValidationSchema = Yup.object().shape({
-    amount: Yup.number().required('Please provide the amount you want to inject'),
-    pin: Yup.number(),
+    amount: Yup.number().required('Please provide the amount you want to fund').min(100),
   });
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
       let data = {
         ...values,
-        narration: 'testing',
         ...user,
       };
       setProcessing(true);
 
-      await payWithKorapay(
+      payWithKorapay(
         data,
         async (ref) => {
           let feedback = {
@@ -80,16 +58,14 @@ const FundForm = (props) => {
             narration: 'Deposit funds to wallet',
           };
           try {
-            // const res = await request.fundWallet(feedback);
-            const res = await dispatch(fund_client_wallet(feedback));
-            console.log('funding', res);
+            await dispatch(fund_client_wallet(feedback));
             setProcessing(false);
             setMessage('Transaction successful');
           } catch (error) {
             if (error instanceof APIServiceError) {
               setProcessing(false);
               setMessage(
-                'Oops,it looks like your network is disconnected or our server is down,either way we apologize for the trouble,please contact support as soon as possible and your funds will be sorted out',
+                'Oops,it looks like your network is disconnected ,please contact support as soon as possible and your funds will be sorted out',
               );
             }
           }
@@ -97,6 +73,9 @@ const FundForm = (props) => {
         () => {
           setProcessing(false);
           setMessage('There has been an error funding your wallet,please try again later');
+        },
+        () => {
+          setProcessing(false);
         },
       );
     } catch (error) {
@@ -138,7 +117,7 @@ const FundForm = (props) => {
                 </div>
                 <div className="fund_btn">
                   <Button disabled={formProps.isSubmitting} colored>
-                    {text}
+                    {processing ? 'Please wait...' : 'FUND WALLET'}
                   </Button>
                 </div>
               </Form>
