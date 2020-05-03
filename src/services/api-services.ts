@@ -98,18 +98,20 @@ export default class APIRequest {
     // Checks if there is a saved token and it's still valid
     const token = Storage.checkAuthentication();
     //Check for existence of token
-    if (token !== false) {
+    if (token) {
       const expired = this.isTokenExpired(token);
       //check if token is not expired
       if (!expired) {
-        console.log('not expired token');
         return true;
       } else {
-        //If token is expired return false
-        console.log('expired token');
-        const res = await this.refresh(Storage.getRefreshToken());
-        if (res) {
-          return true;
+        const refreshToken = Storage.getRefreshToken();
+        if (refreshToken) {
+          const expiredRefresh = this.isTokenExpired(refreshToken);
+          if (!expiredRefresh) {
+            await this.refresh(refreshToken);
+            return true;
+          }
+          return false;
         }
         return false;
       }
@@ -247,7 +249,14 @@ export default class APIRequest {
     return res.data;
   };
 
-  sendEmail = async () => {
+  sendEmail = async (): Promise<any> => {
+    const check = await this.isloggedIn();
+    if (!check) {
+      return {
+        error: true,
+        message: 'Your session has expired, please log in again',
+      };
+    }
     const res = await this.instance.post('/auth/send_email');
     return res.data;
   };

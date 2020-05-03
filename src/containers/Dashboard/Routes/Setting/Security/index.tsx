@@ -147,7 +147,10 @@ const Security = (props: any) => {
             <Button
               dashboard
               onClick={async () => {
-                await api.sendEmail();
+                const res = await api.sendEmail();
+                if (res.error) {
+                  alert(res.message);
+                }
                 props.history.push('/auth/verify_email');
               }}
             >
