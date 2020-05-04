@@ -10,7 +10,7 @@ const Section = () => {
     <>
       <section className="section1">
         <div className="info">
-          <TextLoop mask={true} fade={true} interval={5000} springConfig={{ stiffness: 180, damping: 8 }}>
+          <TextLoop fade={true} interval={5000}>
             <h1>
               <span>Empowering</span> <span> mobile wallets via your</span> <span>phone number</span>
             </h1>

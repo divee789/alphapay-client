@@ -17,7 +17,7 @@ const Navbar = (props: any) => {
   const { isAuth } = useSelector((state: any) => state.auth);
   const [change, setChange] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const changePosition = 10;
+  const changePosition = 150;
 
   const background = theme('white').background;
 
