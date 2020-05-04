@@ -3,15 +3,27 @@ import { useSelector } from 'react-redux';
 
 import './index.scss';
 
-const Button = (props: any) => {
+interface propsInterface {
+  dashboard?: boolean;
+  colored?: boolean;
+  className?: string;
+  children: React.ReactNode;
+  onClick?: any;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  style?: object;
+}
+
+const Button = (props: propsInterface) => {
   const { mode } = useSelector((state: any) => state.ui);
 
   let style: any;
 
   style = {
-    backgroundColor: 'white',
-    borderColor: '#9D60EB',
+    borderColor: '#008080',
     borderWidth: '1px',
+    color: '#008080',
+    backgroundColor: 'white',
   };
 
   if (props.dashboard) {
@@ -22,10 +34,9 @@ const Button = (props: any) => {
       fontFamily: 'Sailec',
     };
   }
-
   if (props.colored) {
     style = {
-      backgroundImage: 'linear-gradient(to right, #1400FF -150%, #FC199B 130%)',
+      backgroundImage: '#008080',
       color: 'white',
     };
   }

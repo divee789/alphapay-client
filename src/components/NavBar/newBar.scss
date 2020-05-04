@@ -1,18 +1,20 @@
 .nav {
     display: flex;
     flex-direction: row;
-    position: relative;
     justify-content: space-between;
     align-items: center;
     max-width: 1600px;
-    width: 85%;
+    width: 100%;
+    padding: 5px 5%;
     margin: auto;
-    margin-top: 15px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
     z-index: 999;
 
     .hamburger {
         display: none;
-
     }
 
     .nav_item {
@@ -20,7 +22,7 @@
         margin-left: 50px;
 
         a {
-            color: inherit;
+            color: black;
             position: relative;
             font-weight: bolder;
             font-size: 14px;
@@ -31,14 +33,14 @@
 
             &.active,
             &:hover {
-                color: #9D60EB;
+                color: #008080;
 
                 .circle {
                     display: block;
                     width: 8px;
                     height: 8px;
                     border-radius: 50%;
-                    background: #9D60EB;
+                    background: #008080;
                     position: absolute;
                     bottom: -12px;
                     right: 40%;
@@ -51,8 +53,19 @@
         display: inline-block;
         margin-left: 50px;
 
-        a {
-            color: white;
+        .btn {
+            height: 3rem;
+            width: 200px;
+
+            a {
+                color: white;
+            }
+        }
+
+        .sign {
+            a {
+                color: #008080;
+            }
         }
     }
 }

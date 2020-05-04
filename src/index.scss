@@ -15,6 +15,11 @@
   src: url(./assets/fonts/sailec/Sailec-Regular.woff2);
 }
 
+@font-face {
+  font-family: averta;
+  src: url(./assets/fonts/avenir/AvenirLTStd-Roman.otf)
+}
+
 html {
   scroll-behavior: smooth;
 }

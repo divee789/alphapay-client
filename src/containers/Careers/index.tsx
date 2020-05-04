@@ -8,7 +8,7 @@ import Footer from '../Home/components/Footer';
 import { Player } from 'video-react';
 import theme from '../../components/Theme';
 
-import image1 from '../../assets/images/mart.jpg';
+import image1 from '../../assets/images/work1.jpg';
 import image2 from '../../assets/images/work1.jpg';
 import image3 from '../../assets/images/work2.jpg';
 import image5 from '../../assets/images/work4.jpg';
