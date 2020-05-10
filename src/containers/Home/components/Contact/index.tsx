@@ -28,8 +28,8 @@ const Contact: React.FC = (props: any) => {
     <>
       <section className="contact_form_section" id="contact_form">
         <div className="bg"></div>
-        <h1>Have a challenge?</h1>
-        <h1>Let's get in touch now</h1>
+        <h1>Contact us</h1>
+        <h3>The team usually responds within 3 working hours</h3>
 
         <div className="contact_form">
           <Formik

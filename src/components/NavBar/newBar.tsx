@@ -37,9 +37,6 @@ const Navbar = (props: any) => {
     background: change ? background : 'transparent',
   };
 
-  const link = isAuth ? '/dashboard/overview' : '/auth/login';
-  const text = isAuth ? 'MY DASHBOARD' : 'LOG IN';
-
   return (
     <>
       <nav className="nav" style={navStyle}>
@@ -72,15 +69,17 @@ const Navbar = (props: any) => {
               Contact Us<span className="circle"></span>
             </a>
           </div> */}
+          {!isAuth && (
+            <div className="auth">
+              <NavLink to="/auth/signup">
+                <Button className="btn sign">CREATE ACCOUNT</Button>
+              </NavLink>
+            </div>
+          )}
           <div className="auth">
-            <NavLink to="/auth/signup">
-              <Button className="btn sign">CREATE ACCOUNT</Button>
-            </NavLink>
-          </div>
-          <div className="auth">
-            <NavLink to={link}>
+            <NavLink to={isAuth ? '/dashboard/overview' : '/auth/login'}>
               <Button colored className="btn">
-                {text}
+                {isAuth ? 'MY DASHBOARD' : 'LOG IN'}
               </Button>
             </NavLink>
           </div>

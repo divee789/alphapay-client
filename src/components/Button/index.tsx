@@ -20,7 +20,7 @@ const Button = (props: propsInterface) => {
   let style: any;
 
   style = {
-    borderColor: '#008080',
+    borderColor: '#47C072',
     borderWidth: '1px',
     color: '#008080',
     backgroundColor: 'white',
@@ -36,8 +36,9 @@ const Button = (props: propsInterface) => {
   }
   if (props.colored) {
     style = {
-      backgroundImage: '#008080',
+      backgroundImage: '#47C072',
       color: 'white',
+      borderWidth: 0,
     };
   }
 

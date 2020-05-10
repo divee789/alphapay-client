@@ -53,7 +53,7 @@ const FundForm = (props) => {
           let feedback = {
             ...values,
             processor: 'Korapay',
-            processor_reference: ref,
+            processor_reference: 'KPY-0000',
             transaction_status: 'success',
             narration: 'Deposit funds to wallet',
           };

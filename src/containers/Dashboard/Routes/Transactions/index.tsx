@@ -13,13 +13,14 @@ import img1 from '../../../../assets/images/newpassword.png';
 import './index.scss';
 
 interface ITransaction {
-  _id: string;
+  id: string;
   transaction_type: string;
   amount: number;
   reference: number;
   status: string;
   recipient: any;
   createdAt: Date;
+  Client: any;
 }
 
 const Transactions = () => {
@@ -114,13 +115,13 @@ const Transactions = () => {
             <>
               <div
                 className="transaction_item"
-                key={transaction._id}
+                key={transaction.id}
                 onClick={() => {
                   toggleModal(transaction);
                 }}
               >
                 <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>
-                <p>{transaction.recipient.phone_number}</p>
+                <p>{transaction.Client.phone_number}</p>
                 <p>
                   {transaction.amount
                     .toFixed(2)
@@ -138,7 +139,7 @@ const Transactions = () => {
                 }}
               >
                 <p className={`status ${switchStatus(transaction.status)}`}>{transaction.status}</p>
-                <p>Recipient: {transaction.recipient.phone_number}</p>
+                <p>Recipient: {transaction.Client.phone_number}</p>
                 <p>
                   Amount:{' '}
                   {transaction.amount

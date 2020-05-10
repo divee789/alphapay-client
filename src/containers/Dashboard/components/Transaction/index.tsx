@@ -29,18 +29,18 @@ const Transaction = ({ transaction }) => {
               <p>
                 Recipient:{' '}
                 <span>
-                  {transaction.recipient.first_name} {transaction.recipient.last_name}
+                  {transaction.Client.first_name} {transaction.Client.last_name}
                 </span>
               </p>
             </div>
             <div>
               <p>
-                Recipient-email: <span>{transaction.recipient.email}</span>
+                Recipient-email: <span>{transaction.Client.email}</span>
               </p>
             </div>
             <div>
               <p>
-                Recipient-phone_number: <span>{transaction.recipient.phone_number}</span>
+                Recipient-phone_number: <span>{transaction.Client.phone_number}</span>
               </p>
             </div>
 

@@ -13,13 +13,13 @@ const NotificationsBar = ({ isActive, onClose, notifications, remove }) => {
       <>
         {notifications.map((item) => {
           return (
-            <p key={item._id}>
+            <p key={item.id}>
               {`Your wallet was credited by ${item.sender} on ${dayjs(item.date).format('D MMM YYYY')} with NGN ${
                 item.amount
               }`}{' '}
               <span
                 onClick={() => {
-                  remove(item._id);
+                  remove(item.id);
                 }}
               >
                 Delete
