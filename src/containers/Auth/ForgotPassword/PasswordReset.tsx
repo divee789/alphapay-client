@@ -8,8 +8,11 @@ import * as Yup from 'yup';
 import Request from '../../../services/api-services';
 
 import logo from '../../../assets/images/alp.png';
-import back from '../../../assets/images/back.png';
+import image1 from '../../../assets/images/auth.jpg';
+
 import Button from '../../../components/Button';
+
+import '../auth.scss';
 
 const api = new Request();
 
@@ -20,7 +23,7 @@ const styles = {
   borderRadius: '10px',
 };
 
-const PasswordReset: React.FC = (props: any) => {
+const PasswordReset = (props: any) => {
   const [user, setUser] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [err, setError] = useState(null);
@@ -52,12 +55,9 @@ const PasswordReset: React.FC = (props: any) => {
     password: '',
   };
 
-  let text = 'CONTINUE';
-  if (loading) text = 'Please wait...';
-
   const passwordvalidationSchema = Yup.object().shape({
     password: Yup.string()
-      .min(9, 'Password must be 9 characters or longer')
+      .min(8, 'Password must be 8 characters or longer')
       .required('Provide a password please')
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
@@ -81,50 +81,48 @@ const PasswordReset: React.FC = (props: any) => {
   return (
     <>
       <section className="login_auth" style={theme()}>
-        <div className="logo">
-          <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
-        <div className="page_content">
-          <div className="page_content_container">
-            <div className="page_content_container2">
-              <Formik
-                initialValues={initialValues}
-                validationSchema={passwordvalidationSchema}
-                onSubmit={handleSubmit}
-                render={(formProps) => {
-                  return (
-                    <>
-                      {feedback && (
-                        <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
-                          {feedback}
-                        </p>
-                      )}
-                      <Form className="form">
-                        <h2>Password Reset</h2>
-                        {err && <p>There has been an issue ,please contact support</p>}
-                        {!err && (
-                          <>
-                            <p>Hello {user && user.first_name},please provide a new password for your account</p>
-                            <div className="input-container">
-                              <Field type="password" name="password" placeholder="Password" className="password" />
-                              <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
-                            </div>
-                            <div className="input-container btn_container">
-                              <Button disabled={formProps.isSubmitting} colored>
-                                {text}
-                              </Button>
-                            </div>
-                          </>
-                        )}
-                      </Form>
-                    </>
-                  );
-                }}
-              />
-            </div>
-          </div>
+        <div className="auth_form">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={passwordvalidationSchema}
+            onSubmit={handleSubmit}
+            render={(formProps) => {
+              return (
+                <>
+                  <div className="logo">
+                    <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+                  </div>
+                  {feedback && (
+                    <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
+                      {feedback}
+                    </p>
+                  )}
+                  <Form className="form">
+                    <h2>Password Reset</h2>
+                    {err && <p>There has been an issue ,please contact support</p>}
+                    {!err && (
+                      <>
+                        <p>Hello {user && user.first_name},please provide a new password for your account</p>
+                        <div className="input-container">
+                          <Field type="password" name="password" placeholder="Password" className="password" />
+                          <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
+                        </div>
+                        <div className="input-container btn_container">
+                          <Button disabled={formProps.isSubmitting} colored>
+                            {loading ? 'Please wait...' : 'CONTINUE'}
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </Form>
+                </>
+              );
+            }}
+          />
         </div>
-        <img src={back} className="auth_image" alt="header_image" style={{ marginTop: '-50%' }} />
       </section>
     </>
   );

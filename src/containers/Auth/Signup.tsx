@@ -7,8 +7,8 @@ import theme from '../../components/Theme';
 
 import { signup } from '../../store/actions';
 
-import back from '../../assets/images/back.png';
 import logo from '../../assets/images/alp.png';
+import image1 from '../../assets/images/auth.jpg';
 
 import Button from '../../components/Button';
 
@@ -42,9 +42,6 @@ const SignUp: React.FC = (props: any) => {
     last_name: '',
     phone_number: undefined,
   };
-  let text = 'CONTINUE';
-
-  if (processing) text = 'Please wait...';
 
   const logvalidationSchema = Yup.object().shape({
     first_name: Yup.string().required('Provide your first name please'),
@@ -81,72 +78,70 @@ const SignUp: React.FC = (props: any) => {
   return (
     <>
       <section className="login_auth" style={theme()}>
-        <div className="logo">
-          <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
-        <div className="page_content">
-          <div className="page_content_container">
-            <div className="page_content_container2">
-              <Formik
-                initialValues={initialValues}
-                validationSchema={logvalidationSchema}
-                onSubmit={handleSubmit}
-                render={(formProps) => {
-                  return (
-                    <>
-                      {feedback && (
-                        <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
-                          {feedback}
-                        </p>
-                      )}
-                      <Form className="form">
-                        <h2>Sign Up</h2>
-                        <p>Join the community,Sign up and move on to your dashboard</p>
-                        <div className="input-container-dual">
-                          <div>
-                            <Field type="text" name="first_name" placeholder="First name" />
-                            <ErrorMessage name="first_name" render={(msg) => <div className="error">{msg}</div>} />
-                          </div>
-                          <div>
-                            <Field type="text" name="last_name" placeholder="Last Name" />
-                            <ErrorMessage name="last_name" render={(msg) => <div className="error">{msg}</div>} />
-                          </div>
-                        </div>
+        <div className="auth_form">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={logvalidationSchema}
+            onSubmit={handleSubmit}
+            render={(formProps) => {
+              return (
+                <>
+                  <div className="logo">
+                    <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+                  </div>
+                  {feedback && (
+                    <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
+                      {feedback}
+                    </p>
+                  )}
+                  <Form className="form signup">
+                    <h2>Sign Up</h2>
+                    <p>Join the community,Sign up and move on to your dashboard</p>
+                    <div className="input-container-dual">
+                      <div>
+                        <Field type="text" name="first_name" placeholder="First name" />
+                        <ErrorMessage name="first_name" render={(msg) => <div className="error">{msg}</div>} />
+                      </div>
+                      <div>
+                        <Field type="text" name="last_name" placeholder="Last Name" />
+                        <ErrorMessage name="last_name" render={(msg) => <div className="error">{msg}</div>} />
+                      </div>
+                    </div>
 
-                        <div className="input-container">
-                          <Field type="text" name="phone_number" placeholder="Phone number" />
-                          <ErrorMessage name="phone_number" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
-                        <div className="input-container">
-                          <Field type="text" name="email" placeholder="Email" />
-                          <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
-                        <div className="input-container">
-                          <Field type="password" name="password" placeholder="Password" />
-                          <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
-                        <div className="input-container">
-                          <Field type="password" name="confirmPassword" placeholder="Confirm Password" />
-                          <ErrorMessage name="confirmPassword" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
-                        <div className="input-container btn_container">
-                          <Button disabled={formProps.isSubmitting} colored>
-                            {text}
-                          </Button>
-                          <p>Already have an account?</p>
-                          <p>
-                            <Link to="/auth/login">Click here to sign in</Link>
-                          </p>
-                        </div>
-                      </Form>
-                    </>
-                  );
-                }}
-              />
-            </div>
-          </div>
+                    <div className="input-container">
+                      <Field type="text" name="phone_number" placeholder="Phone number" />
+                      <ErrorMessage name="phone_number" render={(msg) => <div className="error">{msg}</div>} />
+                    </div>
+                    <div className="input-container">
+                      <Field type="text" name="email" placeholder="Email" />
+                      <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
+                    </div>
+                    <div className="input-container">
+                      <Field type="password" name="password" placeholder="Password" />
+                      <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
+                    </div>
+                    <div className="input-container">
+                      <Field type="password" name="confirmPassword" placeholder="Confirm Password" />
+                      <ErrorMessage name="confirmPassword" render={(msg) => <div className="error">{msg}</div>} />
+                    </div>
+                    <div className="input-container btn_container">
+                      <Button disabled={formProps.isSubmitting} colored>
+                        {processing ? 'Please wait...' : 'CONTINUE'}
+                      </Button>
+                      <p>Already have an account?</p>
+                      <p>
+                        <Link to="/auth/login">Click here to sign in</Link>
+                      </p>
+                    </div>
+                  </Form>
+                </>
+              );
+            }}
+          />
         </div>
-        <img src={back} className="auth_image" alt="header_image" />
       </section>
     </>
   );

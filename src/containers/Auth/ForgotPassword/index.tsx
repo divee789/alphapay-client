@@ -7,9 +7,11 @@ import theme from '../../../components/Theme';
 import Request from '../../../services/api-services';
 
 import logo from '../../../assets/images/alp.png';
-import back from '../../../assets/images/back.png';
+import image1 from '../../../assets/images/auth.jpg';
 
 import Button from '../../../components/Button';
+
+import '../auth.scss';
 
 const api = new Request();
 
@@ -20,7 +22,7 @@ const styles = {
   borderRadius: '10px',
 };
 
-const ForgotPassword: React.FC = (props: any) => {
+const ForgotPassword = (props: any) => {
   const [processing, setProcessing] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
@@ -30,9 +32,6 @@ const ForgotPassword: React.FC = (props: any) => {
   const initialValues: FormValues = {
     email: '',
   };
-
-  let text = 'CONTINUE';
-  if (processing) text = 'Please wait...';
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
@@ -51,51 +50,49 @@ const ForgotPassword: React.FC = (props: any) => {
   return (
     <>
       <section className="login_auth" style={theme()}>
-        <div className="logo">
-          <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
-        <div className="page_content">
-          <div className="page_content_container">
-            <div className="page_content_container2">
-              <Formik
-                initialValues={initialValues}
-                onSubmit={handleSubmit}
-                validationSchema={Yup.object().shape({
-                  email: Yup.string().email('Provide a valid email please').required('Provide your email please'),
-                })}
-                render={(formProps) => {
-                  return (
-                    <>
-                      {feedback && (
-                        <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
-                          {feedback}
-                        </p>
-                      )}
-                      <Form className="form">
-                        <h2>Forgot your Password?</h2>
-                        <p>Please provide your email.and we will send a password reset link to you</p>
-                        <div className="input-container">
-                          <Field type="text" name="email" placeholder="Your email" />
-                          <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
-                        <div className="input-container btn_container">
-                          {/* <button disabled={formProps.isSubmitting}>{text}</button> */}
-                          <Button disabled={formProps.isSubmitting} colored>
-                            {text}
-                          </Button>
-                          <p>
-                            Did not receive an email? <Link to="/">Resend Email</Link>
-                          </p>
-                        </div>
-                      </Form>
-                    </>
-                  );
-                }}
-              />
-            </div>
-          </div>
+        <div className="auth_form">
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={Yup.object().shape({
+              email: Yup.string().email('Provide a valid email please').required('Provide your email please'),
+            })}
+            render={(formProps) => {
+              return (
+                <>
+                  <div className="logo">
+                    <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+                  </div>
+                  {feedback && (
+                    <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
+                      {feedback}
+                    </p>
+                  )}
+                  <Form className="form">
+                    <h2>Forgot your Password?</h2>
+                    <p>Please provide your email.and we will send a password reset link to you</p>
+                    <div className="input-container">
+                      <Field type="text" name="email" placeholder="Your email" />
+                      <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
+                    </div>
+                    <div className="input-container btn_container">
+                      {/* <button disabled={formProps.isSubmitting}>{text}</button> */}
+                      <Button disabled={formProps.isSubmitting} colored>
+                        {processing ? 'Please wait...' : 'CONTINUE'}
+                      </Button>
+                      <p>
+                        Did not receive an email? <Link to="/">Resend Email</Link>
+                      </p>
+                    </div>
+                  </Form>
+                </>
+              );
+            }}
+          />
         </div>
-        <img src={back} className="auth_image" alt="header_image" style={{ marginTop: '-50%' }} />
       </section>
     </>
   );

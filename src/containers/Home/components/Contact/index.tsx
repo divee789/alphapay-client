@@ -45,7 +45,7 @@ const Contact: React.FC = (props: any) => {
             render={(formProps) => {
               return (
                 <>
-                  <Form className="form" style={theme('white')}>
+                  <Form className="contact-form" style={theme('white')}>
                     <div className="input_container">
                       <div className="ff">
                         <div className="label">First Name</div>
