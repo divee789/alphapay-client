@@ -5,9 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import * as Yup from 'yup';
+import dayjs from 'dayjs';
 
 import { filter_client_transactions } from '../../../../store/actions';
 import Button from '../../../../components/Button';
+import constants from '../../../../utils/constants';
 
 import './index.scss';
 
@@ -30,7 +32,7 @@ const SearchForm = () => {
   const { mode } = useSelector((state: any) => state.ui);
 
   const styles = {
-    backgroundColor: mode === 'dark' ? 'black' : '#eff3fb',
+    backgroundColor: mode === 'dark' ? constants.darkMode : '#eff3fb',
   };
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
@@ -40,8 +42,8 @@ const SearchForm = () => {
     let data = {
       ...values,
       date: {
-        from: values.from,
-        to: values.to.setDate(values.to.getDate() + 1),
+        from: dayjs(values.from).format('YYYY-MM-DD'),
+        to: dayjs(values.to).format('YYYY-MM-DD'),
       },
     };
 

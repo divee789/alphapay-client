@@ -1,6 +1,7 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { loadReCaptcha } from 'react-recaptcha-google';
 import SwitchC from 'react-switch';
 
 import { history } from './utils';
@@ -34,6 +35,10 @@ const App = (props: any) => {
   const dispatch = useDispatch();
   const { isAuth } = useSelector((state: any) => state.auth);
   const { mode, checked } = useSelector((state: any) => state.ui);
+
+  useEffect(() => {
+    loadReCaptcha();
+  }, ['']);
 
   const toggleTheme = async () => {
     if (mode === 'light') {

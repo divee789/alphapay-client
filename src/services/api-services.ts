@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Logger } from '../utils/index';
+import { Logger } from '../utils';
 import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
 import decode from 'jwt-decode';

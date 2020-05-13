@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import image1 from './../../../../assets/images/cell1.jpg';
 import image2 from '../../../../assets/images/support-team.svg';
@@ -9,6 +10,12 @@ import image5 from '../../../../assets/images/work4.jpg';
 import './index.scss';
 
 const Section = () => {
+  const { mode } = useSelector((state: any) => state.ui);
+
+  const style = {
+    backgroundColor: '#242729',
+  };
+
   return (
     <>
       <section className="section2">
@@ -16,7 +23,7 @@ const Section = () => {
           <h1>Payments made easy.</h1>
           <p>What can you do with alphapay?</p>
         </div>
-        <div className="detail">
+        <div className="detail" style={mode == 'dark' ? style : null}>
           <div className="detail_1">
             <img src={image1} alt="Payments made easy" />
           </div>

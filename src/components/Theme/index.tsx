@@ -1,10 +1,12 @@
 import { useSelector } from 'react-redux';
 
+import constants from '../../utils/constants';
+
 const Theme = (background?) => {
   const { mode } = useSelector((state: any) => state.ui);
 
   const styles = {
-    background: mode === 'dark' ? 'rgb(36, 39, 41) ' : background || 'unset',
+    background: mode === 'dark' ? constants.darkMode : background || 'unset',
     color: mode === 'dark' ? '#fff' : '#000',
   };
 

@@ -9,6 +9,16 @@ import { getUser } from '../../store/actions/auth';
 import { logout } from '../../store/actions';
 import API from '../../services/api-services';
 
+import Overview from './Routes/Overview';
+import Cards from './Routes/Cards';
+import Transactions from './Routes/Transactions';
+import Utilities from './Routes/Utilities';
+import Setting from './Routes/Setting';
+import Loading from '../../components/Loading';
+import SideBar from './components/SideBar';
+import NotificationBar from './components/Notifications';
+import constants from '../../utils/constants';
+
 import Logo from '../../assets/images/alp.png';
 import Notify from '../../assets/images/dashboard/bxs-bell.png';
 import not from '../../assets/images/notification.svg';
@@ -18,15 +28,6 @@ import transact_logo from '../../assets/images/dashboard/transactions.png';
 import settings from '../../assets/images/dashboard/set.png';
 import utils_logo from '../../assets/images/dashboard/utitlity.png';
 import hamburger from '../../assets/images/menu.png';
-
-import Overview from './Routes/Overview';
-import Cards from './Routes/Cards';
-import Transactions from './Routes/Transactions';
-import Utilities from './Routes/Utilities';
-import Setting from './Routes/Setting';
-import Loading from '../../components/Loading';
-import SideBar from './components/SideBar';
-import NotificationBar from './components/Notifications';
 
 import './index.scss';
 
@@ -105,7 +106,7 @@ const Dashboard = (props: any) => {
   };
 
   const styles = {
-    background: mode === 'dark' ? '#011627' : 'unset',
+    background: mode === 'dark' ? constants.darkMode : 'unset',
     color: mode === 'dark' ? '#00C9B6' : '#000',
   };
 

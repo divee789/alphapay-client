@@ -1,4 +1,4 @@
-import { Logger } from '../utils/index';
+import { Logger } from '../utils';
 
 export function IsJsonString(str: any) {
   try {

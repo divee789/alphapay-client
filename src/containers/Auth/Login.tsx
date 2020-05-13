@@ -3,9 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import theme from '../../components/Theme';
 
 import { login } from '../../store/actions';
+import theme from '../../components/Theme';
+import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
@@ -29,25 +30,23 @@ const LogIn: React.FC = (props: any) => {
   interface FormValues {
     email: string;
     password: string;
+    recaptcha: string;
   }
   const initialValues: FormValues = {
     email: '',
     password: '',
+    recaptcha: '',
   };
 
   const logvalidationSchema = Yup.object().shape({
     email: Yup.string().email('Provide a valid email please').required('Provide your email please'),
-    password: Yup.string()
-      .min(9, 'Password must be 9 characters or longer')
-      .required('Provide a password please')
-      .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
-      ),
+    password: Yup.string().required('Provide a password please'),
+    recaptcha: Yup.string().required(),
   });
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
+      delete values['recaptcha'];
       await dispatch(login(values));
       props.history.push(`/dashboard/overview`);
     } catch (err) {
@@ -91,6 +90,18 @@ const LogIn: React.FC = (props: any) => {
                       <Field type="password" name="password" placeholder="Password" className="password" />
                       <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
+                    <div className="input-container">
+                      <RecaptchaComponent
+                        verifyCallback={(response) => {
+                          formProps.setFieldValue('recaptcha', response);
+                        }}
+                        expiredCallback={(response) => {
+                          formProps.setFieldValue('recaptcha', '');
+                        }}
+                      />
+                      <ErrorMessage name="recaptcha" render={(msg) => <div className="error">{msg}</div>} />
+                    </div>
+
                     <div className="input-container btn_container">
                       <Button disabled={formProps.isSubmitting} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}

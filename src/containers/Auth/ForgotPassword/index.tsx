@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { withRouter, Link } from 'react-router-dom';
 import * as Yup from 'yup';
+
+import RecaptchaComponent from '../Recaptcha';
 import theme from '../../../components/Theme';
 
 import Request from '../../../services/api-services';
@@ -28,9 +30,11 @@ const ForgotPassword = (props: any) => {
 
   interface FormValues {
     email: string;
+    recaptcha: string;
   }
   const initialValues: FormValues = {
     email: '',
+    recaptcha: '',
   };
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
@@ -77,6 +81,17 @@ const ForgotPassword = (props: any) => {
                     <div className="input-container">
                       <Field type="text" name="email" placeholder="Your email" />
                       <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
+                    </div>
+                    <div className="input-container">
+                      <RecaptchaComponent
+                        verifyCallback={(response) => {
+                          formProps.setFieldValue('recaptcha', response);
+                        }}
+                        expiredCallback={(response) => {
+                          formProps.setFieldValue('recaptcha', '');
+                        }}
+                      />
+                      <ErrorMessage name="recaptcha" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container btn_container">
                       {/* <button disabled={formProps.isSubmitting}>{text}</button> */}
