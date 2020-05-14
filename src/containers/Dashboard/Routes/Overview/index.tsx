@@ -34,7 +34,7 @@ const Overview: React.FC = () => {
   if (processing === true) {
     content = <p className="info_alert">Getting your wallet</p>;
   }
-  if (wallet !== null) {
+  if (wallet) {
     content = (
       <p>
         NGN{' '}
@@ -90,7 +90,7 @@ const Overview: React.FC = () => {
           </div>
           <div className="option_card">
             <img src={image2} alt="request" />
-            <p>Request Funds</p>
+            <p>Contact Support</p>
           </div>
           <div className="option_card">
             <img src={image3} alt="pay-bills" />

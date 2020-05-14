@@ -281,20 +281,16 @@ export default class APIRequest {
   };
 
   uploadProfileImage = async (data: any) => {
-    try {
-      const check = await this.isloggedIn();
-      if (!check) {
-        return {
-          error: true,
-          message: 'Your session has expired, please log in again',
-        };
-      }
-      const res = await this.instance2.post('/auth/upload', data);
-      console.log('upload', res);
-      return res.data.client;
-    } catch (error) {
-      console.log(error);
+    const check = await this.isloggedIn();
+    if (!check) {
+      return {
+        error: true,
+        message: 'Your session has expired, please log in again',
+      };
     }
+    const res = await this.instance2.post('/auth/upload', data);
+    console.log('upload', res);
+    return res.data.client;
   };
 
   //WALLET apis
@@ -336,6 +332,13 @@ export default class APIRequest {
   };
 
   makeNotifications = async (data: any) => {
+    const check = await this.isloggedIn();
+    if (!check) {
+      return {
+        error: true,
+        message: 'Your session has expired, please log in again',
+      };
+    }
     const res = await this.instance.post('/api/v1/transfer/notifications', data);
     if (res.data.success === true) {
       return {
@@ -349,6 +352,13 @@ export default class APIRequest {
   };
 
   getNotifications = async () => {
+    const check = await this.isloggedIn();
+    if (!check) {
+      return {
+        error: true,
+        message: 'Your session has expired, please log in again',
+      };
+    }
     const res = await this.instance.get('/api/v1/transfer/notifications');
     console.log(res.data);
     if (res.data.success === true) {

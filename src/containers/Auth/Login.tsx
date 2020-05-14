@@ -41,7 +41,7 @@ const LogIn: React.FC = (props: any) => {
   const logvalidationSchema = Yup.object().shape({
     email: Yup.string().email('Provide a valid email please').required('Provide your email please'),
     password: Yup.string().required('Provide a password please'),
-    recaptcha: Yup.string().required(),
+    recaptcha: Yup.string().required('Please confirm your  identity'),
   });
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Pusher, { Channel } from 'pusher-js';
 import { Route, Switch, Redirect, useRouteMatch, NavLink, withRouter } from 'react-router-dom';
+import openSocket from 'socket.io-client';
+import dayjs from 'dayjs';
+
 import { Wallet } from '../../store/types';
 import * as actionTypes from '../../store/actions/actionTypes';
 import { get_client_wallet, new_notifications } from '../../store/actions/wallet';
@@ -40,6 +42,8 @@ const Request = new API();
 
 const Dashboard = (props: any) => {
   const [sidebarOpen, setSideBarOpen] = useState(false);
+  // const [loading, setLoading] = useState(false);
+
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -47,51 +51,69 @@ const Dashboard = (props: any) => {
   const { processing, notifications } = useSelector((state: any) => state.wallet);
   const { mode } = useSelector((state: any) => state.ui);
 
-  const pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY, {
-    cluster: 'eu',
-    encrypted: true,
-  });
-
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
     document.getElementsByTagName('head')[0].appendChild(script);
-    // const script = document.createElement('script');
-    // script.src = 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js';
-    // document.getElementsByTagName('head')[0].appendChild(script);
     const check = async (): Promise<boolean> => {
       try {
-        await dispatch(getUser());
-        await dispatch(get_client_wallet());
+        dispatch(getUser());
+        dispatch(get_client_wallet());
+        await dispatch(new_notifications());
+        // setLoading(true);
         return true;
       } catch (error) {
         console.log('error', error);
-        throw error;
+        return false;
       }
     };
-    const notification = async (): Promise<void> => {
-      const re = await check();
-      if (!re) return;
-      const transfer_channel: Channel = pusher.subscribe('alphapay');
-      if (user) {
-        transfer_channel.bind(
-          `${user._id}-transfer`,
-          async (data) => {
-            console.log('pusher working', data.notification_data);
-            await dispatch(success(data.notification_data.wallet));
-            delete data.notification_data.wallet;
-            await Request.makeNotifications({ ...data.notification_data, beneficiary: user.phone_number });
-            await dispatch(new_notifications());
-          },
-          this,
-        );
-      }
+    // const transfer_channel: Channel = pusher.subscribe('alphapay');
+    // if (user) {
+    //   transfer_channel.bind(
+    //     `${user._id}-transfer`,
+    //     async (data) => {
+    //       console.log('pusher working', data.notification_data);
+    //       await dispatch(success(data.notification_data.wallet));
+    //       delete data.notification_data.wallet;
+    //       await Request.makeNotifications({ ...data.notification_data, beneficiary: user.phone_number });
+    //       await dispatch(new_notifications());
+    //     },
+    //     this,
+    //   );
+    // }
 
-      await dispatch(new_notifications());
-    };
-
-    notification();
+    check();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      console.log('whohoooo');
+      const APIBaseURL =
+        process.env.REACT_APP_NODE_ENV === 'development'
+          ? process.env.REACT_APP_STAGING
+          : process.env.REACT_APP_SERVER_URL;
+
+      const socket = openSocket(APIBaseURL);
+      socket.on(`${user.id}-transfer`, (data: any) => {
+        console.log('pusher working', data.data, data);
+        const check = async () => {
+          dispatch(success(data.data.wallet));
+          const apiObj = {
+            amount: data.data.amount,
+            beneficiary: user.phone_number,
+            sender: data.data.sender,
+            date: dayjs(data.data.date).format('YYYY-MM-DD'),
+            identifier: data.data.identifier,
+          };
+          delete data.data.wallet;
+          await Request.makeNotifications(apiObj);
+          await dispatch(new_notifications());
+        };
+        check();
+      });
+    }
+  });
+
   let { path, url } = useRouteMatch();
 
   const logOutHandler = async (e): Promise<void> => {
