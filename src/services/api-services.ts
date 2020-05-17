@@ -4,13 +4,8 @@ import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
 import decode from 'jwt-decode';
 
-let APIBaseURL;
-
-if (process.env.REACT_APP_NODE_ENV === 'development') {
-  APIBaseURL = process.env.REACT_APP_STAGING;
-} else {
-  APIBaseURL = process.env.REACT_APP_SERVER_URL;
-}
+const APIBaseURL =
+  process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_STAGING : process.env.REACT_APP_SERVER_URL;
 
 export default class APIRequest {
   public instance: any;
@@ -95,7 +90,6 @@ export default class APIRequest {
     delete this.instance2.defaults.headers.common.Authorization;
   }
   isloggedIn = async () => {
-    // Checks if there is a saved token and it's still valid
     const token = Storage.checkAuthentication();
     //Check for existence of token
     if (token) {
@@ -123,8 +117,8 @@ export default class APIRequest {
     try {
       const decoded: any = decode(token);
       const exp: number = decoded.exp;
-      const date = Date.now() / 1000;
-      if (exp < date) {
+      const refreshThreshold = Math.floor((new Date().getTime() + 120000) / 1000);
+      if (exp < refreshThreshold) {
         return true;
       } else {
         return false;
@@ -343,6 +337,23 @@ export default class APIRequest {
     };
   };
 
+  transferFunds = async (data: any) => {
+    const res = await this.instance.post('/api/v1/transfer', data);
+    if (res.data.success === true) {
+      return {
+        amount: res.data.amount,
+        message: res.data.message,
+        wallet: res.data.client_wallet,
+      };
+    }
+    return {
+      error: true,
+      message: res.data.message,
+    };
+  };
+
+  //NOTIFICATIONS
+
   makeNotifications = async (data: any) => {
     const check = await this.isloggedIn();
     if (!check) {
@@ -404,23 +415,6 @@ export default class APIRequest {
     };
   };
 
-  setTransactionPin = async (data: any): Promise<{ message: string; wallet?: any }> => {
-    const body = {
-      transaction_pin: data.transaction_pin,
-    };
-    const walletRes = await this.instance.post('/api/v1/wallet/activation', body);
-    const response = walletRes.data;
-    if (response.success === true) {
-      return {
-        message: response.message,
-        wallet: response.data,
-      };
-    }
-    return {
-      message: 'There has been an error in setting your pin,please try again later or contact support',
-    };
-  };
-
   //Transaction apis
 
   getTransactions = async (page?: number) => {
@@ -454,19 +448,20 @@ export default class APIRequest {
       message: response.message,
     };
   };
-
-  transferFunds = async (data: any) => {
-    const res = await this.instance.post('/api/v1/transfer', data);
-    if (res.data.success === true) {
+  setTransactionPin = async (data: any): Promise<{ message: string; wallet?: any }> => {
+    const body = {
+      transaction_pin: data.transaction_pin,
+    };
+    const walletRes = await this.instance.post('/api/v1/wallet/activation', body);
+    const response = walletRes.data;
+    if (response.success === true) {
       return {
-        amount: res.data.amount,
-        message: res.data.message,
-        wallet: res.data.client_wallet,
+        message: response.message,
+        wallet: response.data,
       };
     }
     return {
-      error: true,
-      message: res.data.message,
+      message: 'There has been an error in setting your pin,please try again later or contact support',
     };
   };
 }

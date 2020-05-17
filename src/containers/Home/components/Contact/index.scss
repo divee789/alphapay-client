@@ -5,6 +5,10 @@
     background: rgba(201, 135, 74, 0.05);
     position: relative;
 
+    @media screen and (max-width:600px) {
+        margin: 0;
+        padding: 0;
+    }
 
     h1,
     h3 {
@@ -34,6 +38,11 @@
         position: relative;
         border-radius: 8px;
 
+        @media screen and (max-width:600px) {
+            width: 90%;
+            padding: 1rem;
+        }
+
         .input_container {
             display: flex;
             flex-direction: row;
@@ -44,6 +53,17 @@
             .ff,
             .ll {
                 width: 47%;
+            }
+
+            @media screen and (max-width:600px) {
+                flex-direction: column;
+                margin-bottom: 0;
+
+                .ff,
+                .ll {
+                    width: 100%;
+                    margin-bottom: 2rem;
+                }
             }
         }
 

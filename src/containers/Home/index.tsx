@@ -3,11 +3,8 @@ import React from 'react';
 import styles from '../../components/Theme';
 import ScrollToTop from '../../components/ScrollToTop';
 import NavBar from '../../components/NavBar/newBar';
-// import Header from './components/Header';
 import Section1 from './components/Section1';
 import Section2 from './components/Section2';
-// import Process from './components/Process';
-// import Leadership from './components/Staff';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -20,7 +17,6 @@ const Home: React.FC = () => {
         <NavBar />
         <Section1 />
         <Section2 />
-        {/* <Leadership /> */}
         <Contact />
       </main>
       <Footer />
