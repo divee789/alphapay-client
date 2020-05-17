@@ -177,7 +177,6 @@ export default class APIRequest {
     };
     const response = await this.instance.post('/auth/client/token', body);
     const authResponse = response.data;
-    console.log('refresh', authResponse);
     Storage.setItem('userToken', authResponse.access_token);
     this.setHeader(authResponse.access_token);
     return authResponse;
@@ -229,7 +228,6 @@ export default class APIRequest {
     Storage.removeItem('refreshToken');
     Storage.removeItem('userTokenExpiration');
     if (client_email) {
-      console.log('email', client_email);
       const res = await this.instance.post('/auth/logout', {
         client_email,
         refresh_token,
@@ -272,7 +270,6 @@ export default class APIRequest {
   };
 
   passwordResetEmail = async (data) => {
-    console.log('email data', data);
     const res = await this.instance.post('/auth/password_reset_email', {
       email: data.email,
       password: data.password.trim(),
@@ -331,6 +328,21 @@ export default class APIRequest {
     };
   };
 
+  checkoutWallet = async (data: any) => {
+    const res = await this.instance.post('/api/v1/transfer/withdraw', data);
+
+    if (res.data.success === true) {
+      return {
+        wallet: res.data.data,
+        message: res.data.message,
+      };
+    }
+    return {
+      error: true,
+      message: res.data.message,
+    };
+  };
+
   makeNotifications = async (data: any) => {
     const check = await this.isloggedIn();
     if (!check) {
@@ -360,7 +372,6 @@ export default class APIRequest {
       };
     }
     const res = await this.instance.get('/api/v1/transfer/notifications');
-    console.log(res.data);
     if (res.data.success === true) {
       return {
         notifications: res.data.notifications,
@@ -445,7 +456,7 @@ export default class APIRequest {
   };
 
   transferFunds = async (data: any) => {
-    const res = await this.instance.post('/api/v1/transfer', { ...data });
+    const res = await this.instance.post('/api/v1/transfer', data);
     if (res.data.success === true) {
       return {
         amount: res.data.amount,

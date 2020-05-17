@@ -3,6 +3,7 @@ export { login, signup, update, logout, getUser } from './auth';
 export {
   get_client_wallet,
   fund_client_wallet,
+  checkout_client_wallet,
   new_notifications,
   transfer_funds,
   set_transaction_pin,

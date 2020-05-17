@@ -13,7 +13,6 @@ import APIServiceError from '../../../../services/error-services';
 declare global {
   interface Window {
     Korapay: any;
-    getpaidSetup: any;
   }
 }
 

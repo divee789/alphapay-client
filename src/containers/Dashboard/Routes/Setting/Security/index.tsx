@@ -21,7 +21,7 @@ const Security = (props: any) => {
   const dispatch = useDispatch();
 
   const initialValues = {
-    old_password: '',
+    password: '',
     new_password: '',
     type: 'Password',
   };
@@ -45,12 +45,13 @@ const Security = (props: any) => {
     try {
       switch (values.type) {
         case 'Password':
+          delete values['type'];
           const res = await api.changePassword(values);
-          console.log(res);
           setFeedback(res.message);
           setSubmitting(false);
           return resetForm();
         case 'Transaction':
+          delete values['type'];
           await dispatch(set_transaction_pin(values));
           setFeedback2('Request successful');
           setSubmitting(false);

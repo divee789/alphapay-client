@@ -13,7 +13,7 @@ const RecaptchaComponent = (props: propsInterface) => {
     if (captcha) {
       captcha.reset();
     }
-  }, []);
+  }, [captcha]);
 
   const onLoadRecaptcha = () => {
     if (captcha) {

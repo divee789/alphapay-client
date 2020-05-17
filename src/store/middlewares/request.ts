@@ -10,21 +10,28 @@ export default function requestMiddleware() {
       return action(dispatch, getState);
     }
 
-    next(action); // Start the loader anyways
-    const token = Storage.checkAuthentication();
+    next(action);
     //Check for existence of token
-    if (token !== false) {
-      const expired = apiRequest.isTokenExpired(token);
+    const token = Storage.checkAuthentication();
+    if (token) {
       //check if token is not expired
-      if (!expired) {
-        console.log('not expired token');
-        return true;
-      } else {
-        //If token is expired return false
-        console.log('expired token');
+      const expired = apiRequest.isTokenExpired(token);
+
+      if (expired) {
         try {
-          await apiRequest.refresh(Storage.getRefreshToken());
+          //check if refresh token is expired
+          const refreshToken = Storage.getRefreshToken();
+          if (refreshToken) {
+            const refExpired = apiRequest.isTokenExpired(refreshToken);
+            if (refExpired) {
+              return apiRequest.logOut();
+            }
+            await apiRequest.refresh(refreshToken);
+            return;
+          }
+          return apiRequest.logOut();
         } catch (error) {
+          console.log('midleware error', error);
           apiRequest.logOut();
           dispatch({ type: authConstants.LOGOUT });
           throw error;

@@ -10,6 +10,7 @@ import img1 from '../../../../assets/images/quick-and-easy.jpg';
 const TransferForm = (props) => {
   const [message, setMessage] = useState(null);
   const [pin, setPin] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { wallet } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
 
@@ -28,7 +29,6 @@ const TransferForm = (props) => {
   const linkStyle = {
     color: props.mode === 'dark' ? '#00C9B6' : '',
   };
-  let text = 'TRANSFER FUNDS';
 
   const walletValidationSchema = Yup.object().shape({
     amount: Yup.number().required('Please provide the amount you want to transfer'),
@@ -37,33 +37,38 @@ const TransferForm = (props) => {
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
-      text = 'Please wait';
+      setLoading(true);
       if (wallet && wallet.transaction_pin) {
+        setLoading(false);
         setPin(true);
         return;
       }
       let data = {
         ...values,
       };
-      const transRes = await dispatch(transfer_funds(data));
-      console.log(transRes);
+      await dispatch(transfer_funds(data));
       setMessage('Transaction successful');
+      setLoading(false);
     } catch (error) {
       console.error(error);
       setMessage(error.message);
+      setLoading(false);
       setSubmitting(false);
     }
   };
 
   const transfer = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
-      const transRes = await dispatch(transfer_funds(values));
-      console.log(transRes);
+      setLoading(true);
+      await dispatch(transfer_funds(values));
       setMessage('Transaction successful');
+      setLoading(false);
       setPin(false);
     } catch (error) {
+      console.error(error);
       setMessage(error.message);
       setPin(false);
+      setLoading(false);
       setSubmitting(false);
     }
   };
@@ -106,9 +111,7 @@ const TransferForm = (props) => {
                   <ErrorMessage name="pin" render={(msg) => <div className="error">{msg}</div>} />
                 </div>
                 <div className="fund_btn">
-                  <Button disabled={formProps.isSubmitting} colored>
-                    {text}
-                  </Button>
+                  <Button colored>{loading ? 'Please wait...' : 'TRANSFER FUNDS'}</Button>
                 </div>
               </Form>
             </>
@@ -150,7 +153,7 @@ const TransferForm = (props) => {
                 </div>
                 <div className="fund_btn">
                   <Button disabled={formProps.isSubmitting} colored>
-                    {text}
+                    {loading ? 'Please wait...' : 'TRANSFER FUNDS'}
                   </Button>
                 </div>
               </Form>

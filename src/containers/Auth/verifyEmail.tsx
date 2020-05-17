@@ -9,7 +9,7 @@ import { getUser } from '../../store/actions/auth';
 import Request from '../../services/api-services';
 
 import logo from '../../assets/images/alp.png';
-import back from '../../assets/images/back.png';
+import image1 from '../../assets/images/auth.jpg';
 
 import Button from '../../components/Button';
 
@@ -36,9 +36,6 @@ const VerifyEmail: React.FC = (props: any) => {
     token: '',
   };
 
-  let text = 'CONTINUE';
-  if (processing) text = 'Please wait...';
-
   const validationSchema = Yup.object().shape({
     token: Yup.string().required('Provide provide a valid tokens'),
   });
@@ -58,52 +55,50 @@ const VerifyEmail: React.FC = (props: any) => {
   return (
     <>
       <section className="login_auth" style={theme()}>
-        <div className="logo">
-          <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
-        <div className="page_content">
-          <div className="page_content_container">
-            <div className="page_content_container2">
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
-                render={(formProps) => {
-                  return (
-                    <>
-                      {feedback && (
-                        <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
-                          {feedback}
-                        </p>
-                      )}
-                      <Form className="form">
-                        <h2>Log In</h2>
-                        <p>
-                          Your verification token has been sent to your email,please check your email and provide the
-                          token here to enable us verify the email{' '}
-                        </p>
-                        <div className="input-container">
-                          <Field type="text" name="token" placeholder="Please put your token here" />
-                          <ErrorMessage name="token" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
-                        <div className="input-container btn_container">
-                          {/* <button disabled={formProps.isSubmitting}>{text}</button> */}
-                          <Button disabled={formProps.isSubmitting} colored>
-                            {text}
-                          </Button>
-                          <p>
-                            Did not receive an email? <Link to="/">Resend</Link>
-                          </p>
-                        </div>
-                      </Form>
-                    </>
-                  );
-                }}
-              />
-            </div>
-          </div>
+        <div className="auth_form">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+            render={(formProps) => {
+              return (
+                <>
+                  <div className="logo">
+                    <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+                  </div>
+                  {feedback && (
+                    <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
+                      {feedback}
+                    </p>
+                  )}
+                  <Form className="form">
+                    <h2>Log In</h2>
+                    <p>
+                      Your verification token has been sent to your email,please check your email and provide the token
+                      here to enable us verify the email{' '}
+                    </p>
+                    <div className="input-container">
+                      <Field type="text" name="token" placeholder="Please put your token here" />
+                      <ErrorMessage name="token" render={(msg) => <div className="error">{msg}</div>} />
+                    </div>
+                    <div className="input-container btn_container">
+                      {/* <button disabled={formProps.isSubmitting}>{text}</button> */}
+                      <Button disabled={formProps.isSubmitting} colored>
+                        {processing ? 'Please wait...' : 'CONTINUE'}
+                      </Button>
+                      <p>
+                        Did not receive an email? <Link to="/">Resend</Link>
+                      </p>
+                    </div>
+                  </Form>
+                </>
+              );
+            }}
+          />
         </div>
-        <img src={back} className="auth_image" alt="header_image" style={{ marginTop: '-50%' }} />
       </section>
     </>
   );

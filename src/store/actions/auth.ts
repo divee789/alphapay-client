@@ -81,11 +81,11 @@ export function signup(data: any) {
     try {
       await dispatch(request());
       const userDetails = await authAPIRequest.signUp(data);
-      dispatch(success(userDetails.data));
+      await dispatch(success(userDetails.data));
     } catch (error) {
       console.log(error);
       if (error instanceof APIServiceError) {
-        dispatch(failure(error));
+        await dispatch(failure(error));
         throw error.response.data;
       }
     }
@@ -111,8 +111,9 @@ export function update(data: any) {
         await dispatch(success(user));
         return;
       }
+
       const userDetails = await authAPIRequest.update(data);
-      dispatch(success(userDetails));
+      await dispatch(success(userDetails));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));

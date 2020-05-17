@@ -42,7 +42,6 @@ const Request = new API();
 
 const Dashboard = (props: any) => {
   const [sidebarOpen, setSideBarOpen] = useState(false);
-  // const [loading, setLoading] = useState(false);
 
   const [notificationOpen, setNotificationOpen] = useState(false);
 
@@ -55,39 +54,23 @@ const Dashboard = (props: any) => {
     const script = document.createElement('script');
     script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
     document.getElementsByTagName('head')[0].appendChild(script);
+
     const check = async (): Promise<boolean> => {
       try {
-        dispatch(getUser());
-        dispatch(get_client_wallet());
+        await dispatch(getUser());
+        await dispatch(get_client_wallet());
         await dispatch(new_notifications());
-        // setLoading(true);
         return true;
       } catch (error) {
         console.log('error', error);
         return false;
       }
     };
-    // const transfer_channel: Channel = pusher.subscribe('alphapay');
-    // if (user) {
-    //   transfer_channel.bind(
-    //     `${user._id}-transfer`,
-    //     async (data) => {
-    //       console.log('pusher working', data.notification_data);
-    //       await dispatch(success(data.notification_data.wallet));
-    //       delete data.notification_data.wallet;
-    //       await Request.makeNotifications({ ...data.notification_data, beneficiary: user.phone_number });
-    //       await dispatch(new_notifications());
-    //     },
-    //     this,
-    //   );
-    // }
-
     check();
   }, [dispatch]);
 
   useEffect(() => {
     if (user) {
-      console.log('whohoooo');
       const APIBaseURL =
         process.env.REACT_APP_NODE_ENV === 'development'
           ? process.env.REACT_APP_STAGING
@@ -95,9 +78,8 @@ const Dashboard = (props: any) => {
 
       const socket = openSocket(APIBaseURL);
       socket.on(`${user.id}-transfer`, (data: any) => {
-        console.log('pusher working', data.data, data);
-        const check = async () => {
-          dispatch(success(data.data.wallet));
+        const check = async (): Promise<void> => {
+          await dispatch(success(data.data.wallet));
           const apiObj = {
             amount: data.data.amount,
             beneficiary: user.phone_number,
@@ -105,14 +87,13 @@ const Dashboard = (props: any) => {
             date: dayjs(data.data.date).format('YYYY-MM-DD'),
             identifier: data.data.identifier,
           };
-          delete data.data.wallet;
           await Request.makeNotifications(apiObj);
           await dispatch(new_notifications());
         };
         check();
       });
     }
-  });
+  }, ['']);
 
   let { path, url } = useRouteMatch();
 
@@ -147,7 +128,6 @@ const Dashboard = (props: any) => {
         <NotificationBar
           isActive={notificationOpen}
           onClose={() => setNotificationOpen(false)}
-          notifications={notifications}
           remove={deleteNotification}
         />
 
@@ -206,7 +186,7 @@ const Dashboard = (props: any) => {
 
             <div className="profile_details">
               <img
-                src={notifications ? not : Notify}
+                src={notifications && notifications.length > 0 ? not : Notify}
                 onClick={() => {
                   setNotificationOpen(true);
                 }}
@@ -224,7 +204,7 @@ const Dashboard = (props: any) => {
                 alt="profile_image"
                 className="img"
               />
-              {user && user.first_name} {user && user.last_name}
+              {user && `${user.first_name} ${user.last_name}`}
             </div>
           </div>
           <section>

@@ -25,16 +25,15 @@ const styles = {
 };
 
 const ForgotPassword = (props: any) => {
+  const [recaptcha, setRecaptcha] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
   interface FormValues {
     email: string;
-    recaptcha: string;
   }
   const initialValues: FormValues = {
     email: '',
-    recaptcha: '',
   };
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
@@ -85,17 +84,16 @@ const ForgotPassword = (props: any) => {
                     <div className="input-container">
                       <RecaptchaComponent
                         verifyCallback={(response) => {
-                          formProps.setFieldValue('recaptcha', response);
+                          setRecaptcha(false);
                         }}
                         expiredCallback={(response) => {
-                          formProps.setFieldValue('recaptcha', '');
+                          setRecaptcha(true);
                         }}
                       />
-                      <ErrorMessage name="recaptcha" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container btn_container">
                       {/* <button disabled={formProps.isSubmitting}>{text}</button> */}
-                      <Button disabled={formProps.isSubmitting} colored>
+                      <Button disabled={formProps.isSubmitting || recaptcha} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}
                       </Button>
                       <p>

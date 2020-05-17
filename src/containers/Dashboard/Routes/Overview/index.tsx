@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import Modal from '../../../../components/Modal';
 import FundForm from '../../components/FundForm';
+import CheckoutForm from '../../components/CheckoutForm';
 import TransferForm from '../../components/TransferForm';
 import Button from '../../../../components/Button';
 
@@ -16,6 +17,7 @@ import './index.scss';
 const Overview: React.FC = () => {
   const [showFundModal, setShowFundModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
   const { wallet, processing } = useSelector((state: any) => state.wallet);
   const { mode } = useSelector((state: any) => state.ui);
@@ -23,12 +25,28 @@ const Overview: React.FC = () => {
   let content: any;
 
   const modalHandler = async (category) => {
-    if (category === 'fund') setShowFundModal(false);
-    if (category === 'transfer') setShowTransferModal(false);
+    switch (category) {
+      case 'fund':
+        return setShowFundModal(false);
+      case 'transfer':
+        return setShowTransferModal(false);
+      case 'checkout':
+        return setShowCheckoutModal(false);
+      default:
+        return;
+    }
   };
   const toggleModal = (form) => {
-    if (form === 'fund') setShowFundModal(!showFundModal);
-    if (form === 'transfer') setShowTransferModal(!showTransferModal);
+    switch (form) {
+      case 'fund':
+        return setShowFundModal(!showFundModal);
+      case 'transfer':
+        return setShowTransferModal(!showTransferModal);
+      case 'checkout':
+        return setShowCheckoutModal(!showCheckoutModal);
+      default:
+        return;
+    }
   };
 
   if (processing === true) {
@@ -71,7 +89,13 @@ const Overview: React.FC = () => {
                 Withdraw Funds
               </Button>
             ) : (
-              <Button dashboard style={{ color: mode === 'dark' ? '#00C9B6' : '' }}>
+              <Button
+                dashboard
+                style={{ color: mode === 'dark' ? '#00C9B6' : '' }}
+                onClick={() => {
+                  toggleModal('checkout');
+                }}
+              >
                 Withdraw Funds
               </Button>
             )}
@@ -110,6 +134,11 @@ const Overview: React.FC = () => {
       {showTransferModal && (
         <Modal open={showTransferModal} closed={() => modalHandler('transfer')}>
           <TransferForm close={() => modalHandler('transfer')} mode={mode} />
+        </Modal>
+      )}
+      {showCheckoutModal && (
+        <Modal open={showCheckoutModal} closed={() => modalHandler('checkout')}>
+          <CheckoutForm close={() => modalHandler('checkout')} mode={mode} />
         </Modal>
       )}
     </>

@@ -24,29 +24,26 @@ const styles = {
 
 const LogIn: React.FC = (props: any) => {
   const [feedback, setFeedback] = useState(null);
+  const [recaptcha, setRecaptcha] = useState(true);
   const { processing } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
   interface FormValues {
     email: string;
     password: string;
-    recaptcha: string;
   }
   const initialValues: FormValues = {
     email: '',
     password: '',
-    recaptcha: '',
   };
 
   const logvalidationSchema = Yup.object().shape({
     email: Yup.string().email('Provide a valid email please').required('Provide your email please'),
     password: Yup.string().required('Provide a password please'),
-    recaptcha: Yup.string().required('Please confirm your  identity'),
   });
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
-      delete values['recaptcha'];
       await dispatch(login(values));
       props.history.push(`/dashboard/overview`);
     } catch (err) {
@@ -93,17 +90,16 @@ const LogIn: React.FC = (props: any) => {
                     <div className="input-container">
                       <RecaptchaComponent
                         verifyCallback={(response) => {
-                          formProps.setFieldValue('recaptcha', response);
+                          setRecaptcha(false);
                         }}
                         expiredCallback={(response) => {
-                          formProps.setFieldValue('recaptcha', '');
+                          setRecaptcha(true);
                         }}
                       />
-                      <ErrorMessage name="recaptcha" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
 
                     <div className="input-container btn_container">
-                      <Button disabled={formProps.isSubmitting} colored>
+                      <Button disabled={formProps.isSubmitting || recaptcha} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}
                       </Button>
                       <p>

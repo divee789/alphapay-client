@@ -37,7 +37,6 @@ const SearchForm = () => {
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     setFeedback('');
-    console.log(values);
 
     let data = {
       ...values,

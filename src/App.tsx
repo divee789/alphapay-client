@@ -31,7 +31,7 @@ const Dashboard = React.lazy(() => {
   return import('./containers/Dashboard');
 });
 
-const App = (props: any) => {
+const App = () => {
   const dispatch = useDispatch();
   const { isAuth } = useSelector((state: any) => state.auth);
   const { mode, checked } = useSelector((state: any) => state.ui);

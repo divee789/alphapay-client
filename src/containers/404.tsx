@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar/newBar';
 import styles from '../components/Theme';
 
-import back from '../assets/images/back.png';
-
 const NotFound = () => {
   return (
     <>
@@ -23,7 +21,6 @@ const NotFound = () => {
             <Link to="/">Return to Homepage</Link>
           </div>
         </section>
-        <img src={back} className="header_image" alt="header_image" />
       </main>
     </>
   );

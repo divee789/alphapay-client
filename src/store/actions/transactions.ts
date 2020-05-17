@@ -13,7 +13,6 @@ export function get_client_transactions(page?: number) {
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_REQUEST };
   }
   function success(transactions: [Transaction], pager) {
-    console.log(transactions);
     const data = {
       transactions,
       pager,
@@ -28,13 +27,12 @@ export function get_client_transactions(page?: number) {
     try {
       await dispatch(request());
       const transactions = await Request.getTransactions(page);
-      console.log('action_transaction', transactions);
-      dispatch(success(transactions.transactions, transactions.pager));
+      await dispatch(success(transactions.transactions, transactions.pager));
     } catch (error) {
       console.log(error);
       if (error instanceof APIServiceError) {
         console.log('error in getting transaction', error);
-        dispatch(failure(error));
+        await dispatch(failure(error));
         throw error.response.data;
       }
     }
@@ -46,7 +44,6 @@ export function filter_client_transactions(data: any, page?: number) {
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_REQUEST };
   }
   function success(transactions: [Transaction], pager) {
-    console.log(transactions);
     const data = {
       transactions,
       pager,
@@ -61,8 +58,7 @@ export function filter_client_transactions(data: any, page?: number) {
     try {
       await dispatch(request());
       const transactions = await Request.filterTransactions(data, page);
-      console.log('action_transaction', transactions);
-      dispatch(success(transactions.transactions, transactions.pager));
+      await dispatch(success(transactions.transactions, transactions.pager));
     } catch (error) {
       console.log(error);
       if (error instanceof APIServiceError) {

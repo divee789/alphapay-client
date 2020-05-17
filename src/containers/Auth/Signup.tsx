@@ -29,11 +29,11 @@ interface FormValues {
   password: string;
   confirmPassword: string;
   phone_number: number;
-  recaptcha: string;
 }
 
 const SignUp: React.FC = (props: any) => {
   const [feedback, setFeedback] = useState(null);
+  const [recaptcha, setRecaptcha] = useState(true);
   const { processing } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   const initialValues: FormValues = {
@@ -43,7 +43,6 @@ const SignUp: React.FC = (props: any) => {
     first_name: '',
     last_name: '',
     phone_number: ('' as unknown) as number,
-    recaptcha: '',
   };
 
   const logvalidationSchema = Yup.object().shape({
@@ -64,12 +63,10 @@ const SignUp: React.FC = (props: any) => {
       is: (val) => (val && val.length > 0 ? true : false),
       then: Yup.string().oneOf([Yup.ref('password')], 'Both password need to be the same'),
     }),
-    recaptcha: Yup.string().required(),
   });
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
-      delete values['recaptcha'];
       delete values['confirmPassword'];
       await dispatch(signup(values));
       return props.history.push(`/auth/verify_email`);
@@ -135,16 +132,15 @@ const SignUp: React.FC = (props: any) => {
                     <div className="input-container">
                       <RecaptchaComponent
                         verifyCallback={(response) => {
-                          formProps.setFieldValue('recaptcha', response);
+                          setRecaptcha(false);
                         }}
                         expiredCallback={(response) => {
-                          formProps.setFieldValue('recaptcha', '');
+                          setRecaptcha(true);
                         }}
                       />
-                      <ErrorMessage name="recaptcha" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container btn_container">
-                      <Button disabled={formProps.isSubmitting} colored>
+                      <Button disabled={formProps.isSubmitting || recaptcha} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}
                       </Button>
                       <p>Already have an account?</p>

@@ -224,7 +224,7 @@ const Transactions = () => {
               </Button>
             ) : (
               <Button dashboard style={linkStyle} disabled>
-                Previous Page
+                Next Page
               </Button>
             )}
           </div>

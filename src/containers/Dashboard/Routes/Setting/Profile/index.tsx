@@ -17,11 +17,12 @@ const Profile = (props: any) => {
   const [uploadFeedBack, setUploadFeedBack] = useState(false);
 
   const { user, processing, update_error, message } = useSelector((state: any) => state.auth);
+
   const initialValues = {
-    email: user.email,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    phone_number: user.phone_number,
+    email: user ? user.email : '',
+    first_name: user ? user.first_name : '',
+    last_name: user ? user.last_name : '',
+    phone_number: user ? user.phone_number : '',
   };
   const logvalidationSchema = Yup.object().shape({
     first_name: Yup.string().required('Provide your first name please'),
@@ -74,8 +75,10 @@ const Profile = (props: any) => {
         <div className="profile_image_handler">
           <img
             src={
-              user.profile_image
+              user
                 ? user.profile_image
+                  ? user.profile_image
+                  : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
                 : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
             }
             alt="user_profile_image"
