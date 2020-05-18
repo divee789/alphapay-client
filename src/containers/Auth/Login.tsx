@@ -42,7 +42,7 @@ const LogIn: React.FC = (props: any) => {
     password: Yup.string().required('Provide a password please'),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+  const handleSubmit = async (values: any, { setSubmitting }: any): Promise<void> => {
     try {
       await dispatch(login(values));
       props.history.push(`/dashboard/overview`);
@@ -64,14 +64,14 @@ const LogIn: React.FC = (props: any) => {
             initialValues={initialValues}
             validationSchema={logvalidationSchema}
             onSubmit={handleSubmit}
-            render={(formProps) => {
+            render={(formProps): JSX.Element => {
               return (
                 <>
                   <div className="logo">
-                    <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+                    <img src={logo} alt="logo" onClick={(): void => props.history.push('/')} />
                   </div>
                   {feedback && (
-                    <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
+                    <p style={styles} className="error_message" onClick={(): void => setFeedback(null)}>
                       {feedback}
                     </p>
                   )}
@@ -81,18 +81,24 @@ const LogIn: React.FC = (props: any) => {
                     <p>Welcome back,please log in to your account to access your dashboard</p>
                     <div className="input-container">
                       <Field type="text" name="email" placeholder="example@gmail.com" />
-                      <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
+                      <ErrorMessage
+                        name="email"
+                        render={(msg: string): JSX.Element => <div className="error">{msg}</div>}
+                      />
                     </div>
                     <div className="input-container">
                       <Field type="password" name="password" placeholder="Password" className="password" />
-                      <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
+                      <ErrorMessage
+                        name="password"
+                        render={(msg: string): JSX.Element => <div className="error">{msg}</div>}
+                      />
                     </div>
                     <div className="input-container">
                       <RecaptchaComponent
-                        verifyCallback={(response) => {
+                        verifyCallback={(): void => {
                           setRecaptcha(false);
                         }}
-                        expiredCallback={(response) => {
+                        expiredCallback={(): void => {
                           setRecaptcha(true);
                         }}
                       />
@@ -103,10 +109,10 @@ const LogIn: React.FC = (props: any) => {
                         {processing ? 'Please wait...' : 'CONTINUE'}
                       </Button>
                       <p>
-                        Can't remember your password? <Link to="/auth/password_reset_request">Reset</Link>
+                        Can not remember your password? <Link to="/auth/password_reset_request">Reset</Link>
                       </p>
                       <p>
-                        Don't have an account? <Link to="/auth/signup"> Register</Link>
+                        Do not have an account? <Link to="/auth/signup"> Register</Link>
                       </p>
                     </div>
                   </Form>

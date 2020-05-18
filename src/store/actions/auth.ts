@@ -1,14 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import * as actionTypes from './actionTypes';
 import APIRequest from '../../services/api-services';
 import APIServiceError from '../../services/error-services';
 
 const authAPIRequest = new APIRequest();
 
-export function logout(email?: string): any {
-  function request() {
+export function logout(email?: string) {
+  function request(): {
+    type: string;
+  } {
     return { type: actionTypes.authConstants.LOGOUT };
   }
-  return async (dispatch: any) => {
+  return async (dispatch: any): Promise<void> => {
     try {
       await dispatch(request());
       await authAPIRequest.logOut(email);

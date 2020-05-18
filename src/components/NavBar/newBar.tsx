@@ -13,7 +13,7 @@ import Button from '../Button';
 
 import './newBar.scss';
 
-const Navbar = (props: any) => {
+const Navbar = (props: any): JSX.Element => {
   const { isAuth } = useSelector((state: any) => state.auth);
   const [change, setChange] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -42,8 +42,9 @@ const Navbar = (props: any) => {
       <nav className="nav" style={navStyle}>
         <div
           className="logo"
-          onClick={() => {
+          onClick={(): void => {
             props.history.push('/');
+            return;
           }}
         >
           <img src={Logo} alt="alphapay_logo" />
@@ -84,11 +85,11 @@ const Navbar = (props: any) => {
             </NavLink>
           </div>
         </div>
-        <div className="hamburger" onClick={() => setIsActive(!isActive)}>
+        <div className="hamburger" onClick={(): void => setIsActive(!isActive)}>
           <img src={Hamburger} alt="menu_icon" />
         </div>
       </nav>
-      <SideNav isActive={isActive} onClose={() => setIsActive(!isActive)} isAuth={isAuth} />
+      <SideNav isActive={isActive} onClose={(): void => setIsActive(!isActive)} isAuth={isAuth} />
     </>
   );
 };

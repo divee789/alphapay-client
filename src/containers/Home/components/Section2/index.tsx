@@ -9,7 +9,7 @@ import image5 from '../../../../assets/images/work4.jpg';
 
 import './index.scss';
 
-const Section = () => {
+const Section = (): JSX.Element => {
   const { mode } = useSelector((state: any) => state.ui);
 
   const style = {
@@ -55,7 +55,7 @@ const Section = () => {
 
         <div className="other">
           <div>
-            <img src={image2} />
+            <img src={image2} alt="customer_support" />
             <h3>Customer Support</h3>
             <p>
               We possess world class customer care facilities.We are available for all your needs 7 days a week, 24
@@ -63,7 +63,7 @@ const Section = () => {
             </p>
           </div>
           <div>
-            <img src={image3} />
+            <img src={image3} alt="secure_payments" />
             <h3>Secure Payments</h3>
             <p>
               We possess world class customer care facilities.We are available for all your needs 7 days a week, 24
@@ -71,7 +71,7 @@ const Section = () => {
             </p>
           </div>
           <div>
-            <img src={image4} />
+            <img src={image4} alt="secure_payments" />
             <h3>Instant Notifications</h3>
             <p>
               We possess world class customer care facilities.We are available for all your needs 7 days a week, 24
