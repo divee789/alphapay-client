@@ -140,7 +140,7 @@ const SignUp: React.FC = (props: any) => {
                       />
                     </div>
                     <div className="input-container btn_container">
-                      <Button disabled={formProps.isSubmitting || recaptcha} colored>
+                      <Button disabled={formProps.isSubmitting} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}
                       </Button>
                       <p>Already have an account?</p>
