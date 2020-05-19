@@ -45,6 +45,7 @@ const LogIn: React.FC = (props: any) => {
   const handleSubmit = async (values: any, { setSubmitting }: any): Promise<void> => {
     try {
       await dispatch(login(values));
+      console.log(recaptcha);
       props.history.push(`/dashboard/overview`);
     } catch (err) {
       setFeedback(err.message);
