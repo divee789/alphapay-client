@@ -68,6 +68,7 @@ const SignUp: React.FC = (props: any) => {
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
       delete values['confirmPassword'];
+      console.log('recaptcha', recaptcha);
       await dispatch(signup(values));
       return props.history.push(`/auth/verify_email`);
     } catch (err) {
