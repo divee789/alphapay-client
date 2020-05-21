@@ -1,6 +1,6 @@
 export const payWithKorapay = (values: any, success: Function, failure: Function, onClose: Function): void => {
   window.Korapay.initialize({
-    key: process.env.REACT_APP_KORAPAY_TEST_PUBLIC_KEY,
+    key: process.env.REACT_APP_KORAPAY_PUBLIC_KEY,
     amount: Number(values.amount),
     currency: 'NGN',
     customer: {
@@ -13,7 +13,7 @@ export const payWithKorapay = (values: any, success: Function, failure: Function
     },
     onSuccess: async function (data) {
       console.log('modal response', data);
-      await success('popopo');
+      await success(data.reference);
     },
     onFailed: function () {
       failure();

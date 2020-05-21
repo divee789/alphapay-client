@@ -54,6 +54,7 @@ const App = () => {
     <Router history={history}>
       <Switch>
         <Route exact path="/" component={Landing} />
+        <Route exact path="/loading" component={Loading} />
         <Route path="/blog" component={Blog} />
         <Route path="/careers" component={Careers} />
         <Route path="/auth/login" render={(props) => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
@@ -61,7 +62,7 @@ const App = () => {
         <Route path="/auth/verify_email" component={VerifyEmail} />
         <Route path="/auth/password_reset_request" component={PasswordReset} />
         <Route path="/auth/password_reset/:token" component={PasswordConfirmation} />
-        <Route path={`/dashboard`} render={(props) => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
+        <Route path={'/dashboard'} render={(props) => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
         <Route path="/404" component={NotFound} />
         <Redirect to="/404" />
       </Switch>

@@ -5,24 +5,16 @@ import * as Yup from 'yup';
 
 import RecaptchaComponent from '../Recaptcha';
 import theme from '../../../components/Theme';
+import Button from '../../../components/Button';
 
 import Request from '../../../services/api-services';
 
 import logo from '../../../assets/images/alp.png';
 import image1 from '../../../assets/images/auth.jpg';
 
-import Button from '../../../components/Button';
-
 import '../auth.scss';
 
 const api = new Request();
-
-const styles = {
-  padding: '1rem',
-  backgroundColor: 'red',
-  color: 'white',
-  borderRadius: '10px',
-};
 
 const ForgotPassword = (props: any) => {
   const [recaptcha, setRecaptcha] = useState(true);
@@ -69,11 +61,7 @@ const ForgotPassword = (props: any) => {
                   <div className="logo">
                     <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
                   </div>
-                  {feedback && (
-                    <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
-                      {feedback}
-                    </p>
-                  )}
+
                   <Form className="form">
                     <h2>Forgot your Password?</h2>
                     <p>Please provide your email.and we will send a password reset link to you</p>
@@ -91,8 +79,12 @@ const ForgotPassword = (props: any) => {
                         }}
                       />
                     </div>
+                    {feedback && (
+                      <div className="error_message" onClick={() => setFeedback(null)}>
+                        {feedback}
+                      </div>
+                    )}
                     <div className="input-container btn_container">
-                      {/* <button disabled={formProps.isSubmitting}>{text}</button> */}
                       <Button disabled={formProps.isSubmitting || recaptcha} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}
                       </Button>

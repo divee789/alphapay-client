@@ -1,12 +1,10 @@
 @font-face {
   font-family: firma-bold;
-  // src: url(fonts/br-firma/BRFirmaCW-Bold.woff2);
   src: url(./assets/fonts/br-firma/BRFirmaCW-Bold.woff2);
 }
 
 @font-face {
   font-family: firma;
-  // src: url(fonts/br-firma/BRFirmaCW-Bold.woff2);
   src: url(./assets/fonts/br-firma/BRFirmaCW-Regular.woff2);
 }
 
@@ -75,4 +73,45 @@ code {
   margin-bottom: 1rem;
   font-size: 10px;
   color: rgb(110, 16, 63);
+}
+
+@keyframes sparkle {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+
+  25% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  75% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+}
+
+@keyframes float_normal {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(20px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }

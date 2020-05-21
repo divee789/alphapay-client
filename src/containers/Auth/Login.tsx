@@ -15,13 +15,6 @@ import Button from '../../components/Button';
 
 import './auth.scss';
 
-const styles = {
-  padding: '1rem',
-  backgroundColor: 'red',
-  color: 'white',
-  borderRadius: '10px',
-};
-
 const LogIn: React.FC = (props: any) => {
   const [feedback, setFeedback] = useState(null);
   const [recaptcha, setRecaptcha] = useState(true);
@@ -71,11 +64,6 @@ const LogIn: React.FC = (props: any) => {
                   <div className="logo">
                     <img src={logo} alt="logo" onClick={(): void => props.history.push('/')} />
                   </div>
-                  {feedback && (
-                    <p style={styles} className="error_message" onClick={(): void => setFeedback(null)}>
-                      {feedback}
-                    </p>
-                  )}
 
                   <Form className="form">
                     <h2>Log In</h2>
@@ -104,11 +92,17 @@ const LogIn: React.FC = (props: any) => {
                         }}
                       />
                     </div>
+                    {feedback && (
+                      <div className="error_message" onClick={(): void => setFeedback(null)}>
+                        {feedback}
+                      </div>
+                    )}
 
                     <div className="input-container btn_container">
                       <Button disabled={formProps.isSubmitting} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}
                       </Button>
+
                       <p>
                         Can not remember your password? <Link to="/auth/password_reset_request">Reset</Link>
                       </p>

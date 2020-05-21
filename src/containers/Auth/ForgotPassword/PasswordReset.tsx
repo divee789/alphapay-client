@@ -16,13 +16,6 @@ import '../auth.scss';
 
 const api = new Request();
 
-const styles = {
-  padding: '1rem',
-  backgroundColor: 'red',
-  color: 'white',
-  borderRadius: '10px',
-};
-
 const PasswordReset = (props: any) => {
   const [user, setUser] = useState(null);
   const [feedback, setFeedback] = useState(null);
@@ -65,13 +58,11 @@ const PasswordReset = (props: any) => {
       ),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+  const handleSubmit = async (values: any, { setSubmitting }: any) => {
     try {
-      console.log(values);
       const res = await api.passwordResetEmail({ ...values, email: user.email });
       setFeedback(res.message);
     } catch (err) {
-      console.log('log err', err);
       setFeedback(err.response.data.message);
       setTimeout(() => setFeedback(null), 3000);
       setSubmitting(false);
@@ -95,11 +86,7 @@ const PasswordReset = (props: any) => {
                   <div className="logo">
                     <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
                   </div>
-                  {feedback && (
-                    <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
-                      {feedback}
-                    </p>
-                  )}
+
                   <Form className="form">
                     <h2>Password Reset</h2>
                     {err && <p>There has been an issue ,please contact support</p>}
@@ -110,6 +97,11 @@ const PasswordReset = (props: any) => {
                           <Field type="password" name="password" placeholder="Password" className="password" />
                           <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
                         </div>
+                        {feedback && (
+                          <div className="error_message" onClick={() => setFeedback(null)}>
+                            {feedback}
+                          </div>
+                        )}
                         <div className="input-container btn_container">
                           <Button disabled={formProps.isSubmitting} colored>
                             {loading ? 'Please wait...' : 'CONTINUE'}

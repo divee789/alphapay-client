@@ -17,13 +17,6 @@ import './auth.scss';
 
 const api = new Request();
 
-const styles = {
-  padding: '1rem',
-  backgroundColor: 'red',
-  color: 'white',
-  borderRadius: '10px',
-};
-
 const VerifyEmail: React.FC = (props: any) => {
   const [feedback, setFeedback] = useState(null);
   const { processing } = useSelector((state: any) => state.auth);
@@ -69,11 +62,6 @@ const VerifyEmail: React.FC = (props: any) => {
                   <div className="logo">
                     <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
                   </div>
-                  {feedback && (
-                    <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
-                      {feedback}
-                    </p>
-                  )}
                   <Form className="form">
                     <h2>Log In</h2>
                     <p>
@@ -84,8 +72,12 @@ const VerifyEmail: React.FC = (props: any) => {
                       <Field type="text" name="token" placeholder="Please put your token here" />
                       <ErrorMessage name="token" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
+                    {feedback && (
+                      <div className="error_message" onClick={(): void => setFeedback(null)}>
+                        {feedback}
+                      </div>
+                    )}
                     <div className="input-container btn_container">
-                      {/* <button disabled={formProps.isSubmitting}>{text}</button> */}
                       <Button disabled={formProps.isSubmitting} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}
                       </Button>

@@ -11,7 +11,7 @@ export function IsJsonString(str: any) {
 
 export class Storage {
   static getItem(item: string) {
-    const value = localStorage.getItem(item);
+    const value = sessionStorage.getItem(item);
     if (value === undefined || value === null) {
       return null;
     }
@@ -30,7 +30,7 @@ export class Storage {
       if (typeof itemValue === 'object' && itemValue !== null) {
         value = JSON.stringify(itemValue);
       }
-      localStorage.setItem(item, value);
+      sessionStorage.setItem(item, value);
     } catch (error) {
       Logger.error(error);
       // log error
@@ -39,7 +39,7 @@ export class Storage {
 
   static removeItem(item: string) {
     try {
-      localStorage.removeItem(item);
+      sessionStorage.removeItem(item);
     } catch (error) {
       Logger.error(error);
     }
@@ -47,7 +47,7 @@ export class Storage {
 
   static clearItems() {
     try {
-      localStorage.clear();
+      sessionStorage.clear();
     } catch (error) {
       Logger.error(error);
     }

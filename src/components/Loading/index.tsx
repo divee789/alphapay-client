@@ -10,7 +10,9 @@ const Loading: React.FC = () => {
   return (
     <>
       <div className="loading_container" style={theme()}>
-        <img src={uniben_logo} alt="uniben_logo" />
+        <div>
+          <img src={uniben_logo} alt="uniben_logo" />
+        </div>
       </div>
     </>
   );

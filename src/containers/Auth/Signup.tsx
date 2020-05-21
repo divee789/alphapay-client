@@ -15,13 +15,6 @@ import Button from '../../components/Button';
 
 import './auth.scss';
 
-const styles = {
-  padding: '1rem',
-  backgroundColor: 'red',
-  color: 'white',
-  borderRadius: '10px',
-};
-
 interface FormValues {
   email: string;
   first_name: string;
@@ -95,11 +88,7 @@ const SignUp: React.FC = (props: any) => {
                   <div className="logo">
                     <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
                   </div>
-                  {feedback && (
-                    <p style={styles} className="error_message" onClick={() => setFeedback(null)}>
-                      {feedback}
-                    </p>
-                  )}
+
                   <Form className="form signup">
                     <h2>Sign Up</h2>
                     <p>Join the community,Sign up and move on to your dashboard</p>
@@ -140,6 +129,11 @@ const SignUp: React.FC = (props: any) => {
                         }}
                       />
                     </div>
+                    {feedback && (
+                      <div className="error_message" onClick={(): void => setFeedback(null)}>
+                        {feedback}
+                      </div>
+                    )}
                     <div className="input-container btn_container">
                       <Button disabled={formProps.isSubmitting} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}
