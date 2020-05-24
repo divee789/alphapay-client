@@ -9,9 +9,9 @@ const Modal = (props: any) => {
   const { mode } = useSelector((state: any) => state.ui);
 
   const linkStyle = {
-    background: mode === 'dark' ? '#011627' : '',
+    background: mode === 'dark' ? 'rgb(36, 39, 41)' : '',
   };
-  let attachedClasses = props.open ? ['modal', 'open', props.className] : ['modal', 'default', props.className];
+  let attachedClasses = props.open ? ['modal', 'open', props.className] : ['modal', 'close', props.className];
 
   return (
     <>

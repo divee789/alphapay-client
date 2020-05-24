@@ -10,6 +10,7 @@ import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
+import invisible from '../../assets/images/invisible.svg';
 
 import Button from '../../components/Button';
 
@@ -27,6 +28,8 @@ interface FormValues {
 const SignUp: React.FC = (props: any) => {
   const [feedback, setFeedback] = useState(null);
   const [recaptcha, setRecaptcha] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const { processing } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   const initialValues: FormValues = {
@@ -112,11 +115,31 @@ const SignUp: React.FC = (props: any) => {
                       <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container">
-                      <Field type="password" name="password" placeholder="Password" />
+                      <img
+                        src={invisible}
+                        alt="show/hide"
+                        className="password_icon"
+                        onClick={() => {
+                          setShowPassword(!showPassword);
+                        }}
+                      />
+                      <Field type={showPassword ? 'text' : 'password'} name="password" placeholder="Password" />
                       <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container">
-                      <Field type="password" name="confirmPassword" placeholder="Confirm Password" />
+                      <img
+                        src={invisible}
+                        alt="show/hide"
+                        className="password_icon"
+                        onClick={() => {
+                          setShowPassword2(!showPassword2);
+                        }}
+                      />
+                      <Field
+                        type={showPassword2 ? 'text' : 'password'}
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                      />
                       <ErrorMessage name="confirmPassword" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container">

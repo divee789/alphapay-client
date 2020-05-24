@@ -16,6 +16,7 @@ const api = new Request();
 const Security = (props: any) => {
   const [feedback, setFeedback] = useState(null);
   const [feedback2, setFeedback2] = useState(null);
+  const [emailProcessing, setEmailProcessing] = useState(null);
   const { processing, user } = useSelector((state: any) => state.auth);
   const { wallet, pin_error } = useSelector((state: any) => state.wallet);
   const dispatch = useDispatch();
@@ -148,14 +149,19 @@ const Security = (props: any) => {
             <Button
               dashboard
               onClick={async () => {
+                setEmailProcessing(true);
                 const res = await api.sendEmail();
                 if (res.error) {
                   alert(res.message);
+                  setEmailProcessing(false);
+                  return;
                 }
+                setEmailProcessing(false);
                 props.history.push('/auth/verify_email');
               }}
+              disabled={emailProcessing}
             >
-              Verify Email
+              {emailProcessing ? 'Please wait...' : 'VERIFY EMAIL'}
             </Button>
           </div>
         )}

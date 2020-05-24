@@ -6,6 +6,12 @@ interface propsInterface {
   verifyCallback: Function;
 }
 
+declare global {
+  interface Window {
+    grecaptcha: any;
+  }
+}
+
 const RecaptchaComponent = (props: propsInterface) => {
   let [captcha]: any = useState('');
 
@@ -21,7 +27,7 @@ const RecaptchaComponent = (props: propsInterface) => {
     }
   };
 
-  return (
+  return window.grecaptcha ? (
     <>
       <ReCaptcha
         ref={(el) => {
@@ -36,7 +42,7 @@ const RecaptchaComponent = (props: propsInterface) => {
         verifyCallback={props.verifyCallback}
       />
     </>
-  );
+  ) : null;
 };
 
 export default RecaptchaComponent;

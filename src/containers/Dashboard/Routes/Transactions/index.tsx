@@ -71,7 +71,7 @@ const Transactions = () => {
       case 'failed':
         return 'red';
       case 'processing':
-        return 'yellow';
+        return 'grey';
       default:
         return 'dark-grey';
     }

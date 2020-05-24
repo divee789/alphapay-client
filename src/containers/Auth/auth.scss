@@ -62,6 +62,13 @@
     text-align: center;
 }
 
+.password_icon {
+    position: absolute;
+    top: 20px;
+    cursor: pointer;
+    right: 10px;
+}
+
 .signup {
     overflow-y: scroll;
 }
@@ -109,6 +116,7 @@
 
     .input-container {
         margin-bottom: 2rem;
+        position: relative;
     }
 
     .input-container-dual {

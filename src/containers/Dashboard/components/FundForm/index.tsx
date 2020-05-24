@@ -45,25 +45,24 @@ const FundForm = (props) => {
         ...user,
       };
       setProcessing(true);
-
       payWithKorapay(
         data,
         async (ref) => {
           let feedback = {
             ...values,
             processor: 'Korapay',
-            processor_reference: 'KPY-0000',
+            processor_reference: ref,
             transaction_status: 'success',
             narration: 'Deposit funds to wallet',
           };
           try {
             await dispatch(fund_client_wallet(feedback));
             setProcessing(false);
-            setMessage('Transaction successful');
+            return setMessage('Transaction successful');
           } catch (error) {
             if (error instanceof APIServiceError) {
               setProcessing(false);
-              setMessage(
+              return setMessage(
                 'Oops,it looks like your network is disconnected ,please contact support as soon as possible and your funds will be sorted out',
               );
             }
@@ -71,12 +70,13 @@ const FundForm = (props) => {
         },
         () => {
           setProcessing(false);
-          setMessage('There has been an error funding your wallet,please try again later');
+          return setMessage('There has been an error funding your wallet,please try again later');
         },
         () => {
-          setProcessing(false);
+          return setProcessing(false);
         },
       );
+      setProcessing(false);
     } catch (error) {
       console.log('funding error', error);
       setProcessing(false);

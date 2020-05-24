@@ -10,6 +10,7 @@ import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
+import invisible from '../../assets/images/invisible.svg';
 
 import Button from '../../components/Button';
 
@@ -18,6 +19,7 @@ import './auth.scss';
 const LogIn: React.FC = (props: any) => {
   const [feedback, setFeedback] = useState(null);
   const [recaptcha, setRecaptcha] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const { processing } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
@@ -76,7 +78,20 @@ const LogIn: React.FC = (props: any) => {
                       />
                     </div>
                     <div className="input-container">
-                      <Field type="password" name="password" placeholder="Password" className="password" />
+                      <img
+                        src={invisible}
+                        alt="show/hide"
+                        className="password_icon"
+                        onClick={() => {
+                          setShowPassword(!showPassword);
+                        }}
+                      />
+                      <Field
+                        type={showPassword ? 'text' : 'password'}
+                        name="password"
+                        placeholder="Password"
+                        className="password"
+                      />
                       <ErrorMessage
                         name="password"
                         render={(msg: string): JSX.Element => <div className="error">{msg}</div>}
