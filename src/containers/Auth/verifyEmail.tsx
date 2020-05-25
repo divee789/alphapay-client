@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import theme from '../../components/Theme';
-import { getUser } from '../../store/actions/auth';
 
 import Request from '../../services/api-services';
 
@@ -19,8 +17,7 @@ const api = new Request();
 
 const VerifyEmail: React.FC = (props: any) => {
   const [feedback, setFeedback] = useState(null);
-  const { processing } = useSelector((state: any) => state.auth);
-  const dispatch = useDispatch();
+  const [processing, setProcessing] = useState(false);
 
   interface FormValues {
     token: string;
@@ -30,18 +27,22 @@ const VerifyEmail: React.FC = (props: any) => {
   };
 
   const validationSchema = Yup.object().shape({
-    token: Yup.string().required('Provide provide a valid tokens'),
+    token: Yup.string().required('Provide provide a valid token'),
   });
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
+      setProcessing(true);
       await api.verifyEmail(values.token);
-      await dispatch(getUser());
+      setProcessing(false);
       props.history.push(`/dashboard/overview`);
     } catch (err) {
-      setFeedback(err.message);
-      setTimeout(() => setFeedback(null), 3000);
+      setFeedback(
+        'There has been an issue verifying your account, please check that your token is valid and try again',
+      );
+      setTimeout(() => setFeedback(null), 5000);
       setSubmitting(false);
+      setProcessing(false);
     }
   };
 

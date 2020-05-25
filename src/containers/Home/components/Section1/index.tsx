@@ -34,8 +34,12 @@ const Section = (): JSX.Element => {
             GET STARTED{' '}
           </Button>
           <div className="store">
-            <img src={playstore} alt="playstore download" />
-            <img src={appstore} alt="appstore download" />
+            <div>
+              <img src={playstore} alt="playstore download" />
+            </div>
+            <div>
+              <img src={appstore} alt="appstore download" />
+            </div>
           </div>
         </div>
         <div className="image_container">

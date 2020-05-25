@@ -14,7 +14,7 @@
             width: 100%;
             text-align: center;
             padding: 0;
-            margin-top: 15rem;
+            margin-top: 13rem;
         }
 
         h1 {
@@ -22,6 +22,10 @@
             font-family: Sailec;
             color: #008080;
             width: 85%;
+
+            @media screen and (max-width:1280px) {
+                font-size: 33px;
+            }
 
             @media screen and (max-width:600px) {
                 font-size: 25px;
@@ -37,6 +41,10 @@
             font-size: 13px;
             width: 70%;
             opacity: 0.8;
+
+            @media screen and (max-width:1280px) {
+                width: 100%;
+            }
 
             @media screen and (max-width:600px) {
                 margin: 0 auto;
@@ -54,20 +62,36 @@
             // font-weight: bold;
             font-size: 13px;
 
+            @media screen and (min-width:600px)and(max-width:1280px) {
+                width: 80%;
+            }
+
             @media screen and (max-width:600px) {
                 margin: 2rem auto;
             }
         }
 
         .store {
-            img {
-                margin-right: 4rem;
-                cursor: pointer;
+            width: 70%;
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
 
-                @media screen and (max-width:600px) {
-                    width: 140px;
-                    margin-right: 5px;
-                }
+            div {
+                width: 45%;
+            }
+
+            img {
+                cursor: pointer;
+                width: 100%;
+                margin-right: 5px;
+                height: auto;
+            }
+
+            @media screen and (max-width:600px) {
+                width: 100%;
+                justify-content: center;
             }
         }
     }

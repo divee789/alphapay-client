@@ -59,6 +59,8 @@ const Security = (props: any) => {
           return resetForm();
       }
     } catch (error) {
+      console.log(error);
+
       switch (values.type) {
         case 'Password':
           setFeedback(error.response.data.message);

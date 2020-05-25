@@ -1,11 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import image1 from './../../../../assets/images/cell1.jpg';
+import image1 from './../../../../assets/images/undraw2.svg';
 import image2 from '../../../../assets/images/support-team.svg';
 import image3 from '../../../../assets/images/security.svg';
 import image4 from '../../../../assets/images/task.svg';
-import image5 from '../../../../assets/images/work4.jpg';
+import image5 from '../../../../assets/images/undraw1.svg';
+
+import verification from '../../../../assets/images/undraw3.svg';
 
 import './index.scss';
 
@@ -16,6 +18,7 @@ const Section = (): JSX.Element => {
     backgroundColor: '#242729',
   };
 
+  const divStyle = mode == 'dark' ? { background: '' } : { background: 'white' };
   return (
     <>
       <section className="section2">
@@ -28,7 +31,7 @@ const Section = (): JSX.Element => {
             <img src={image1} alt="Payments made easy" />
           </div>
           <div className="detail_2">
-            <div>
+            <div style={divStyle}>
               <h3>Send Money</h3>
               <p>
                 Send money to anyone anywhere on their phone number. You can also send money to any bank account in
@@ -36,20 +39,35 @@ const Section = (): JSX.Element => {
                 faster than a text message.
               </p>
             </div>
-            <div>
+            <div style={divStyle}>
               <h3>Receive Money</h3>
               <p>
                 Receive and accept payments from anyone anywhere with their phone number.You can also accept payments
                 from any bank in Nigeria.All you need is your mobile phone.
               </p>
             </div>
-            <div>
+            <div style={divStyle}>
               <h3>Spend Money</h3>
               <p>
                 Pay for your electricity, airtime, and cable TV subscriptions with ease.You can also pay for your
-                shopping expenses with merchants who have account with us.
+                shopping expenses with merchants who have accounts with us.
               </p>
             </div>
+          </div>
+        </div>
+
+        <div className="verification_info">
+          <div className="verification_text detail_2">
+            <h1>Instant Verification</h1>
+            <p>
+              Your credentials are verified immediately on account creation.This is to prevent theft of identity and
+              ensure optimal security. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa sunt dolores
+              dignissimos optio, doloremque dolorum sed reprehenderit necessitatibus. Tempore vitae dicta voluptatibus
+              at consequuntur reiciendis aliquid labore temporibus nulla officia?
+            </p>
+          </div>
+          <div className="verification_image detail_1">
+            <img src={verification} alt="account verification" />
           </div>
         </div>
 
@@ -84,8 +102,8 @@ const Section = (): JSX.Element => {
           <div className="suggest">
             <h1>Have a suggestion ?</h1>
             <p>
-              We live in an ever evolving world, and we strive tobe fleible enough to evolve with it. Have a suggestion
-              on how we can make our services better , contact us at alphapay@gmail.com.
+              We live in an ever evolving world, and we strive to be flexible enough to evolve with it. Have a
+              suggestion on how we can make our services better , contact us at alphapay@gmail.com.
             </p>
           </div>
           <div className="suggest_image">
