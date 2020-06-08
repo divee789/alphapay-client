@@ -109,7 +109,7 @@ const Dashboard = (props: any) => {
   };
 
   const styles = {
-    background: mode === 'dark' ? constants.darkMode : 'unset',
+    background: mode === 'dark' ? constants.darkMode : '#f8f8f8',
     color: mode === 'dark' ? '#00C9B6' : '#000',
   };
 
@@ -131,7 +131,12 @@ const Dashboard = (props: any) => {
           remove={deleteNotification}
         />
 
-        <div className="menu">
+        <div
+          className="menu"
+          style={{
+            background: mode === 'dark' ? constants.darkMode : 'white',
+          }}
+        >
           <div
             className="logo"
             onClick={() => {
@@ -173,8 +178,6 @@ const Dashboard = (props: any) => {
 
         <div className="main">
           <div className="dashboard_nav">
-            <div className="profile_details mobile">Account Number: {user && user.phone_number}</div>
-
             <div
               onClick={() => {
                 setSideBarOpen(true);
@@ -184,7 +187,7 @@ const Dashboard = (props: any) => {
               <img src={hamburger} className="bell" alt="menu" />
             </div>
 
-            <div className="profile_details">
+            <div className="notifications">
               <img
                 src={notifications && notifications.length > 0 ? not : Notify}
                 onClick={() => {
@@ -193,18 +196,26 @@ const Dashboard = (props: any) => {
                 className="bell"
                 alt="notifications"
               />
-              <img
-                src={
-                  user
-                    ? user.profile_image
+            </div>
+
+            <div className="profile_details">
+              <div className="user">
+                <div className="user_info">
+                  <span>{user && `${user.first_name} ${user.last_name}`}</span>
+                  <span className="mobile_phone">{user && user.phone_number}</span>
+                </div>
+                <img
+                  src={
+                    user
                       ? user.profile_image
+                        ? user.profile_image
+                        : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
                       : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
-                    : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
-                }
-                alt="profile_image"
-                className="img"
-              />
-              {user && `${user.first_name} ${user.last_name}`}
+                  }
+                  alt="profile_image"
+                  className="img"
+                />
+              </div>
             </div>
           </div>
           <section>

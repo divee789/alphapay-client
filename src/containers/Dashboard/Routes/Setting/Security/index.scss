@@ -12,18 +12,20 @@
     }
 
     input {
-        padding: 19px 15px;
+        padding: 10px 15px;
         width: 60%;
         margin-top: 18px;
         border-radius: 7px;
         border: 1px solid #ccc;
         outline: none;
-        font-size: 1.1rem;
+        font-size: .9rem;
     }
 
     button {
         width: 50%;
         margin-top: 1rem;
+        padding: 0;
+        font-size: .9rem;
     }
 
 
@@ -58,7 +60,7 @@
 
         p {
             width: 80%;
-            font-size: 13px;
+            font-size: .9rem;
         }
 
         &:hover {

@@ -71,29 +71,29 @@
             }
         }
 
-        .store {
-            width: 70%;
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+        // .store {
+   //     width: 70%;
+   //     position: relative;
+   //     display: flex;
+   //     flex-direction: row;
+   //     justify-content: space-between;
 
-            div {
-                width: 45%;
-            }
+   //     div {
+   //         width: 45%;
+   //     }
 
-            img {
-                cursor: pointer;
-                width: 100%;
-                margin-right: 5px;
-                height: auto;
-            }
+   //     img {
+   //         cursor: pointer;
+   //         width: 100%;
+   //         margin-right: 5px;
+   //         height: 20px;
+   //     }
 
-            @media screen and (max-width:600px) {
-                width: 100%;
-                justify-content: center;
-            }
-        }
+   //     @media screen and (max-width:600px) {
+   //         width: 100%;
+   //         justify-content: center;
+   //     }
+   // }
     }
 
     .image_container {

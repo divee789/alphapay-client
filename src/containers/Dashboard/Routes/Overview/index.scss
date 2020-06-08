@@ -21,7 +21,7 @@
         // background-color: rgba(71, 212, 82, 0.103);
         box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
         width: 90%;
-        height: 15rem;
+        height: 12rem;
         border-radius: 5px;
         margin: 0 auto;
 
@@ -31,6 +31,12 @@
             color: #fff;
             margin: 0;
         }
+
+        .wallet_text {
+            font-size: 14px;
+        }
+
+
     }
 
     .btn_fund {
@@ -43,8 +49,9 @@
 
         button {
             width: 49%;
-            height: 60px;
+            height: 45px;
             text-transform: uppercase;
+            font-size: .8rem;
         }
     }
 
@@ -59,11 +66,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 12rem;
+            height: 7rem;
             transition: all 0.6s;
             margin-bottom: 20px;
-            box-shadow: 26px 4px 6px rgba(50, 50, 93, 0.11), 1px 1px 23px rgba(0, 0, 0, 0.08);
+            box-shadow: 0px 4px 25px 0px rgba(0, 0, 0, 0.1);
             cursor: pointer;
+            margin-right: 10px;
 
             &:hover {
                 transform: translateX(2px);

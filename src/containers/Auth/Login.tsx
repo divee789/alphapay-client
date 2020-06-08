@@ -60,7 +60,7 @@ const LogIn: React.FC = (props: any) => {
             initialValues={initialValues}
             validationSchema={logvalidationSchema}
             onSubmit={handleSubmit}
-            render={(formProps): JSX.Element => {
+            render={(formProps) => {
               return (
                 <>
                   <div className="logo">

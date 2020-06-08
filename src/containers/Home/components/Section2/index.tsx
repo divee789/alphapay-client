@@ -11,7 +11,7 @@ import verification from '../../../../assets/images/undraw3.svg';
 
 import './index.scss';
 
-const Section = (): JSX.Element => {
+const Section = () => {
   const { mode } = useSelector((state: any) => state.ui);
 
   const style = {
@@ -58,13 +58,15 @@ const Section = (): JSX.Element => {
 
         <div className="verification_info">
           <div className="verification_text detail_2">
-            <h1>Instant Verification</h1>
-            <p>
-              Your credentials are verified immediately on account creation.This is to prevent theft of identity and
-              ensure optimal security. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa sunt dolores
-              dignissimos optio, doloremque dolorum sed reprehenderit necessitatibus. Tempore vitae dicta voluptatibus
-              at consequuntur reiciendis aliquid labore temporibus nulla officia?
-            </p>
+            <div className="content_bg" style={divStyle}>
+              <h1>Instant Verification</h1>
+              <p>
+                Your credentials are verified immediately on account creation.This is to prevent theft of identity and
+                ensure optimal security. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa sunt dolores
+                dignissimos optio, doloremque dolorum sed reprehenderit necessitatibus. Tempore vitae dicta voluptatibus
+                at consequuntur reiciendis aliquid labore temporibus nulla officia?
+              </p>
+            </div>
           </div>
           <div className="verification_image detail_1">
             <img src={verification} alt="account verification" />
@@ -90,6 +92,7 @@ const Section = (): JSX.Element => {
           </div>
           <div>
             <img src={image4} alt="secure_payments" />
+
             <h3>Instant Notifications</h3>
             <p>
               We possess world class customer care facilities.We are available for all your needs 7 days a week, 24
@@ -100,11 +103,13 @@ const Section = (): JSX.Element => {
 
         <div className="other2">
           <div className="suggest">
-            <h1>Have a suggestion ?</h1>
-            <p>
-              We live in an ever evolving world, and we strive to be flexible enough to evolve with it. Have a
-              suggestion on how we can make our services better , contact us at alphapay@gmail.com.
-            </p>
+            <div style={divStyle} className="content_bg">
+              <h1>Have a suggestion ?</h1>
+              <p>
+                We live in an ever evolving world, and we strive to be flexible enough to evolve with it. Have a
+                suggestion on how we can make our services better , contact us at alphapay@gmail.com.
+              </p>
+            </div>
           </div>
           <div className="suggest_image">
             <img src={image5} alt="work" />

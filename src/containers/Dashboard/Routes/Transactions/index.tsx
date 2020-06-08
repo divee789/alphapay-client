@@ -33,7 +33,7 @@ const Transactions = () => {
   let content;
 
   useEffect(() => {
-    const trans = async (): Promise<void> => {
+    const trans = async () => {
       try {
         await dispatch(get_client_transactions());
       } catch (error) {
@@ -47,7 +47,7 @@ const Transactions = () => {
     color: mode === 'dark' ? '#00C9B6' : '',
   };
 
-  const refreshTransactionHandler = async (): Promise<void> => {
+  const refreshTransactionHandler = async () => {
     try {
       setSearchActive(false);
       await dispatch(get_client_transactions());
@@ -56,15 +56,15 @@ const Transactions = () => {
     }
   };
 
-  const modalHandler = async (): Promise<void> => {
+  const modalHandler = async () => {
     setShowModal(false);
   };
-  const toggleModal = (transaction: ITransaction): void => {
+  const toggleModal = (transaction: ITransaction) => {
     setTrans(transaction);
     setShowModal(!showModal);
   };
 
-  const switchStatus = (status: string): string => {
+  const switchStatus = (status: string) => {
     switch (status) {
       case 'success':
         return 'green';

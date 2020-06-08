@@ -149,7 +149,7 @@ export default class APIRequest {
     };
     const response = await this.instance.post('/auth/login', body);
     this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
-    this.setHeader(response.data.data.access_token);
+    // this.setHeader(response.data.data.access_token);
     const profileResponse = response.data.data.client;
     return { ...response.data, client: profileResponse };
   };
@@ -161,10 +161,11 @@ export default class APIRequest {
     const response = await this.instance.post('/auth/signup', body);
     const authResponse = response.data;
     this.storeUserToken(authResponse.data.access_token, authResponse.data.refresh_token);
-    this.setHeader(authResponse.access_token);
+    // this.setHeader(authResponse.access_token);
     const profileResponse = authResponse.data.client;
     return { ...authResponse, client: profileResponse };
   };
+
   refresh = async (refresh_token: string) => {
     const body = {
       refresh_token,

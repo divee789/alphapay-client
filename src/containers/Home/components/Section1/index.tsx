@@ -4,12 +4,12 @@ import TextLoop from 'react-text-loop';
 import Button from '../../../../components/Button';
 
 import payment from '../../../../assets/images/clack3.jpg';
-import appstore from '../../../../assets/images/appstore.svg';
-import playstore from '../../../../assets/images/playstore.svg';
+// import appstore from '../../../../assets/images/appstore.svg';
+// import playstore from '../../../../assets/images/playstore.svg';
 
 import './index.scss';
 
-const Section = (): JSX.Element => {
+const Section = () => {
   return (
     <>
       <section className="section1">
@@ -33,14 +33,14 @@ const Section = (): JSX.Element => {
             {' '}
             GET STARTED{' '}
           </Button>
-          <div className="store">
+          {/* <div className="store">
             <div>
               <img src={playstore} alt="playstore download" />
             </div>
             <div>
               <img src={appstore} alt="appstore download" />
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="image_container">
           <img src={payment} alt="payment" />

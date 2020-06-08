@@ -16,6 +16,8 @@
 
         .title {
             p {
+                font-size: .9rem;
+
                 @media screen and (min-width:600px) and (max-width:1000px) {
                     font-size: 10px;
                 }
@@ -46,6 +48,7 @@
             p {
                 width: 20%;
                 text-align: center;
+                font-size: .9rem;
             }
         }
 
@@ -61,6 +64,7 @@
             }
 
             p {
+                font-size: .9rem;
 
                 @media screen and (max-width:1000px) {
                     font-size: 12px;
@@ -120,7 +124,8 @@
     padding: 10px 15px;
     margin-bottom: 10px;
     border-radius: 8px;
-    font-size: 17px;
+    font-size: .9rem;
+
 
     @media screen and (max-width:1000px) {
         font-size: 12px;

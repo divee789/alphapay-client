@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { get_client_wallet } from '../../../../store/actions';
 
 import Modal from '../../../../components/Modal';
 import FundForm from '../../components/FundForm';
@@ -7,14 +8,14 @@ import CheckoutForm from '../../components/CheckoutForm';
 import TransferForm from '../../components/TransferForm';
 import Button from '../../../../components/Button';
 
-import image1 from '../../../../assets/images/transfer.png';
-import image2 from '../../../../assets/images/airtime.png';
-import image3 from '../../../../assets/images/pay-bills.png';
-import image4 from '../../../../assets/images/coffee.png';
+// import image1 from '../../../../assets/images/transfer.png';
+// import image2 from '../../../../assets/images/airtime.png';
+// import image3 from '../../../../assets/images/pay-bills.png';
+// import image4 from '../../../../assets/images/coffee.png';
 
 import './index.scss';
 
-const Overview: React.FC = () => {
+const Overview = () => {
   const [showFundModal, setShowFundModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
@@ -22,9 +23,11 @@ const Overview: React.FC = () => {
   const { wallet, processing } = useSelector((state: any) => state.wallet);
   const { mode } = useSelector((state: any) => state.ui);
 
+  const dispatch = useDispatch();
+
   let content: any;
 
-  const modalHandler = async (category) => {
+  const modalHandler = (category: string) => {
     switch (category) {
       case 'fund':
         return setShowFundModal(false);
@@ -36,7 +39,7 @@ const Overview: React.FC = () => {
         return;
     }
   };
-  const toggleModal = (form) => {
+  const toggleModal = (form: string) => {
     switch (form) {
       case 'fund':
         return setShowFundModal(!showFundModal);
@@ -50,11 +53,15 @@ const Overview: React.FC = () => {
   };
 
   if (processing === true) {
-    content = <p className="info_alert">Getting your wallet</p>;
+    content = <p className="info_alert">Getting your wallet..</p>;
   }
   if (wallet) {
     content = (
-      <p>
+      <p
+        onClick={() => {
+          dispatch(get_client_wallet());
+        }}
+      >
         NGN{' '}
         {wallet.available_balance
           .toFixed(2)
@@ -71,7 +78,7 @@ const Overview: React.FC = () => {
       <div className="overview_details">
         <div className="item">
           <div className="wallet_card">
-            <p>Wallet Balance</p>
+            <p className="wallet_text">Wallet Balance</p>
             {content}
           </div>
           <div className="btn_fund">
@@ -108,20 +115,21 @@ const Overview: React.FC = () => {
             onClick={() => {
               toggleModal('transfer');
             }}
+            style={{ background: mode === 'dark' ? null : 'white' }}
           >
-            <img src={image1} alt="transfer" />
+            {/* <img src={image1} alt="transfer" /> */}
             <p>Transfer Funds</p>
           </div>
-          <div className="option_card">
-            <img src={image2} alt="request" />
+          <div className="option_card" style={{ background: mode === 'dark' ? null : 'white' }}>
+            {/* <img src={image2} alt="request" /> */}
             <p>Contact Support</p>
           </div>
-          <div className="option_card">
-            <img src={image3} alt="pay-bills" />
+          <div className="option_card" style={{ background: mode === 'dark' ? null : 'white' }}>
+            {/* <img src={image3} alt="pay-bills" /> */}
             <p>Pay Bills</p>
           </div>
-          <div className="option_card">
-            <img src={image4} alt="buy airtime" />
+          <div className="option_card" style={{ background: mode === 'dark' ? null : 'white' }}>
+            {/* <img src={image4} alt="buy airtime" /> */}
             <p>Buy Airtime</p>
           </div>
         </div>
