@@ -2,12 +2,19 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import APIRequest from '../../../../services/api-services';
 import { checkout_client_wallet } from '../../../../store/actions';
 import Button from '../../../../components/Button';
 
 import img1 from '../../../../assets/images/quick-and-easy.jpg';
 
-const CheckoutForm = (props) => {
+const API = new APIRequest();
+
+const CheckoutForm = (props: {
+  mode: string;
+  close: any;
+  banks: Array<{ name: string; code: any; country: string }>;
+}) => {
   const [message, setMessage] = useState(null);
   const [processing, setProcessing] = useState(null);
 
@@ -24,8 +31,8 @@ const CheckoutForm = (props) => {
 
   const initialValues: FormValues = {
     amount: ('' as unknown) as number,
-    bank: '035',
-    bank_account: '3119907684',
+    bank: '',
+    bank_account: '',
   };
 
   const walletValidationSchema = Yup.object().shape({
@@ -38,16 +45,33 @@ const CheckoutForm = (props) => {
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
+      setProcessing(true);
+      const res = await API.confirmBankAccount({ bank: values.bank, account: values.bank_account });
+      if (res.data.status) {
+        const ask = prompt(
+          `You are about to pay ${values.amount} to ${res.data.data.account_name}, please type the account name again to continue`,
+        );
+        if (ask !== res.data.data.account_name) {
+          setProcessing(false);
+          setSubmitting(false);
+          return;
+        }
+      } else {
+        alert('Your bank details could not be verified, please make sure they are valid and try again');
+        setProcessing(false);
+        setSubmitting(false);
+        return;
+      }
       let data = {
         ...values,
       };
-      setProcessing(true);
       await dispatch(checkout_client_wallet(data));
       setProcessing(false);
       setMessage('Transaction successful');
     } catch (error) {
       console.log('checkout error', error);
       setProcessing(false);
+      setSubmitting(false);
       setMessage('There has been an error checking out your funds from your your wallet,please try again later');
     }
   };
@@ -86,16 +110,12 @@ const CheckoutForm = (props) => {
                 <div>
                   <p>PLEASE PROVIDE YOUR CHECKOUT BANK?</p>
                   <div className="con">
-                    {' '}
-                    <span>NGN</span>{' '}
-                    <Field
-                      type="string"
-                      name="bank"
-                      placeholder="0"
-                      style={linkStyle}
-                      className="amount_input"
-                      value={formProps.values.bank}
-                    />
+                    <Field as="select" name="bank" style={linkStyle}>
+                      <option value="">Please select your bank</option>
+                      {props.banks.map((bank) => (
+                        <option value={bank.code}>{bank.name}</option>
+                      ))}
+                    </Field>
                   </div>
                   <ErrorMessage name="bank" render={(msg) => <div className="error modal_error">{msg}</div>} />
                 </div>
@@ -103,16 +123,7 @@ const CheckoutForm = (props) => {
                 <div>
                   <p>PLEASE PROVIDE YOUR CHECKOUT BANK ACCOUNT NUMBER?</p>
                   <div className="con">
-                    {' '}
-                    <span>NGN</span>{' '}
-                    <Field
-                      type="string"
-                      name="bank_Account"
-                      placeholder="0"
-                      style={linkStyle}
-                      className="amount_input"
-                      value={formProps.values.bank_account}
-                    />
+                    <Field type="string" name="bank_account" placeholder="Your Account Number" style={linkStyle} />
                   </div>
                   <ErrorMessage name="bank_Account" render={(msg) => <div className="error modal_error">{msg}</div>} />
                 </div>

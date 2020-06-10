@@ -15,7 +15,7 @@ import Button from '../../../../components/Button';
 
 import './index.scss';
 
-const Overview = () => {
+const Overview = (props: any) => {
   const [showFundModal, setShowFundModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
@@ -57,11 +57,7 @@ const Overview = () => {
   }
   if (wallet) {
     content = (
-      <p
-        onClick={() => {
-          dispatch(get_client_wallet());
-        }}
-      >
+      <p>
         NGN{' '}
         {wallet.available_balance
           .toFixed(2)
@@ -77,7 +73,12 @@ const Overview = () => {
     <>
       <div className="overview_details">
         <div className="item">
-          <div className="wallet_card">
+          <div
+            className="wallet_card"
+            onClick={() => {
+              dispatch(get_client_wallet());
+            }}
+          >
             <p className="wallet_text">Wallet Balance</p>
             {content}
           </div>
@@ -146,7 +147,7 @@ const Overview = () => {
       )}
       {showCheckoutModal && (
         <Modal open={showCheckoutModal} closed={() => modalHandler('checkout')}>
-          <CheckoutForm close={() => modalHandler('checkout')} mode={mode} />
+          <CheckoutForm close={() => modalHandler('checkout')} mode={mode} banks={props.data} />
         </Modal>
       )}
     </>

@@ -19,6 +19,7 @@ import Setting from './Routes/Setting';
 import Loading from '../../components/Loading';
 import SideBar from './components/SideBar';
 import NotificationBar from './components/Notifications';
+import Backdrop from '../../components/Modal/Backdrop';
 import constants from '../../utils/constants';
 
 import Logo from '../../assets/images/alp.png';
@@ -42,7 +43,7 @@ const Request = new API();
 
 const Dashboard = (props: any) => {
   const [sidebarOpen, setSideBarOpen] = useState(false);
-
+  const [banks, setBanks] = useState([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -60,6 +61,10 @@ const Dashboard = (props: any) => {
         await dispatch(getUser());
         await dispatch(get_client_wallet());
         await dispatch(new_notifications());
+        const res = await Request.getBanks();
+        if (res.banks) {
+          setBanks(res.banks);
+        }
         return true;
       } catch (error) {
         console.log('error', error);
@@ -125,6 +130,7 @@ const Dashboard = (props: any) => {
     <>
       <section className="dashboard_main" style={styles}>
         <SideBar isActive={sidebarOpen} onClose={() => setSideBarOpen(false)} url={url} logOutHandler={logOutHandler} />
+        <Backdrop show={sidebarOpen} clicked={() => setSideBarOpen(false)} />
         <NotificationBar
           isActive={notificationOpen}
           onClose={() => setNotificationOpen(false)}
@@ -222,7 +228,7 @@ const Dashboard = (props: any) => {
             <div className="container">
               <div className="scroll">
                 <Switch>
-                  <Route path={`${path}/overview`} component={Overview} />
+                  <Route path={`${path}/overview`} render={() => <Overview data={banks} />} />
                   <Route path={`${path}/cards`} component={Cards} />
                   <Route path={`${path}/transactions`} component={Transactions} />
                   <Route path={`${path}/utilities`} component={Utilities} />

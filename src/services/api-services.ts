@@ -338,6 +338,38 @@ export default class APIRequest {
     };
   };
 
+  getBanks = async () => {
+    const check = await this.isloggedIn();
+    if (!check) {
+      return {
+        error: true,
+        message: 'Your session has expired, please log in again',
+      };
+    }
+    const res = await this.instance.get('/api/v1/transfer/banks');
+    if (res.data.success === true) {
+      return {
+        banks: res.data.data,
+      };
+    }
+    return {
+      error: true,
+      message: res.data.message,
+    };
+  };
+
+  confirmBankAccount = async (data: { bank: string; account: string }) => {
+    const check = await this.isloggedIn();
+    if (!check) {
+      return {
+        error: true,
+        message: 'Your session has expired, please log in again',
+      };
+    }
+    const res = await this.instance.post('/api/v1/transfer/banks/verify', data);
+    return res;
+  };
+
   transferFunds = async (data: any) => {
     const res = await this.instance.post('/api/v1/transfer', data);
     if (res.data.success === true) {

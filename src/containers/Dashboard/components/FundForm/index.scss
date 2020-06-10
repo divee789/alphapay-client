@@ -1,6 +1,6 @@
 .fund_wallet_form {
     h2 {
-        font-size: 1rem;
+        font-size: .9rem;
         text-align: center;
         margin-bottom: 2rem;
 
@@ -12,7 +12,7 @@
     p {
         font-size: 10px;
         opacity: 0.8;
-        font-weight: bold;
+        font-weight: 600;
         margin-bottom: 0.3rem;
 
         @media screen and (max-width:600px) {
@@ -22,7 +22,6 @@
     }
 
     span {
-        font-weight: bold;
         font-size: 1.26rem;
         font-family: Sailec;
         padding: 10px;
@@ -35,15 +34,16 @@
 
     .con {
         display: flex;
-        // align-items: flex-end;
     }
 
-    input {
-        width: 90%;
+    input,
+    select {
+        width: 100%;
         border: 1px solid #ccc;
         background: transparent;
         padding: 10px;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
         font-family: firma-bold;
         margin-bottom: 10px;
         border-radius: 10px;
