@@ -56,7 +56,7 @@ const Section = () => {
           </div>
         </div>
 
-        <div className="verification_info">
+        <div className="verification_info" style={mode == 'dark' ? style : null}>
           <div className="verification_text detail_2">
             <div className="content_bg" style={divStyle}>
               <h1>Instant Verification</h1>
@@ -73,7 +73,7 @@ const Section = () => {
           </div>
         </div>
 
-        <div className="other">
+        <div className="other" style={mode == 'dark' ? style : null}>
           <div>
             <img src={image2} alt="customer_support" />
             <h3>Customer Support</h3>
@@ -101,7 +101,7 @@ const Section = () => {
           </div>
         </div>
 
-        <div className="other2">
+        <div className="other2" style={mode == 'dark' ? style : null}>
           <div className="suggest">
             <div style={divStyle} className="content_bg">
               <h1>Have a suggestion ?</h1>

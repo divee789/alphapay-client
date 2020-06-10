@@ -1,15 +1,14 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import TextLoop from 'react-text-loop';
 
 import Button from '../../../../components/Button';
 
 import payment from '../../../../assets/images/clack3.jpg';
-// import appstore from '../../../../assets/images/appstore.svg';
-// import playstore from '../../../../assets/images/playstore.svg';
 
 import './index.scss';
 
-const Section = () => {
+const Section = (props: any) => {
   return (
     <>
       <section className="section1">
@@ -29,18 +28,16 @@ const Section = () => {
             Alphapay provides modern and reliable financial services to anyone with a phone number. With Alphapay, you
             can make payments, receive payments and secure your payments with your phone number.
           </p>
-          <Button colored className="btn">
+          <Button
+            colored
+            className="btn"
+            onClick={() => {
+              props.history.push('/auth/signup');
+            }}
+          >
             {' '}
             GET STARTED{' '}
           </Button>
-          {/* <div className="store">
-            <div>
-              <img src={playstore} alt="playstore download" />
-            </div>
-            <div>
-              <img src={appstore} alt="appstore download" />
-            </div>
-          </div> */}
         </div>
         <div className="image_container">
           <img src={payment} alt="payment" />
@@ -50,4 +47,4 @@ const Section = () => {
   );
 };
 
-export default Section;
+export default withRouter(Section);
