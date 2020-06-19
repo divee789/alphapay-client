@@ -75,13 +75,14 @@ const Dashboard = (props: any) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (user) {
-      const APIBaseURL =
-        process.env.REACT_APP_NODE_ENV === 'development'
-          ? process.env.REACT_APP_STAGING
-          : process.env.REACT_APP_SERVER_URL;
+    const APIBaseURL =
+      process.env.REACT_APP_NODE_ENV === 'development'
+        ? process.env.REACT_APP_STAGING
+        : process.env.REACT_APP_SERVER_URL;
 
-      const socket = openSocket(APIBaseURL);
+    const socket = openSocket(APIBaseURL);
+
+    if (user) {
       socket.on(`${user.id}-transfer`, (data: any) => {
         const check = async (): Promise<void> => {
           await dispatch(success(data.data.wallet));
@@ -98,6 +99,8 @@ const Dashboard = (props: any) => {
         check();
       });
     }
+
+    return () => socket.disconnect();
   }, ['']);
 
   let { path, url } = useRouteMatch();
