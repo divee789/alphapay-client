@@ -16,6 +16,8 @@ const api = new Request();
 const Security = (props: any) => {
   const [feedback, setFeedback] = useState(null);
   const [feedback2, setFeedback2] = useState(null);
+  const [twoFaFeedback, setTwoFaFeedback] = useState(null);
+  const [twoFaLoading, setTwoFaLoading] = useState(null);
   const [emailProcessing, setEmailProcessing] = useState(null);
   const { processing, user } = useSelector((state: any) => state.auth);
   const { wallet, pin_error } = useSelector((state: any) => state.wallet);
@@ -41,6 +43,19 @@ const Security = (props: any) => {
       .min(4, 'Your pin must be at least 4 digits')
       .required('Provide a transaction pin please'),
   });
+
+  const activateTwoFa = async () => {
+    try {
+      setTwoFaLoading(true);
+      const res = await api.activateTwoFa();
+      setTwoFaFeedback(res.data.image_url);
+      setTwoFaLoading(false);
+    } catch (error) {
+      setTwoFaLoading(false);
+      console.log(error);
+      alert('There has been an error, please try again or contact support');
+    }
+  };
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors, resetForm }: any) => {
     try {
@@ -167,14 +182,20 @@ const Security = (props: any) => {
             </Button>
           </div>
         )}
-        <div className="two_fa">
-          <img src={phoneVer} alt="phone" />
-          <p>
-            You are strongly advised to enable 2 factor authentication in order to add an extra layer of security to
-            your account
-          </p>
-          <Button dashboard>Enable 2 factor authentication</Button>
-        </div>
+        {user && !user.twofa_enabled && (
+          <div className="two_fa">
+            <img src={twoFaFeedback ? twoFaFeedback : phoneVer} alt="twoFa Image" />
+            <p>
+              {!twoFaFeedback
+                ? 'You are strongly advised to enable 2 factor authentication in order to add an extra layer of security to your account'
+                : 'Please scan the above image with your authenticator app to start getting your codes'}
+            </p>
+
+            <Button dashboard onClick={() => activateTwoFa()}>
+              {twoFaLoading ? 'LOADING...please wait' : 'Enable 2 factor authentication'}
+            </Button>
+          </div>
+        )}
       </div>
     </>
   );

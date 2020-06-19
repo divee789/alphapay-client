@@ -1,56 +1,55 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { login } from '../../store/actions';
+import { twoFaVerify } from '../../store/actions';
 import theme from '../../components/Theme';
-import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
-import invisible from '../../assets/images/invisible.svg';
 
 import Button from '../../components/Button';
 
 import './auth.scss';
+import APIServiceError from '../../services/error-services';
 
 const LogIn: React.FC = (props: any) => {
   const [feedback, setFeedback] = useState(null);
-  const [recaptcha, setRecaptcha] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const { processing } = useSelector((state: any) => state.auth);
+  const [processing, setProcessing] = useState(null);
   const dispatch = useDispatch();
 
   interface FormValues {
     email: string;
-    password: string;
+    token: string;
   }
   const initialValues: FormValues = {
     email: '',
-    password: '',
+    token: '',
   };
 
-  const logvalidationSchema = Yup.object().shape({
+  const twoFaValidationSchema = Yup.object().shape({
     email: Yup.string().email('Provide a valid email please').required('Provide your email please'),
-    password: Yup.string().required('Provide a password please'),
+    token: Yup.string().required(),
   });
 
   const handleSubmit = async (values: any, { setSubmitting }: any): Promise<void> => {
     try {
-      await dispatch(login(values));
-      console.log(recaptcha);
+      setProcessing(true);
+      await dispatch(twoFaVerify(values));
       props.history.push(`/dashboard/overview`);
     } catch (err) {
-      console.log(err);
-      if (err.message === '2FA required') {
-        props.history.push('/auth/2fa');
+      if (err instanceof APIServiceError) {
+        setFeedback(err.response.data.message);
         setSubmitting(false);
+        setProcessing(false);
+        return;
       }
       setFeedback(err.message);
       setTimeout(() => setFeedback(null), 3000);
       setSubmitting(false);
+      setProcessing(false);
     }
   };
 
@@ -63,7 +62,7 @@ const LogIn: React.FC = (props: any) => {
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
-            validationSchema={logvalidationSchema}
+            validationSchema={twoFaValidationSchema}
             onSubmit={handleSubmit}
             render={(formProps) => {
               return (
@@ -73,8 +72,8 @@ const LogIn: React.FC = (props: any) => {
                   </div>
 
                   <Form className="form">
-                    <h2>Log In</h2>
-                    <p>Welcome back,please log in to your account to access your dashboard</p>
+                    <h2>Two Factor Auth</h2>
+                    <p>Please provide your 2FA code from your authenticator app.</p>
                     <div className="input-container">
                       <Field type="text" name="email" placeholder="example@gmail.com" />
                       <ErrorMessage
@@ -83,33 +82,10 @@ const LogIn: React.FC = (props: any) => {
                       />
                     </div>
                     <div className="input-container">
-                      <img
-                        src={invisible}
-                        alt="show/hide"
-                        className="password_icon"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                      <Field
-                        type={showPassword ? 'text' : 'password'}
-                        name="password"
-                        placeholder="Password"
-                        className="password"
-                      />
+                      <Field type="numeric" name="token" placeholder="Your auth code" />
                       <ErrorMessage
-                        name="password"
+                        name="token"
                         render={(msg: string): JSX.Element => <div className="error">{msg}</div>}
-                      />
-                    </div>
-                    <div className="input-container">
-                      <RecaptchaComponent
-                        verifyCallback={(): void => {
-                          setRecaptcha(false);
-                        }}
-                        expiredCallback={(): void => {
-                          setRecaptcha(true);
-                        }}
                       />
                     </div>
                     {feedback && (
@@ -122,13 +98,6 @@ const LogIn: React.FC = (props: any) => {
                       <Button disabled={formProps.isSubmitting} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}
                       </Button>
-
-                      <p>
-                        Can not remember your password? <Link to="/auth/password_reset_request">Reset</Link>
-                      </p>
-                      <p>
-                        Do not have an account? <Link to="/auth/signup"> Register</Link>
-                      </p>
                     </div>
                   </Form>
                 </>

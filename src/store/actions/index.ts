@@ -1,4 +1,4 @@
-export { login, signup, update, logout, getUser } from './auth';
+export { login, signup, update, logout, getUser, twoFaVerify } from './auth';
 
 export {
   get_client_wallet,

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { Logger } from '../utils';
 import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
@@ -8,8 +8,8 @@ const APIBaseURL =
   process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_STAGING : process.env.REACT_APP_SERVER_URL;
 
 export default class APIRequest {
-  public instance: any;
-  public instance2: any;
+  public instance: AxiosInstance;
+  public instance2: AxiosInstance;
   constructor() {
     this.instance = axios.create({
       baseURL: APIBaseURL,
@@ -143,15 +143,31 @@ export default class APIRequest {
     sessionStorage.setItem('logged', 'true');
   };
 
-  logIn = async (data: any) => {
-    const body = {
-      ...data,
-    };
-    const response = await this.instance.post('/auth/login', body);
+  activateTwoFa = async () => {
+    const check = await this.isloggedIn();
+    if (!check) {
+      return {
+        error: true,
+        message: 'Your session has expired, please log in again',
+      };
+    }
+    const response = await this.instance.get('/auth/2fa/generate');
+    return response.data;
+  };
+
+  twoFaAuthorize = async (data: { email: string; token: string }) => {
+    const response = await this.instance.post('/auth/2fa/verify', data);
     this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
-    // this.setHeader(response.data.data.access_token);
-    const profileResponse = response.data.data.client;
-    return { ...response.data, client: profileResponse };
+    return response.data;
+  };
+
+  logIn = async (data: { email: string; password: string }) => {
+    const response = await this.instance.post('/auth/login', data);
+    if (response.data.success === false && response.data.message === '2FA required') {
+      return response.data;
+    }
+    this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
+    return response.data;
   };
 
   signUp = async (data: any) => {
@@ -367,7 +383,7 @@ export default class APIRequest {
       };
     }
     const res = await this.instance.post('/api/v1/transfer/banks/verify', data);
-    return res;
+    return res.data;
   };
 
   transferFunds = async (data: any) => {

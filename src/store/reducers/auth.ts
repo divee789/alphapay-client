@@ -30,7 +30,6 @@ const authReducer = (state = initialState, action: any) => {
         ...state,
         isAuth: true,
         processing: false,
-        user: action.client.client,
         error: null,
       };
     case actionTypes.authConstants.FETCH_USER_SUCCESS:

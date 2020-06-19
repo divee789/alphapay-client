@@ -37,12 +37,34 @@ export function login(data: any) {
     try {
       await dispatch(request());
       const userDetails = await authAPIRequest.logIn(data);
+      if (userDetails.success === false && userDetails.message === '2FA required') {
+        throw new Error('2FA required');
+      }
       await dispatch(success(userDetails));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));
         throw error.response.data;
       }
+      throw error;
+    }
+  };
+}
+
+export function twoFaVerify(data: { email: string; token: string }) {
+  function success(client: any) {
+    return { type: actionTypes.authConstants.LOGIN_SUCCESS, client };
+  }
+
+  return async (dispatch: any) => {
+    try {
+      const userDetails = await authAPIRequest.twoFaAuthorize(data);
+      await dispatch(success(userDetails));
+    } catch (error) {
+      if (error instanceof APIServiceError) {
+        throw error.response.data;
+      }
+      throw error;
     }
   };
 }

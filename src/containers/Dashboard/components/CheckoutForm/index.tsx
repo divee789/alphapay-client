@@ -47,7 +47,7 @@ const CheckoutForm = (props: {
     try {
       setProcessing(true);
       const res = await API.confirmBankAccount({ bank: values.bank, account: values.bank_account });
-      if (res.data.status) {
+      if (res.data.success) {
         const ask = prompt(
           `You are about to pay ${values.amount} to ${res.data.data.account_name}, please type the account name again to continue`,
         );

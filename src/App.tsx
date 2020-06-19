@@ -27,6 +27,11 @@ const Signup = React.lazy(() => {
 const Login = React.lazy(() => {
   return import('./containers/Auth/Login');
 });
+
+const TwoFa = React.lazy(() => {
+  return import('./containers/Auth/TwoFa');
+});
+
 const Dashboard = React.lazy(() => {
   return import('./containers/Dashboard');
 });
@@ -59,6 +64,7 @@ const App = () => {
         <Route path="/careers" component={Careers} />
         <Route path="/auth/login" render={(props) => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
         <Route path="/auth/signup" render={(props) => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />
+        <Route path="/auth/2fa" render={(props) => (isAuth ? <Redirect to="/dashboard/home" /> : <TwoFa />)} />
         <Route path="/auth/verify_email" component={VerifyEmail} />
         <Route path="/auth/password_reset_request" component={PasswordReset} />
         <Route path="/auth/password_reset/:token" component={PasswordConfirmation} />
