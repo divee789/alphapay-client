@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { twoFaVerify } from '../../store/actions';
@@ -15,22 +15,27 @@ import Button from '../../components/Button';
 import './auth.scss';
 import APIServiceError from '../../services/error-services';
 
-const LogIn: React.FC = (props: any) => {
+const TwoFa: React.FC = (props: any) => {
   const [feedback, setFeedback] = useState(null);
   const [processing, setProcessing] = useState(null);
   const dispatch = useDispatch();
+
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
+
+  let query = useQuery();
 
   interface FormValues {
     email: string;
     token: string;
   }
   const initialValues: FormValues = {
-    email: '',
+    email: query.get('email'),
     token: '',
   };
 
   const twoFaValidationSchema = Yup.object().shape({
-    email: Yup.string().email('Provide a valid email please').required('Provide your email please'),
     token: Yup.string().required(),
   });
 
@@ -75,13 +80,6 @@ const LogIn: React.FC = (props: any) => {
                     <h2>Two Factor Auth</h2>
                     <p>Please provide your 2FA code from your authenticator app.</p>
                     <div className="input-container">
-                      <Field type="text" name="email" placeholder="example@gmail.com" />
-                      <ErrorMessage
-                        name="email"
-                        render={(msg: string): JSX.Element => <div className="error">{msg}</div>}
-                      />
-                    </div>
-                    <div className="input-container">
                       <Field type="numeric" name="token" placeholder="Your auth code" />
                       <ErrorMessage
                         name="token"
@@ -110,4 +108,4 @@ const LogIn: React.FC = (props: any) => {
   );
 };
 
-export default withRouter(LogIn);
+export default withRouter(TwoFa);

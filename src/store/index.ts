@@ -11,7 +11,7 @@ import walletReducer from './reducers/wallet';
 import transactionReducer from './reducers/transaction';
 import uiReducer from './reducers/ui';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   auth: authReducer,
   wallet: walletReducer,
   transaction: transactionReducer,

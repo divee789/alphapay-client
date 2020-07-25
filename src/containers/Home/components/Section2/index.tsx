@@ -18,7 +18,7 @@ const Section = () => {
     backgroundColor: '#242729',
   };
 
-  const divStyle = mode == 'dark' ? { background: '' } : { background: 'white' };
+  const divStyle = mode === 'dark' ? { background: '' } : { background: 'white' };
   return (
     <>
       <section className="section2">
@@ -26,7 +26,7 @@ const Section = () => {
           <h1>Payments made easy.</h1>
           <p>What can you do with alphapay?</p>
         </div>
-        <div className="detail" style={mode == 'dark' ? style : null}>
+        <div className="detail" style={mode === 'dark' ? style : null}>
           <div className="detail_1">
             <img src={image1} alt="Payments made easy" />
           </div>
@@ -56,7 +56,7 @@ const Section = () => {
           </div>
         </div>
 
-        <div className="verification_info" style={mode == 'dark' ? style : null}>
+        <div className="verification_info" style={mode === 'dark' ? style : null}>
           <div className="verification_text detail_2">
             <div className="content_bg" style={divStyle}>
               <h1>Instant Verification</h1>
@@ -73,7 +73,7 @@ const Section = () => {
           </div>
         </div>
 
-        <div className="other" style={mode == 'dark' ? style : null}>
+        <div className="other" style={mode === 'dark' ? style : null}>
           <div>
             <img src={image2} alt="customer_support" />
             <h3>Customer Support</h3>
@@ -101,7 +101,7 @@ const Section = () => {
           </div>
         </div>
 
-        <div className="other2" style={mode == 'dark' ? style : null}>
+        <div className="other2" style={mode === 'dark' ? style : null}>
           <div className="suggest">
             <div style={divStyle} className="content_bg">
               <h1>Have a suggestion ?</h1>

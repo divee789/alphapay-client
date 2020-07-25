@@ -33,7 +33,6 @@ const PasswordReset = (props: any) => {
       } catch (error) {
         setFeedback('There has been an issue verifying your identity,please contact support');
         setError(true);
-        console.log(error);
         setLoading(false);
       }
     };

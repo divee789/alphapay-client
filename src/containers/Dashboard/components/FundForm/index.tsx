@@ -78,7 +78,6 @@ const FundForm = (props) => {
       );
       setProcessing(false);
     } catch (error) {
-      console.log('funding error', error);
       setProcessing(false);
       setMessage('There has been an error funding your wallet,please try again later');
     }

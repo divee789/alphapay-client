@@ -109,7 +109,6 @@ export function signup(data: any) {
       const userDetails = await authAPIRequest.signUp(data);
       await dispatch(success(userDetails.data));
     } catch (error) {
-      console.log(error);
       if (error instanceof APIServiceError) {
         await dispatch(failure(error));
         throw error.response.data;

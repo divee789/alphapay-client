@@ -9,15 +9,12 @@ export const payWithKorapay = (values: any, success: Function, failure: Function
     },
     notification_url: '',
     onClose: function () {
-      console.log('closing');
       onClose();
     },
     onSuccess: async function (data) {
-      console.log('modal response', data);
       await success(data.reference);
     },
     onFailed: function () {
-      console.log('on failing');
       failure();
     },
   });

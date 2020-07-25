@@ -43,9 +43,8 @@ const LogIn: React.FC = (props: any) => {
       console.log(recaptcha);
       props.history.push(`/dashboard/overview`);
     } catch (err) {
-      console.log(err);
       if (err.message === '2FA required') {
-        props.history.push('/auth/2fa');
+        props.history.push(`/auth/2fa?email=${values.email}`);
         setSubmitting(false);
       }
       setFeedback(err.message);

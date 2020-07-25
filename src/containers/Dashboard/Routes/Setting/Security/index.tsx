@@ -52,7 +52,18 @@ const Security = (props: any) => {
       setTwoFaLoading(false);
     } catch (error) {
       setTwoFaLoading(false);
-      console.log(error);
+      alert('There has been an error, please try again or contact support');
+    }
+  };
+
+  const deactivateTwoFa = async () => {
+    try {
+      setTwoFaLoading(true);
+      const res = await api.deactivate2FA();
+      setTwoFaFeedback(res.message);
+      setTwoFaLoading(false);
+    } catch (error) {
+      setTwoFaLoading(false);
       alert('There has been an error, please try again or contact support');
     }
   };
@@ -65,26 +76,31 @@ const Security = (props: any) => {
           const res = await api.changePassword(values);
           setFeedback(res.message);
           setSubmitting(false);
-          return resetForm();
+          resetForm();
+          break;
         case 'Transaction':
           delete values['type'];
           await dispatch(set_transaction_pin(values));
           setFeedback2('Request successful');
           setSubmitting(false);
-          return resetForm();
+          resetForm();
+          break;
+        default:
+          break;
       }
     } catch (error) {
-      console.log(error);
-
       switch (values.type) {
         case 'Password':
           setFeedback(error.response.data.message);
           if (error.response.status === 409) {
             setFeedback('Your password is invalid');
-            return;
           }
+          break;
         case 'Transaction':
           setFeedback2(pin_error);
+          break;
+        default:
+          break;
       }
     }
   };
@@ -184,7 +200,7 @@ const Security = (props: any) => {
         )}
         {user && !user.twofa_enabled && (
           <div className="two_fa">
-            <img src={twoFaFeedback ? twoFaFeedback : phoneVer} alt="twoFa Image" />
+            <img src={twoFaFeedback ? twoFaFeedback : phoneVer} alt="twoFa" />
             <p>
               {!twoFaFeedback
                 ? 'You are strongly advised to enable 2 factor authentication in order to add an extra layer of security to your account'
@@ -193,6 +209,20 @@ const Security = (props: any) => {
 
             <Button dashboard onClick={() => activateTwoFa()}>
               {twoFaLoading ? 'LOADING...please wait' : 'Enable 2 factor authentication'}
+            </Button>
+          </div>
+        )}
+        {user && user.twofa_enabled && (
+          <div className="two_fa">
+            <img src={phoneVer} alt="twoFa" />
+            <p>
+              {!twoFaFeedback
+                ? ' Deactivate 2FA on your account. You are strongly advised against this course of action, if you have any issues, it is better to contact our support team'
+                : 'TwoFA Deactivated Successfully'}
+            </p>
+
+            <Button dashboard onClick={() => deactivateTwoFa()}>
+              {twoFaLoading ? 'LOADING...please wait' : 'Disable 2 factor authentication'}
             </Button>
           </div>
         )}

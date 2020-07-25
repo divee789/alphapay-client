@@ -29,9 +29,7 @@ export function get_client_transactions(page?: number) {
       const transactions = await Request.getTransactions(page);
       await dispatch(success(transactions.transactions, transactions.pager));
     } catch (error) {
-      console.log(error);
       if (error instanceof APIServiceError) {
-        console.log('error in getting transaction', error);
         await dispatch(failure(error));
         throw error.response.data;
       }
@@ -60,9 +58,7 @@ export function filter_client_transactions(data: any, page?: number) {
       const transactions = await Request.filterTransactions(data, page);
       await dispatch(success(transactions.transactions, transactions.pager));
     } catch (error) {
-      console.log(error);
       if (error instanceof APIServiceError) {
-        console.log('error in getting transaction', error);
         dispatch(failure(error));
         throw error.response.data;
       }

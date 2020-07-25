@@ -43,7 +43,7 @@ const App = () => {
 
   useEffect(() => {
     loadReCaptcha();
-  }, ['']);
+  }, []);
 
   const toggleTheme = async () => {
     if (mode === 'light') {
@@ -62,13 +62,13 @@ const App = () => {
         <Route exact path="/loading" component={Loading} />
         <Route path="/blog" component={Blog} />
         <Route path="/careers" component={Careers} />
-        <Route path="/auth/login" render={(props) => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
-        <Route path="/auth/signup" render={(props) => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />
-        <Route path="/auth/2fa" render={(props) => (isAuth ? <Redirect to="/dashboard/home" /> : <TwoFa />)} />
+        <Route path="/auth/login" render={() => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
+        <Route path="/auth/signup" render={() => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />
+        <Route path="/auth/2fa" render={() => (isAuth ? <Redirect to="/dashboard/home" /> : <TwoFa />)} />
         <Route path="/auth/verify_email" component={VerifyEmail} />
         <Route path="/auth/password_reset_request" component={PasswordReset} />
         <Route path="/auth/password_reset/:token" component={PasswordConfirmation} />
-        <Route path={'/dashboard'} render={(props) => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
+        <Route path={'/dashboard'} render={() => (isAuth ? <Dashboard /> : <Redirect to="/auth/login" />)} />
         <Route path="/404" component={NotFound} />
         <Redirect to="/404" />
       </Switch>
@@ -82,8 +82,8 @@ const App = () => {
         <SwitchC
           onChange={toggleTheme}
           checked={checked}
-          uncheckedIcon={<img style={{ width: '100%', height: '100%' }} src={Moon} />}
-          checkedIcon={<img style={{ width: '100%', height: '100%' }} src={Sun} />}
+          uncheckedIcon={<img style={{ width: '100%', height: '100%' }} src={Moon} alt="dark mode" />}
+          checkedIcon={<img style={{ width: '100%', height: '100%' }} src={Sun} alt="light mode" />}
         />
       </div>
     </>

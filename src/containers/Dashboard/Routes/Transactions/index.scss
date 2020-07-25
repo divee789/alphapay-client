@@ -1,176 +1,176 @@
 .dashboard_transactions {
-    padding-top: 2rem;
+  padding-top: 2rem;
 
-    .no_transaction {
+  .no_transaction {
+    text-align: center;
+    padding-top: 5rem;
+
+    img {
+      height: 200px;
+      object-fit: cover;
+    }
+  }
+
+  .transaction_container {
+    width: 99%;
+    margin: 0 auto;
+    margin-bottom: 5rem;
+
+    .title {
+      p {
+        font-size: 0.9rem;
+
+        @media screen and (min-width: 600px) and (max-width: 1000px) {
+          font-size: 10px;
+        }
+      }
+    }
+
+    .green {
+      color: green;
+    }
+
+    .red {
+      color: red;
+    }
+
+    .yellow {
+      color: yellow;
+    }
+
+    .dark-grey {
+      color: darkgrey;
+    }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      p {
+        width: 20%;
         text-align: center;
-
-        img {
-            height: 400px;
-        }
+        font-size: 0.9rem;
+      }
     }
 
-    .transaction_container {
-        width: 99%;
-        margin: 0 auto;
-        margin-bottom: 5rem;
+    .transaction_item {
+      margin-bottom: 10px;
+      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s;
+      cursor: pointer;
+      border-radius: 5px;
 
-        .title {
-            p {
-                font-size: .9rem;
+      &:hover {
+        transform: translateX(-10px);
+      }
 
-                @media screen and (min-width:600px) and (max-width:1000px) {
-                    font-size: 10px;
-                }
-            }
+      p {
+        font-size: 0.9rem;
+
+        @media screen and (max-width: 1000px) {
+          font-size: 12px;
         }
-
-        .green {
-            color: green;
-        }
-
-        .red {
-            color: red;
-        }
-
-        .yellow {
-            color: yellow;
-        }
-
-        .dark-grey {
-            color: darkgrey;
-        }
-
-        div {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-
-            p {
-                width: 20%;
-                text-align: center;
-                font-size: .9rem;
-            }
-        }
-
-        .transaction_item {
-            margin-bottom: 10px;
-            box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
-            transition: all 0.3s;
-            cursor: pointer;
-            border-radius: 5px;
-
-            &:hover {
-                transform: translateX(-10px);
-            }
-
-            p {
-                font-size: .9rem;
-
-                @media screen and (max-width:1000px) {
-                    font-size: 12px;
-                }
-            }
-        }
-
-        .transaction_item2 {
-            display: none;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
-            transition: all 0.3s;
-            cursor: pointer;
-            border-radius: 5px;
-
-            &:hover {
-                transform: translateX(-10px);
-            }
-        }
+      }
     }
 
-    .pagination {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
-    }
+    .transaction_item2 {
+      display: none;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s;
+      cursor: pointer;
+      border-radius: 5px;
 
-    .filter-box {
-        transition: all 0.2s linear;
+      &:hover {
+        transform: translateX(-10px);
+      }
     }
+  }
 
-    .open-box {
-        height: 18rem;
-        position: relative;
-        overflow-y: scroll;
+  .pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .filter-box {
+    transition: all 0.2s linear;
+  }
+
+  .open-box {
+    height: 18rem;
+    position: relative;
+    overflow-y: scroll;
+  }
+
+  .close-box {
+    height: 0;
+
+    .search-section {
+      display: none;
     }
-
-    .close-box {
-        height: 0;
-
-        .search-section {
-            display: none;
-        }
-    }
+  }
 }
 
 .refresh_transaction_button {
-    background-color: rgba(71, 212, 82, 0.303);
-    width: 200px;
-    text-align: center;
-    font-weight: 500;
-    color: #0a2e65;
-    font-family: Sailec;
-    opacity: 0.8;
-    cursor: pointer;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    font-size: .9rem;
+  background-color: rgba(71, 212, 82, 0.303);
+  width: 200px;
+  text-align: center;
+  font-weight: 500;
+  color: #0a2e65;
+  font-family: Sailec;
+  opacity: 0.8;
+  cursor: pointer;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
 
-
-    @media screen and (max-width:1000px) {
-        font-size: 12px;
-    }
+  @media screen and (max-width: 1000px) {
+    font-size: 12px;
+  }
 }
 
 .trans-modal {
-    height: 25rem;
-    top: 10rem;
-    margin: 0 auto;
-    color: #0a2e65;
+  height: 25rem;
+  top: 10rem;
+  margin: 0 auto;
+  color: #0a2e65;
 }
 
-@media screen and (max-width:600px) {
-    .dashboard_transactions {
-        .transaction_container {
-            .title {
-                display: none;
-            }
+@media screen and (max-width: 600px) {
+  .dashboard_transactions {
+    .transaction_container {
+      .title {
+        display: none;
+      }
 
-            div {
-                flex-direction: column;
+      div {
+        flex-direction: column;
 
-                p {
-                    width: 100%;
-                    text-align: unset;
-                    font-size: 12px;
-                }
-            }
-
-            .transaction_item {
-                display: none
-            }
-
-            .transaction_item2 {
-                display: block;
-                padding: 1rem;
-            }
+        p {
+          width: 100%;
+          text-align: unset;
+          font-size: 12px;
         }
-    }
+      }
 
-    .refresh_transaction_button {
-        margin-left: 20px;
-        margin-top: 2rem;
-        font-size: 12px;
-    }
+      .transaction_item {
+        display: none;
+      }
 
+      .transaction_item2 {
+        display: block;
+        padding: 1rem;
+      }
+    }
+  }
+
+  .refresh_transaction_button {
+    margin-left: 20px;
+    margin-top: 2rem;
+    font-size: 12px;
+  }
 }

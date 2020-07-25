@@ -9,7 +9,7 @@ import Button from '../../../../components/Button';
 
 import Turn from '../../../../components/Loaders/Turning';
 
-import img1 from '../../../../assets/images/newpassword.png';
+import img1 from '../../../../assets/images/andela1.png';
 import './index.scss';
 
 interface ITransaction {
@@ -34,11 +34,7 @@ const Transactions = () => {
 
   useEffect(() => {
     const trans = async () => {
-      try {
-        await dispatch(get_client_transactions());
-      } catch (error) {
-        content = <p>There has been an error getting your transactions</p>;
-      }
+      await dispatch(get_client_transactions());
     };
     trans();
   }, [dispatch]);

@@ -31,7 +31,6 @@ export default function requestMiddleware() {
           }
           return apiRequest.logOut();
         } catch (error) {
-          console.log('midleware error', error);
           apiRequest.logOut();
           dispatch({ type: authConstants.LOGOUT });
           throw error;

@@ -1,47 +1,57 @@
 .notifications_container {
-    width: 25rem;
-    height: 100vh;
-    position: absolute;
-    z-index: 9999;
-    top: 0;
-    right: 0;
-    padding: 4rem 1rem;
-    box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.15);
-    transition: all 0.2s linear;
+  width: 25rem;
+  height: 100vh;
+  position: absolute;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  padding: 4rem 1rem;
+  box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.15);
+  transition: all 0.2s linear;
 
-    @media screen and (max-width:600px) {
-     width: 95%;
- }
-    &.open-modal {
-        transform: translateY(0);
-    }
+  @media screen and (max-width: 600px) {
+    width: 95%;
+  }
+  &.open-modal {
+    transform: translateY(0);
+  }
 
-    &.close-modal {
-        transform: translateY(-110%);
-        // width: 0;
-        // padding: 0;
+  &.close-modal {
+    transform: translateY(-110%);
+    // width: 0;
+    // padding: 0;
 
-        .notifications_content {
-            display: none !important;
-        }
-
-        .close-btn {
-            display: none !important;
-        }
-    }
-
-    .notification_content {
-        display: flex;
-        justify-content: space-between;
-        padding-top: 5rem;
-        width: 100%;
+    .notifications_content {
+      display: none !important;
     }
 
     .close-btn {
-        align-self: flex-start;
-        padding: 0;
-        position: absolute;
-        top: 20px;
-        left: 20px;
+      display: none !important;
     }
+  }
+
+  .notifications_content {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
+    width: 100%;
+
+    p {
+      margin-bottom: 2rem;
+      span {
+        cursor: pointer;
+        color: red;
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .close-btn {
+    align-self: flex-start;
+    padding: 0;
+    position: absolute;
+    cursor: pointer;
+    top: 20px;
+    left: 20px;
+  }
 }

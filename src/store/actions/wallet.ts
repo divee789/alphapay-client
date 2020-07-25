@@ -23,11 +23,9 @@ export function get_client_wallet() {
     try {
       await dispatch(request());
       const wallet = await Request.getWallet();
-      console.log('action_wallet', wallet);
       await dispatch(success(wallet.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
-        console.log('error in getting wallet', error);
         await dispatch(failure(error));
         throw error.response.data;
       }
@@ -152,9 +150,7 @@ export function new_notifications() {
       const apiRes = await Request.getNotifications();
       await dispatch(set_notifications(apiRes.notifications));
     } catch (error) {
-      console.log(error);
       if (error instanceof APIServiceError) {
-        console.log('error in getting transaction', error);
         throw error.response.data;
       }
     }

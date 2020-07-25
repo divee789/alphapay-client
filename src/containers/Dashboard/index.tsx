@@ -67,7 +67,6 @@ const Dashboard = (props: any) => {
         }
         return true;
       } catch (error) {
-        console.log('error', error);
         return false;
       }
     };
@@ -100,8 +99,8 @@ const Dashboard = (props: any) => {
       });
     }
 
-    return () => socket.disconnect();
-  }, ['']);
+    // return () => socket.disconnect();
+  }, [user, dispatch]);
 
   let { path, url } = useRouteMatch();
 

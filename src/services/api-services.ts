@@ -105,9 +105,7 @@ export default class APIRequest {
             await this.refresh(refreshToken);
             return true;
           }
-          return false;
         }
-        return false;
       }
     }
     return false;
@@ -155,6 +153,18 @@ export default class APIRequest {
     return response.data;
   };
 
+  deactivate2FA = async () => {
+    const check = await this.isloggedIn();
+    if (!check) {
+      return {
+        error: true,
+        message: 'Your session has expired, please log in again',
+      };
+    }
+    const response = await this.instance.delete('/auth/2fa/deactivate');
+    return response.data;
+  };
+
   twoFaAuthorize = async (data: { email: string; token: string }) => {
     const response = await this.instance.post('/auth/2fa/verify', data);
     this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
@@ -177,7 +187,6 @@ export default class APIRequest {
     const response = await this.instance.post('/auth/signup', body);
     const authResponse = response.data;
     this.storeUserToken(authResponse.data.access_token, authResponse.data.refresh_token);
-    // this.setHeader(authResponse.access_token);
     const profileResponse = authResponse.data.client;
     return { ...authResponse, client: profileResponse };
   };
@@ -239,11 +248,10 @@ export default class APIRequest {
     Storage.removeItem('refreshToken');
     Storage.removeItem('userTokenExpiration');
     if (client_email) {
-      const res = await this.instance.post('/auth/logout', {
+      await this.instance.post('/auth/logout', {
         client_email,
         refresh_token,
       });
-      console.log(res);
     }
     this.clearHeader();
   };
@@ -297,7 +305,6 @@ export default class APIRequest {
       };
     }
     const res = await this.instance2.post('/auth/upload', data);
-    console.log('upload', res);
     return res.data.client;
   };
 
@@ -497,6 +504,7 @@ export default class APIRequest {
       message: response.message,
     };
   };
+
   setTransactionPin = async (data: any): Promise<{ message: string; wallet?: any }> => {
     const body = {
       transaction_pin: data.transaction_pin,
