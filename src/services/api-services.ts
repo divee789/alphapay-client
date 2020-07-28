@@ -89,6 +89,7 @@ export default class APIRequest {
     delete this.instance.defaults.headers.common.Authorization;
     delete this.instance2.defaults.headers.common.Authorization;
   }
+  
   isloggedIn = async () => {
     const token = Storage.checkAuthentication();
     //Check for existence of token
