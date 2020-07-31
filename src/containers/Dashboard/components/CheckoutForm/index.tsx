@@ -67,7 +67,7 @@ const CheckoutForm = (props: {
       };
       await dispatch(checkout_client_wallet(data));
       setProcessing(false);
-      setMessage('Transaction successful');
+      setMessage('Your Remittance is being processed. You will receive your funds shortly');
     } catch (error) {
       console.log('checkout error', error);
       setProcessing(false);

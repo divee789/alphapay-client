@@ -83,13 +83,7 @@ const Overview = (props: any) => {
             {content}
           </div>
           <div className="btn_fund">
-            <Button
-              dashboard
-              onClick={() => {
-                toggleModal('fund');
-              }}
-              style={{ color: mode === 'dark' ? '#00C9B6' : '' }}
-            >
+            <Button dashboard onClick={() => toggleModal('fund')} style={{ color: mode === 'dark' ? '#00C9B6' : '' }}>
               Fund Wallet
             </Button>
             {wallet && wallet.available_balance <= 100 ? (
@@ -100,9 +94,7 @@ const Overview = (props: any) => {
               <Button
                 dashboard
                 style={{ color: mode === 'dark' ? '#00C9B6' : '' }}
-                onClick={() => {
-                  toggleModal('checkout');
-                }}
+                onClick={() => toggleModal('checkout')}
               >
                 Withdraw Funds
               </Button>
