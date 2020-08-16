@@ -1,19 +1,21 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect, useState } from 'react';
 import { ReCaptcha } from 'react-recaptcha-google';
 
-interface propsInterface {
+interface PropsInterface {
   expiredCallback: Function;
   verifyCallback: Function;
 }
 
 declare global {
   interface Window {
-    grecaptcha: any;
+    grecaptcha;
   }
 }
 
-const RecaptchaComponent = (props: propsInterface) => {
-  let [captcha]: any = useState('');
+const RecaptchaComponent = (props: PropsInterface) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let [captcha] = useState() as any;
 
   useEffect(() => {
     if (captcha) {

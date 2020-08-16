@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
@@ -7,8 +8,8 @@ import Close from '../../../../assets/images/close.png';
 
 import './index.scss';
 
-const NotificationsBar = ({ isActive, onClose, remove }) => {
-  const { notifications } = useSelector((state: any) => state.wallet);
+const NotificationsBar = ({ isActive, onClose, remove }: { isActive: boolean; onClose; remove }) => {
+  const { notifications } = useSelector((state: { wallet }) => state.wallet);
   const [data, setData] = useState(null);
 
   useEffect(() => {

@@ -1,27 +1,29 @@
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import { transfer_funds } from '../../../../store/actions';
+import { transferFunds } from '../../../../store/actions';
 
 import Button from '../../../../components/Button';
 import img1 from '../../../../assets/images/quick-and-easy.jpg';
 
-const TransferForm = (props) => {
+const TransferForm = (props: { mode }) => {
   const [message, setMessage] = useState(null);
   const [pin, setPin] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { wallet } = useSelector((state: any) => state.wallet);
+  const { wallet } = useSelector((state: { wallet }) => state.wallet);
   const dispatch = useDispatch();
 
   interface FormValues {
-    amount: number;
-    recipient_phone_number: any;
+    amount: string;
+    recipient_phone_number: string;
     transaction_type: string;
   }
 
   const initialValues: FormValues = {
-    amount: ('' as unknown) as number,
+    amount: '',
     recipient_phone_number: '',
     transaction_type: 'Internal',
   };
@@ -35,7 +37,7 @@ const TransferForm = (props) => {
     recipient_phone_number: Yup.string().required('Please provide the recipient phone number'),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setLoading(true);
       if (wallet && wallet.transaction_pin) {
@@ -43,10 +45,7 @@ const TransferForm = (props) => {
         setPin(true);
         return;
       }
-      let data = {
-        ...values,
-      };
-      await dispatch(transfer_funds(data));
+      await dispatch(transferFunds(values));
       setMessage('Transaction successful');
       setLoading(false);
     } catch (error) {
@@ -57,10 +56,10 @@ const TransferForm = (props) => {
     }
   };
 
-  const transfer = async (values: any, { setSubmitting, setErrors }: any) => {
+  const transfer = async (values, { setSubmitting }) => {
     try {
       setLoading(true);
-      await dispatch(transfer_funds(values));
+      await dispatch(transferFunds(values));
       setMessage('Transaction successful');
       setLoading(false);
       setPin(false);
@@ -99,7 +98,7 @@ const TransferForm = (props) => {
             .max(4, 'Must be exactly 4 digits'),
         })}
         onSubmit={transfer}
-        render={(formProps) => {
+        render={() => {
           return (
             <>
               <Form className="fund_wallet_form">

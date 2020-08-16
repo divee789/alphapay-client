@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import { fund_client_wallet } from '../../../../store/actions';
+import { fundClientWallet } from '../../../../store/actions';
 import { payWithKorapay } from '../../../../services/payment';
 import Button from '../../../../components/Button';
 
@@ -12,14 +14,14 @@ import APIServiceError from '../../../../services/error-services';
 
 declare global {
   interface Window {
-    Korapay: any;
+    Korapay;
   }
 }
 
-const FundForm = (props) => {
+const FundForm = (props: { mode: string }) => {
   const [message, setMessage] = useState(null);
   const [processing, setProcessing] = useState(null);
-  const { user } = useSelector((state: any) => state.auth);
+  const { user } = useSelector((state: { auth }) => state.auth);
 
   const dispatch = useDispatch();
   interface FormValues {
@@ -38,9 +40,9 @@ const FundForm = (props) => {
     amount: Yup.number().required('Please provide the amount you want to fund').min(100),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      let data = {
+      const data = {
         ...values,
         ...user,
       };
@@ -48,7 +50,7 @@ const FundForm = (props) => {
       payWithKorapay(
         data,
         async (ref) => {
-          let feedback = {
+          const feedback = {
             ...values,
             processor: 'Korapay',
             processor_reference: ref,
@@ -56,7 +58,7 @@ const FundForm = (props) => {
             narration: 'Deposit funds to wallet',
           };
           try {
-            await dispatch(fund_client_wallet(feedback));
+            await dispatch(fundClientWallet(feedback));
             setProcessing(false);
             return setMessage('Transaction successful');
           } catch (error) {
@@ -76,8 +78,10 @@ const FundForm = (props) => {
           return setProcessing(false);
         },
       );
+      setSubmitting(false);
       setProcessing(false);
     } catch (error) {
+      setSubmitting(false);
       setProcessing(false);
       setMessage('There has been an error funding your wallet,please try again later');
     }

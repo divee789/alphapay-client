@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { withRouter } from 'react-router-dom';
@@ -16,7 +17,7 @@ import '../auth.scss';
 
 const api = new Request();
 
-const PasswordReset = (props: any) => {
+const PasswordReset = (props: { match; history }) => {
   const [user, setUser] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [err, setError] = useState(null);
@@ -47,7 +48,7 @@ const PasswordReset = (props: any) => {
     password: '',
   };
 
-  const passwordvalidationSchema = Yup.object().shape({
+  const passwordValidationSchema = Yup.object().shape({
     password: Yup.string()
       .min(8, 'Password must be 8 characters or longer')
       .required('Provide a password please')
@@ -57,7 +58,7 @@ const PasswordReset = (props: any) => {
       ),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting }: any) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const res = await api.passwordResetEmail({ ...values, email: user.email });
       setFeedback(res.message);
@@ -77,7 +78,7 @@ const PasswordReset = (props: any) => {
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
-            validationSchema={passwordvalidationSchema}
+            validationSchema={passwordValidationSchema}
             onSubmit={handleSubmit}
             render={(formProps) => {
               return (

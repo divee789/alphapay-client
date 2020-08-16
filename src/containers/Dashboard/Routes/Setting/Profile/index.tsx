@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -10,13 +12,13 @@ import './index.scss';
 
 const api = new Request();
 
-const Profile = (props: any) => {
+const Profile = () => {
   const dispatch = useDispatch();
   const [image, setImage] = useState('');
   const [feedBack, setFeedBack] = useState(false);
   const [uploadFeedBack, setUploadFeedBack] = useState(false);
 
-  const { user, processing, update_error, message } = useSelector((state: any) => state.auth);
+  const { user, processing, update_error, message } = useSelector((state: { auth }) => state.auth);
 
   const initialValues = {
     email: user ? user.email : '',
@@ -24,7 +26,7 @@ const Profile = (props: any) => {
     last_name: user ? user.last_name : '',
     phone_number: user ? user.phone_number : '',
   };
-  const logvalidationSchema = Yup.object().shape({
+  const logValidationSchema = Yup.object().shape({
     first_name: Yup.string().required('Provide your first name please'),
     last_name: Yup.string().required('Provide your last name please'),
     phone_number: Yup.number().min(11, 'Invalid phone_number').required('Provide your phone_number please'),
@@ -46,7 +48,7 @@ const Profile = (props: any) => {
       const formData = new FormData();
       formData.append('profile_image', image);
       setUploadFeedBack(true);
-      let resData = await api.uploadProfileImage(formData);
+      const resData = await api.uploadProfileImage(formData);
       if (resData.error) {
         setUploadFeedBack(false);
         alert('Your session has expired, please log in again');
@@ -59,7 +61,7 @@ const Profile = (props: any) => {
     }
   };
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       await dispatch(update(values));
       setFeedBack(message);
@@ -93,7 +95,7 @@ const Profile = (props: any) => {
         <div className="user_profile_details">
           <Formik
             initialValues={initialValues}
-            validationSchema={logvalidationSchema}
+            validationSchema={logValidationSchema}
             onSubmit={handleSubmit}
             render={(formProps) => {
               return (

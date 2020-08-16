@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import axios, { AxiosInstance } from 'axios';
 import { Logger } from '../utils';
 import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
 import decode from 'jwt-decode';
+import { Client } from '../store/types';
 
 const APIBaseURL =
   process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_STAGING : process.env.REACT_APP_SERVER_URL;
@@ -26,29 +29,29 @@ export default class APIRequest {
       },
     });
 
-    this.instance.interceptors.request.use(this.config, (error: any) => {
+    this.instance.interceptors.request.use(this.config, (error) => {
       Logger.error('Request Error: ', error);
       return Promise.reject(error);
     });
 
-    this.instance.interceptors.response.use((response: any) => {
+    this.instance.interceptors.response.use((response) => {
       Logger.info('Response: ', response.config.method, response.config.url, response.status);
       return response;
     }, this.configError);
 
-    this.instance2.interceptors.request.use(this.config, (error: any) => {
+    this.instance2.interceptors.request.use(this.config, (error) => {
       Logger.error('Request Error: ', error);
       return Promise.reject(error);
     });
 
-    this.instance2.interceptors.response.use((response: any) => {
+    this.instance2.interceptors.response.use((response) => {
       Logger.info('Response: ', response.config.method, response.config.url, response.status);
       return response;
     }, this.configError);
     this.checkAuthToken();
   }
 
-  config = (config: any) => {
+  config = (config) => {
     const altCopy = config;
     const userToken = this.setAuthorization();
     altCopy.headers = { ...config.headers, Authorization: userToken };
@@ -57,7 +60,7 @@ export default class APIRequest {
     return altCopy;
   };
 
-  configError = (error: any) => {
+  configError = (error) => {
     if (!error.response) {
       Logger.error('Response: ', 'Network Error');
       return Promise.reject(
@@ -89,7 +92,7 @@ export default class APIRequest {
     delete this.instance.defaults.headers.common.Authorization;
     delete this.instance2.defaults.headers.common.Authorization;
   }
-  
+
   isloggedIn = async () => {
     const token = Storage.checkAuthentication();
     //Check for existence of token
@@ -114,7 +117,7 @@ export default class APIRequest {
 
   isTokenExpired = (token: string) => {
     try {
-      const decoded: any = decode(token);
+      const decoded: { exp: number } = decode(token);
       const exp: number = decoded.exp;
       const refreshThreshold = Math.floor((new Date().getTime() + 120000) / 1000);
       if (exp < refreshThreshold) {
@@ -126,7 +129,8 @@ export default class APIRequest {
       return false;
     }
   };
-  setAuthorization = (): any => {
+
+  setAuthorization = () => {
     const userToken = Storage.getItem('userToken');
     // Check if user if authenticated if not return client token
     if (userToken) {
@@ -181,7 +185,7 @@ export default class APIRequest {
     return response.data;
   };
 
-  signUp = async (data: any) => {
+  signUp = async (data: Client) => {
     const body = {
       ...data,
     };
@@ -203,7 +207,7 @@ export default class APIRequest {
     return authResponse;
   };
 
-  update = async (data: any) => {
+  update = async (data: Client) => {
     const body = {
       ...data,
     };
@@ -220,7 +224,7 @@ export default class APIRequest {
     };
   };
 
-  changePassword = async (data: any) => {
+  changePassword = async (data) => {
     const check = await this.isloggedIn();
     if (!check) {
       return {
@@ -262,12 +266,12 @@ export default class APIRequest {
     return res.data.data;
   };
 
-  verifyEmail = async (data) => {
-    const res = await this.instance.get('/auth/verify?token=' + data);
+  verifyEmail = async (token: string) => {
+    const res = await this.instance.get('/auth/verify?token=' + token);
     return res.data;
   };
 
-  sendEmail = async (): Promise<any> => {
+  sendEmail = async () => {
     const check = await this.isloggedIn();
     if (!check) {
       return {
@@ -289,7 +293,7 @@ export default class APIRequest {
     return res.data;
   };
 
-  passwordResetEmail = async (data) => {
+  passwordResetEmail = async (data: { email: string; password: string }) => {
     const res = await this.instance.post('/auth/password_reset_email', {
       email: data.email,
       password: data.password.trim(),
@@ -297,7 +301,7 @@ export default class APIRequest {
     return res.data;
   };
 
-  uploadProfileImage = async (data: any) => {
+  uploadProfileImage = async (data) => {
     const check = await this.isloggedIn();
     if (!check) {
       return {
@@ -326,7 +330,14 @@ export default class APIRequest {
     };
   };
 
-  fundWallet = async (data: any) => {
+  fundWallet = async (data: {
+    amount: string;
+    narration?: string;
+    processor: string;
+    processor_reference: string;
+    transaction_status: string;
+    pin: string;
+  }) => {
     const res = await this.instance.post('/api/v1/transfer/fund', {
       amount: data.amount,
       narration: data.narration,
@@ -347,7 +358,7 @@ export default class APIRequest {
     };
   };
 
-  checkoutWallet = async (data: any) => {
+  checkoutWallet = async (data) => {
     const res = await this.instance.post('/api/v1/transfer/withdraw', data);
 
     if (res.data.success === true) {
@@ -394,7 +405,7 @@ export default class APIRequest {
     return res.data;
   };
 
-  transferFunds = async (data: any) => {
+  transferFunds = async (data) => {
     const res = await this.instance.post('/api/v1/transfer', data);
     if (res.data.success === true) {
       return {
@@ -411,7 +422,7 @@ export default class APIRequest {
 
   //NOTIFICATIONS
 
-  makeNotifications = async (data: any) => {
+  makeNotifications = async (data) => {
     const check = await this.isloggedIn();
     if (!check) {
       return {
@@ -490,7 +501,7 @@ export default class APIRequest {
     };
   };
 
-  filterTransactions = async (data: any, page?: number) => {
+  filterTransactions = async (data, page?: number) => {
     const transactions = await this.instance.post('/api/v1/transaction/filter?page=' + page, { ...data });
     const response = transactions.data;
     if (response.success === true) {
@@ -506,7 +517,7 @@ export default class APIRequest {
     };
   };
 
-  setTransactionPin = async (data: any): Promise<{ message: string; wallet?: any }> => {
+  setTransactionPin = async (data: { transaction_pin: string }): Promise<{ message: string; wallet? }> => {
     const body = {
       transaction_pin: data.transaction_pin,
     };

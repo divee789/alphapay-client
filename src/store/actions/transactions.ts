@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Dispatch } from 'redux';
 
 import * as actionTypes from './actionTypes';
@@ -8,18 +9,18 @@ import APIServiceError from '../../services/error-services';
 
 const Request = new APIRequest();
 
-export function get_client_transactions(page?: number) {
+export function getClientTransactions(page?: number) {
   function request() {
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_REQUEST };
   }
-  function success(transactions: [Transaction], pager) {
+  function success(transactions: [Transaction], pager: unknown) {
     const data = {
       transactions,
       pager,
     };
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_SUCCESS, data };
   }
-  function failure(error: any) {
+  function failure(error: unknown) {
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_FAILURE, error };
   }
 
@@ -37,7 +38,7 @@ export function get_client_transactions(page?: number) {
   };
 }
 
-export function filter_client_transactions(data: any, page?: number) {
+export function filterClientTransactions(data: unknown, page?: number) {
   function request() {
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_REQUEST };
   }
@@ -48,7 +49,7 @@ export function filter_client_transactions(data: any, page?: number) {
     };
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_SUCCESS, data };
   }
-  function failure(error: any) {
+  function failure(error: unknown) {
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_FAILURE, error };
   }
 

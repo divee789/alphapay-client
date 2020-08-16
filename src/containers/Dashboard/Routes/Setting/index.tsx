@@ -6,7 +6,7 @@ import Security from './Security';
 import './index.scss';
 
 const Setting: React.FC = () => {
-  let { path, url } = useRouteMatch();
+  const { path, url } = useRouteMatch();
 
   return (
     <>

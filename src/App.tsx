@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { Suspense, useEffect } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -5,7 +6,7 @@ import { loadReCaptcha } from 'react-recaptcha-google';
 import SwitchC from 'react-switch';
 
 import { history } from './utils';
-import { switch_mode } from './store/actions';
+import { switchMode } from './store/actions';
 
 import Landing from './containers/Home';
 import Blog from './containers/Blog';
@@ -48,14 +49,14 @@ const App = () => {
   const toggleTheme = async () => {
     if (mode === 'light') {
       localStorage.setItem('mode', 'dark');
-      dispatch(switch_mode('dark'));
+      dispatch(switchMode('dark'));
     } else {
       localStorage.setItem('mode', 'light');
-      dispatch(switch_mode('light'));
+      dispatch(switchMode('light'));
     }
   };
 
-  let routes = (
+  const routes = (
     <Router history={history}>
       <Switch>
         <Route exact path="/" component={Landing} />

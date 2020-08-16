@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { withRouter, Link } from 'react-router-dom';
@@ -15,7 +16,7 @@ import './auth.scss';
 
 const api = new Request();
 
-const VerifyEmail: React.FC = (props: any) => {
+const VerifyEmail = (props: { history }) => {
   const [feedback, setFeedback] = useState(null);
   const [processing, setProcessing] = useState(false);
 
@@ -30,7 +31,7 @@ const VerifyEmail: React.FC = (props: any) => {
     token: Yup.string().required('Provide provide a valid token'),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setProcessing(true);
       await api.verifyEmail(values.token);

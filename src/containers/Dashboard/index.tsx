@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, Redirect, useRouteMatch, NavLink, withRouter } from 'react-router-dom';
@@ -6,9 +7,9 @@ import dayjs from 'dayjs';
 
 import { Wallet } from '../../store/types';
 import * as actionTypes from '../../store/actions/actionTypes';
-import { get_client_wallet, new_notifications } from '../../store/actions/wallet';
+import { getClientWallet, newNotifications } from '../../store/actions/wallet';
 import { getUser } from '../../store/actions/auth';
-import { logout } from '../../store/actions';
+import { logOut } from '../../store/actions';
 import API from '../../services/api-services';
 
 import Overview from './Routes/Overview';
@@ -25,11 +26,11 @@ import constants from '../../utils/constants';
 import Logo from '../../assets/images/alp.png';
 import Notify from '../../assets/images/dashboard/bxs-bell.png';
 import not from '../../assets/images/notification.svg';
-import im_logo from '../../assets/images/dashboard/home.png';
-import card_logo from '../../assets/images/dashboard/card.png';
-import transact_logo from '../../assets/images/dashboard/transactions.png';
+import imLogo from '../../assets/images/dashboard/home.png';
+import cardLogo from '../../assets/images/dashboard/card.png';
+import transactLogo from '../../assets/images/dashboard/transactions.png';
 import settings from '../../assets/images/dashboard/set.png';
-import utils_logo from '../../assets/images/dashboard/utitlity.png';
+import utilsLogo from '../../assets/images/dashboard/utitlity.png';
 import hamburger from '../../assets/images/menu.png';
 
 import './index.scss';
@@ -41,14 +42,14 @@ function success(wallet: Wallet) {
 
 const Request = new API();
 
-const Dashboard = (props: any) => {
+const Dashboard = (props: { history }) => {
   const [sidebarOpen, setSideBarOpen] = useState(false);
   const [banks, setBanks] = useState([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state: any) => state.auth);
-  const { processing, notifications } = useSelector((state: any) => state.wallet);
+  const { user } = useSelector((state: { auth }) => state.auth);
+  const { processing, notifications } = useSelector((state: { wallet }) => state.wallet);
   const { mode } = useSelector((state: any) => state.ui);
 
   useEffect(() => {
@@ -58,9 +59,9 @@ const Dashboard = (props: any) => {
 
     const check = async (): Promise<boolean> => {
       try {
-        await dispatch(getUser());
-        await dispatch(get_client_wallet());
-        await dispatch(new_notifications());
+        dispatch(getUser());
+        dispatch(getClientWallet());
+        dispatch(newNotifications());
         const res = await Request.getBanks();
         if (res.banks) {
           setBanks(res.banks);
@@ -82,9 +83,9 @@ const Dashboard = (props: any) => {
     const socket = openSocket(APIBaseURL);
 
     if (user) {
-      socket.on(`${user.id}-transfer`, (data: any) => {
+      socket.on(`${user.id}-transfer`, (data) => {
         const check = async (): Promise<void> => {
-          await dispatch(success(data.data.wallet));
+          dispatch(success(data.data.wallet));
           const apiObj = {
             amount: data.data.amount,
             beneficiary: user.phone_number,
@@ -93,7 +94,7 @@ const Dashboard = (props: any) => {
             identifier: data.data.identifier,
           };
           await Request.makeNotifications(apiObj);
-          await dispatch(new_notifications());
+          dispatch(newNotifications());
         };
         check();
       });
@@ -102,17 +103,17 @@ const Dashboard = (props: any) => {
     // return () => socket.disconnect();
   }, [user, dispatch]);
 
-  let { path, url } = useRouteMatch();
+  const { path, url } = useRouteMatch();
 
-  const logOutHandler = async (e): Promise<void> => {
+  const logOutHandler = async (e) => {
     e.preventDefault();
-    await dispatch(logout(user.email));
+    dispatch(logOut(user.email));
     props.history.push('/');
   };
 
   const deleteNotification = async (id): Promise<void> => {
     await Request.deleteNotification(id);
-    await dispatch(new_notifications());
+    dispatch(newNotifications());
   };
 
   const styles = {
@@ -157,19 +158,19 @@ const Dashboard = (props: any) => {
             <div className="sidenav_menu">
               <div className="sidenav-list">
                 <NavLink to={`${url}/overview`} style={linkStyle}>
-                  <img src={im_logo} alt="" />
+                  <img src={imLogo} alt="" />
                   <span> Overview</span>
                 </NavLink>
                 <NavLink to={`${url}/cards`} style={linkStyle}>
-                  <img src={card_logo} alt="" />
+                  <img src={cardLogo} alt="" />
                   <span>Cards</span>
                 </NavLink>
                 <NavLink to={`${url}/transactions`} style={linkStyle}>
-                  <img src={transact_logo} alt="" />
+                  <img src={transactLogo} alt="" />
                   <span>Transactions</span>
                 </NavLink>
                 <NavLink to={`${url}/utilities`} style={linkStyle}>
-                  <img src={utils_logo} alt="" />
+                  <img src={utilsLogo} alt="" />
                   <span>Utilities</span>
                 </NavLink>
                 <NavLink to={`${url}/settings`} style={linkStyle}>

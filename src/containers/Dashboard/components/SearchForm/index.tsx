@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,13 +9,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
 
-import { filter_client_transactions } from '../../../../store/actions';
+import { filterClientTransactions } from '../../../../store/actions';
 import Button from '../../../../components/Button';
 import constants from '../../../../utils/constants';
 
 import './index.scss';
 
-const DatePickerField = ({ name, value, onChange }) => {
+const DatePickerField = ({ name, value, onChange }: { name: string; value: string; onChange: Function }) => {
   return (
     <DatePicker
       selected={value || null}
@@ -29,16 +31,16 @@ const SearchForm = () => {
 
   const [feedback, setFeedback] = useState('');
 
-  const { mode } = useSelector((state: any) => state.ui);
+  const { mode } = useSelector((state: { ui }) => state.ui);
 
   const styles = {
     backgroundColor: mode === 'dark' ? constants.darkMode : '#eff3fb',
   };
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     setFeedback('');
 
-    let data = {
+    const data = {
       ...values,
       date: {
         from: dayjs(values.from).format('YYYY-MM-DD'),
@@ -55,7 +57,7 @@ const SearchForm = () => {
       delete data['to'];
     }
 
-    for (var property in values) {
+    for (const property in values) {
       if (typeof values[property] === 'string' && values[property].length === 0) {
         delete data[property];
         if (property === 'from' || property === 'to') {
@@ -64,7 +66,7 @@ const SearchForm = () => {
       }
     }
 
-    await dispatch(filter_client_transactions(data));
+    await dispatch(filterClientTransactions(data));
     setSubmitting(false);
   };
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { withRouter, Link } from 'react-router-dom';
@@ -16,7 +17,7 @@ import '../auth.scss';
 
 const api = new Request();
 
-const ForgotPassword = (props: any) => {
+const ForgotPassword = (props: { history }) => {
   const [recaptcha, setRecaptcha] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [feedback, setFeedback] = useState(null);
@@ -28,7 +29,7 @@ const ForgotPassword = (props: any) => {
     email: '',
   };
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setProcessing(true);
       const res = await api.passwordReset(values.email);
@@ -71,10 +72,10 @@ const ForgotPassword = (props: any) => {
                     </div>
                     <div className="input-container">
                       <RecaptchaComponent
-                        verifyCallback={(response) => {
+                        verifyCallback={() => {
                           setRecaptcha(false);
                         }}
-                        expiredCallback={(response) => {
+                        expiredCallback={() => {
                           setRecaptcha(true);
                         }}
                       />

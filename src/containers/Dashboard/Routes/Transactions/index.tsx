@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { get_client_transactions } from '../../../../store/actions';
+import { getClientTransactions } from '../../../../store/actions';
 
 import Modal from '../../../../components/Modal';
 import Transaction from '../../components/Transaction';
@@ -11,30 +12,21 @@ import Turn from '../../../../components/Loaders/Turning';
 
 import img1 from '../../../../assets/images/andela1.png';
 import './index.scss';
-
-interface ITransaction {
-  id: string;
-  transaction_type: string;
-  amount: number;
-  reference: number;
-  status: string;
-  recipient: any;
-  createdAt: Date;
-  Client: any;
-}
+import { Transaction as ITransaction } from '../../../../store/types';
 
 const Transactions = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [trans, setTrans] = useState(null);
   const [searchActive, setSearchActive] = useState(false);
-  const { processing, transactions, pager, error } = useSelector((state: any) => state.transaction);
-  const { mode } = useSelector((state: any) => state.ui);
+  const { processing, transactions, pager, error } = useSelector((state: { transaction }) => state.transaction);
+  const { mode } = useSelector((state: { ui }) => state.ui);
+
   let content;
 
   useEffect(() => {
     const trans = async () => {
-      await dispatch(get_client_transactions());
+      await dispatch(getClientTransactions());
     };
     trans();
   }, [dispatch]);
@@ -46,7 +38,7 @@ const Transactions = () => {
   const refreshTransactionHandler = async () => {
     try {
       setSearchActive(false);
-      await dispatch(get_client_transactions());
+      await dispatch(getClientTransactions());
     } catch (error) {
       content = <p>There has been an error getting your transactions</p>;
     }
@@ -195,7 +187,7 @@ const Transactions = () => {
                 dashboard
                 style={linkStyle}
                 onClick={() => {
-                  dispatch(get_client_transactions(pager.currentPage - 1));
+                  dispatch(getClientTransactions(pager.currentPage - 1));
                 }}
               >
                 Previous Page
@@ -213,7 +205,7 @@ const Transactions = () => {
                 dashboard
                 style={linkStyle}
                 onClick={() => {
-                  dispatch(get_client_transactions(pager.currentPage + 1));
+                  dispatch(getClientTransactions(pager.currentPage + 1));
                 }}
               >
                 Next Page

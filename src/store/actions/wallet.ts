@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Dispatch } from 'redux';
 
 import * as actionTypes from './actionTypes';
@@ -8,14 +9,14 @@ import APIServiceError from '../../services/error-services';
 
 const Request = new APIRequest();
 
-export function get_client_wallet() {
+export function getClientWallet() {
   function request() {
     return { type: actionTypes.walletConstants.FETCH_WALLET_REQUEST };
   }
   function success(wallet: Wallet) {
     return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet };
   }
-  function failure(errors: any) {
+  function failure(errors: unknown) {
     return { type: actionTypes.walletConstants.FETCH_WALLET_FAILURE, errors };
   }
 
@@ -33,12 +34,13 @@ export function get_client_wallet() {
   };
 }
 
-export function fund_client_wallet(data: {
-  amount: number;
+export function fundClientWallet(data: {
+  amount: string;
   narration: string;
   processor: string;
   processor_reference: string;
   transaction_status: string;
+  pin: string;
 }) {
   function request() {
     return { type: actionTypes.walletConstants.FUND_WALLET_REQUEST };
@@ -46,7 +48,7 @@ export function fund_client_wallet(data: {
   function success(wallet: Wallet) {
     return { type: actionTypes.walletConstants.FUND_WALLET_SUCCESS, wallet };
   }
-  function failure(errors: any) {
+  function failure(errors) {
     return { type: actionTypes.walletConstants.FUND_WALLET_FAILURE, errors };
   }
 
@@ -64,14 +66,14 @@ export function fund_client_wallet(data: {
   };
 }
 
-export function checkout_client_wallet(data: { amount: number; bank_code: string; bank_account: string }) {
+export function checkoutClientWallet(data: { amount: number; bank_code: string; bank_account: string }) {
   function request() {
     return { type: actionTypes.walletConstants.CHECKOUT_WALLET_REQUEST };
   }
   function success(wallet: Wallet) {
     return { type: actionTypes.walletConstants.CHECKOUT_WALLET_SUCCESS, wallet };
   }
-  function failure(errors: any) {
+  function failure(errors: unknown) {
     return { type: actionTypes.walletConstants.CHECKOUT_WALLET_FAILURE, errors };
   }
 
@@ -89,7 +91,7 @@ export function checkout_client_wallet(data: { amount: number; bank_code: string
   };
 }
 
-export function transfer_funds(data: {
+export function transferFunds(data: {
   amount: number;
   narration: string;
   recipient_phone_number: string;
@@ -115,7 +117,7 @@ export function transfer_funds(data: {
   };
 }
 
-export function set_transaction_pin(data: { transaction_pin: number }) {
+export function setTransactionPin(data: { transaction_pin: string }) {
   function request() {
     return { type: actionTypes.walletConstants.FUND_WALLET_REQUEST };
   }
@@ -140,15 +142,15 @@ export function set_transaction_pin(data: { transaction_pin: number }) {
   };
 }
 
-export function new_notifications() {
-  function set_notifications(notifications: any) {
+export function newNotifications() {
+  function setNotifications(notifications: unknown) {
     return { type: actionTypes.walletConstants.SET_NOTIFICATIONS, notifications };
   }
 
   return async (dispatch: Dispatch) => {
     try {
       const apiRes = await Request.getNotifications();
-      await dispatch(set_notifications(apiRes.notifications));
+      await dispatch(setNotifications(apiRes.notifications));
     } catch (error) {
       if (error instanceof APIServiceError) {
         throw error.response.data;

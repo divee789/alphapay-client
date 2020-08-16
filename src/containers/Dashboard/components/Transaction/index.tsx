@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react';
 
 import dayjs from 'dayjs';
 
 import './index.scss';
+import { Transaction as ITransaction } from '../../../../store/types';
 
-const Transaction = ({ transaction }) => {
+const Transaction = ({ transaction }: { transaction: ITransaction }) => {
   return (
     <>
       <div className="specific_transaction">
@@ -60,7 +62,7 @@ const Transaction = ({ transaction }) => {
               <>
                 <div>
                   <p>
-                    Processor: <span>{transaction.processor || 'korapay'}</span>
+                    Processor: <span>{transaction.processor || ''}</span>
                   </p>
                 </div>
                 <div>

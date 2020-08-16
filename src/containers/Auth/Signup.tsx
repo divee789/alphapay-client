@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { signup } from '../../store/actions';
+import { signUp } from '../../store/actions';
 
 import theme from '../../components/Theme';
 import RecaptchaComponent from './Recaptcha';
@@ -25,12 +27,12 @@ interface FormValues {
   phone_number: number;
 }
 
-const SignUp: React.FC = (props: any) => {
+const SignUp = (props: { history }) => {
   const [feedback, setFeedback] = useState(null);
   const [recaptcha, setRecaptcha] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-  const { processing } = useSelector((state: any) => state.auth);
+  const { processing } = useSelector((state: { auth }) => state.auth);
   const dispatch = useDispatch();
   const initialValues: FormValues = {
     email: '',
@@ -41,7 +43,7 @@ const SignUp: React.FC = (props: any) => {
     phone_number: ('' as unknown) as number,
   };
 
-  const logvalidationSchema = Yup.object().shape({
+  const logValidationSchema = Yup.object().shape({
     first_name: Yup.string().required('Provide your first name please'),
     last_name: Yup.string().required('Provide your last name please'),
     phone_number: Yup.number().min(11, 'Invalid phone_number').required('Provide your phone_number please'),
@@ -61,11 +63,11 @@ const SignUp: React.FC = (props: any) => {
     }),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       delete values['confirmPassword'];
       console.log('recaptcha', recaptcha);
-      await dispatch(signup(values));
+      await dispatch(signUp(values));
       return props.history.push(`/auth/verify_email`);
     } catch (err) {
       setFeedback(err.message);
@@ -83,7 +85,7 @@ const SignUp: React.FC = (props: any) => {
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
-            validationSchema={logvalidationSchema}
+            validationSchema={logValidationSchema}
             onSubmit={handleSubmit}
             render={(formProps) => {
               return (
@@ -144,10 +146,10 @@ const SignUp: React.FC = (props: any) => {
                     </div>
                     <div className="input-container">
                       <RecaptchaComponent
-                        verifyCallback={(response) => {
+                        verifyCallback={() => {
                           setRecaptcha(false);
                         }}
-                        expiredCallback={(response) => {
+                        expiredCallback={() => {
                           setRecaptcha(true);
                         }}
                       />

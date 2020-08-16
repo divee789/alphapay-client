@@ -1,14 +1,14 @@
-export { login, signup, update, logout, getUser, twoFaVerify } from './auth';
+export { logIn, signUp, update, logOut, getUser, twoFaVerify } from './auth';
 
 export {
-  get_client_wallet,
-  fund_client_wallet,
-  checkout_client_wallet,
-  new_notifications,
-  transfer_funds,
-  set_transaction_pin,
+  getClientWallet,
+  fundClientWallet,
+  checkoutClientWallet,
+  newNotifications,
+  transferFunds,
+  setTransactionPin,
 } from './wallet';
 
-export { switch_mode } from './ui';
+export { switchMode } from './ui';
 
-export { get_client_transactions, filter_client_transactions } from './transactions';
+export { getClientTransactions, filterClientTransactions } from './transactions';

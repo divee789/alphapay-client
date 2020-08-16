@@ -1,20 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
+
+import { Dispatch } from 'redux';
 import * as actionTypes from './actionTypes';
 import APIRequest from '../../services/api-services';
 import APIServiceError from '../../services/error-services';
+import { Client } from '../types';
 
 const authAPIRequest = new APIRequest();
 
-export function logout(email?: string) {
+export function logOut(email?: string) {
   function request(): {
     type: string;
   } {
     return { type: actionTypes.authConstants.LOGOUT };
   }
-  return async (dispatch: any): Promise<void> => {
+  return async (dispatch: Dispatch): Promise<void> => {
     try {
-      await dispatch(request());
+      dispatch(request());
       await authAPIRequest.logOut(email);
     } catch (error) {
       if (error instanceof APIServiceError) {
@@ -23,24 +25,24 @@ export function logout(email?: string) {
     }
   };
 }
-export function login(data: any) {
+export function logIn(data: { email: string; password: string }) {
   function request() {
     return { type: actionTypes.authConstants.LOGIN_REQUEST };
   }
-  function success(client: any) {
+  function success(client: unknown) {
     return { type: actionTypes.authConstants.LOGIN_SUCCESS, client };
   }
-  function failure(errors: any) {
+  function failure(errors: unknown) {
     return { type: actionTypes.authConstants.LOGIN_FAILURE, errors };
   }
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     try {
-      await dispatch(request());
+      dispatch(request());
       const userDetails = await authAPIRequest.logIn(data);
       if (userDetails.success === false && userDetails.message === '2FA required') {
         throw new Error('2FA required');
       }
-      await dispatch(success(userDetails));
+      dispatch(success(userDetails));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));
@@ -52,14 +54,14 @@ export function login(data: any) {
 }
 
 export function twoFaVerify(data: { email: string; token: string }) {
-  function success(client: any) {
+  function success(client: unknown) {
     return { type: actionTypes.authConstants.LOGIN_SUCCESS, client };
   }
 
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     try {
       const userDetails = await authAPIRequest.twoFaAuthorize(data);
-      await dispatch(success(userDetails));
+      dispatch(success(userDetails));
     } catch (error) {
       if (error instanceof APIServiceError) {
         throw error.response.data;
@@ -73,17 +75,17 @@ export function getUser() {
   function request() {
     return { type: actionTypes.authConstants.LOGIN_REQUEST };
   }
-  function success(client: any) {
+  function success(client: unknown) {
     return { type: actionTypes.authConstants.FETCH_USER_SUCCESS, client };
   }
-  function failure(errors: any) {
+  function failure(errors: unknown) {
     return { type: actionTypes.authConstants.LOGIN_FAILURE, errors };
   }
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     try {
-      await dispatch(request());
+      dispatch(request());
       const userDetails = await authAPIRequest.getUser();
-      await dispatch(success(userDetails));
+      dispatch(success(userDetails));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));
@@ -93,52 +95,52 @@ export function getUser() {
   };
 }
 
-export function signup(data: any) {
+export function signUp(data) {
   function request() {
     return { type: actionTypes.authConstants.SIGNUP_REQUEST };
   }
-  function success(user: any) {
+  function success(user) {
     return { type: actionTypes.authConstants.SIGNUP_SUCCESS, user };
   }
-  function failure(errors: any) {
+  function failure(errors) {
     return { type: actionTypes.authConstants.SIGNUP_FAILURE, errors };
   }
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     try {
-      await dispatch(request());
+      dispatch(request());
       const userDetails = await authAPIRequest.signUp(data);
-      await dispatch(success(userDetails.data));
+      dispatch(success(userDetails.data));
     } catch (error) {
       if (error instanceof APIServiceError) {
-        await dispatch(failure(error));
+        dispatch(failure(error));
         throw error.response.data;
       }
     }
   };
 }
-export function update(data: any) {
+export function update(data: Client) {
   function request() {
     return { type: actionTypes.authConstants.SIGNUP_REQUEST };
   }
-  function success(user: any) {
+  function success(user) {
     return { type: actionTypes.authConstants.UPDATE_USER_SUCCESS, user };
   }
-  function failure(error: any) {
+  function failure(error) {
     return { type: actionTypes.authConstants.UPDATE_USER_FAILURE, error };
   }
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch) => {
     try {
-      await dispatch(request());
+      dispatch(request());
       if (data.profile_image) {
         const user = {
           client: data,
         };
-        await dispatch(success(user));
+        dispatch(success(user));
         return;
       }
 
       const userDetails = await authAPIRequest.update(data);
-      await dispatch(success(userDetails));
+      dispatch(success(userDetails));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));

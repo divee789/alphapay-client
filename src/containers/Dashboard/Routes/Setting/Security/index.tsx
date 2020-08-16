@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { set_transaction_pin } from '../../../../../store/actions';
+import { setTransactionPin } from '../../../../../store/actions';
 import * as Yup from 'yup';
 import Request from '../../../../../services/api-services';
 import Button from '../../../../../components/Button';
@@ -13,14 +15,14 @@ import './index.scss';
 
 const api = new Request();
 
-const Security = (props: any) => {
+const Security = (props: { history }) => {
   const [feedback, setFeedback] = useState(null);
   const [feedback2, setFeedback2] = useState(null);
   const [twoFaFeedback, setTwoFaFeedback] = useState(null);
   const [twoFaLoading, setTwoFaLoading] = useState(null);
   const [emailProcessing, setEmailProcessing] = useState(null);
-  const { processing, user } = useSelector((state: any) => state.auth);
-  const { wallet, pin_error } = useSelector((state: any) => state.wallet);
+  const { processing, user } = useSelector((state: { auth }) => state.auth);
+  const { wallet, pin_error } = useSelector((state: { wallet }) => state.wallet);
   const dispatch = useDispatch();
 
   const initialValues = {
@@ -68,7 +70,7 @@ const Security = (props: any) => {
     }
   };
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors, resetForm }: any) => {
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       switch (values.type) {
         case 'Password':
@@ -80,7 +82,7 @@ const Security = (props: any) => {
           break;
         case 'Transaction':
           delete values['type'];
-          await dispatch(set_transaction_pin(values));
+          await dispatch(setTransactionPin(values));
           setFeedback2('Request successful');
           setSubmitting(false);
           resetForm();

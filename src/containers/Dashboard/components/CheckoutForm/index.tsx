@@ -1,20 +1,18 @@
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import APIRequest from '../../../../services/api-services';
-import { checkout_client_wallet } from '../../../../store/actions';
+import { checkoutClientWallet } from '../../../../store/actions';
 import Button from '../../../../components/Button';
 
 import img1 from '../../../../assets/images/quick-and-easy.jpg';
 
 const API = new APIRequest();
 
-const CheckoutForm = (props: {
-  mode: string;
-  close: any;
-  banks: Array<{ name: string; code: any; country: string }>;
-}) => {
+const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: string; country: string }> }) => {
   const [message, setMessage] = useState(null);
   const [processing, setProcessing] = useState(null);
 
@@ -43,7 +41,7 @@ const CheckoutForm = (props: {
       .required('Please provide a valid bank account number'),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setProcessing(true);
       const res = await API.confirmBankAccount({ bank: values.bank, account: values.bank_account });
@@ -62,10 +60,10 @@ const CheckoutForm = (props: {
         setSubmitting(false);
         return;
       }
-      let data = {
+      const data = {
         ...values,
       };
-      await dispatch(checkout_client_wallet(data));
+      await dispatch(checkoutClientWallet(data));
       setProcessing(false);
       setMessage('Your Remittance is being processed. You will receive your funds shortly');
     } catch (error) {
@@ -113,7 +111,9 @@ const CheckoutForm = (props: {
                     <Field as="select" name="bank" style={linkStyle}>
                       <option value="">Please select your bank</option>
                       {props.banks.map((bank) => (
-                        <option value={bank.code}>{bank.name}</option>
+                        <option key={bank.code} value={bank.code}>
+                          {bank.name}
+                        </option>
                       ))}
                     </Field>
                   </div>

@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { get_client_wallet } from '../../../../store/actions';
+import { getClientWallet } from '../../../../store/actions';
 
 import Modal from '../../../../components/Modal';
 import FundForm from '../../components/FundForm';
@@ -20,12 +21,12 @@ const Overview = (props: any) => {
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
-  const { wallet, processing } = useSelector((state: any) => state.wallet);
-  const { mode } = useSelector((state: any) => state.ui);
+  const { wallet, processing } = useSelector((state: { wallet }) => state.wallet);
+  const { mode } = useSelector((state: { ui }) => state.ui);
 
   const dispatch = useDispatch();
 
-  let content: any;
+  let content;
 
   const modalHandler = (category: string) => {
     switch (category) {
@@ -76,7 +77,7 @@ const Overview = (props: any) => {
           <div
             className="wallet_card"
             onClick={() => {
-              dispatch(get_client_wallet());
+              dispatch(getClientWallet());
             }}
           >
             <p className="wallet_text">Wallet Balance</p>
@@ -129,17 +130,17 @@ const Overview = (props: any) => {
       </div>
       {showFundModal && (
         <Modal open={showFundModal} closed={() => modalHandler('fund')}>
-          <FundForm close={() => modalHandler('fund')} mode={mode} />
+          <FundForm mode={mode} />
         </Modal>
       )}
       {showTransferModal && (
         <Modal open={showTransferModal} closed={() => modalHandler('transfer')}>
-          <TransferForm close={() => modalHandler('transfer')} mode={mode} />
+          <TransferForm mode={mode} />
         </Modal>
       )}
       {showCheckoutModal && (
         <Modal open={showCheckoutModal} closed={() => modalHandler('checkout')}>
-          <CheckoutForm close={() => modalHandler('checkout')} mode={mode} banks={props.data} />
+          <CheckoutForm mode={mode} banks={props.data} />
         </Modal>
       )}
     </>

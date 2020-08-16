@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
@@ -15,7 +16,7 @@ import Button from '../../components/Button';
 import './auth.scss';
 import APIServiceError from '../../services/error-services';
 
-const TwoFa: React.FC = (props: any) => {
+const TwoFa = (props: { history }) => {
   const [feedback, setFeedback] = useState(null);
   const [processing, setProcessing] = useState(null);
   const dispatch = useDispatch();
@@ -24,12 +25,13 @@ const TwoFa: React.FC = (props: any) => {
     return new URLSearchParams(useLocation().search);
   }
 
-  let query = useQuery();
+  const query = useQuery();
 
   interface FormValues {
     email: string;
     token: string;
   }
+
   const initialValues: FormValues = {
     email: query.get('email'),
     token: '',
@@ -39,7 +41,7 @@ const TwoFa: React.FC = (props: any) => {
     token: Yup.string().required(),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting }: any): Promise<void> => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setProcessing(true);
       await dispatch(twoFaVerify(values));

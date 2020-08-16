@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { login } from '../../store/actions';
+import { logIn } from '../../store/actions';
 import theme from '../../components/Theme';
 import RecaptchaComponent from './Recaptcha';
 
@@ -16,11 +17,11 @@ import Button from '../../components/Button';
 
 import './auth.scss';
 
-const LogIn: React.FC = (props: any) => {
+const LogIn = (props: { history }) => {
   const [feedback, setFeedback] = useState(null);
   const [recaptcha, setRecaptcha] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const { processing } = useSelector((state: any) => state.auth);
+  const { processing } = useSelector((state: { auth }) => state.auth);
   const dispatch = useDispatch();
 
   interface FormValues {
@@ -32,14 +33,14 @@ const LogIn: React.FC = (props: any) => {
     password: '',
   };
 
-  const logvalidationSchema = Yup.object().shape({
+  const logValidationSchema = Yup.object().shape({
     email: Yup.string().email('Provide a valid email please').required('Provide your email please'),
     password: Yup.string().required('Provide a password please'),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting }: any): Promise<void> => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await dispatch(login(values));
+      await dispatch(logIn(values));
       console.log(recaptcha);
       props.history.push(`/dashboard/overview`);
     } catch (err) {
@@ -62,7 +63,7 @@ const LogIn: React.FC = (props: any) => {
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
-            validationSchema={logvalidationSchema}
+            validationSchema={logValidationSchema}
             onSubmit={handleSubmit}
             render={(formProps) => {
               return (
