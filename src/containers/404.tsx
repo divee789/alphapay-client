@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from '../components/NavBar/newBar';
+import NavBar from '../components/NavBar';
 import styles from '../components/Theme';
 
 const NotFound = () => {

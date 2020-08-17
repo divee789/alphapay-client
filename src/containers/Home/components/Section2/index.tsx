@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react';
 import { useSelector } from 'react-redux';
 
 import image1 from './../../../../assets/images/undraw2.svg';
 import image2 from '../../../../assets/images/support-team.svg';
+import spend from '../../../../assets/images/transfer_money.svg';
 import image3 from '../../../../assets/images/security.svg';
 import image4 from '../../../../assets/images/task.svg';
 import image5 from '../../../../assets/images/undraw1.svg';
@@ -12,7 +14,7 @@ import verification from '../../../../assets/images/undraw3.svg';
 import './index.scss';
 
 const Section = () => {
-  const { mode } = useSelector((state: any) => state.ui);
+  const { mode } = useSelector((state: { ui }) => state.ui);
 
   const style = {
     backgroundColor: '#242729',
@@ -26,50 +28,41 @@ const Section = () => {
           <h1>Payments made easy.</h1>
           <p>What can you do with alphapay?</p>
         </div>
-        <div className="detail" style={mode === 'dark' ? style : null}>
-          <div className="detail_1">
+        <div className="sectionA">
+          <div className="info">
+            <h2>Send money from your phone with ease.</h2>
+            <p>
+              Send money to anyone anywhere on their phone number. You can also send money to any bank account in
+              Nigeria.All you need to do is press <strong>SEND</strong> and that is it.Your payment will be processed
+              faster than a text message.
+            </p>
+          </div>
+          <div className="info_image">
             <img src={image1} alt="Payments made easy" />
           </div>
-          <div className="detail_2">
-            <div style={divStyle}>
-              <h3>Send Money</h3>
-              <p>
-                Send money to anyone anywhere on their phone number. You can also send money to any bank account in
-                Nigeria.All you need to do is press <strong>SEND</strong> and that is it.Your payment will be processed
-                faster than a text message.
-              </p>
-            </div>
-            <div style={divStyle}>
-              <h3>Receive Money</h3>
-              <p>
-                Receive and accept payments from anyone anywhere with their phone number.You can also accept payments
-                from any bank in Nigeria.All you need is your mobile phone.
-              </p>
-            </div>
-            <div style={divStyle}>
-              <h3>Spend Money</h3>
-              <p>
-                Pay for your electricity, airtime, and cable TV subscriptions with ease.You can also pay for your
-                shopping expenses with merchants who have accounts with us.
-              </p>
-            </div>
+        </div>
+        <div className="sectionA">
+          <div className="info_image">
+            <img src={verification} alt="Payments made easy" />
+          </div>
+          <div className="info">
+            <h2>Receive money from an alpha with zero charges</h2>
+            <p>
+              Receive, request and accept payments from any alpha anywhere in the world.All you need is your mobile
+              phone.
+            </p>
           </div>
         </div>
-
-        <div className="verification_info" style={mode === 'dark' ? style : null}>
-          <div className="verification_text detail_2">
-            <div className="content_bg" style={divStyle}>
-              <h1>Instant Verification</h1>
-              <p>
-                Your credentials are verified immediately on account creation.This is to prevent theft of identity and
-                ensure optimal security. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa sunt dolores
-                dignissimos optio, doloremque dolorum sed reprehenderit necessitatibus. Tempore vitae dicta voluptatibus
-                at consequuntur reiciendis aliquid labore temporibus nulla officia?
-              </p>
-            </div>
+        <div className="sectionA">
+          <div className="info">
+            <h2>Spend your money without any hassles</h2>
+            <p>
+              Pay for your electricity, airtime, and cable TV subscriptions with ease.You can also pay for your shopping
+              expenses with alpha merchants.
+            </p>
           </div>
-          <div className="verification_image detail_1">
-            <img src={verification} alt="account verification" />
+          <div className="info_image" style={{ marginLeft: 80 }}>
+            <img src={spend} alt="Payments made easy" />
           </div>
         </div>
 

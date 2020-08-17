@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { useSelector } from 'react-redux';
 
 import constants from '../../utils/constants';
 
-const Theme = (background?) => {
-  const { mode } = useSelector((state: any) => state.ui);
+const Theme = (background?: string) => {
+  const { mode } = useSelector((state: { ui }) => state.ui);
 
   const styles = {
     background: mode === 'dark' ? constants.darkMode : background || 'unset',

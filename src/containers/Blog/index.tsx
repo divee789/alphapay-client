@@ -2,7 +2,7 @@ import React from 'react';
 
 import theme from '../../components/Theme';
 import ScrollToTop from '../../components/ScrollToTop';
-import Navbar from '../../components/NavBar/newBar';
+import Navbar from '../../components/NavBar';
 import Contact from '../Home/components/Contact';
 import Footer from '../Home/components/Footer';
 import './index.scss';

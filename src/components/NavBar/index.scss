@@ -1,0 +1,111 @@
+nav {
+  .nav_content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 940px;
+    width: 100%;
+    margin: auto;
+    padding-top: 10px;
+
+    .hamburger {
+      display: none;
+    }
+
+    .nav_item {
+      display: inline-block;
+      margin-right: 25px;
+
+      a {
+        color: black;
+        position: relative;
+
+        .circle {
+          display: none;
+        }
+
+        &.active,
+        &:hover {
+          color: #008080;
+
+          .circle {
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #008080;
+            position: absolute;
+            bottom: -12px;
+            right: 40%;
+          }
+        }
+      }
+    }
+
+    .auth {
+      display: inline-block;
+      margin-left: 15px;
+
+      .btn {
+        width: unset;
+        height: 40px;
+        color: rgb(255, 255, 255);
+        padding: 3px 42px;
+        border-radius: 20px;
+        letter-spacing: 0.05rem;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 865px) {
+  .nav {
+    .nav_content {
+      .nav_item {
+        margin-left: 40px;
+      }
+
+      a {
+        font-size: 11px;
+      }
+    }
+
+    .auth {
+      display: inline-block;
+      margin-left: 50px;
+
+      button {
+        width: 110px;
+      }
+
+      a {
+        color: white;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .nav {
+    .logo {
+      img {
+        width: 150px;
+      }
+    }
+
+    .nav_content {
+      width: 90%;
+      margin: 10px auto;
+      .hamburger {
+        display: block;
+      }
+
+      .nav_items {
+        display: none;
+      }
+    }
+  }
+}

@@ -39,8 +39,8 @@ const Dashboard = React.lazy(() => {
 
 const App = () => {
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((state: any) => state.auth);
-  const { mode, checked } = useSelector((state: any) => state.ui);
+  const { isAuth } = useSelector((state: { auth }) => state.auth);
+  const { mode, checked } = useSelector((state: { ui }) => state.ui);
 
   useEffect(() => {
     loadReCaptcha();

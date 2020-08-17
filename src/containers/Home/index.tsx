@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from '../../components/Theme';
 import ScrollToTop from '../../components/ScrollToTop';
-import NavBar from '../../components/NavBar/newBar';
+import NavBar from '../../components/NavBar';
 import Section1 from './components/Section1';
 import Section2 from './components/Section2';
 import Footer from './components/Footer';

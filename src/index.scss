@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: averta;
-  src: url(./assets/fonts/avenir/AvenirLTStd-Roman.otf)
+  src: url(./assets/fonts/avenir/AvenirLTStd-Roman.otf);
 }
 
 html {
@@ -34,8 +34,7 @@ h5 {
   letter-spacing: -0.7px;
   line-height: 1.25;
   margin-bottom: 0.7em;
-  font-weight: bold;
-  font-family: firma-bold;
+  font-family: firma;
 }
 
 a {
@@ -47,6 +46,12 @@ a {
 a,
 p {
   font-family: Sailec;
+}
+
+p {
+  font-weight: 600;
+  opacity: 0.5;
+  line-height: 30px;
 }
 
 ul {
@@ -61,11 +66,13 @@ body {
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
+  color: #333;
+  font-size: 16px;
+  line-height: 22px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .modal_error {
