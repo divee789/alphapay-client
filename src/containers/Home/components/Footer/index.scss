@@ -1,98 +1,95 @@
 .footer {
-    bottom: 0;
-    width: 70%;
-    z-index: -1;
-    margin: 0 auto;
-    padding-bottom: 2rem;
-    padding-top: 2rem;
+  bottom: 0;
+  width: 70%;
+  z-index: -1;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+  margin-top: 15rem;
+  max-width: 940px;
+
+  .footer_logo {
+    text-align: center;
+    margin: 4% 0;
+  }
+
+  section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+
+    div {
+      box-sizing: border-box;
+      margin-left: 40px;
+
+      h4 {
+        font-size: 15px;
+        font-family: Sailec;
+      }
+
+      ul {
+        margin: 0 auto;
+        margin-top: 1.5rem;
+        height: 100%;
+
+        li {
+          font-size: 13px;
+          margin-bottom: 1rem;
+          // color: #777777;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .logo_container {
+    margin-top: 5rem;
+
+    p {
+      text-align: center;
+    }
+
+    .social_logos {
+      margin: 0 auto;
+      text-align: center;
+
+      div {
+        display: inline-block;
+        margin-right: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+//Tablet styling
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+  .footer {
+    width: 90%;
+    margin-top: 5rem;
+  }
+}
+
+// mobile styling
+@media screen and (max-width: 600px) {
+  .footer {
+    margin-top: 5rem;
+    position: relative;
 
     .footer_logo {
-        text-align: center;
-        margin: 4% 0;
+      text-align: center;
     }
 
     section {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        box-sizing: border-box;
+      flex-direction: column;
+      align-items: center;
 
-        div {
-            box-sizing: border-box;
-            margin-left: 40px;
-
-            h4 {
-                font-size: 15px;
-                font-family: Sailec;
-            }
-
-            ul {
-                margin: 0 auto;
-                margin-top: 1.5rem;
-                height: 100%;
-
-                li {
-                    font-size: 13px;
-                    margin-bottom: 1rem;
-                    // color: #777777;
-                    cursor: pointer;
-                }
-            }
-
-        }
+      div {
+        margin-left: 0;
+        text-align: center;
+      }
     }
-
-    .logo_container {
-        margin-top: 5rem;
-
-        p {
-            text-align: center;
-        }
-
-        .social_logos {
-            margin: 0 auto;
-            text-align: center;
-
-            div {
-                display: inline-block;
-                margin-right: 20px;
-                cursor: pointer;
-            }
-        }
-    }
-
-}
-
-
-//Tablet styling
-@media screen and (min-width:600px) and (max-width:1000px) {
-    .footer {
-        width: 90%;
-        margin-top: 5rem;
-
-    }
-}
-
-
-// mobile styling
-@media screen and (max-width:600px) {
-    .footer {
-        margin-top: 5rem;
-        position: relative;
-
-        .footer_logo {
-            text-align: center;
-        }
-
-        section {
-            flex-direction: column;
-            align-items: center;
-
-            div {
-                margin-left: 0;
-                text-align: center;
-            }
-        }
-    }
+  }
 }
