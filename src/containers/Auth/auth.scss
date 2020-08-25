@@ -1,205 +1,204 @@
 .login_auth {
-    height: 100vh;
-    display: flex;
-    flex-direction: row-reverse;
-    overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: row-reverse;
+  overflow: hidden;
 
-    @media screen and (max-width: 600px) {
-        height: unset;
-        padding-top: 4rem;
-    }
+  @media screen and (max-width: 600px) {
+    height: unset;
+    padding-top: 4rem;
+  }
 }
 
 .auth_image {
+  width: 100%;
+  object-fit: cover;
+  z-index: 999;
+
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+
+  img {
     width: 100%;
+    height: 100%;
     object-fit: cover;
-    z-index: 999;
-
-    @media screen and (max-width: 600px) {
-        display: none;
-    }
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+  }
 }
 
 .auth_form {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    @media screen and (max-width: 600px) {
-        width: 100%;
-    }
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 }
 
 .logo {
-    text-align: center;
-    margin-top: 1%;
-    cursor: pointer;
-    position: relative;
-    z-index: 999999;
+  text-align: center;
+  margin-top: 1rem;
+  cursor: pointer;
+  position: relative;
+  z-index: 999999;
 }
-
 
 .auth_error,
 .error_message,
 .error {
-    color: #fc199b;
-    border-radius: 5px;
-    width: 100%;
-    font-size: 12px;
-    font-family: Sailec;
-    margin: 0;
+  color: #fc199b;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 12px;
+  font-family: Sailec;
+  margin: 0;
 }
 
 .error_message {
-    text-align: center;
+  text-align: center;
 }
 
 .password_icon {
-    position: absolute;
-    top: 20px;
-    cursor: pointer;
-    right: 10px;
+  position: absolute;
+  top: 20px;
+  cursor: pointer;
+  right: 10px;
 }
 
 .signup {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 .form {
-    position: relative;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    word-wrap: break-word;
-    padding: 3rem 1.5rem;
-    width: 90%;
-    margin: 0 auto;
+  position: relative;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  padding: 3rem 1.5rem;
+  width: 90%;
+  margin: 0 auto;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+
+  h2 {
+    color: rgb(73, 153, 109);
+    font-family: Sailec;
+    text-align: center !important;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.2;
 
     @media screen and (max-width: 600px) {
+      font-size: 1.3rem;
+    }
+  }
+
+  p {
+    text-align: center;
+    color: #6c757d !important;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    font-size: 13px;
+
+    @media screen and (max-width: 600px) {
+      width: 90%;
+    }
+  }
+
+  .input-container {
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .input-container-dual {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+    }
+
+    div {
+      width: 48%;
+
+      @media screen and (max-width: 600px) {
         width: 100%;
+        margin-bottom: 13px;
+      }
     }
+  }
 
-    h2 {
-        color: rgb(73, 153, 109);
-        font-family: Sailec;
-        text-align: center !important;
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-        font-weight: bold;
-        line-height: 1.2;
+  input,
+  select {
+    background-color: #f5f5f5;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+    display: block;
+    width: 100%;
+    padding: 1.2rem 1rem;
+    line-height: 1.5;
+    color: #495057;
+    border: none;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
-        @media screen and (max-width: 600px) {
-            font-size: 1.3rem;
-        }
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
     }
+  }
+
+  input:focus {
+    color: #495057;
+    background-color: #fff;
+    outline: none;
+    // box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+  }
+
+  .btn_container {
+    text-align: center;
+    margin-bottom: 1rem;
 
     p {
-        text-align: center;
-        color: #6c757d !important;
-        width: 80%;
-        margin: 0 auto;
-        margin-bottom: 1rem;
+      margin-bottom: 3px;
+
+      @media screen and (max-width: 600px) {
         font-size: 13px;
-
-        @media screen and (max-width: 600px) {
-            width: 90%;
-        }
+      }
     }
 
-    .input-container {
-        margin-bottom: 2rem;
-        position: relative;
+    button {
+      // box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      font-size: small;
+      margin: 0 auto;
+      margin-top: 4px;
+      margin-bottom: 3rem;
+      color: white !important;
+      width: 70%;
+      border: none;
+      border-radius: 5px;
     }
 
-    .input-container-dual {
-        margin-bottom: 2rem;
-        display: flex;
-        justify-content: space-between;
-
-        @media screen and (max-width: 600px) {
-            flex-direction: column;
-        }
-
-        div {
-            width: 48%;
-
-            @media screen and (max-width: 600px) {
-                width: 100%;
-                margin-bottom: 13px;
-            }
-        }
-
+    div {
+      margin-top: 0.5rem;
     }
-
-    input,
-    select {
-        background-color: #f5f5f5;
-        font-size: 15px;
-        font-weight: 500;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
-        display: block;
-        width: 100%;
-        padding: 1.2rem 1rem;
-        line-height: 1.5;
-        color: #495057;
-        border: none;
-        border-radius: 0.25rem;
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-
-        @media screen and (max-width: 600px) {
-            font-size: 14px;
-        }
-    }
-
-    input:focus {
-        color: #495057;
-        background-color: #fff;
-        outline: none;
-        // box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
-    }
-
-    .btn_container {
-        text-align: center;
-        margin-bottom: 1rem;
-
-        p {
-            margin-bottom: 3px;
-
-            @media screen and (max-width: 600px) {
-                font-size: 13px;
-            }
-        }
-
-        button {
-            // box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-            cursor: pointer;
-            font-size: small;
-            margin: 0 auto;
-            margin-top: 4px;
-            margin-bottom: 3rem;
-            color: white !important;
-            width: 70%;
-            border: none;
-            border-radius: 5px;
-        }
-
-        div {
-            margin-top: 0.5rem;
-        }
-    }
+  }
 }
 
 //Tablet Styling
-@media screen and (min-width:600px) and (max-width: 1000px) {}
-
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+}
 
 //Mobile styling
-@media screen and (max-width: 600px) {}
+@media screen and (max-width: 600px) {
+}

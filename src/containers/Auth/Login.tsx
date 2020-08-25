@@ -61,11 +61,8 @@ const LogIn = (props: { history }) => {
           <img src={image1} alt="auth" />
         </div>
         <div className="auth_form">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={logValidationSchema}
-            onSubmit={handleSubmit}
-            render={(formProps) => {
+          <Formik initialValues={initialValues} validationSchema={logValidationSchema} onSubmit={handleSubmit}>
+            {({ isSubmitting }) => {
               return (
                 <>
                   <div className="logo">
@@ -76,7 +73,7 @@ const LogIn = (props: { history }) => {
                     <h2>Log In</h2>
                     <p>Welcome back,please log in to your account to access your dashboard</p>
                     <div className="input-container">
-                      <Field type="text" name="email" placeholder="example@gmail.com" />
+                      <Field type="email" name="email" placeholder="example@gmail.com" />
                       <ErrorMessage
                         name="email"
                         render={(msg: string): JSX.Element => <div className="error">{msg}</div>}
@@ -119,7 +116,7 @@ const LogIn = (props: { history }) => {
                     )}
 
                     <div className="input-container btn_container">
-                      <Button disabled={formProps.isSubmitting} colored>
+                      <Button disabled={isSubmitting} colored>
                         {processing ? 'Please wait...' : 'CONTINUE'}
                       </Button>
 
@@ -134,7 +131,7 @@ const LogIn = (props: { history }) => {
                 </>
               );
             }}
-          />
+          </Formik>
         </div>
       </section>
     </>

@@ -12,7 +12,7 @@
       font-size: 2.5rem;
 
       @media screen and (max-width: 600px) {
-        font-size: 25px;
+        font-size: 2.3rem;
         margin-top: 2rem;
       }
     }
@@ -24,7 +24,7 @@
     }
   }
 
-  .sectionA {
+  .flex_container {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -32,6 +32,10 @@
 
     .info {
       width: 45%;
+      @media screen and (max-width: 600px) {
+        width: 90%;
+        margin: 0 auto;
+      }
       h2 {
         font-size: 32px;
       }
@@ -42,10 +46,35 @@
     .info_image {
       width: 55%;
       animation: float_normal 10s linear infinite;
+      @media screen and (max-width: 600px) {
+        width: 90%;
+        margin: 20px auto;
+      }
       img {
         width: 90%;
         object-fit: cover;
       }
+    }
+  }
+
+  .sectionA {
+    @media screen and (max-width: 600px) {
+      flex-direction: column-reverse;
+      margin-top: 4rem;
+    }
+  }
+
+  .sectionB {
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+      margin-top: 4rem;
+    }
+  }
+
+  .sectionC {
+    @media screen and (max-width: 600px) {
+      flex-direction: column-reverse;
+      margin-top: 4rem;
     }
   }
 }

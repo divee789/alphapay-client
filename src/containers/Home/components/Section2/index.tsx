@@ -16,7 +16,7 @@ const Section = () => {
           <h1>Payments made easy.</h1>
           <p>What can you do with alphapay?</p>
         </div>
-        <div className="sectionA">
+        <div className="sectionA flex_container">
           <div className="info">
             <h2>Send money from your phone with ease.</h2>
             <p>
@@ -29,7 +29,7 @@ const Section = () => {
             <img src={image1} alt="Payments made easy" />
           </div>
         </div>
-        <div className="sectionA">
+        <div className="sectionB flex_container">
           <div className="info_image">
             <img src={verification} alt="Payments made easy" />
           </div>
@@ -41,7 +41,7 @@ const Section = () => {
             </p>
           </div>
         </div>
-        <div className="sectionA">
+        <div className="sectionC flex_container">
           <div className="info">
             <h2>Spend your money without any hassles</h2>
             <p>
