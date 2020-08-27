@@ -9,6 +9,10 @@
   overflow: hidden;
   height: 45rem;
 
+  @media screen and (max-width: 900px) {
+    max-width: 728px;
+  }
+
   @media screen and (max-width: 600px) {
     flex-direction: column-reverse;
     height: unset;
@@ -37,6 +41,11 @@
       margin: 0;
       font-weight: bolder;
       z-index: 99999999999;
+
+      @media screen and (max-width: 900px) {
+        line-height: 40px;
+        font-size: 35px;
+      }
 
       @media screen and (max-width: 600px) {
         font-size: 30px;
@@ -106,6 +115,10 @@
     margin-left: -1rem;
     height: 40rem;
     margin-bottom: -5rem;
+
+    @media screen and (max-width: 900px) {
+      height: 35rem;
+    }
     @media screen and (max-width: 600px) {
       height: 25rem;
       margin-bottom: unset;

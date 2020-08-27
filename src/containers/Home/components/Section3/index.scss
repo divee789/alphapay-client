@@ -16,6 +16,10 @@
     background-color: #24292e;
     z-index: 99;
 
+    @media screen and (max-width: 900px) {
+      width: 80%;
+    }
+
     @media screen and (max-width: 600px) {
       width: 95%;
     }
@@ -49,6 +53,10 @@
   padding-top: 3rem;
   max-width: 960px;
   margin: 3rem auto;
+
+  @media screen and (max-width: 900px) {
+    max-width: 728px;
+  }
 
   @media screen and (max-width: 600px) {
     flex-direction: column;

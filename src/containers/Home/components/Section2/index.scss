@@ -4,6 +4,10 @@
   margin: 0 auto;
   overflow: hidden;
 
+  @media screen and (max-width: 900px) {
+    max-width: 728px;
+  }
+
   .header {
     text-align: center;
 
