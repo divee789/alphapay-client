@@ -48,7 +48,7 @@ const Navbar = (props: { history }) => {
       <nav className="nav" style={navStyle}>
         <div className="nav_content">
           <div
-            className="logo"
+            className="nav_logo"
             onClick={() => {
               props.history.push('/');
               return;
@@ -85,7 +85,7 @@ const Navbar = (props: { history }) => {
             <div className="auth">
               <NavLink to={isAuth ? '/dashboard/overview' : '/auth/login'}>
                 <Button colored className="btn">
-                  {isAuth ? 'My Dashboard' : 'LOG IN'}
+                  {isAuth ? 'MY DASHBOARD' : 'LOG IN'}
                 </Button>
               </NavLink>
             </div>

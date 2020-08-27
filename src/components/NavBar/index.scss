@@ -90,13 +90,13 @@ nav {
 
 @media screen and (max-width: 600px) {
   .nav {
-    .logo {
-      img {
-        width: 150px;
-      }
-    }
-
     .nav_content {
+      .nav_logo {
+        img {
+          width: 9rem;
+          margin-top: 5px;
+        }
+      }
       width: 90%;
       padding-top: 0;
       .hamburger {

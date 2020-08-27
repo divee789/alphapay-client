@@ -3,7 +3,6 @@ import React from 'react';
 import ScrollToTop from '../../components/ScrollToTop';
 import Navbar from '../../components/NavBar';
 import Button from '../../components/Button';
-import Contact from '../Home/components/Contact';
 import Footer from '../Home/components/Footer';
 import { Player } from 'video-react';
 import theme from '../../components/Theme';
@@ -157,7 +156,6 @@ const Careers = (props: any) => {
             </div>
           </div>
         </section>
-        <Contact />
       </main>
       <Footer />
     </>

@@ -5,7 +5,7 @@ import TextLoop from 'react-text-loop';
 
 import Button from '../../../../components/Button';
 
-import payment from '../../../../assets/images/clack3.jpg';
+import payment from '../../../../assets/images/removebg.png';
 
 import './index.scss';
 
@@ -16,14 +16,14 @@ const Section = (props: { history }) => {
         <div className="info">
           <TextLoop fade={true} interval={5000}>
             <h1>
-              <span>Empowering mobile</span> <span>wallets via your</span> <span>phone number</span>
+              <span>Take your</span> <span>wallet digital via your</span> <span>phone number</span>
             </h1>
             <h1>
               <span>Banking</span> <span>directly with your </span> <span>phone number</span>
             </h1>
-            <h1>
-              <span>Your wallet</span> <span> is invisible but accessible</span> <span>everywhere</span>
-            </h1>
+            {/* <h1>
+              <span>Your digital wallet</span> <span>accessible</span> <span>everywhere</span>
+            </h1> */}
           </TextLoop>
           <p>Alphapay provides modern and reliable financial services to anyone with a phone number.</p>
           <Button

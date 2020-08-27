@@ -74,10 +74,7 @@ const LogIn = (props: { history }) => {
                     <p>Welcome back,please log in to your account to access your dashboard</p>
                     <div className="input-container">
                       <Field type="email" name="email" placeholder="example@gmail.com" />
-                      <ErrorMessage
-                        name="email"
-                        render={(msg: string): JSX.Element => <div className="error">{msg}</div>}
-                      />
+                      <ErrorMessage name="email" render={(msg: string) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container">
                       <img
@@ -94,10 +91,7 @@ const LogIn = (props: { history }) => {
                         placeholder="Password"
                         className="password"
                       />
-                      <ErrorMessage
-                        name="password"
-                        render={(msg: string): JSX.Element => <div className="error">{msg}</div>}
-                      />
+                      <ErrorMessage name="password" render={(msg: string) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container">
                       <RecaptchaComponent
