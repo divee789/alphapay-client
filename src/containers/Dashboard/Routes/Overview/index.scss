@@ -83,7 +83,11 @@
   }
 
   @media screen and (max-width: 600px) {
+    h1 {
+      font-size: 1.3rem;
+    }
     .wallet_actions {
+      margin-top: 2rem;
       width: 98%;
       padding: 2rem 0;
     }
@@ -93,7 +97,7 @@
     }
   }
 
-  @media screen and (max-width: 320px) {
+  @media screen and (max-width: 430px) {
     .wallet_actions {
       p {
         font-size: 1.9rem;
@@ -113,7 +117,7 @@
       width: 100%;
       div {
         button {
-          font-size: 10px;
+          font-size: 9px;
         }
       }
     }
