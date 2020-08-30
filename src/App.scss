@@ -1,7 +1,10 @@
 .toggle_button {
-    position: fixed;
-    bottom: 3px;
-    right: 3px;
-    z-index: 9999999999;
+  position: fixed;
+  bottom: 3px;
+  right: 3px;
+  z-index: 9999999999;
 
+  @media screen and (max-width: 600px) {
+    bottom: 85px;
+  }
 }

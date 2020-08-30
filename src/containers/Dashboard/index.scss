@@ -1,275 +1,237 @@
- .dashboard_main {
-     box-sizing: border-box;
-     width: 100%;
-     display: flex;
-     flex-direction: row;
-     height: 100vh;
-     overflow: hidden;
+.dashboard_main {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
 
-     .menu {
-         width: 260px;
-         padding: 2rem;
-         padding-top: 10px;
-         background-color: white;
+  .menu {
+    width: 260px;
+    padding: 2rem;
+    padding-top: 10px;
+    background-color: white;
 
+    @media screen and (min-width: 600px) and (max-width: 1023px) {
+      width: 6rem;
+      padding: 0;
+    }
 
-         @media screen and (min-width:600px) and (max-width:1023px) {
-             width: 4rem;
-             padding: 0;
-         }
+    .logo {
+      cursor: pointer;
 
-         .logo {
-             cursor: pointer;
+      img {
+        width: 140px;
+      }
 
-             img {
-                 width: 140px;
-             }
+      @media screen and (min-width: 600px) and (max-width: 1023px) {
+        display: none;
+      }
+    }
+  }
 
-             @media screen and (min-width:600px) and (max-width:1023px) {
-                 display: none;
-             }
-         }
-     }
+  .sidenav {
+    margin-top: 4rem;
+  }
 
-     .sidenav {
-         margin-top: 4rem;
-     }
+  .sidenav-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-     .sidenav-menu {
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-     }
+  .sidenav-list {
+    display: flex;
+    flex-direction: column;
 
-     .sidenav-list {
-         display: flex;
-         flex-direction: column;
+    a {
+      color: #565656;
+      line-height: 1.5;
+      letter-spacing: 0.01rem;
+      font-weight: 500;
+      font-size: 1rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px 15px;
+      margin-bottom: 15px;
+      transition-property: opacity, background-color;
+      transition-duration: 0.2s;
+      transition-timing-function: ease;
+      background-color: transparent;
+      transition: all 0.4s;
+      border-radius: 8px;
 
-         a {
-             color: #565656;
-             line-height: 1.5;
-             letter-spacing: .01rem;
-             font-weight: 500;
-             font-size: .9rem;
-             display: flex;
-             flex-direction: row;
-             align-items: center;
-             padding: 10px 15px;
-             margin-bottom: 5px;
-             transition-property: opacity, background-color;
-             transition-duration: 0.2s;
-             transition-timing-function: ease;
-             background-color: transparent;
-             transition: all 0.4s;
-             border-radius: 8px;
-             font-size: .9rem;
+      //Tablet styling
 
-             //Tablet styling
+      @media screen and (min-width: 600px) and (max-width: 1023px) {
+        padding: 0;
+        margin: 30px auto;
 
-             @media screen and (min-width:600px) and (max-width:1023px) {
-                 padding: 0;
-                 margin: 30px auto;
+        span {
+          display: none;
+        }
+      }
 
-                 span {
-                     display: none;
-                 }
-             }
+      img {
+        margin-right: 10px;
+      }
 
-             img {
-                 margin-right: 10px;
+      &.active,
+      &:hover {
+        opacity: 0.9;
+        background-color: rgba(71, 212, 82, 0.103);
+        transform: translateY(-3px);
+      }
+    }
+  }
 
-             }
+  .main {
+    width: 90%;
+    padding: 0;
+    box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
+    margin: 0 auto;
 
-             &.active,
-             &:hover {
-                 opacity: .9;
-                 background-color: rgba(71, 212, 82, 0.103);
-                 transform: translateY(-3px);
-             }
-         }
-     }
+    @media screen and (min-width: 600px) and (max-width: 1023px) {
+      max-width: unset;
+      flex-basis: 65rem;
+    }
 
+    .dashboard_nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 20px;
+      margin-bottom: 0;
 
-     .main {
-         width: 100%;
-         padding: 0;
-         box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
+      div {
+        margin-right: 50px;
 
-         @media screen and (min-width:600px) and (max-width:1023px) {
-             max-width: unset;
-             flex-basis: 65rem;
-         }
+        @media screen and (max-width: 600px) {
+          margin: 0;
+        }
+      }
 
-         .dashboard_nav {
-             display: flex;
-             flex-direction: row;
-             align-items: center;
-             justify-content: space-between;
-             padding-top: 1rem;
-             margin-bottom: 0;
+      .open_sidenav {
+        display: none;
+      }
 
+      .notifications {
+        margin: 0;
 
-             div {
-                 margin-right: 50px;
-             }
+        .bell {
+          cursor: pointer;
+          width: 20px;
+          height: 20px;
+        }
+      }
 
-             .open_sidenav {
-                 display: none;
-             }
+      .profile_details {
+        .img {
+          border-radius: 50%;
+          width: 45px;
+          height: 45px;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+          object-fit: cover;
+        }
 
-             .notifications {
-                 margin: 0;
-                 margin-left: 50px;
+        .user {
+          margin-right: 0;
+        }
 
-                 .bell {
-                     cursor: pointer;
-                     margin-right: 30px;
-                     width: 20px;
-                     height: 20px;
-                 }
-             }
+        .user_info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          float: left;
+          margin-right: 13px;
 
-             .profile_details {
-                 display: flex;
-                 flex-direction: row;
-                 align-items: center;
-                 font-size: 1rem;
-                 font-family: firma;
-                 background-color: rgba(71, 212, 82, 0.3);
-                 border-radius: 10px;
-                 padding: 0.5rem 0.6rem;
+          span {
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 600;
+          }
 
-                 @media screen and (min-width:600px) and (max-width:1023px) {
-                     font-size: 13px;
-                 }
+          .mobile_phone {
+            font-size: 0.5rem;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
 
-                 .img {
-                     border-radius: 50%;
-                     width: 45px;
-                     height: 45px;
-                     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
-                     object-fit: cover;
-                 }
+  @media screen and (max-width: 600px) {
+    .menu {
+      display: none;
+    }
 
-                 .user {
-                     margin-right: 0;
-                 }
+    .main {
+      flex-basis: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+  }
 
-                 .user_info {
-                     display: flex;
-                     flex-direction: column;
-                     align-items: flex-end;
-                     float: left;
-                     margin-right: 13px;
+  .title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-basis: 100%;
+    text-align: center;
+    margin: 0;
+  }
 
-                     span {
-                         display: inline-block;
-                         font-size: .9rem;
-                         font-weight: 600;
-                     }
+  .container {
+    padding: 0 20px;
+  }
 
-                     .mobile_phone {
-                         font-size: .5rem;
-                         font-weight: 600;
-                     }
-                 }
-             }
+  .scroll {
+    height: 89.5vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-bottom: 10rem;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+  }
 
-         }
-     }
+  .dashboard_main {
+    .container {
+      padding: 0;
+    }
 
-     @media screen and (max-width:600px) {
-         .menu {
-             display: none;
-         }
+    .main {
+      .dashboard_nav {
+        margin: 0 auto;
+        width: 95%;
+        justify-content: space-between;
 
-         .main {
-             flex-basis: 100%;
-             max-width: 100%;
-             padding: 0;
-         }
-     }
+        div {
+          margin-right: 0;
+        }
 
+        .profile_details {
+          font-size: 12px;
+          margin-bottom: 10px;
+        }
 
-     .title {
-         font-size: 0.8rem;
-         font-weight: 600;
-         text-transform: uppercase;
-         letter-spacing: 1px;
-         flex-basis: 100%;
-         text-align: center;
-         margin: 0;
-     }
+        .open_sidenav {
+          display: block;
+          position: absolute;
+          top: 25px;
+          left: 30px;
+        }
 
-     .container {
+        .mobile {
+          display: none;
+        }
+      }
+    }
+  }
+}
 
-         padding: 20px 25px 0;
-     }
-
-     .scroll {
-         height: 89.5vh;
-         overflow-y: scroll;
-         overflow-x: hidden;
-         padding-bottom: 10rem;
-         scroll-behavior: smooth;
-         box-sizing: border-box;
-     }
- }
-
-
-
-
-
- //Mobile styling
- @media screen and (max-width:600px) {
-     .dashboard_main {
-         .container {
-             padding: 0;
-         }
-
-         .main {
-             .dashboard_nav {
-                 margin: 0 auto;
-                 width: 95%;
-                 justify-content: space-between;
-                 flex-direction: column-reverse;
-                 align-items: flex-end;
-
-                 div {
-                     margin-right: 5%;
-                 }
-
-
-                 .open_sidenav {
-                     display: block;
-                     position: absolute;
-                     top: 25px;
-                     left: 30px;
-                 }
-
-                 .profile_details {
-                     font-size: 12px;
-                     //  margin-right: 3rem;
-                     margin-bottom: 10px;
-
-                     .bell {
-                         margin-right: 23px;
-                     }
-
-                     .img {
-                         margin-right: 5px;
-                     }
-                 }
-
-                 .mobile {
-                     display: none;
-                 }
-             }
-         }
-     }
- }
-
-
- .side_nav {
-     transition: all 3s;
- }
+.side_nav {
+  transition: all 3s;
+}

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { withRouter, Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import theme from '../../components/Theme';
 
@@ -14,9 +14,10 @@ import Button from '../../components/Button';
 
 import './auth.scss';
 
-const api = new Request();
+const API = new Request();
 
-const VerifyEmail = (props: { history }) => {
+const VerifyEmail = () => {
+  const history = useHistory();
   const [feedback, setFeedback] = useState(null);
   const [processing, setProcessing] = useState(false);
 
@@ -34,9 +35,9 @@ const VerifyEmail = (props: { history }) => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setProcessing(true);
-      await api.verifyEmail(values.token);
+      await API.verifyEmail(values.token);
       setProcessing(false);
-      props.history.push(`/dashboard/overview`);
+      history.push(`/dashboard/overview`);
     } catch (err) {
       setFeedback(
         'There has been an issue verifying your account, please check that your token is valid and try again',
@@ -62,7 +63,7 @@ const VerifyEmail = (props: { history }) => {
               return (
                 <>
                   <div className="logo">
-                    <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+                    <img src={logo} alt="logo" onClick={() => history.push('/')} />
                   </div>
                   <Form className="form">
                     <h2>Log In</h2>
@@ -98,4 +99,4 @@ const VerifyEmail = (props: { history }) => {
   );
 };
 
-export default withRouter(VerifyEmail);
+export default VerifyEmail;

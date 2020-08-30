@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { withRouter, Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import RecaptchaComponent from '../Recaptcha';
@@ -15,9 +15,10 @@ import image1 from '../../../assets/images/auth.jpg';
 
 import '../auth.scss';
 
-const api = new Request();
+const API = new Request();
 
-const ForgotPassword = (props: { history }) => {
+const ForgotPassword = () => {
+  const history = useHistory();
   const [recaptcha, setRecaptcha] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [feedback, setFeedback] = useState(null);
@@ -32,7 +33,7 @@ const ForgotPassword = (props: { history }) => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setProcessing(true);
-      const res = await api.passwordReset(values.email);
+      const res = await API.passwordReset(values.email);
       setFeedback(res.message);
       setProcessing(false);
     } catch (err) {
@@ -60,7 +61,7 @@ const ForgotPassword = (props: { history }) => {
               return (
                 <>
                   <div className="logo">
-                    <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+                    <img src={logo} alt="logo" onClick={() => history.push('/')} />
                   </div>
 
                   <Form className="form">
@@ -104,4 +105,4 @@ const ForgotPassword = (props: { history }) => {
   );
 };
 
-export default withRouter(ForgotPassword);
+export default ForgotPassword;

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route, Switch, Redirect, useRouteMatch, NavLink, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect, useRouteMatch, NavLink, useHistory } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import openSocket from 'socket.io-client';
 import dayjs from 'dayjs';
 
@@ -17,8 +18,7 @@ import Cards from './Routes/Cards';
 import Transactions from './Routes/Transactions';
 import Utilities from './Routes/Utilities';
 import Setting from './Routes/Setting';
-import Loading from '../../components/Loading';
-import SideBar from './components/SideBar';
+import TabMenu from './components/SideBar';
 import NotificationBar from './components/Notifications';
 import Backdrop from '../../components/Modal/Backdrop';
 import constants from '../../utils/constants';
@@ -30,9 +30,6 @@ import imLogo from '../../assets/images/dashboard/home.png';
 import cardLogo from '../../assets/images/dashboard/card.png';
 import transactLogo from '../../assets/images/dashboard/transactions.png';
 import settings from '../../assets/images/dashboard/set.png';
-import utilsLogo from '../../assets/images/dashboard/utitlity.png';
-import hamburger from '../../assets/images/menu.png';
-
 import './index.scss';
 
 //Wallet reducer
@@ -42,14 +39,15 @@ function success(wallet: Wallet) {
 
 const Request = new API();
 
-const Dashboard = (props: { history }) => {
+const Dashboard = () => {
+  const history = useHistory();
   const [sidebarOpen, setSideBarOpen] = useState(false);
   const [banks, setBanks] = useState([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   const dispatch = useDispatch();
   const { user } = useSelector((state: { auth }) => state.auth);
-  const { processing, notifications } = useSelector((state: { wallet }) => state.wallet);
+  const { notifications } = useSelector((state: { wallet }) => state.wallet);
   const { mode } = useSelector((state: any) => state.ui);
 
   useEffect(() => {
@@ -108,7 +106,7 @@ const Dashboard = (props: { history }) => {
   const logOutHandler = async (e) => {
     e.preventDefault();
     dispatch(logOut(user.email));
-    props.history.push('/');
+    history.push('/');
   };
 
   const deleteNotification = async (id): Promise<void> => {
@@ -125,15 +123,14 @@ const Dashboard = (props: { history }) => {
     color: mode === 'dark' ? '#00C9B6' : '',
   };
 
-  if (processing) {
-    return <Loading />;
-  }
-
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>alphapay | Dashboard</title>
+      </Helmet>
       <section className="dashboard_main" style={styles}>
-        <SideBar isActive={sidebarOpen} onClose={() => setSideBarOpen(false)} url={url} logOutHandler={logOutHandler} />
-        <Backdrop show={sidebarOpen} clicked={() => setSideBarOpen(false)} />
+        <Backdrop show={sidebarOpen || notificationOpen} clicked={() => setSideBarOpen(false)} />
         <NotificationBar
           isActive={notificationOpen}
           onClose={() => setNotificationOpen(false)}
@@ -149,7 +146,7 @@ const Dashboard = (props: { history }) => {
           <div
             className="logo"
             onClick={() => {
-              props.history.push('/');
+              history.push('/');
             }}
           >
             <img src={Logo} alt="logo_image" />
@@ -163,16 +160,16 @@ const Dashboard = (props: { history }) => {
                 </NavLink>
                 <NavLink to={`${url}/cards`} style={linkStyle}>
                   <img src={cardLogo} alt="" />
-                  <span>Cards</span>
+                  <span>Payments</span>
                 </NavLink>
                 <NavLink to={`${url}/transactions`} style={linkStyle}>
                   <img src={transactLogo} alt="" />
                   <span>Transactions</span>
                 </NavLink>
-                <NavLink to={`${url}/utilities`} style={linkStyle}>
+                {/* <NavLink to={`${url}/utilities`} style={linkStyle}>
                   <img src={utilsLogo} alt="" />
                   <span>Utilities</span>
-                </NavLink>
+                </NavLink> */}
                 <NavLink to={`${url}/settings`} style={linkStyle}>
                   <img src={settings} alt="" />
                   <span>Settings</span>
@@ -187,15 +184,6 @@ const Dashboard = (props: { history }) => {
 
         <div className="main">
           <div className="dashboard_nav">
-            <div
-              onClick={() => {
-                setSideBarOpen(true);
-              }}
-              className="open_sidenav"
-            >
-              <img src={hamburger} className="bell" alt="menu" />
-            </div>
-
             <div className="notifications">
               <img
                 src={notifications && notifications.length > 0 ? not : Notify}
@@ -209,18 +197,8 @@ const Dashboard = (props: { history }) => {
 
             <div className="profile_details">
               <div className="user">
-                <div className="user_info">
-                  <span>{user && `${user.first_name} ${user.last_name}`}</span>
-                  <span className="mobile_phone">{user && user.phone_number}</span>
-                </div>
                 <img
-                  src={
-                    user
-                      ? user.profile_image
-                        ? user.profile_image
-                        : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
-                      : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
-                  }
+                  src={user?.profile_image || 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'}
                   alt="profile_image"
                   className="img"
                 />
@@ -243,8 +221,9 @@ const Dashboard = (props: { history }) => {
           </section>
         </div>
       </section>
+      <TabMenu url={url} logOutHandler={logOutHandler} />
     </>
   );
 };
 
-export default withRouter(Dashboard);
+export default Dashboard;

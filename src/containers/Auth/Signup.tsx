@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { signUp } from '../../store/actions';
 
@@ -27,7 +27,8 @@ interface FormValues {
   phone_number: number;
 }
 
-const SignUp = (props: { history }) => {
+const SignUp = () => {
+  const history = useHistory();
   const [feedback, setFeedback] = useState(null);
   const [recaptcha, setRecaptcha] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -68,7 +69,7 @@ const SignUp = (props: { history }) => {
       delete values['confirmPassword'];
       console.log('recaptcha', recaptcha);
       await dispatch(signUp(values));
-      return props.history.push(`/auth/verify_email`);
+      history.push(`/auth/verify_email`);
     } catch (err) {
       setFeedback(err.message);
       setTimeout(() => setFeedback(null), 3000);
@@ -91,7 +92,7 @@ const SignUp = (props: { history }) => {
               return (
                 <>
                   <div className="logo">
-                    <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+                    <img src={logo} alt="logo" onClick={() => history.push('/')} />
                   </div>
 
                   <Form className="form signup">
@@ -179,4 +180,4 @@ const SignUp = (props: { history }) => {
   );
 };
 
-export default withRouter(SignUp);
+export default SignUp;

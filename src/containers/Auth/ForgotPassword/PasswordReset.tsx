@@ -1,34 +1,32 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { withRouter } from 'react-router-dom';
-import theme from '../../../components/Theme';
-
+import { useHistory, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
+import theme from '../../../components/Theme';
 import Request from '../../../services/api-services';
 
 import logo from '../../../assets/images/alp.png';
 import image1 from '../../../assets/images/auth.jpg';
 
 import Button from '../../../components/Button';
-
 import '../auth.scss';
 
-const api = new Request();
+const API = new Request();
 
-const PasswordReset = (props: { match; history }) => {
+const PasswordReset = () => {
+  const history = useHistory();
+  const { token } = useParams();
   const [user, setUser] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [err, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const token = props.match.params.token;
-
   useEffect(() => {
     const call = async () => {
       try {
-        const res = await api.confirmPasswordReset(token);
+        const res = await API.confirmPasswordReset(token);
         setUser(res.client);
         setLoading(false);
       } catch (error) {
@@ -60,7 +58,7 @@ const PasswordReset = (props: { match; history }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const res = await api.passwordResetEmail({ ...values, email: user.email });
+      const res = await API.passwordResetEmail({ ...values, email: user.email });
       setFeedback(res.message);
     } catch (err) {
       setFeedback(err.response.data.message);
@@ -84,7 +82,7 @@ const PasswordReset = (props: { match; history }) => {
               return (
                 <>
                   <div className="logo">
-                    <img src={logo} alt="logo" onClick={() => props.history.push('/')} />
+                    <img src={logo} alt="logo" onClick={() => history.push('/')} />
                   </div>
 
                   <Form className="form">
@@ -120,4 +118,4 @@ const PasswordReset = (props: { match; history }) => {
   );
 };
 
-export default withRouter(PasswordReset);
+export default PasswordReset;

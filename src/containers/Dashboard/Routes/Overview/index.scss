@@ -1,150 +1,121 @@
-.overview_details {
+.overview {
+  h1 {
+    font-size: 1.5rem;
+    letter-spacing: normal;
+    text-align: center;
+  }
+
+  .wallet_actions {
+    margin: 0 auto;
     margin-top: 4rem;
-    margin-bottom: 3rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    .item {
-        width: 50%;
+    padding: 2rem 13px;
+    background-color: white;
+    box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
+    margin-bottom: 1rem;
+    width: 60%;
+    border-radius: 15px;
+    text-align: center;
+    position: relative;
+    p {
+      font-size: 2.4rem;
+      margin: 0;
+      opacity: 0.77;
+      margin-bottom: 10px;
     }
+    span {
+      font-size: 13px;
+      font-family: Sailec;
+      opacity: 0.8;
 
-    .wallet_card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        // background: #fff;
-        background-image: linear-gradient(to bottom, #1400FF -150%, #FC199B 130%);
-
-        // background-color: rgba(71, 212, 82, 0.103);
-        box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
-        width: 90%;
-        height: 12rem;
-        border-radius: 5px;
-        margin: 0 auto;
-
-        p {
-            font-size: 24px;
-            font-family: firma;
-            color: #fff;
-            margin: 0;
-        }
-
-        .wallet_text {
-            font-size: 14px;
-        }
-
-
+      img {
+        height: 20px;
+        width: 20px;
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+      }
     }
 
     .btn_fund {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        width: 90%;
-        margin: 2rem auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      margin: 16px auto;
+      margin-bottom: 0;
 
+      button {
+        width: 49%;
+        height: 45px;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .overview_actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 1rem;
+    background: white;
+    box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
+    width: 95%;
+    margin: 0 auto;
+
+    div {
+      width: 48%;
+      text-align: center;
+      padding: 1rem;
+      border: 1px solid rgba(50, 79, 159, 0.13);
+      margin-bottom: 16px;
+      button {
+        width: 100%;
+        height: 5rem;
+      }
+    }
+  }
+
+  @media screen and (min-width: 600px) and (max-width: 1023px) {
+  }
+
+  @media screen and (max-width: 600px) {
+    .wallet_actions {
+      width: 98%;
+      padding: 2rem 0;
+    }
+
+    .overview_actions {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 320px) {
+    .wallet_actions {
+      p {
+        font-size: 1.9rem;
+        margin: 0;
+      }
+      span {
+        font-size: 10px;
+      }
+      .btn_fund {
         button {
-            width: 49%;
-            height: 45px;
-            text-transform: uppercase;
-            font-size: .8rem;
+          font-size: 10px;
         }
+      }
     }
 
-    .funds_control {
-        display: flex;
-        flex-wrap: wrap;
-
-        div {
-            width: 45%;
-            border-radius: 5px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 7rem;
-            transition: all 0.6s;
-            margin-bottom: 20px;
-            box-shadow: 0px 4px 25px 0px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            margin-right: 10px;
-
-            &:hover {
-                transform: translateX(2px);
-
-            }
-
-            img {
-                height: 100px;
-            }
-        }
-
+    .overview_actions {
+      width: 100%;
+      div {
         button {
-            margin-bottom: 20px;
-            width: 70%;
-            height: 50px;
-            font-family: firma-bold;
+          font-size: 10px;
         }
+      }
     }
-}
-
-
-@media screen and (min-width:600px) and (max-width:1023px) {
-    .overview_details {
-        flex-direction: column;
-
-        .funds_control {
-            div {
-                width: 49%;
-            }
-        }
-
-        .item {
-            width: 100%;
-        }
-
-        div {
-            width: 100%;
-
-        }
-    }
-}
-
-
-@media screen and (max-width:600px) {
-    .overview_details {
-        flex-direction: column;
-
-        .item {
-            width: 100%;
-        }
-
-        div {
-            width: 100%;
-
-        }
-
-        .btn_fund {
-            flex-direction: column;
-
-            button {
-                width: 100%;
-                font-size: 14px;
-                margin-bottom: 15px;
-            }
-        }
-
-        .funds_control {
-            flex-direction: column;
-
-            div {
-                width: 80%;
-                margin: 10px auto;
-            }
-        }
-    }
+  }
 }

@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: averta;
-  src: url(./assets/fonts/avenir/AvenirLTStd-Roman.otf);
+  src: url(./assets/fonts/avenir/AvenirLTStd-Medium.otf);
 }
 
 html {
@@ -50,7 +50,6 @@ p {
 
 p {
   font-weight: 600;
-  opacity: 0.5;
   line-height: 30px;
   @media screen and (max-width: 600px) {
     font-size: 13px;

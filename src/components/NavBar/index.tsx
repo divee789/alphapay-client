@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useWindowScrollPosition from '@rehooks/window-scroll-position';
 
@@ -14,7 +14,8 @@ import Button from '../Button';
 
 import './index.scss';
 
-const Navbar = (props: { history }) => {
+const Navbar = () => {
+  const history = useHistory();
   const { isAuth } = useSelector((state: { auth }) => state.auth);
   const [change, setChange] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -50,7 +51,7 @@ const Navbar = (props: { history }) => {
           <div
             className="nav_logo"
             onClick={() => {
-              props.history.push('/');
+              history.push('/');
               return;
             }}
           >
@@ -100,4 +101,4 @@ const Navbar = (props: { history }) => {
   );
 };
 
-export default withRouter(Navbar);
+export default Navbar;

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { setTransactionPin } from '../../../../../store/actions';
 import * as Yup from 'yup';
 import Request from '../../../../../services/api-services';
@@ -13,9 +14,10 @@ import phoneVer from '../../../../../assets/images/andela1.png';
 
 import './index.scss';
 
-const api = new Request();
+const API = new Request();
 
-const Security = (props: { history }) => {
+const Security = () => {
+  const history = useHistory();
   const [feedback, setFeedback] = useState(null);
   const [feedback2, setFeedback2] = useState(null);
   const [twoFaFeedback, setTwoFaFeedback] = useState(null);
@@ -49,7 +51,7 @@ const Security = (props: { history }) => {
   const activateTwoFa = async () => {
     try {
       setTwoFaLoading(true);
-      const res = await api.activateTwoFa();
+      const res = await API.activateTwoFa();
       setTwoFaFeedback(res.data.image_url);
       setTwoFaLoading(false);
     } catch (error) {
@@ -61,7 +63,7 @@ const Security = (props: { history }) => {
   const deactivateTwoFa = async () => {
     try {
       setTwoFaLoading(true);
-      const res = await api.deactivate2FA();
+      const res = await API.deactivate2FA();
       setTwoFaFeedback(res.message);
       setTwoFaLoading(false);
     } catch (error) {
@@ -75,7 +77,7 @@ const Security = (props: { history }) => {
       switch (values.type) {
         case 'Password':
           delete values['type'];
-          const res = await api.changePassword(values);
+          const res = await API.changePassword(values);
           setFeedback(res.message);
           setSubmitting(false);
           resetForm();
@@ -185,14 +187,14 @@ const Security = (props: { history }) => {
               dashboard
               onClick={async () => {
                 setEmailProcessing(true);
-                const res = await api.sendEmail();
+                const res = await API.sendEmail();
                 if (res.error) {
                   alert(res.message);
                   setEmailProcessing(false);
                   return;
                 }
                 setEmailProcessing(false);
-                props.history.push('/auth/verify_email');
+                history.push('/auth/verify_email');
               }}
               disabled={emailProcessing}
             >

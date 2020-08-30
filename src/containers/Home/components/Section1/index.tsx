@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import TextLoop from 'react-text-loop';
 
 import Button from '../../../../components/Button';
@@ -9,7 +9,8 @@ import payment from '../../../../assets/images/removebg.png';
 
 import './index.scss';
 
-const Section = (props: { history }) => {
+const Section = () => {
+  const history = useHistory();
   return (
     <>
       <section className="section1">
@@ -30,7 +31,7 @@ const Section = (props: { history }) => {
             colored
             className="btn"
             onClick={() => {
-              props.history.push('/auth/signup');
+              history.push('/auth/signup');
             }}
           >
             {' '}
@@ -45,4 +46,4 @@ const Section = (props: { history }) => {
   );
 };
 
-export default withRouter(Section);
+export default Section;

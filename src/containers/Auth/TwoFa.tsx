@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
-import { withRouter, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { twoFaVerify } from '../../store/actions';
@@ -16,7 +16,8 @@ import Button from '../../components/Button';
 import './auth.scss';
 import APIServiceError from '../../services/error-services';
 
-const TwoFa = (props: { history }) => {
+const TwoFa = () => {
+  const history = useHistory();
   const [feedback, setFeedback] = useState(null);
   const [processing, setProcessing] = useState(null);
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const TwoFa = (props: { history }) => {
     try {
       setProcessing(true);
       await dispatch(twoFaVerify(values));
-      props.history.push(`/dashboard/overview`);
+      history.push(`/dashboard/overview`);
     } catch (err) {
       if (err instanceof APIServiceError) {
         setFeedback(err.response.data.message);
@@ -75,7 +76,7 @@ const TwoFa = (props: { history }) => {
               return (
                 <>
                   <div className="logo">
-                    <img src={logo} alt="logo" onClick={(): void => props.history.push('/')} />
+                    <img src={logo} alt="logo" onClick={(): void => history.push('/')} />
                   </div>
 
                   <Form className="form">
@@ -110,4 +111,4 @@ const TwoFa = (props: { history }) => {
   );
 };
 
-export default withRouter(TwoFa);
+export default TwoFa;

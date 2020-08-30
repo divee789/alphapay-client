@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { logIn } from '../../store/actions';
@@ -17,7 +17,8 @@ import Button from '../../components/Button';
 
 import './auth.scss';
 
-const LogIn = (props: { history }) => {
+const LogIn = () => {
+  const history = useHistory();
   const [feedback, setFeedback] = useState(null);
   const [recaptcha, setRecaptcha] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -42,10 +43,10 @@ const LogIn = (props: { history }) => {
     try {
       await dispatch(logIn(values));
       console.log(recaptcha);
-      props.history.push(`/dashboard/overview`);
+      history.push(`/dashboard/overview`);
     } catch (err) {
       if (err.message === '2FA required') {
-        props.history.push(`/auth/2fa?email=${values.email}`);
+        history.push(`/auth/2fa?email=${values.email}`);
         setSubmitting(false);
       }
       setFeedback(err.message);
@@ -66,7 +67,7 @@ const LogIn = (props: { history }) => {
               return (
                 <>
                   <div className="logo">
-                    <img src={logo} alt="logo" onClick={(): void => props.history.push('/')} />
+                    <img src={logo} alt="logo" onClick={(): void => history.push('/')} />
                   </div>
 
                   <Form className="form">
@@ -132,4 +133,4 @@ const LogIn = (props: { history }) => {
   );
 };
 
-export default withRouter(LogIn);
+export default LogIn;

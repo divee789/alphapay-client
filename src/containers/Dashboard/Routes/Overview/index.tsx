@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { getClientWallet } from '../../../../store/actions';
 
 import Modal from '../../../../components/Modal';
@@ -9,24 +10,38 @@ import CheckoutForm from '../../components/CheckoutForm';
 import TransferForm from '../../components/TransferForm';
 import Button from '../../../../components/Button';
 
-// import image1 from '../../../../assets/images/transfer.png';
-// import image2 from '../../../../assets/images/airtime.png';
-// import image3 from '../../../../assets/images/pay-bills.png';
-// import image4 from '../../../../assets/images/coffee.png';
+import Refresh from '../../../../assets/images/refresh.png';
 
 import './index.scss';
+import constants from '../../../../utils/constants';
 
-const Overview = (props: any) => {
+const Overview = (props: { data: any[] }) => {
+  const history = useHistory();
   const [showFundModal, setShowFundModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
   const { wallet, processing } = useSelector((state: { wallet }) => state.wallet);
+  const { user } = useSelector((state: any) => state.auth);
   const { mode } = useSelector((state: { ui }) => state.ui);
 
   const dispatch = useDispatch();
 
-  let content;
+  const styles = {
+    background: mode === 'dark' ? constants.darkMode : '#fff',
+    color: mode === 'dark' ? '#00C9B6' : '#000',
+  };
+
+  const renderGreeting = () => {
+    const currentDate = new Date();
+    const hrs = currentDate.getHours();
+
+    if (hrs < 12) return '🌄 Good Morning';
+    else if (hrs >= 12 && hrs <= 17) return '🌞 Good Afternoon';
+    else if (hrs >= 17 && hrs <= 24) return '🌙 Good Evening';
+
+    return '🌻 Good Day';
+  };
 
   const modalHandler = (category: string) => {
     switch (category) {
@@ -53,81 +68,71 @@ const Overview = (props: any) => {
     }
   };
 
-  if (processing === true) {
-    content = <p className="info_alert">Getting your wallet..</p>;
-  }
-  if (wallet) {
-    content = (
-      <p>
-        NGN{' '}
-        {wallet.available_balance
-          .toFixed(2)
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-      </p>
-    );
-  } else {
-    content = <p style={{ textAlign: 'center', fontSize: '14px' }}>There has been an error fetching your wallet</p>;
-  }
-
   return (
-    <>
-      <div className="overview_details">
-        <div className="item">
-          <div
-            className="wallet_card"
-            onClick={() => {
-              dispatch(getClientWallet());
-            }}
+    <section className="overview">
+      <h1>
+        {renderGreeting()}, {user?.first_name}!
+      </h1>
+      <div className="wallet_actions" style={styles}>
+        <span
+          className="wallet_refresh"
+          onClick={() => {
+            dispatch(getClientWallet());
+          }}
+        >
+          <img src={Refresh} alt="refresh balance" />
+        </span>
+        <p>
+          {processing
+            ? 'Loading...'
+            : wallet?.available_balance
+                .toFixed(2)
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+        </p>
+        <span>AVAILABLE BALANCE (NGN)</span>
+        <div className="btn_fund">
+          <Button dashboard onClick={() => toggleModal('fund')} style={{ color: mode === 'dark' ? '#00C9B6' : '' }}>
+            Fund Wallet
+          </Button>
+          <Button
+            dashboard
+            style={{ color: mode === 'dark' ? '#00C9B6' : '' }}
+            onClick={() => toggleModal('checkout')}
+            disabled={wallet?.available_balance <= 100 ? true : false}
           >
-            <p className="wallet_text">Wallet Balance</p>
-            {content}
-          </div>
-          <div className="btn_fund">
-            <Button dashboard onClick={() => toggleModal('fund')} style={{ color: mode === 'dark' ? '#00C9B6' : '' }}>
-              Fund Wallet
-            </Button>
-            {wallet && wallet.available_balance <= 100 ? (
-              <Button dashboard disabled>
-                Withdraw Funds
-              </Button>
-            ) : (
-              <Button
-                dashboard
-                style={{ color: mode === 'dark' ? '#00C9B6' : '' }}
-                onClick={() => toggleModal('checkout')}
-              >
-                Withdraw Funds
-              </Button>
-            )}
-          </div>
-        </div>
-
-        <div className="funds_control item">
-          <div
-            className="option_card"
-            onClick={() => {
-              toggleModal('transfer');
-            }}
-            style={{ background: mode === 'dark' ? null : 'white' }}
-          >
-            {/* <img src={image1} alt="transfer" /> */}
-            <p>Transfer Funds</p>
-          </div>
-          <div className="option_card" style={{ background: mode === 'dark' ? null : 'white' }}>
-            {/* <img src={image2} alt="request" /> */}
-            <p>Contact Support</p>
-          </div>
-          <div className="option_card" style={{ background: mode === 'dark' ? null : 'white' }}>
-            {/* <img src={image3} alt="pay-bills" /> */}
-            <p>Pay Bills</p>
-          </div>
-          <div className="option_card" style={{ background: mode === 'dark' ? null : 'white' }}>
-            {/* <img src={image4} alt="buy airtime" /> */}
-            <p>Buy Airtime</p>
-          </div>
+            Withdraw Funds
+          </Button>
         </div>
       </div>
+
+      <div className="overview_actions" style={styles}>
+        <div>
+          <Button dashboard style={{ color: mode === 'dark' ? '#00C9B6' : '' }} onClick={() => toggleModal('transfer')}>
+            TRANSFER FUNDS
+          </Button>
+        </div>
+        <div>
+          <Button dashboard style={{ color: mode === 'dark' ? '#00C9B6' : '' }} onClick={() => toggleModal('transfer')}>
+            PAY BILLS
+          </Button>
+        </div>
+        <div>
+          <Button
+            dashboard
+            style={{ color: mode === 'dark' ? '#00C9B6' : '' }}
+            onClick={() => history.push('/dashboard/transactions')}
+          >
+            VIEW TRANSACTIONS
+          </Button>
+        </div>
+        <div>
+          <Button dashboard style={{ color: mode === 'dark' ? '#00C9B6' : '' }}>
+            AUDIT LOGS
+          </Button>
+        </div>
+      </div>
+
       {showFundModal && (
         <Modal open={showFundModal} closed={() => modalHandler('fund')}>
           <FundForm mode={mode} />
@@ -143,7 +148,7 @@ const Overview = (props: any) => {
           <CheckoutForm mode={mode} banks={props.data} />
         </Modal>
       )}
-    </>
+    </section>
   );
 };
 
