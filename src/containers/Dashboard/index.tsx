@@ -174,9 +174,9 @@ const Dashboard = () => {
                   <img src={settings} alt="" />
                   <span>Settings</span>
                 </NavLink>
-                <a href="#" onClick={logOutHandler} style={linkStyle}>
-                  <span>Log Out</span>
-                </a>
+                <p className="custom_link" onClick={logOutHandler} style={linkStyle}>
+                  Log Out
+                </p>
               </div>
             </div>
           </div>

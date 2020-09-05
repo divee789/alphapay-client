@@ -10,21 +10,21 @@ import Request from '../../../../../services/api-services';
 import Button from '../../../../../components/Button';
 import './index.scss';
 
-const api = new Request();
+const API = new Request();
 
 const Profile = () => {
   const dispatch = useDispatch();
   const [image, setImage] = useState('');
-  const [feedBack, setFeedBack] = useState(false);
-  const [uploadFeedBack, setUploadFeedBack] = useState(false);
+  const [uploadFeedBack, setUploadFeedBack] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const { user, processing, update_error, message } = useSelector((state: { auth }) => state.auth);
 
   const initialValues = {
-    email: user ? user.email : '',
-    first_name: user ? user.first_name : '',
-    last_name: user ? user.last_name : '',
-    phone_number: user ? user.phone_number : '',
+    email: user?.email || '',
+    first_name: user?.first_name || '',
+    last_name: user?.last_name || '',
+    phone_number: user?.phone_number || '',
   };
   const logValidationSchema = Yup.object().shape({
     first_name: Yup.string().required('Provide your first name please'),
@@ -39,34 +39,33 @@ const Profile = () => {
     const file = event.target.files[0];
     setImage(file);
   };
+
   const uploadHandler = async () => {
     try {
       if (!image) {
         alert('Please choose an image to upload');
         return;
       }
+      setUploading(true);
       const formData = new FormData();
       formData.append('profile_image', image);
-      setUploadFeedBack(true);
-      const resData = await api.uploadProfileImage(formData);
+      const resData = await API.uploadProfileImage(formData);
       if (resData.error) {
-        setUploadFeedBack(false);
         alert('Your session has expired, please log in again');
         return;
       }
       await dispatch(update(resData));
-      setUploadFeedBack(false);
+      setUploadFeedBack('Image Upload Successful');
     } catch (error) {
-      setUploadFeedBack(false);
+      setUploadFeedBack('Image Upload Failed');
     }
+    setUploading(false);
   };
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       await dispatch(update(values));
-      setFeedBack(message);
     } catch (err) {
-      setFeedBack(update_error.response.data.message);
       setSubmitting(false);
     }
   };
@@ -76,20 +75,15 @@ const Profile = () => {
       <section className="profile-settings-section">
         <div className="profile_image_handler">
           <img
-            src={
-              user
-                ? user.profile_image
-                  ? user.profile_image
-                  : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
-                : 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
-            }
+            src={user?.profile_image || 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'}
             alt="user_profile_image"
           />
           <div className="change_profile_image">
             <input type="file" onChange={fileChangedHandler} required />
             <Button dashboard onClick={uploadHandler} className="upload-btn">
-              {uploadFeedBack ? 'Please wait...' : 'Upload Image'}
+              {uploading ? 'Please wait...' : 'Upload Image'}
             </Button>
+            <p>{uploadFeedBack}</p>
           </div>
         </div>
         <div className="user_profile_details">
@@ -100,8 +94,6 @@ const Profile = () => {
             render={(formProps) => {
               return (
                 <>
-                  {/* {update_error && <p>{update_error.response.data.message}</p>} */}
-                  {feedBack && <p className="modal_error">{feedBack}</p>}
                   <Form>
                     <div className="input-container-dual">
                       <div>
@@ -131,6 +123,11 @@ const Profile = () => {
                         {processing ? 'Please wait...' : 'Update details'}
                       </Button>
                     </div>
+                    {
+                      <p className="modal_error" style={{ textAlign: 'center' }}>
+                        {message || update_error?.response.data.message}
+                      </p>
+                    }
                   </Form>
                 </>
               );
