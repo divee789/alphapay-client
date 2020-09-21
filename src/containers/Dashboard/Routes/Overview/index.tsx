@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getClientWallet } from '../../../../store/actions';
+import { getUserWallet } from '../../../../store/actions';
 
 import Modal from '../../../../components/Modal';
 import FundForm from '../../components/FundForm';
@@ -71,13 +71,13 @@ const Overview = (props: { data: any[] }) => {
   return (
     <section className="overview">
       <h1>
-        {renderGreeting()}, {user?.first_name}!
+        {renderGreeting()}, {user?.username}!
       </h1>
       <div className="wallet_actions" style={styles}>
         <span
           className="wallet_refresh"
           onClick={() => {
-            dispatch(getClientWallet());
+            dispatch(getUserWallet());
           }}
         >
           <img src={Refresh} alt="refresh balance" />

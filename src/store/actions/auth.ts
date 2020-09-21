@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import * as actionTypes from './actionTypes';
 import APIRequest from '../../services/api-services';
 import APIServiceError from '../../services/error-services';
-import { Client } from '../types';
+import { User } from '../types';
 
 const authAPIRequest = new APIRequest();
 
@@ -29,8 +29,8 @@ export function logIn(data: { email: string; password: string }) {
   function request() {
     return { type: actionTypes.authConstants.LOGIN_REQUEST };
   }
-  function success(client: unknown) {
-    return { type: actionTypes.authConstants.LOGIN_SUCCESS, client };
+  function success() {
+    return { type: actionTypes.authConstants.LOGIN_SUCCESS };
   }
   function failure(errors: unknown) {
     return { type: actionTypes.authConstants.LOGIN_FAILURE, errors };
@@ -38,11 +38,11 @@ export function logIn(data: { email: string; password: string }) {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(request());
-      const userDetails = await authAPIRequest.logIn(data);
-      if (userDetails.success === false && userDetails.message === '2FA required') {
+      const resData = await authAPIRequest.logIn(data);
+      if (resData.message === '2FA required') {
         throw new Error('2FA required');
       }
-      dispatch(success(userDetails));
+      dispatch(success());
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));
@@ -54,14 +54,14 @@ export function logIn(data: { email: string; password: string }) {
 }
 
 export function twoFaVerify(data: { email: string; token: string }) {
-  function success(client: unknown) {
-    return { type: actionTypes.authConstants.LOGIN_SUCCESS, client };
+  function success() {
+    return { type: actionTypes.authConstants.LOGIN_SUCCESS };
   }
 
   return async (dispatch: Dispatch) => {
     try {
-      const userDetails = await authAPIRequest.twoFaAuthorize(data);
-      dispatch(success(userDetails));
+      await authAPIRequest.twoFaAuthorize(data);
+      dispatch(success());
     } catch (error) {
       if (error instanceof APIServiceError) {
         throw error.response.data;
@@ -75,8 +75,8 @@ export function getUser() {
   function request() {
     return { type: actionTypes.authConstants.LOGIN_REQUEST };
   }
-  function success(client: unknown) {
-    return { type: actionTypes.authConstants.FETCH_USER_SUCCESS, client };
+  function success(user: unknown) {
+    return { type: actionTypes.authConstants.FETCH_USER_SUCCESS, user };
   }
   function failure(errors: unknown) {
     return { type: actionTypes.authConstants.LOGIN_FAILURE, errors };
@@ -84,8 +84,8 @@ export function getUser() {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(request());
-      const userDetails = await authAPIRequest.getUser();
-      dispatch(success(userDetails));
+      const data = await authAPIRequest.getUser();
+      dispatch(success(data.user));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));
@@ -99,8 +99,8 @@ export function signUp(data) {
   function request() {
     return { type: actionTypes.authConstants.SIGNUP_REQUEST };
   }
-  function success(user) {
-    return { type: actionTypes.authConstants.SIGNUP_SUCCESS, user };
+  function success() {
+    return { type: actionTypes.authConstants.SIGNUP_SUCCESS };
   }
   function failure(errors) {
     return { type: actionTypes.authConstants.SIGNUP_FAILURE, errors };
@@ -108,8 +108,8 @@ export function signUp(data) {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(request());
-      const userDetails = await authAPIRequest.signUp(data);
-      dispatch(success(userDetails.data));
+      await authAPIRequest.signUp(data);
+      dispatch(success());
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));
@@ -118,7 +118,7 @@ export function signUp(data) {
     }
   };
 }
-export function update(data: Client) {
+export function update(data: User) {
   function request() {
     return { type: actionTypes.authConstants.SIGNUP_REQUEST };
   }
@@ -132,15 +132,10 @@ export function update(data: Client) {
     try {
       dispatch(request());
       if (data.profile_image) {
-        const user = {
-          client: data,
-        };
-        dispatch(success(user));
         return;
       }
-
-      const userDetails = await authAPIRequest.update(data);
-      dispatch(success(userDetails));
+      const response = await authAPIRequest.update(data);
+      dispatch(success(response.user));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));

@@ -17,7 +17,7 @@ const API = new Request();
 
 const PasswordReset = () => {
   const history = useHistory();
-  const { token } = useParams();
+  const { token } = useParams() as any;
   const [user, setUser] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [err, setError] = useState(null);
@@ -27,7 +27,7 @@ const PasswordReset = () => {
     const call = async () => {
       try {
         const res = await API.confirmPasswordReset(token);
-        setUser(res.client);
+        setUser(res.user);
         setLoading(false);
       } catch (error) {
         setFeedback('There has been an issue verifying your identity,please contact support');

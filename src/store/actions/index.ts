@@ -1,9 +1,9 @@
 export { logIn, signUp, update, logOut, getUser, twoFaVerify } from './auth';
 
 export {
-  getClientWallet,
-  fundClientWallet,
-  checkoutClientWallet,
+  getUserWallet,
+  fundUserWallet,
+  checkoutUserWallet,
   newNotifications,
   transferFunds,
   setTransactionPin,
@@ -11,4 +11,4 @@ export {
 
 export { switchMode } from './ui';
 
-export { getClientTransactions, filterClientTransactions } from './transactions';
+export { getUserTransactions, filterUserTransactions } from './transactions';
