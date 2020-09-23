@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 
@@ -10,13 +10,6 @@ import './index.scss';
 
 const NotificationsBar = ({ isActive, onClose, remove }: { isActive: boolean; onClose; remove }) => {
   const { notifications } = useSelector((state: { wallet }) => state.wallet);
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    if (notifications && notifications.length > 0) {
-      setData(notifications);
-    }
-  }, [notifications]);
 
   return (
     <>
@@ -25,13 +18,14 @@ const NotificationsBar = ({ isActive, onClose, remove }: { isActive: boolean; on
         style={theme('rgb(255, 255, 255)')}
       >
         <div className="notifications_content">
-          {data ? (
+          {notifications && notifications.length > 0 ? (
             notifications.map((item) => {
               return (
-                <p key={item.id}>
-                  {`Your wallet was credited by ${item.sender} on ${dayjs(item.date).format('D MMM YYYY')} with NGN ${
-                    item.amount
-                  }`}{' '}
+                <div key={item.id}>
+                  <p>
+                    {item.sender_name} credited your wallet with NGN {item.amount} on{' '}
+                    {`${dayjs(item.date).format('D MMM YYYY')}  ${dayjs(item.date).format('h:mm:ss a')}`}
+                  </p>
                   <span
                     onClick={() => {
                       remove(item.id);
@@ -40,7 +34,7 @@ const NotificationsBar = ({ isActive, onClose, remove }: { isActive: boolean; on
                   >
                     Delete
                   </span>
-                </p>
+                </div>
               );
             })
           ) : (

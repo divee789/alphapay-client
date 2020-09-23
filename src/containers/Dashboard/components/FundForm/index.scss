@@ -1,92 +1,90 @@
 .fund_wallet_form {
-    h2 {
-        font-size: .9rem;
-        text-align: center;
-        margin-bottom: 2rem;
+  h2 {
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 2rem;
 
-        @media screen and (max-width:600px) {
-            font-size: 0.9rem;
-        }
+    @media screen and (max-width: 600px) {
+      font-size: 0.9rem;
+    }
+  }
+
+  p {
+    font-size: 10px;
+    opacity: 0.8;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+
+    @media screen and (max-width: 600px) {
+      font-size: 9px;
+      margin-bottom: 1px;
+    }
+  }
+
+  span {
+    font-size: 1.26rem;
+    font-family: Sailec;
+    font-weight: bold;
+    margin-top: 12px;
+    margin-right: 10px;
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
+    }
+  }
+
+  .con {
+    display: flex;
+  }
+
+  input,
+  select {
+    width: 100%;
+    border: 1px solid #ccc;
+    background: transparent;
+    padding: 10px;
+    font-size: 1.2rem;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+    font-family: firma-bold;
+    margin-bottom: 10px;
+    border-radius: 10px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
     }
 
-    p {
-        font-size: 10px;
-        opacity: 0.8;
-        font-weight: 600;
-        margin-bottom: 0.3rem;
-
-        @media screen and (max-width:600px) {
-            font-size: 9px;
-            margin-bottom: 1px;
-        }
+    &:focus {
+      outline: none;
     }
+  }
 
-    span {
-        font-size: 1.26rem;
-        font-family: Sailec;
-        padding: 10px;
-        position: absolute;
+  .amount_input {
+    border: 2px solid #ccc;
+  }
 
-        @media screen and (max-width:600px) {
-            font-size: 16px;
-        }
-    }
+  .error {
+    margin-bottom: 1rem;
+    font-size: 10px;
+    color: rgb(110, 16, 63);
+  }
 
-    .con {
-        display: flex;
-    }
-
-    input,
-    select {
-        width: 100%;
-        border: 1px solid #ccc;
-        background: transparent;
-        padding: 10px;
-        font-size: 1.2rem;
-        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
-        font-family: firma-bold;
-        margin-bottom: 10px;
-        border-radius: 10px;
-
-        @media screen and (max-width:600px) {
-            font-size: 16px;
-        }
-
-        &:focus {
-            outline: none;
-        }
-    }
-
-    .amount_input {
-        padding-left: 4rem;
-        border: 2px solid #ccc;
-    }
-
-    .error {
-        margin-bottom: 1rem;
-        font-size: 10px;
-        color: rgb(110, 16, 63);
-    }
-
-    button {
-        margin: 0 auto;
-        margin-top: 1rem;
-        width: 60%;
-    }
+  button {
+    margin: 0 auto;
+    margin-top: 1rem;
+    width: 60%;
+  }
 }
 
 .transfer_feedback {
+  margin: 0 auto;
+  text-align: center;
+
+  img {
     margin: 0 auto;
+    border-radius: 50%;
+    height: 200px;
+  }
+
+  p {
     text-align: center;
-
-    img {
-        margin: 0 auto;
-        border-radius: 50%;
-        height: 200px;
-    }
-
-    p {
-        text-align: center;
-
-    }
+  }
 }

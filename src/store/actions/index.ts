@@ -4,7 +4,7 @@ export {
   getUserWallet,
   fundUserWallet,
   checkoutUserWallet,
-  newNotifications,
+  getNotifications,
   transferFunds,
   setTransactionPin,
 } from './wallet';

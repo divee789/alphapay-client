@@ -22,6 +22,7 @@ interface FormValues {
   email: string;
   first_name: string;
   last_name: string;
+  username: string;
   password: string;
   confirmPassword: string;
   phone_number: number;
@@ -41,12 +42,14 @@ const SignUp = () => {
     confirmPassword: '',
     first_name: '',
     last_name: '',
+    username: '',
     phone_number: ('' as unknown) as number,
   };
 
   const logValidationSchema = Yup.object().shape({
     first_name: Yup.string().required('Provide your first name please'),
     last_name: Yup.string().required('Provide your last name please'),
+    username: Yup.string().required('Provide a username please'),
     phone_number: Yup.number().min(11, 'Invalid phone_number').required('Provide your phone_number please'),
     email: Yup.string()
       .email('Hey,just letting you know that your email is quite weird')
@@ -100,21 +103,25 @@ const SignUp = () => {
                     <p>Join the community,Sign up and move on to your dashboard</p>
                     <div className="input-container-dual">
                       <div>
-                        <Field type="text" name="first_name" placeholder="First name" />
+                        <Field type="text" name="first_name" placeholder="Your First name" />
                         <ErrorMessage name="first_name" render={(msg) => <div className="error">{msg}</div>} />
                       </div>
                       <div>
-                        <Field type="text" name="last_name" placeholder="Last Name" />
+                        <Field type="text" name="last_name" placeholder="Your Last Name" />
                         <ErrorMessage name="last_name" render={(msg) => <div className="error">{msg}</div>} />
                       </div>
                     </div>
 
                     <div className="input-container">
-                      <Field type="text" name="phone_number" placeholder="Phone number" />
+                      <Field type="text" name="username" placeholder="Your Username" />
+                      <ErrorMessage name="username" render={(msg) => <div className="error">{msg}</div>} />
+                    </div>
+                    <div className="input-container">
+                      <Field type="text" name="phone_number" placeholder="Your Phone Number" />
                       <ErrorMessage name="phone_number" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container">
-                      <Field type="text" name="email" placeholder="Email" />
+                      <Field type="text" name="email" placeholder="Your Email" />
                       <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container">
@@ -126,7 +133,7 @@ const SignUp = () => {
                           setShowPassword(!showPassword);
                         }}
                       />
-                      <Field type={showPassword ? 'text' : 'password'} name="password" placeholder="Password" />
+                      <Field type={showPassword ? 'text' : 'password'} name="password" placeholder="Your Password" />
                       <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
                     <div className="input-container">

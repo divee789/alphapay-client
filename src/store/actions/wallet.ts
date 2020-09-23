@@ -142,7 +142,7 @@ export function setTransactionPin(data: { transaction_pin: string }) {
   };
 }
 
-export function newNotifications() {
+export function getNotifications() {
   function setNotifications(notifications: unknown) {
     return { type: actionTypes.walletConstants.SET_NOTIFICATIONS, notifications };
   }

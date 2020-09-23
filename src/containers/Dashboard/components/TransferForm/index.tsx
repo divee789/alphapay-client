@@ -25,7 +25,7 @@ const TransferForm = (props: { mode }) => {
   const initialValues: FormValues = {
     amount: '',
     recipient_phone_number: '',
-    transaction_type: 'Internal',
+    transaction_type: 'transfer',
   };
 
   const linkStyle = {
