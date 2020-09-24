@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
 
 import { logIn } from '../../store/actions';
@@ -57,6 +58,10 @@ const LogIn = () => {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>alphapay | Authentication</title>
+      </Helmet>
       <section className="login_auth" style={theme()}>
         <div className="auth_image">
           <img src={image1} alt="auth" />

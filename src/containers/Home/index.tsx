@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import styles from '../../components/Theme';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -12,6 +13,10 @@ import './index.scss';
 const Home: React.FC = () => {
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>alphapay | Home</title>
+      </Helmet>
       <main className="main-container" style={styles()}>
         <ScrollToTop />
         <NavBar />
