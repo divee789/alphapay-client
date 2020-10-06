@@ -300,14 +300,7 @@ export default class APIRequest {
     transaction_status: string;
     pin: string;
   }) => {
-    const res = await this.instance.post('/api/v1/transfer/fund', {
-      amount: data.amount,
-      narration: data.narration,
-      processor: data.processor,
-      processor_reference: data.processor_reference,
-      transaction_status: data.transaction_status,
-      pin: data.pin,
-    });
+    const res = await this.instance.post('/api/v1/transfer/fund', data);
     return res.data.data;
   };
 

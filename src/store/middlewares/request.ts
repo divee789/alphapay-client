@@ -24,11 +24,13 @@ export default function requestMiddleware() {
           if (refreshToken) {
             const refExpired = apiRequest.isTokenExpired(refreshToken);
             if (refExpired) {
+              dispatch({ type: authConstants.LOGOUT });
               return apiRequest.logOut();
             }
             await apiRequest.refresh(refreshToken);
             return;
           }
+          dispatch({ type: authConstants.LOGOUT });
           return apiRequest.logOut();
         } catch (error) {
           apiRequest.logOut();

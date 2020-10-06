@@ -19,9 +19,9 @@ const Navbar = () => {
   const { isAuth } = useSelector((state: { auth }) => state.auth);
   const [change, setChange] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const changePosition = 750;
+  const changePosition = 550;
 
-  const background = theme('white').background;
+  const background = theme('#f3f8ff').background;
 
   const position = useWindowScrollPosition();
 
@@ -36,7 +36,7 @@ const Navbar = () => {
   const navStyle: React.CSSProperties = {
     transition: 'all 0.5s',
     boxShadow: change ? '0px 2px 13px -4px rgba(0,0,0,0.15)' : 'unset',
-    backgroundColor: background,
+    backgroundColor: change ? '#fff' : background,
     position: 'fixed',
     zIndex: 999,
     top: 0,
@@ -57,27 +57,25 @@ const Navbar = () => {
           >
             <img src={Logo} alt="alphapay_logo" />
           </div>
+
+          <div className="nav_item_links">
+            <div className="nav_item">
+              <NavLink exact to="/about">
+                About
+              </NavLink>
+            </div>
+            <div className="nav_item">
+              <NavLink to="/blog">Blog</NavLink>
+            </div>
+            <div className="nav_item">
+              <NavLink to="/careers">Careers</NavLink>
+            </div>
+            <div className="nav_item">
+              <a href="#contact_form">Contact Us</a>
+            </div>
+          </div>
+
           <div className="nav_items">
-            {/* <div className="nav_item">
-            <NavLink exact to="/">
-              Home <span className="circle"></span>
-            </NavLink>
-          </div>
-          <div className="nav_item">
-            <NavLink to="/blog">
-              Blog<span className="circle"></span>
-            </NavLink>
-          </div>
-          <div className="nav_item">
-            <NavLink to="/careers">
-              Careers<span className="circle"></span>
-            </NavLink>
-          </div>
-          <div className="nav_item">
-            <a href="#contact_form">
-              Contact Us<span className="circle"></span>
-            </a>
-          </div> */}
             {!isAuth && (
               <div className="nav_item">
                 <NavLink to="/auth/signup">Sign Up</NavLink>

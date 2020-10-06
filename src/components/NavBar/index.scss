@@ -4,14 +4,21 @@ nav {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 940px;
+    max-width: 1260px;
     width: 100%;
     margin: auto;
-    padding-top: 10px;
+    padding: 15px 0;
+
+    .nav_logo img {
+      width: 120px;
+    }
 
     .hamburger {
       display: none;
+    }
+
+    .nav_item_links {
+      margin-left: 40px;
     }
 
     .nav_item {
@@ -21,6 +28,7 @@ nav {
       a {
         color: black;
         position: relative;
+        font-size: 15px;
 
         .circle {
           display: none;
@@ -28,14 +36,14 @@ nav {
 
         &.active,
         &:hover {
-          color: #008080;
+          color: #7854f7;
 
           .circle {
             display: block;
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #008080;
+            background: #7854f7;
             position: absolute;
             bottom: -12px;
             right: 40%;
@@ -53,7 +61,6 @@ nav {
         height: 40px;
         color: rgb(255, 255, 255);
         padding: 3px 42px;
-        border-radius: 20px;
         letter-spacing: 0.05rem;
         font-weight: bold;
       }

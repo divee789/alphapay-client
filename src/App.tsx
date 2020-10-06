@@ -9,7 +9,6 @@ import { history } from './utils';
 import { switchMode } from './store/actions';
 
 import Landing from './containers/Home';
-import Blog from './containers/Blog';
 import Careers from './containers/Careers';
 import NotFound from './containers/404';
 import Loading from './components/Loading';
@@ -60,8 +59,6 @@ const App = () => {
     <Router history={history}>
       <Switch>
         <Route exact path="/" component={Landing} />
-        <Route exact path="/loading" component={Loading} />
-        <Route path="/blog" component={Blog} />
         <Route path="/careers" component={Careers} />
         <Route path="/auth/login" render={() => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
         <Route path="/auth/signup" render={() => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />

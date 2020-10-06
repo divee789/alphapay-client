@@ -1,0 +1,53 @@
+.why_alpha_section {
+  background-color: #7854f7;
+  margin-top: 14rem;
+  padding: 1rem 0;
+
+  .why_alpha_fees,
+  .why_alpha_security {
+    max-width: 1060px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    img {
+      width: 400px;
+      object-fit: cover;
+      height: 30rem;
+      border-radius: 20px;
+      box-shadow: -25px 20px 44px rgba(84, 48, 209, 0.4);
+    }
+
+    .alpha_fees_img_1 {
+      margin-top: -5rem;
+    }
+
+    .alpha_fees_img_2 {
+      margin-bottom: -5rem;
+    }
+
+    .why_alpha_security_text,
+    .why_alpha_fees_text {
+      color: #fff;
+      h2 {
+        margin: 0;
+      }
+
+      p {
+        opacity: 1;
+        font-weight: 100;
+        width: 70%;
+      }
+    }
+    .why_alpha_fees_text {
+      margin-left: 3rem;
+    }
+    .why_alpha_security_text {
+      margin-left: 3rem;
+    }
+  }
+
+  .why_alpha_security {
+    margin-top: 3rem;
+  }
+}
