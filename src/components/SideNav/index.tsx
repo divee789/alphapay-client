@@ -16,22 +16,26 @@ const SideNav = ({ isActive, onClose, isAuth }: { isActive: boolean; onClose: an
       <div className="sidenav_content">
         <ul className="menu_list">
           <li>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/">About</NavLink>
           </li>
           <li>
             <NavLink to="/blog">Blog</NavLink>
           </li>
-
           <li>
             <NavLink to="/careers">Careers</NavLink>
           </li>
           <li>
             <a href="#contact_form">Contact Us</a>
           </li>
+          {!isAuth && (
+            <li>
+              <NavLink to="/auth/signup">Sign Up</NavLink>
+            </li>
+          )}
           <div className="auth">
             <Button colored>
               <NavLink to={isAuth ? '/dashboard/overview' : '/auth/login'}>
-                {isAuth ? 'My Dashboard' : 'Log In'}
+                {isAuth ? 'My Dashboard' : 'LOG IN'}
               </NavLink>
             </Button>
           </div>

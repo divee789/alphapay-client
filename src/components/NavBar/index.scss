@@ -106,12 +106,14 @@ nav {
         }
       }
       width: 90%;
-      padding-top: 0;
+      padding: 5px 0;
+
       .hamburger {
         display: block;
       }
 
-      .nav_items {
+      .nav_items,
+      .nav_item_links {
         display: none;
       }
     }

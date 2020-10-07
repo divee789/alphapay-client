@@ -17,7 +17,7 @@ const Section = () => {
 
   return (
     <section className="parent_section" style={style}>
-      <h1 style={{ textAlign: 'center' }}>Why alphapay ?</h1>
+      {/* <h1 style={{ textAlign: 'center' }}>Why alphapay ?</h1> */}
       <section className="section_other">
         <div>
           <img src={image2} alt="customer_support" />
@@ -27,7 +27,7 @@ const Section = () => {
             without any prejudice or bias
           </p>
         </div>
-        <div>
+        <div className="secure_payments_container">
           <img src={image3} alt="secure_payments" />
           <h3>Secure Payments</h3>
           <p>

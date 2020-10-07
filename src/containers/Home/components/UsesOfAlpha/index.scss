@@ -3,6 +3,10 @@
   margin: 4rem auto;
   margin-top: 11rem;
 
+  @media screen and (max-width: 600px) {
+    margin-top: 23rem;
+  }
+
   h1 {
     font-size: 2rem;
     text-align: center;
@@ -15,8 +19,21 @@
     width: 100%;
     margin-top: 2rem;
 
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+    }
+
     .use_card {
       width: 31%;
+
+      @media screen and (max-width: 600px) {
+        width: 100%;
+        margin: 3rem auto !important;
+
+        h3 {
+          text-align: center;
+        }
+      }
 
       img {
         width: 100%;
@@ -26,8 +43,12 @@
       p {
         font-size: 14px;
         width: 85%;
+        @media screen and (max-width: 600px) {
+          margin: 0 auto;
+        }
       }
     }
+
     .b {
       margin-top: 4rem;
     }

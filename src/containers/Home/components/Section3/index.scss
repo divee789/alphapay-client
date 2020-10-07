@@ -6,14 +6,14 @@
   }
 
   .content_bg {
-    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 10px 40px rgba(120, 84, 247, 0.2);
     position: relative;
     width: 60%;
     margin: 0 auto;
     padding: 2rem 1.2rem;
     border-radius: 15px;
     margin-bottom: -15rem;
-    background-color: #24292e;
+    background-color: #fff;
     z-index: 99;
 
     @media screen and (max-width: 900px) {
@@ -27,7 +27,6 @@
     h3,
     h1 {
       font-family: averta;
-      color: #008080;
       text-align: center;
       margin: 2rem 0;
       margin-top: 1rem;
@@ -37,10 +36,11 @@
       font-size: 14px;
       width: 70%;
       margin: 0 auto;
-      opacity: 1;
-      color: white;
+      opacity: 0.7;
       text-align: center;
-      letter-spacing: unset;
+      @media screen and (max-width: 600px) {
+        width: 95%;
+      }
     }
   }
 }
@@ -50,9 +50,10 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-top: 3rem;
-  max-width: 960px;
-  margin: 3rem auto;
+  padding-top: 13rem;
+  max-width: 1260px;
+  margin: 0 auto;
+  margin-bottom: 6rem;
 
   @media screen and (max-width: 900px) {
     max-width: 728px;
@@ -71,15 +72,15 @@
     }
 
     img {
-      height: 150px;
-      width: 150px;
+      height: 230px;
+      width: 230px;
       margin: 0 auto;
-      margin-bottom: 20px;
+      margin-bottom: 2px;
       animation: float_normal 15s linear infinite;
     }
 
     h3 {
-      color: #008080;
+      // color: #008080;
       margin: 0;
       letter-spacing: 0.7px;
     }
@@ -89,6 +90,13 @@
       opacity: 0.5;
       line-height: 30px;
       font-size: 12px;
+    }
+  }
+
+  .secure_payments_container {
+    margin-top: -20rem;
+    @media screen and (max-width: 600px) {
+      margin-top: unset;
     }
   }
 }
