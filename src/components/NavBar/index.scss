@@ -71,26 +71,14 @@ nav {
 @media screen and (min-width: 600px) and (max-width: 865px) {
   .nav {
     .nav_content {
-      max-width: 728px;
-      .nav_item {
-        margin-left: 40px;
+      width: 90%;
+      .hamburger {
+        display: block;
       }
 
-      a {
-        font-size: 11px;
-      }
-    }
-
-    .auth {
-      display: inline-block;
-      margin-left: 50px;
-
-      button {
-        width: 110px;
-      }
-
-      a {
-        color: white;
+      .nav_items,
+      .nav_item_links {
+        display: none;
       }
     }
   }

@@ -27,6 +27,9 @@
     z-index: inherit;
     width: 50%;
     z-index: 99;
+    @media screen and (max-width: 900px) {
+      width: 55%;
+    }
     @media screen and (max-width: 600px) {
       width: 100%;
       text-align: center;
@@ -50,7 +53,7 @@
 
       @media screen and (max-width: 900px) {
         line-height: 40px;
-        font-size: 35px;
+        font-size: 25px;
       }
 
       @media screen and (max-width: 600px) {
@@ -66,6 +69,10 @@
       font-weight: 100;
       opacity: 0.5;
       margin-top: 30px;
+
+      @media screen and (max-width: 1000px) {
+        font-size: 14px;
+      }
 
       @media screen and (max-width: 600px) {
         margin: auto;
@@ -112,7 +119,8 @@
     margin-bottom: -5rem;
 
     @media screen and (max-width: 900px) {
-      height: 35rem;
+      height: 25rem;
+      margin-bottom: unset;
     }
     @media screen and (max-width: 600px) {
       height: 25rem;
