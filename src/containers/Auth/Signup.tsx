@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { signUp } from '../../store/actions';
 
 import theme from '../../components/Theme';
-import RecaptchaComponent from './Recaptcha';
+// import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
@@ -32,7 +32,7 @@ interface FormValues {
 const SignUp = () => {
   const history = useHistory();
   const [feedback, setFeedback] = useState(null);
-  const [recaptcha, setRecaptcha] = useState(true);
+  // const [recaptcha, setRecaptcha] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const { processing } = useSelector((state: { auth }) => state.auth);
@@ -51,7 +51,7 @@ const SignUp = () => {
     first_name: Yup.string().required('Provide your first name please'),
     last_name: Yup.string().required('Provide your last name please'),
     username: Yup.string().required('Provide a username please'),
-    phone_number: Yup.number().min(11, 'Invalid phone_number').required('Provide your phone_number please'),
+    phone_number: Yup.number().min(11, 'Invalid phone_number').required('Provide your phone number please'),
     email: Yup.string()
       .email('Hey,just letting you know that your email is quite weird')
       .required('Provide your email please'),
@@ -71,7 +71,6 @@ const SignUp = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       delete values['confirmPassword'];
-      console.log('recaptcha', recaptcha);
       await dispatch(signUp(values));
       history.push(`/auth/verify_email`);
     } catch (err) {
@@ -88,9 +87,6 @@ const SignUp = () => {
         <title>alphapay | Authentication</title>
       </Helmet>
       <section className="login_auth" style={theme()}>
-        <div className="auth_image">
-          <img src={image1} alt="auth" />
-        </div>
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
@@ -104,8 +100,7 @@ const SignUp = () => {
                   </div>
 
                   <Form className="form signup">
-                    <h2>Sign Up</h2>
-                    <p>Join the community,Sign up and move on to your dashboard</p>
+                    <p className="head_info">Create an Alphapay account and join the community of alphas</p>
                     <div className="input-container-dual">
                       <div>
                         <Field type="text" name="first_name" placeholder="Your First name" />
@@ -157,7 +152,7 @@ const SignUp = () => {
                       />
                       <ErrorMessage name="confirmPassword" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
-                    <div className="input-container">
+                    {/* <div className="input-container">
                       <RecaptchaComponent
                         verifyCallback={() => {
                           setRecaptcha(false);
@@ -166,7 +161,7 @@ const SignUp = () => {
                           setRecaptcha(true);
                         }}
                       />
-                    </div>
+                    </div> */}
                     {feedback && (
                       <div className="error_message" onClick={(): void => setFeedback(null)}>
                         {feedback}
@@ -174,10 +169,10 @@ const SignUp = () => {
                     )}
                     <div className="input-container btn_container">
                       <Button disabled={formProps.isSubmitting} colored>
-                        {processing ? 'Please wait...' : 'CONTINUE'}
+                        {processing ? 'Please wait...' : 'Create Account'}
                       </Button>
-                      <p>Already have an account?</p>
                       <p>
+                        Already have an account?
                         <Link to="/auth/login">Click here to sign in</Link>
                       </p>
                     </div>
@@ -186,6 +181,9 @@ const SignUp = () => {
               );
             }}
           />
+        </div>
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
       </section>
     </>

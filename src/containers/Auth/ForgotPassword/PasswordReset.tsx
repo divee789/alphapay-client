@@ -17,7 +17,7 @@ const API = new Request();
 
 const PasswordReset = () => {
   const history = useHistory();
-  const { token } = useParams() as any;
+  const { token }: any = useParams();
   const [user, setUser] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [err, setError] = useState(null);
@@ -70,9 +70,6 @@ const PasswordReset = () => {
   return (
     <>
       <section className="login_auth" style={theme()}>
-        <div className="auth_image">
-          <img src={image1} alt="auth" />
-        </div>
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
@@ -90,7 +87,9 @@ const PasswordReset = () => {
                     {err && <p>There has been an issue ,please contact support</p>}
                     {!err && (
                       <>
-                        <p>Hello {user && user.first_name},please provide a new password for your account</p>
+                        <p className="head_info">
+                          Hello {user && user.first_name},please provide a new password for your account
+                        </p>
                         <div className="input-container">
                           <Field type="password" name="password" placeholder="Password" className="password" />
                           <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
@@ -102,7 +101,7 @@ const PasswordReset = () => {
                         )}
                         <div className="input-container btn_container">
                           <Button disabled={formProps.isSubmitting} colored>
-                            {loading ? 'Please wait...' : 'CONTINUE'}
+                            {loading ? 'Please wait...' : 'Change Password'}
                           </Button>
                         </div>
                       </>
@@ -112,6 +111,9 @@ const PasswordReset = () => {
               );
             }}
           />
+        </div>
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
       </section>
     </>

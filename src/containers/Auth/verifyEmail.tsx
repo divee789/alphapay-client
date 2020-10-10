@@ -51,9 +51,6 @@ const VerifyEmail = () => {
   return (
     <>
       <section className="login_auth" style={theme()}>
-        <div className="auth_image">
-          <img src={image1} alt="auth" />
-        </div>
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
@@ -66,8 +63,7 @@ const VerifyEmail = () => {
                     <img src={logo} alt="logo" onClick={() => history.push('/')} />
                   </div>
                   <Form className="form">
-                    <h2>Log In</h2>
-                    <p>
+                    <p className="head_info">
                       Your verification token has been sent to your email,please check your email and provide the token
                       here to enable us verify the email{' '}
                     </p>
@@ -93,6 +89,9 @@ const VerifyEmail = () => {
               );
             }}
           />
+        </div>
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
       </section>
     </>

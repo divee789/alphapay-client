@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 
 import { logIn } from '../../store/actions';
 import theme from '../../components/Theme';
-import RecaptchaComponent from './Recaptcha';
+// import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
@@ -21,7 +21,7 @@ import './auth.scss';
 const LogIn = () => {
   const history = useHistory();
   const [feedback, setFeedback] = useState(null);
-  const [recaptcha, setRecaptcha] = useState(true);
+  // const [recaptcha, setRecaptcha] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const { processing } = useSelector((state: { auth }) => state.auth);
   const dispatch = useDispatch();
@@ -43,7 +43,6 @@ const LogIn = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       await dispatch(logIn(values));
-      console.log(recaptcha);
       history.push(`/dashboard/overview`);
     } catch (err) {
       if (err.message === '2FA required') {
@@ -63,9 +62,6 @@ const LogIn = () => {
         <title>alphapay | Authentication</title>
       </Helmet>
       <section className="login_auth" style={theme()}>
-        <div className="auth_image">
-          <img src={image1} alt="auth" />
-        </div>
         <div className="auth_form">
           <Formik initialValues={initialValues} validationSchema={logValidationSchema} onSubmit={handleSubmit}>
             {({ isSubmitting }) => {
@@ -76,8 +72,7 @@ const LogIn = () => {
                   </div>
 
                   <Form className="form">
-                    <h2>Log In</h2>
-                    <p>Welcome back,please log in to your account to access your dashboard</p>
+                    <p className="head_info">Welcome back, Please log in to your account to access your dashboard</p>
                     <div className="input-container">
                       <Field type="email" name="email" placeholder="example@gmail.com" />
                       <ErrorMessage name="email" render={(msg: string) => <div className="error">{msg}</div>} />
@@ -94,12 +89,12 @@ const LogIn = () => {
                       <Field
                         type={showPassword ? 'text' : 'password'}
                         name="password"
-                        placeholder="Password"
+                        placeholder="password"
                         className="password"
                       />
                       <ErrorMessage name="password" render={(msg: string) => <div className="error">{msg}</div>} />
                     </div>
-                    <div className="input-container">
+                    {/* <div className="input-container">
                       <RecaptchaComponent
                         verifyCallback={(): void => {
                           setRecaptcha(false);
@@ -108,7 +103,7 @@ const LogIn = () => {
                           setRecaptcha(true);
                         }}
                       />
-                    </div>
+                    </div> */}
                     {feedback && (
                       <div className="error_message" onClick={(): void => setFeedback(null)}>
                         {feedback}
@@ -117,7 +112,7 @@ const LogIn = () => {
 
                     <div className="input-container btn_container">
                       <Button disabled={isSubmitting} colored>
-                        {processing ? 'Please wait...' : 'CONTINUE'}
+                        {processing ? 'Please wait...' : 'Sign In'}
                       </Button>
 
                       <p>
@@ -132,6 +127,9 @@ const LogIn = () => {
               );
             }}
           </Formik>
+        </div>
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
       </section>
     </>

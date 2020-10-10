@@ -10,7 +10,7 @@
 }
 
 .auth_image {
-  width: 100%;
+  width: 50%;
   object-fit: cover;
   z-index: 999;
 
@@ -62,7 +62,7 @@
 
 .password_icon {
   position: absolute;
-  top: 20px;
+  top: 14px;
   cursor: pointer;
   right: 10px;
 }
@@ -71,14 +71,18 @@
   overflow-y: scroll;
 }
 
+.signup::-webkit-scrollbar {
+  display: none;
+}
+
 .form {
   position: relative;
   z-index: 9999;
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
-  padding: 3rem 1.5rem;
-  width: 90%;
+  padding: 0 1.5rem;
+  width: 70%;
   margin: 0 auto;
 
   @media screen and (max-width: 690px) {
@@ -99,13 +103,13 @@
     }
   }
 
-  p {
+  .head_info {
     text-align: center;
     color: #6c757d !important;
-    width: 80%;
-    margin: 0 auto;
-    margin-bottom: 1rem;
-    font-size: 13px;
+    margin: 30px auto;
+    width: 70%;
+    margin-bottom: 2rem;
+    font-size: 1rem;
 
     @media screen and (max-width: 690px) {
       width: 90%;
@@ -138,17 +142,16 @@
 
   input,
   select {
-    background-color: #f5f5f5;
     font-size: 15px;
     font-weight: 500;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
     display: block;
     width: 100%;
-    padding: 1.2rem 1rem;
+    padding: 15px 1rem;
     line-height: 1.5;
     color: #495057;
-    border: none;
-    border-radius: 0.25rem;
+    border: 1.6px solid #e8e8e8;
+    border-radius: 10px;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
     @media screen and (max-width: 690px) {
@@ -158,9 +161,7 @@
 
   input:focus {
     color: #495057;
-    background-color: #fff;
     outline: none;
-    // box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
   }
 
   .btn_container {
@@ -176,9 +177,8 @@
     }
 
     button {
-      // box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
       cursor: pointer;
-      font-size: small;
+      font-size: 15px;
       margin: 0 auto;
       margin-top: 4px;
       margin-bottom: 3rem;
@@ -186,18 +186,24 @@
       width: 70%;
       border: none;
       border-radius: 5px;
+      padding: 1.4rem 0;
+    }
+
+    a {
+      color: rgba(0, 0, 0, 0.9);
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    p {
+      margin: 0 auto;
+      text-align: center;
+      color: #6c757d !important;
+      font-size: 14px;
     }
 
     div {
       margin-top: 0.5rem;
     }
   }
-}
-
-//Tablet Styling
-@media screen and (min-width: 690px) and (max-width: 1000px) {
-}
-
-//Mobile styling
-@media screen and (max-width: 690px) {
 }

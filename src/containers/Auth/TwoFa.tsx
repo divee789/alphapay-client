@@ -64,9 +64,6 @@ const TwoFa = () => {
   return (
     <>
       <section className="login_auth" style={theme()}>
-        <div className="auth_image">
-          <img src={image1} alt="auth" />
-        </div>
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
@@ -80,8 +77,7 @@ const TwoFa = () => {
                   </div>
 
                   <Form className="form">
-                    <h2>Two Factor Auth</h2>
-                    <p>Please provide your 2FA code from your authenticator app.</p>
+                    <p className="head_info">Please provide your 2FA code from your authenticator app.</p>
                     <div className="input-container">
                       <Field type="numeric" name="token" placeholder="Your auth code" />
                       <ErrorMessage
@@ -105,6 +101,9 @@ const TwoFa = () => {
               );
             }}
           />
+        </div>
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
       </section>
     </>

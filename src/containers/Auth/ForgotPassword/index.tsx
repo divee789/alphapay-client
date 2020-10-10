@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import RecaptchaComponent from '../Recaptcha';
+// import RecaptchaComponent from '../Recaptcha';
 import theme from '../../../components/Theme';
 import Button from '../../../components/Button';
 
@@ -19,7 +19,7 @@ const API = new Request();
 
 const ForgotPassword = () => {
   const history = useHistory();
-  const [recaptcha, setRecaptcha] = useState(true);
+  // const [recaptcha, setRecaptcha] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
@@ -47,9 +47,6 @@ const ForgotPassword = () => {
   return (
     <>
       <section className="login_auth" style={theme()}>
-        <div className="auth_image">
-          <img src={image1} alt="auth" />
-        </div>
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
@@ -66,12 +63,12 @@ const ForgotPassword = () => {
 
                   <Form className="form">
                     <h2>Forgot your Password?</h2>
-                    <p>Please provide your email.and we will send a password reset link to you</p>
+                    <p className="head_info">Please provide your email and we will send a password reset link to you</p>
                     <div className="input-container">
                       <Field type="text" name="email" placeholder="Your email" />
                       <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
                     </div>
-                    <div className="input-container">
+                    {/* <div className="input-container">
                       <RecaptchaComponent
                         verifyCallback={() => {
                           setRecaptcha(false);
@@ -80,15 +77,15 @@ const ForgotPassword = () => {
                           setRecaptcha(true);
                         }}
                       />
-                    </div>
+                    </div> */}
                     {feedback && (
                       <div className="error_message" onClick={() => setFeedback(null)}>
                         {feedback}
                       </div>
                     )}
                     <div className="input-container btn_container">
-                      <Button disabled={formProps.isSubmitting || recaptcha} colored>
-                        {processing ? 'Please wait...' : 'CONTINUE'}
+                      <Button disabled={formProps.isSubmitting} colored>
+                        {processing ? 'Please wait...' : 'Submit Request'}
                       </Button>
                       <p>
                         Did not receive an email? <Link to="/">Resend Email</Link>
@@ -99,6 +96,9 @@ const ForgotPassword = () => {
               );
             }}
           />
+        </div>
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
       </section>
     </>
