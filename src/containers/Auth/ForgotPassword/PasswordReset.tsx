@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, useParams } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
 import theme from '../../../components/Theme';
@@ -17,7 +18,7 @@ const API = new Request();
 
 const PasswordReset = () => {
   const history = useHistory();
-  const { token } = useParams();
+  const { token }: any = useParams();
   const [user, setUser] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [err, setError] = useState(null);
@@ -27,7 +28,7 @@ const PasswordReset = () => {
     const call = async () => {
       try {
         const res = await API.confirmPasswordReset(token);
-        setUser(res.client);
+        setUser(res.user);
         setLoading(false);
       } catch (error) {
         setFeedback('There has been an issue verifying your identity,please contact support');
@@ -70,9 +71,6 @@ const PasswordReset = () => {
   return (
     <>
       <section className="login_auth" style={theme()}>
-        <div className="auth_image">
-          <img src={image1} alt="auth" />
-        </div>
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
@@ -90,20 +88,26 @@ const PasswordReset = () => {
                     {err && <p>There has been an issue ,please contact support</p>}
                     {!err && (
                       <>
-                        <p>Hello {user && user.first_name},please provide a new password for your account</p>
-                        <div className="input-container">
-                          <Field type="password" name="password" placeholder="Password" className="password" />
-                          <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
+                        <p className="head_info">
+                          Hello {user && user.first_name},please provide a new password for your account
+                        </p>
+                        <Fade bottom>
+                          <div className="input-container">
+                            <Field type="password" name="password" placeholder="Password" className="password" />
+                            <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
+                          </div>
+                        </Fade>
                         {feedback && (
                           <div className="error_message" onClick={() => setFeedback(null)}>
                             {feedback}
                           </div>
                         )}
                         <div className="input-container btn_container">
-                          <Button disabled={formProps.isSubmitting} colored>
-                            {loading ? 'Please wait...' : 'CONTINUE'}
-                          </Button>
+                          <Fade bottom>
+                            <Button disabled={formProps.isSubmitting} colored>
+                              {loading ? 'Please wait...' : 'Change Password'}
+                            </Button>
+                          </Fade>
                         </div>
                       </>
                     )}
@@ -112,6 +116,9 @@ const PasswordReset = () => {
               );
             }}
           />
+        </div>
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
       </section>
     </>

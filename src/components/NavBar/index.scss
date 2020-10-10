@@ -1,17 +1,26 @@
 nav {
+  max-width: 1600px;
+  margin: 0 auto;
   .nav_content {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 940px;
-    width: 100%;
+    width: 90%;
+    max-width: 1260px;
     margin: auto;
-    padding-top: 10px;
+    padding: 15px 0;
+
+    .nav_logo img {
+      width: 120px;
+    }
 
     .hamburger {
       display: none;
+    }
+
+    .nav_item_links {
+      margin-left: 40px;
     }
 
     .nav_item {
@@ -21,6 +30,7 @@ nav {
       a {
         color: black;
         position: relative;
+        font-size: 15px;
 
         .circle {
           display: none;
@@ -28,14 +38,14 @@ nav {
 
         &.active,
         &:hover {
-          color: #008080;
+          color: #7854f7;
 
           .circle {
             display: block;
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #008080;
+            background: #7854f7;
             position: absolute;
             bottom: -12px;
             right: 40%;
@@ -53,7 +63,6 @@ nav {
         height: 40px;
         color: rgb(255, 255, 255);
         padding: 3px 42px;
-        border-radius: 20px;
         letter-spacing: 0.05rem;
         font-weight: bold;
       }
@@ -61,35 +70,23 @@ nav {
   }
 }
 
-@media screen and (min-width: 600px) and (max-width: 865px) {
+@media screen and (min-width: 690px) and (max-width: 865px) {
   .nav {
     .nav_content {
-      max-width: 728px;
-      .nav_item {
-        margin-left: 40px;
+      width: 90%;
+      .hamburger {
+        display: block;
       }
 
-      a {
-        font-size: 11px;
-      }
-    }
-
-    .auth {
-      display: inline-block;
-      margin-left: 50px;
-
-      button {
-        width: 110px;
-      }
-
-      a {
-        color: white;
+      .nav_items,
+      .nav_item_links {
+        display: none;
       }
     }
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 690px) {
   .nav {
     .nav_content {
       .nav_logo {
@@ -99,12 +96,14 @@ nav {
         }
       }
       width: 90%;
-      padding-top: 0;
+      padding: 5px 0;
+
       .hamburger {
         display: block;
       }
 
-      .nav_items {
+      .nav_items,
+      .nav_item_links {
         display: none;
       }
     }

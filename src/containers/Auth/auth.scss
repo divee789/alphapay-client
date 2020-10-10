@@ -4,17 +4,17 @@
   flex-direction: row-reverse;
   overflow: hidden;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 690px) {
     height: unset;
   }
 }
 
 .auth_image {
-  width: 100%;
+  width: 50%;
   object-fit: cover;
   z-index: 999;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 690px) {
     display: none;
   }
 
@@ -32,7 +32,7 @@
   justify-content: center;
   align-items: center;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 690px) {
     width: 100%;
   }
 }
@@ -62,7 +62,7 @@
 
 .password_icon {
   position: absolute;
-  top: 20px;
+  top: 14px;
   cursor: pointer;
   right: 10px;
 }
@@ -71,18 +71,27 @@
   overflow-y: scroll;
 }
 
+.signup::-webkit-scrollbar {
+  display: none;
+}
+
 .form {
   position: relative;
   z-index: 9999;
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
-  padding: 3rem 1.5rem;
-  width: 90%;
+  padding: 0 1.5rem;
+  width: 60%;
   margin: 0 auto;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 1200px) {
+    width: 90%;
+  }
+
+  @media screen and (max-width: 690px) {
     width: 100%;
+    margin-top: 4rem;
   }
 
   h2 {
@@ -94,20 +103,20 @@
     font-weight: bold;
     line-height: 1.2;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       font-size: 1.3rem;
     }
   }
 
-  p {
+  .head_info {
     text-align: center;
     color: #6c757d !important;
-    width: 80%;
-    margin: 0 auto;
-    margin-bottom: 1rem;
-    font-size: 13px;
+    margin: 30px auto;
+    width: 85%;
+    margin-bottom: 2rem;
+    font-size: 1rem;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       width: 90%;
     }
   }
@@ -122,14 +131,14 @@
     display: flex;
     justify-content: space-between;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       flex-direction: column;
     }
 
     div {
       width: 48%;
 
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: 690px) {
         width: 100%;
         margin-bottom: 13px;
       }
@@ -138,66 +147,68 @@
 
   input,
   select {
-    background-color: #f5f5f5;
     font-size: 15px;
     font-weight: 500;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
     display: block;
     width: 100%;
-    padding: 1.2rem 1rem;
+    padding: 15px 1rem;
     line-height: 1.5;
     color: #495057;
-    border: none;
-    border-radius: 0.25rem;
+    border: 1.6px solid #e8e8e8;
+    border-radius: 10px;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       font-size: 14px;
     }
   }
 
   input:focus {
     color: #495057;
-    background-color: #fff;
     outline: none;
-    // box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
   }
 
   .btn_container {
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 6px;
 
     p {
       margin-bottom: 3px;
 
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: 690px) {
         font-size: 13px;
       }
     }
 
     button {
-      // box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
       cursor: pointer;
-      font-size: small;
+      font-size: 15px;
       margin: 0 auto;
       margin-top: 4px;
-      margin-bottom: 3rem;
+      margin-bottom: 10px;
       color: white !important;
-      width: 70%;
+      width: 100%;
       border: none;
       border-radius: 5px;
+      padding: 1.4rem 0;
+    }
+
+    a {
+      color: rgba(0, 0, 0, 0.9);
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    p {
+      margin: 0 auto;
+      text-align: center;
+      color: #6c757d !important;
+      font-size: 14px;
     }
 
     div {
       margin-top: 0.5rem;
     }
   }
-}
-
-//Tablet Styling
-@media screen and (min-width: 600px) and (max-width: 1000px) {
-}
-
-//Mobile styling
-@media screen and (max-width: 600px) {
 }

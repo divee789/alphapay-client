@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import image2 from '../../../../assets/images/support-team.svg';
 import image3 from '../../../../assets/images/security.svg';
@@ -9,15 +8,9 @@ import image4 from '../../../../assets/images/task.svg';
 import './index.scss';
 
 const Section = () => {
-  const { mode } = useSelector((state: { ui }) => state.ui);
-
-  const style = {
-    backgroundColor: mode === 'dark' ? '#242729' : '#f7f9fb',
-  };
-
   return (
-    <section className="parent_section" style={style}>
-      <h1 style={{ textAlign: 'center' }}>Why alphapay ?</h1>
+    <section className="parent_section">
+      {/* <h1 style={{ textAlign: 'center' }}>Why alphapay ?</h1> */}
       <section className="section_other">
         <div>
           <img src={image2} alt="customer_support" />
@@ -27,7 +20,7 @@ const Section = () => {
             without any prejudice or bias
           </p>
         </div>
-        <div>
+        <div className="secure_payments_container">
           <img src={image3} alt="secure_payments" />
           <h3>Secure Payments</h3>
           <p>

@@ -1,143 +1,140 @@
 .modal {
-    // height: 30rem;
-    background: #fff;
-    padding: 2rem;
-    width: 40rem;
+  // height: 30rem;
+  background: #fff;
+  padding: 2rem;
+  width: 40rem;
+  position: fixed;
+  top: 7rem;
+  right: 0;
+  left: 0;
+  z-index: 200;
+  margin: 0 auto;
+  border-radius: 5px;
+  overflow-y: scroll;
+  transition: all 1s;
+
+  @media screen and (max-width: 690px) {
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .close-modal {
     position: fixed;
-    top: 7rem;
-    right: 0;
-    left: 0;
-    z-index: 200;
-    margin: 0 auto;
-    border-radius: 5px;
-    overflow-y: scroll;
-    transition: all 1s;
-
-    @media screen and (max-width:600px) {
-        width: 100%;
-        margin-top: 2rem;
-    }
-
-    .close-modal {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        font-size: 14px;
-        font-family: Sailec;
-        font-weight: firma-bold;
-        cursor: pointer;
-    }
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    font-family: Sailec;
+    font-weight: firma-bold;
+    cursor: pointer;
+  }
 }
 
 .open {
-    display: block;
-    z-index: 999;
-    animation: blowUpModal .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+  display: block;
+  z-index: 999;
+  animation: blowUpModal 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
-
 
 .close {
-    z-index: 999;
-    display: block;
-    animation: blowUpModalTwo .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+  z-index: 999;
+  display: block;
+  animation: blowUpModalTwo 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
-
 @keyframes blowUpModal {
-    0% {
-        transform: scale(0);
-    }
+  0% {
+    transform: scale(0);
+  }
 
-    100% {
-        transform: scale(1);
-    }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes blowUpModalTwo {
-    0% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
 
-    100% {
-        transform: scale(0);
-    }
+  100% {
+    transform: scale(0);
+  }
 }
 
-
 @keyframes fadeIn {
-    0% {
-        background: rgba(0, 0, 0, .0);
-    }
+  0% {
+    background: rgba(0, 0, 0, 0);
+  }
 
-    100% {
-        background: rgba(0, 0, 0, .7);
-    }
+  100% {
+    background: rgba(0, 0, 0, 0.7);
+  }
 }
 
 @keyframes fadeOut {
-    0% {
-        background: rgba(0, 0, 0, .7);
-    }
+  0% {
+    background: rgba(0, 0, 0, 0.7);
+  }
 
-    100% {
-        background: rgba(0, 0, 0, .0);
-    }
+  100% {
+    background: rgba(0, 0, 0, 0);
+  }
 }
 
 @keyframes scaleUp {
-    0% {
-        transform: scale(.8) translateY(1000px);
-        opacity: 0;
-    }
+  0% {
+    transform: scale(0.8) translateY(1000px);
+    opacity: 0;
+  }
 
-    100% {
-        transform: scale(1) translateY(0px);
-        opacity: 1;
-    }
+  100% {
+    transform: scale(1) translateY(0px);
+    opacity: 1;
+  }
 }
 
 @keyframes scaleDown {
-    0% {
-        transform: scale(1) translateY(0px);
-        opacity: 1;
-    }
+  0% {
+    transform: scale(1) translateY(0px);
+    opacity: 1;
+  }
 
-    100% {
-        transform: scale(.8) translateY(1000px);
-        opacity: 0;
-    }
+  100% {
+    transform: scale(0.8) translateY(1000px);
+    opacity: 0;
+  }
 }
 
 @keyframes scaleBack {
-    0% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
 
-    100% {
-        transform: scale(.85);
-    }
+  100% {
+    transform: scale(0.85);
+  }
 }
 
 @keyframes scaleForward {
-    0% {
-        transform: scale(.85);
-    }
+  0% {
+    transform: scale(0.85);
+  }
 
-    100% {
-        transform: scale(1);
-    }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes quickScaleDown {
-    0% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
 
-    99.9% {
-        transform: scale(1);
-    }
+  99.9% {
+    transform: scale(1);
+  }
 
-    100% {
-        transform: scale(0);
-    }
+  100% {
+    transform: scale(0);
+  }
 }

@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
 import { logIn } from '../../store/actions';
 import theme from '../../components/Theme';
-import RecaptchaComponent from './Recaptcha';
+// import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
@@ -20,7 +22,7 @@ import './auth.scss';
 const LogIn = () => {
   const history = useHistory();
   const [feedback, setFeedback] = useState(null);
-  const [recaptcha, setRecaptcha] = useState(true);
+  // const [recaptcha, setRecaptcha] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const { processing } = useSelector((state: { auth }) => state.auth);
   const dispatch = useDispatch();
@@ -42,7 +44,6 @@ const LogIn = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       await dispatch(logIn(values));
-      console.log(recaptcha);
       history.push(`/dashboard/overview`);
     } catch (err) {
       if (err.message === '2FA required') {
@@ -57,10 +58,11 @@ const LogIn = () => {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>alphapay | Authentication</title>
+      </Helmet>
       <section className="login_auth" style={theme()}>
-        <div className="auth_image">
-          <img src={image1} alt="auth" />
-        </div>
         <div className="auth_form">
           <Formik initialValues={initialValues} validationSchema={logValidationSchema} onSubmit={handleSubmit}>
             {({ isSubmitting }) => {
@@ -71,30 +73,34 @@ const LogIn = () => {
                   </div>
 
                   <Form className="form">
-                    <h2>Log In</h2>
-                    <p>Welcome back,please log in to your account to access your dashboard</p>
-                    <div className="input-container">
-                      <Field type="email" name="email" placeholder="example@gmail.com" />
-                      <ErrorMessage name="email" render={(msg: string) => <div className="error">{msg}</div>} />
-                    </div>
-                    <div className="input-container">
-                      <img
-                        src={invisible}
-                        alt="show/hide"
-                        className="password_icon"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                      <Field
-                        type={showPassword ? 'text' : 'password'}
-                        name="password"
-                        placeholder="Password"
-                        className="password"
-                      />
-                      <ErrorMessage name="password" render={(msg: string) => <div className="error">{msg}</div>} />
-                    </div>
-                    <div className="input-container">
+                    <p className="head_info">Welcome back, Please log in to your account to access your dashboard</p>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <Field type="email" name="email" placeholder="example@gmail.com" />
+                        <ErrorMessage name="email" render={(msg: string) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <img
+                          src={invisible}
+                          alt="show/hide"
+                          className="password_icon"
+                          onClick={() => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                        <Field
+                          type={showPassword ? 'text' : 'password'}
+                          name="password"
+                          placeholder="password"
+                          className="password"
+                        />
+                        <ErrorMessage name="password" render={(msg: string) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
+
+                    {/* <div className="input-container">
                       <RecaptchaComponent
                         verifyCallback={(): void => {
                           setRecaptcha(false);
@@ -103,7 +109,7 @@ const LogIn = () => {
                           setRecaptcha(true);
                         }}
                       />
-                    </div>
+                    </div> */}
                     {feedback && (
                       <div className="error_message" onClick={(): void => setFeedback(null)}>
                         {feedback}
@@ -111,9 +117,11 @@ const LogIn = () => {
                     )}
 
                     <div className="input-container btn_container">
-                      <Button disabled={isSubmitting} colored>
-                        {processing ? 'Please wait...' : 'CONTINUE'}
-                      </Button>
+                      <Fade bottom>
+                        <Button disabled={isSubmitting} colored>
+                          {processing ? 'Please wait...' : 'Sign In'}
+                        </Button>
+                      </Fade>
 
                       <p>
                         Can not remember your password? <Link to="/auth/password_reset_request">Reset</Link>
@@ -127,6 +135,9 @@ const LogIn = () => {
               );
             }}
           </Formik>
+        </div>
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
       </section>
     </>

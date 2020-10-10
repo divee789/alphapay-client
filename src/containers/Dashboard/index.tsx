@@ -4,11 +4,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, Redirect, useRouteMatch, NavLink, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import openSocket from 'socket.io-client';
-import dayjs from 'dayjs';
 
 import { Wallet } from '../../store/types';
 import * as actionTypes from '../../store/actions/actionTypes';
-import { getClientWallet, newNotifications } from '../../store/actions/wallet';
+import { getUserWallet, getNotifications } from '../../store/actions/wallet';
 import { getUser } from '../../store/actions/auth';
 import { logOut } from '../../store/actions';
 import API from '../../services/api-services';
@@ -58,8 +57,8 @@ const Dashboard = () => {
     const check = async (): Promise<boolean> => {
       try {
         dispatch(getUser());
-        dispatch(getClientWallet());
-        dispatch(newNotifications());
+        dispatch(getUserWallet());
+        dispatch(getNotifications());
         const res = await Request.getBanks();
         if (res.banks) {
           setBanks(res.banks);
@@ -84,15 +83,7 @@ const Dashboard = () => {
       socket.on(`${user.id}-transfer`, (data) => {
         const check = async (): Promise<void> => {
           dispatch(success(data.data.wallet));
-          const apiObj = {
-            amount: data.data.amount,
-            beneficiary: user.phone_number,
-            sender: data.data.sender,
-            date: dayjs(data.data.date).format('YYYY-MM-DD'),
-            identifier: data.data.identifier,
-          };
-          await Request.makeNotifications(apiObj);
-          dispatch(newNotifications());
+          dispatch(getNotifications());
         };
         check();
       });
@@ -111,7 +102,7 @@ const Dashboard = () => {
 
   const deleteNotification = async (id): Promise<void> => {
     await Request.deleteNotification(id);
-    dispatch(newNotifications());
+    dispatch(getNotifications());
   };
 
   const styles = {

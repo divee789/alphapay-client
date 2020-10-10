@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import { fundClientWallet } from '../../../../store/actions';
+import { fundUserWallet } from '../../../../store/actions';
 import { payWithKorapay } from '../../../../services/payment';
 import Button from '../../../../components/Button';
 
@@ -58,7 +58,7 @@ const FundForm = (props: { mode: string }) => {
             narration: 'Deposit funds to wallet',
           };
           try {
-            await dispatch(fundClientWallet(feedback));
+            await dispatch(fundUserWallet(feedback));
             setProcessing(false);
             return setMessage('Transaction successful');
           } catch (error) {

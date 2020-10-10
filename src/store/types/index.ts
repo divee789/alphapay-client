@@ -2,7 +2,7 @@ export interface Wallet {
   id: string;
   available_balance: number;
   ledger_balance: number;
-  client_id: string;
+  user_id: string;
   transaction_pin?: number;
 }
 
@@ -14,15 +14,15 @@ export interface Transaction {
   processor_reference: string;
   reference: string;
   status: string;
-  recipient: unknown;
-  Client?: Client;
+  recipient: User;
   createdAt?: string;
 }
 
-export interface Client {
+export interface User {
   id?: string;
   first_name?: string;
   last_name?: string;
+  username?: string;
   email?: string;
   phone_number?: string;
   profile_image?: string;

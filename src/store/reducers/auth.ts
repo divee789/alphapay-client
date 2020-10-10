@@ -36,7 +36,7 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         processing: false,
-        user: action.client,
+        user: action.user,
         error: null,
       };
     case actionTypes.authConstants.LOGOUT:
@@ -66,15 +66,13 @@ const authReducer = (state = initialState, action: any) => {
         ...state,
         isAuth: true,
         processing: false,
-        user: action.user.client,
         error: null,
       };
     case actionTypes.authConstants.UPDATE_USER_SUCCESS:
       return {
         ...state,
         processing: false,
-        user: action.user.client,
-        message: action.user.message,
+        user: action.user,
         update_error: null,
       };
     case actionTypes.authConstants.UPDATE_USER_FAILURE:

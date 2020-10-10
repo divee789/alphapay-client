@@ -1,0 +1,135 @@
+.section1 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 30px;
+  background-color: #f3f8ff;
+  width: 90%;
+  max-width: 1260px;
+  padding-top: 8rem;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  height: 35rem;
+
+  @media screen and (max-width: 900px) {
+    max-width: 728px;
+  }
+
+  @media screen and (max-width: 690px) {
+    flex-direction: column;
+    padding-top: 18rem;
+    height: 40rem;
+  }
+
+  .info {
+    padding-top: 5rem;
+    padding-bottom: 4rem;
+    z-index: inherit;
+    width: 50%;
+    z-index: 99;
+    @media screen and (max-width: 900px) {
+      width: 55%;
+    }
+    @media screen and (max-width: 690px) {
+      width: 100%;
+      text-align: center;
+      padding: 0;
+      margin-top: -9rem;
+    }
+
+    h1 {
+      height: auto;
+      font-family: firma, sans-serif;
+      font-size: 41px;
+      line-height: 55px;
+      opacity: 0.7;
+      margin: 0;
+      font-weight: bolder;
+      z-index: 99999999999;
+
+      span {
+        color: #00d569;
+      }
+
+      @media screen and (max-width: 1360px) {
+        font-size: 30px;
+        line-height: 40px;
+      }
+
+      @media screen and (max-width: 900px) {
+        line-height: 40px;
+        font-size: 25px;
+      }
+
+      @media screen and (max-width: 690px) {
+        font-size: 25px;
+        margin: 0 auto;
+        line-height: 40px;
+      }
+    }
+
+    p {
+      width: 130%;
+      font-weight: 100;
+      opacity: 0.5;
+      margin-top: 30px;
+
+      @media screen and (max-width: 1000px) {
+        font-size: 14px;
+      }
+
+      @media screen and (max-width: 690px) {
+        margin: auto;
+        margin-top: 15px;
+        font-size: 16px;
+        width: 90%;
+        text-align: center;
+      }
+    }
+
+    .btn {
+      width: 200px;
+      margin-top: 2rem;
+      margin-bottom: 3rem;
+      font-family: Sailec;
+      font-weight: bold;
+
+      @media screen and (min-width: 690px) and(max-width:1280px) {
+        width: 80%;
+      }
+
+      @media screen and (max-width: 690px) {
+        margin: 2rem auto;
+      }
+    }
+  }
+
+  .image_container {
+    position: relative;
+    width: 45%;
+
+    @media screen and (max-width: 690px) {
+      margin-top: 3rem;
+      width: 90%;
+    }
+  }
+
+  img {
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 30rem;
+    width: 100%;
+    margin-bottom: -5rem;
+
+    @media screen and (max-width: 900px) {
+      height: 25rem;
+      margin-bottom: unset;
+    }
+    @media screen and (max-width: 690px) {
+      height: 25rem;
+      margin-bottom: unset;
+    }
+  }
+}

@@ -9,7 +9,7 @@ import APIServiceError from '../../services/error-services';
 
 const Request = new APIRequest();
 
-export function getClientWallet() {
+export function getUserWallet() {
   function request() {
     return { type: actionTypes.walletConstants.FETCH_WALLET_REQUEST };
   }
@@ -23,8 +23,8 @@ export function getClientWallet() {
   return async (dispatch: Dispatch) => {
     try {
       await dispatch(request());
-      const wallet = await Request.getWallet();
-      await dispatch(success(wallet.wallet));
+      const data = await Request.getWallet();
+      await dispatch(success(data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
         await dispatch(failure(error));
@@ -34,7 +34,7 @@ export function getClientWallet() {
   };
 }
 
-export function fundClientWallet(data: {
+export function fundUserWallet(data: {
   amount: string;
   narration: string;
   processor: string;
@@ -55,8 +55,8 @@ export function fundClientWallet(data: {
   return async (dispatch: Dispatch) => {
     try {
       await dispatch(request());
-      const wallet = await Request.fundWallet(data);
-      await dispatch(success(wallet.wallet));
+      const response = await Request.fundWallet(data);
+      await dispatch(success(response.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
         await dispatch(failure(error));
@@ -66,7 +66,7 @@ export function fundClientWallet(data: {
   };
 }
 
-export function checkoutClientWallet(data: { amount: number; bank_code: string; bank_account: string }) {
+export function checkoutUserWallet(data: { amount: number; bank_code: string; bank_account: string }) {
   function request() {
     return { type: actionTypes.walletConstants.CHECKOUT_WALLET_REQUEST };
   }
@@ -80,8 +80,8 @@ export function checkoutClientWallet(data: { amount: number; bank_code: string; 
   return async (dispatch: Dispatch) => {
     try {
       await dispatch(request());
-      const wallet = await Request.checkoutWallet(data);
-      await dispatch(success(wallet.wallet));
+      const response = await Request.checkoutWallet(data);
+      await dispatch(success(response.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
         await dispatch(failure(error));
@@ -107,8 +107,8 @@ export function transferFunds(data: {
   return async (dispatch: Dispatch) => {
     try {
       await dispatch(request());
-      const wallet = await Request.transferFunds(data);
-      await dispatch(success(wallet.wallet));
+      const response = await Request.transferFunds(data);
+      await dispatch(success(response.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
         throw error.response.data;
@@ -131,8 +131,8 @@ export function setTransactionPin(data: { transaction_pin: string }) {
   return async (dispatch: Dispatch) => {
     try {
       await dispatch(request());
-      const req = await Request.setTransactionPin(data);
-      await dispatch(success(req.wallet));
+      const response = await Request.setTransactionPin(data);
+      await dispatch(success(response.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
         await dispatch(failure(error.response.data.message));
@@ -142,7 +142,7 @@ export function setTransactionPin(data: { transaction_pin: string }) {
   };
 }
 
-export function newNotifications() {
+export function getNotifications() {
   function setNotifications(notifications: unknown) {
     return { type: actionTypes.walletConstants.SET_NOTIFICATIONS, notifications };
   }

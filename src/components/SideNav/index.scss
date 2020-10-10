@@ -1,45 +1,45 @@
 .sidenav_container {
-    width: 100%;
-    position: fixed;
-    z-index: 9999;
-    top: 0;
-    right: 0;
-    padding: 1.5rem 2rem;
-    box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s linear;
+  width: 100%;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s linear;
 
-    &.open-side_nav {
-        transform: translateX(0);
+  &.open-side_nav {
+    transform: translateY(0);
+  }
+
+  &.close-side_nav {
+    transform: translateY(-100%);
+  }
+
+  .sidenav_content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .close-btn {
+    align-self: flex-start;
+    padding: 0;
+  }
+
+  .menu_list li {
+    padding-bottom: 1.4rem;
+    font-weight: 500;
+    text-align: left;
+
+    a {
+      color: #000;
+      text-decoration: none;
     }
+  }
 
-    &.close-side_nav {
-        transform: translateX(-100%)
+  .auth {
+    a {
+      color: white;
     }
-
-    .sidenav_content {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .close-btn {
-        align-self: flex-start;
-        padding: 0;
-    }
-
-    .menu_list li {
-        padding-bottom: 1.4rem;
-        font-weight: 500;
-        text-align: left;
-
-        .child {
-            color: #000;
-            text-decoration: none;
-        }
-    }
-
-    .auth {
-        a {
-            color: white;
-        }
-    }
+  }
 }

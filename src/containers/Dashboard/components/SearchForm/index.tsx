@@ -9,7 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
 
-import { filterClientTransactions } from '../../../../store/actions';
+import { filterUserTransactions } from '../../../../store/actions';
 import Button from '../../../../components/Button';
 import constants from '../../../../utils/constants';
 
@@ -66,7 +66,7 @@ const SearchForm = () => {
       }
     }
 
-    await dispatch(filterClientTransactions(data));
+    await dispatch(filterUserTransactions(data));
     setSubmitting(false);
   };
 
@@ -165,7 +165,7 @@ const SearchForm = () => {
                       value={formProps.values ? formProps.values.transaction_type : 'Transaction type'}
                     >
                       <option value="" label="All" />
-                      <option value="Internal" label="Internal" />
+                      <option value="transfer" label="Transfer" />
                       <option value="deposit" label="Deposit" />
                     </select>
                     <ErrorMessage

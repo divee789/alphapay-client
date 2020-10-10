@@ -9,7 +9,7 @@ import APIServiceError from '../../services/error-services';
 
 const Request = new APIRequest();
 
-export function getClientTransactions(page?: number) {
+export function getUserTransactions(page?: number) {
   function request() {
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_REQUEST };
   }
@@ -26,19 +26,19 @@ export function getClientTransactions(page?: number) {
 
   return async (dispatch: Dispatch) => {
     try {
-      await dispatch(request());
-      const transactions = await Request.getTransactions(page);
-      await dispatch(success(transactions.transactions, transactions.pager));
+      dispatch(request());
+      const data = await Request.getTransactions(page);
+      dispatch(success(data.transactions, data.pager));
     } catch (error) {
       if (error instanceof APIServiceError) {
-        await dispatch(failure(error));
+        dispatch(failure(error));
         throw error.response.data;
       }
     }
   };
 }
 
-export function filterClientTransactions(data: unknown, page?: number) {
+export function filterUserTransactions(data: unknown, page?: number) {
   function request() {
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_REQUEST };
   }
@@ -56,8 +56,8 @@ export function filterClientTransactions(data: unknown, page?: number) {
   return async (dispatch: Dispatch) => {
     try {
       await dispatch(request());
-      const transactions = await Request.filterTransactions(data, page);
-      await dispatch(success(transactions.transactions, transactions.pager));
+      const response = await Request.filterTransactions(data, page);
+      await dispatch(success(response.transactions, response.pager));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));

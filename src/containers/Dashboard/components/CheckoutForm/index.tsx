@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import APIRequest from '../../../../services/api-services';
-import { checkoutClientWallet } from '../../../../store/actions';
+import { checkoutUserWallet } from '../../../../store/actions';
 import Button from '../../../../components/Button';
 
 import img1 from '../../../../assets/images/quick-and-easy.jpg';
@@ -45,29 +45,20 @@ const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: 
     try {
       setProcessing(true);
       const res = await API.confirmBankAccount({ bank: values.bank, account: values.bank_account });
-      if (res.success) {
-        const ask = prompt(
-          `You are about to pay ${values.amount} to ${res.data.account_name}, please type the account name again to continue`,
-        );
-        if (ask !== res.data.account_name) {
-          setProcessing(false);
-          setSubmitting(false);
-          return;
-        }
-      } else {
-        alert('Your bank details could not be verified, please make sure they are valid and try again');
+      const ask = prompt(
+        `You are about to pay ${values.amount} to ${res.account_name}, please type the account name again to continue`,
+      );
+      if (ask !== res.account_name) {
         setProcessing(false);
         setSubmitting(false);
         return;
       }
-      const data = {
-        ...values,
-      };
-      await dispatch(checkoutClientWallet(data));
+      await dispatch(checkoutUserWallet(values));
       setProcessing(false);
-      setMessage('Your Remittance is being processed. You will receive your funds shortly');
+      setMessage('Your withdrawal is being processed. You will receive your funds shortly');
     } catch (error) {
       console.log('checkout error', error);
+      alert('Your bank details could not be verified, please make sure they are valid and try again');
       setProcessing(false);
       setSubmitting(false);
       setMessage('There has been an error checking out your funds from your your wallet,please try again later');

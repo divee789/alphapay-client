@@ -5,7 +5,7 @@ import { Logger } from '../utils';
 import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
 import decode from 'jwt-decode';
-import { Client } from '../store/types';
+import { User } from '../store/types';
 
 const APIBaseURL =
   process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_STAGING : process.env.REACT_APP_SERVER_URL;
@@ -55,7 +55,6 @@ export default class APIRequest {
     const altCopy = config;
     const userToken = this.setAuthorization();
     altCopy.headers = { ...config.headers, Authorization: userToken };
-
     Logger.info('Request: ', altCopy.url);
     return altCopy;
   };
@@ -132,7 +131,7 @@ export default class APIRequest {
 
   setAuthorization = () => {
     const userToken = Storage.getItem('userToken');
-    // Check if user if authenticated if not return client token
+    // Check if user if authenticated if not return user token
     if (userToken) {
       return `Bearer ${userToken}`;
     }
@@ -182,79 +181,52 @@ export default class APIRequest {
       return response.data;
     }
     this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
-    return response.data;
+    return response.data.data;
   };
 
-  signUp = async (data: Client) => {
+  signUp = async (data: User) => {
     const body = {
       ...data,
     };
     const response = await this.instance.post('/auth/signup', body);
     const authResponse = response.data;
     this.storeUserToken(authResponse.data.access_token, authResponse.data.refresh_token);
-    const profileResponse = authResponse.data.client;
-    return { ...authResponse, client: profileResponse };
+    return authResponse.data;
   };
 
   refresh = async (refresh_token: string) => {
     const body = {
       refresh_token,
     };
-    const response = await this.instance.post('/auth/client/token', body);
+    const response = await this.instance.post('/auth/user/token', body);
     const authResponse = response.data;
     Storage.setItem('userToken', authResponse.access_token);
     this.setHeader(authResponse.access_token);
-    return authResponse;
+    return authResponse.data;
   };
 
-  update = async (data: Client) => {
-    const body = {
-      ...data,
-    };
-    const response = await this.instance.patch('/auth/update', body);
-    if (response.data.success) {
-      return {
-        client: response.data.data,
-        message: response.data.message,
-      };
-    }
-    return {
-      error: true,
-      message: response.data.message,
-    };
+  update = async (data: User) => {
+    const response = await this.instance.patch('/auth/update', data);
+    return response.data.data;
   };
 
   changePassword = async (data) => {
     const check = await this.isloggedIn();
     if (!check) {
-      return {
-        error: true,
-        message: 'Your session has expired, please log in again',
-      };
+      throw new Error('Session expired, please log in again');
     }
-    const body = {
-      ...data,
-    };
-    const response = await this.instance.patch('/auth/password', body);
-    if (response.data.success) {
-      return {
-        message: response.data.message,
-      };
-    }
-    return {
-      error: true,
-      message: response.data.message,
-    };
+    const response = await this.instance.patch('/auth/password', data);
+    return response.data.data;
   };
 
-  logOut = async (client_email?: string) => {
+  logOut = async (user_email?: string) => {
     const refresh_token = Storage.getItem('refreshToken');
     Storage.removeItem('userToken');
     Storage.removeItem('refreshToken');
     Storage.removeItem('userTokenExpiration');
-    if (client_email) {
+    if (user_email) {
       await this.instance.post('/auth/logout', {
-        client_email,
+        user_email,
         refresh_token,
       });
     }
@@ -262,13 +234,13 @@ export default class APIRequest {
   };
 
   getUser = async () => {
-    const res = await this.instance.get('/auth/client');
+    const res = await this.instance.get('/auth/user');
     return res.data.data;
   };
 
   verifyEmail = async (token: string) => {
     const res = await this.instance.get('/auth/verify?token=' + token);
-    return res.data;
+    return res.data.data;
   };
 
   sendEmail = async () => {
@@ -280,17 +252,17 @@ export default class APIRequest {
       };
     }
     const res = await this.instance.post('/auth/send_email');
-    return res.data;
+    return res.data.data;
   };
 
   passwordReset = async (data) => {
     const res = await this.instance.get(`/auth/password_reset_request?email=${data}`);
-    return res.data;
+    return res.data.data;
   };
 
   confirmPasswordReset = async (token: string) => {
     const res = await this.instance.get(`/auth/password_reset_confirmation?password_reset_token=${token}`);
-    return res.data;
+    return res.data.data;
   };
 
   passwordResetEmail = async (data: { email: string; password: string }) => {
@@ -298,7 +270,7 @@ export default class APIRequest {
       email: data.email,
       password: data.password.trim(),
     });
-    return res.data;
+    return res.data.data;
   };
 
   uploadProfileImage = async (data) => {
@@ -310,24 +282,14 @@ export default class APIRequest {
       };
     }
     const res = await this.instance2.post('/auth/upload', data);
-    return res.data.client;
+    return res.data.data;
   };
 
   //WALLET apis
 
   getWallet = async () => {
     const res = await this.instance.get('/api/v1/wallet/get');
-    const response = res.data;
-    if (response.success === true) {
-      return {
-        wallet: response.wallet,
-        message: response.message,
-      };
-    }
-    return {
-      error: true,
-      message: response.message,
-    };
+    return res.data.data;
   };
 
   fundWallet = async (data: {
@@ -338,86 +300,37 @@ export default class APIRequest {
     transaction_status: string;
     pin: string;
   }) => {
-    const res = await this.instance.post('/api/v1/transfer/fund', {
-      amount: data.amount,
-      narration: data.narration,
-      processor: data.processor,
-      processor_reference: data.processor_reference,
-      transaction_status: data.transaction_status,
-      pin: data.pin,
-    });
-    if (res.data.success === true) {
-      return {
-        wallet: res.data.data,
-        message: res.data.message,
-      };
-    }
-    return {
-      error: true,
-      message: res.data.message,
-    };
+    const res = await this.instance.post('/api/v1/transfer/fund', data);
+    return res.data.data;
   };
 
   checkoutWallet = async (data) => {
     const res = await this.instance.post('/api/v1/transfer/withdraw', data);
-
-    if (res.data.success === true) {
-      return {
-        wallet: res.data.data,
-        message: res.data.message,
-      };
-    }
-    return {
-      error: true,
-      message: res.data.message,
-    };
+    return res.data.data;
   };
 
   getBanks = async () => {
     const check = await this.isloggedIn();
     if (!check) {
-      return {
-        error: true,
-        message: 'Your session has expired, please log in again',
-      };
+      throw new Error('Your session has expired, please log in again');
     }
     const res = await this.instance.get('/api/v1/transfer/banks');
-    if (res.data.success === true) {
-      return {
-        banks: res.data.data,
-      };
-    }
-    return {
-      error: true,
-      message: res.data.message,
-    };
+    console.log(res.data);
+    return res.data.data;
   };
 
   confirmBankAccount = async (data: { bank: string; account: string }) => {
     const check = await this.isloggedIn();
     if (!check) {
-      return {
-        error: true,
-        message: 'Your session has expired, please log in again',
-      };
+      throw new Error('Your session has expired, please log in again');
     }
     const res = await this.instance.post('/api/v1/transfer/banks/verify', data);
-    return res.data;
+    return res.data.data;
   };
 
   transferFunds = async (data) => {
     const res = await this.instance.post('/api/v1/transfer', data);
-    if (res.data.success === true) {
-      return {
-        amount: res.data.amount,
-        message: res.data.message,
-        wallet: res.data.client_wallet,
-      };
-    }
-    return {
-      error: true,
-      message: res.data.message,
-    };
+    return res.data.data;
   };
 
   //NOTIFICATIONS
@@ -425,112 +338,47 @@ export default class APIRequest {
   makeNotifications = async (data) => {
     const check = await this.isloggedIn();
     if (!check) {
-      return {
-        error: true,
-        message: 'Your session has expired, please log in again',
-      };
+      throw new Error('Your session has expired, please log in again');
     }
     const res = await this.instance.post('/api/v1/transfer/notifications', data);
-    if (res.data.success === true) {
-      return {
-        message: res.data.message,
-      };
-    }
-    return {
-      error: true,
-      message: res.data.message,
-    };
+    return res.data.data;
   };
 
   getNotifications = async () => {
     const check = await this.isloggedIn();
     if (!check) {
-      return {
-        error: true,
-        message: 'Your session has expired, please log in again',
-      };
+      throw new Error('Your session has expired, please log in again');
     }
     const res = await this.instance.get('/api/v1/transfer/notifications');
-    if (res.data.success === true) {
-      return {
-        notifications: res.data.notifications,
-        message: res.data.message,
-      };
-    }
-    return {
-      error: true,
-      message: res.data.message,
-    };
+    return res.data.data;
   };
 
   deleteNotification = async (id) => {
     const check = await this.isloggedIn();
     if (!check) {
-      return {
-        error: true,
-        message: 'Your session has expired, please log in again',
-      };
+      throw new Error('Your session has expired, please log in again');
     }
     const res = await this.instance.delete('/api/v1/transfer/notifications/' + id);
-    if (res.data.success === true) {
-      return {
-        message: res.data.message,
-      };
-    }
-    return {
-      error: true,
-      message: res.data.message,
-    };
+    return res.data.data;
   };
 
   //Transaction apis
 
   getTransactions = async (page?: number) => {
-    const transactions = await this.instance.get('/api/v1/transaction/all?page=' + page);
-    const response = transactions.data;
-    if (response.success === true) {
-      return {
-        transactions: response.data,
-        message: response.message,
-        pager: response.pager,
-      };
-    }
-    return {
-      error: true,
-      message: response.message,
-    };
+    const response = await this.instance.get('/api/v1/transaction/all?page=' + page);
+    return response.data.data;
   };
 
   filterTransactions = async (data, page?: number) => {
-    const transactions = await this.instance.post('/api/v1/transaction/filter?page=' + page, { ...data });
-    const response = transactions.data;
-    if (response.success === true) {
-      return {
-        transactions: response.data,
-        message: response.message,
-        pager: response.pager,
-      };
-    }
-    return {
-      error: true,
-      message: response.message,
-    };
+    const response = await this.instance.post('/api/v1/transaction/filter?page=' + page, { ...data });
+    return response.data.data;
   };
 
   setTransactionPin = async (data: { transaction_pin: string }): Promise<{ message: string; wallet? }> => {
     const body = {
       transaction_pin: data.transaction_pin,
     };
-    const walletRes = await this.instance.post('/api/v1/wallet/activation', body);
-    const response = walletRes.data;
-    if (response.success === true) {
-      return {
-        message: response.message,
-        wallet: response.data,
-      };
-    }
-    return {
-      message: 'There has been an error in setting your pin,please try again later or contact support',
-    };
+    const response = await this.instance.post('/api/v1/wallet/activation', body);
+    return response.data.data;
   };
 }

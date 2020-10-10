@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, Link } from 'react-router-dom';
 import * as Yup from 'yup';
+import Fade from 'react-reveal/Fade';
 import theme from '../../components/Theme';
 
 import Request from '../../services/api-services';
@@ -51,9 +52,6 @@ const VerifyEmail = () => {
   return (
     <>
       <section className="login_auth" style={theme()}>
-        <div className="auth_image">
-          <img src={image1} alt="auth" />
-        </div>
         <div className="auth_form">
           <Formik
             initialValues={initialValues}
@@ -66,24 +64,27 @@ const VerifyEmail = () => {
                     <img src={logo} alt="logo" onClick={() => history.push('/')} />
                   </div>
                   <Form className="form">
-                    <h2>Log In</h2>
-                    <p>
+                    <p className="head_info">
                       Your verification token has been sent to your email,please check your email and provide the token
                       here to enable us verify the email{' '}
                     </p>
-                    <div className="input-container">
-                      <Field type="text" name="token" placeholder="Please put your token here" />
-                      <ErrorMessage name="token" render={(msg) => <div className="error">{msg}</div>} />
-                    </div>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <Field type="text" name="token" placeholder="Please put your token here" />
+                        <ErrorMessage name="token" render={(msg) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
                     {feedback && (
                       <div className="error_message" onClick={(): void => setFeedback(null)}>
                         {feedback}
                       </div>
                     )}
                     <div className="input-container btn_container">
-                      <Button disabled={formProps.isSubmitting} colored>
-                        {processing ? 'Please wait...' : 'CONTINUE'}
-                      </Button>
+                      <Fade bottom>
+                        <Button disabled={formProps.isSubmitting} colored>
+                          {processing ? 'Please wait...' : 'CONTINUE'}
+                        </Button>
+                      </Fade>
                       <p>
                         Did not receive an email? <Link to="/">Resend</Link>
                       </p>
@@ -93,6 +94,9 @@ const VerifyEmail = () => {
               );
             }}
           />
+        </div>
+        <div className="auth_image">
+          <img src={image1} alt="auth" />
         </div>
       </section>
     </>
