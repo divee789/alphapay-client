@@ -2,6 +2,8 @@ import React from 'react';
 import Fade from 'react-reveal/Fade';
 
 import img1 from '../../../../assets/images/auth.jpg';
+import circleBg from '../../../../assets/images/circle_do.svg';
+import circleBg2 from '../../../../assets/images/circle_doA.svg';
 // import img2 from '../../../../assets/images/security.jpg';
 
 import './index.scss';
@@ -9,6 +11,8 @@ import './index.scss';
 const WhyAlpha = () => {
   return (
     <section className="why_alpha_section">
+      <img src={circleBg} alt="" className="animate_circle" />
+      <img src={circleBg2} alt="" className="animate_circle_2" />
       <div className="why_alpha_fees">
         <div className="why_alpha_img">
           <img src={img1} alt="" className="alpha_fees_img_1" />

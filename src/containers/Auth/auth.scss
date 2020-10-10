@@ -4,7 +4,7 @@
   flex-direction: row-reverse;
   overflow: hidden;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 690px) {
     height: unset;
   }
 }
@@ -14,7 +14,7 @@
   object-fit: cover;
   z-index: 999;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 690px) {
     display: none;
   }
 
@@ -32,7 +32,7 @@
   justify-content: center;
   align-items: center;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 690px) {
     width: 100%;
   }
 }
@@ -81,7 +81,7 @@
   width: 90%;
   margin: 0 auto;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 690px) {
     width: 100%;
   }
 
@@ -94,7 +94,7 @@
     font-weight: bold;
     line-height: 1.2;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       font-size: 1.3rem;
     }
   }
@@ -107,7 +107,7 @@
     margin-bottom: 1rem;
     font-size: 13px;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       width: 90%;
     }
   }
@@ -122,14 +122,14 @@
     display: flex;
     justify-content: space-between;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       flex-direction: column;
     }
 
     div {
       width: 48%;
 
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: 690px) {
         width: 100%;
         margin-bottom: 13px;
       }
@@ -151,7 +151,7 @@
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       font-size: 14px;
     }
   }
@@ -170,7 +170,7 @@
     p {
       margin-bottom: 3px;
 
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: 690px) {
         font-size: 13px;
       }
     }
@@ -195,9 +195,9 @@
 }
 
 //Tablet Styling
-@media screen and (min-width: 600px) and (max-width: 1000px) {
+@media screen and (min-width: 690px) and (max-width: 1000px) {
 }
 
 //Mobile styling
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 690px) {
 }

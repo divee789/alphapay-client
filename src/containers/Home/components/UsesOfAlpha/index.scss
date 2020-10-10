@@ -1,4 +1,5 @@
 .use_alpha_section {
+  width: 90%;
   max-width: 1260px;
   margin: 4rem auto;
   margin-top: 11rem;
@@ -7,7 +8,7 @@
     margin-top: 5rem;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 690px) {
     margin-top: 23rem;
   }
 
@@ -43,7 +44,7 @@
         }
       }
 
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: 690px) {
         width: 100%;
         margin: 3rem auto !important;
 

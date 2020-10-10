@@ -1,5 +1,13 @@
 .parent_section {
   padding: 4rem 0;
+  background: linear-gradient(
+    180deg,
+    rgba(236, 240, 253, 0) 0%,
+    rgba(236, 240, 253, 0.53) 14.32%,
+    #ecf0fd 45.83%,
+    rgba(236, 240, 253, 0.43) 84.33%,
+    rgba(236, 240, 253, 0) 100%
+  );
   h1 {
     font-family: averta;
     font-size: 2.5rem;
@@ -20,7 +28,7 @@
       width: 80%;
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       width: 95%;
     }
 
@@ -38,7 +46,7 @@
       margin: 0 auto;
       opacity: 0.7;
       text-align: center;
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: 690px) {
         width: 95%;
       }
     }
@@ -51,6 +59,7 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 13rem;
+  width: 90%;
   max-width: 1260px;
   margin: 0 auto;
   margin-bottom: 6rem;
@@ -59,7 +68,7 @@
     max-width: 728px;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 690px) {
     flex-direction: column;
   }
 
@@ -67,7 +76,7 @@
     width: 32%;
     text-align: center;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       width: 90%;
     }
 
@@ -95,7 +104,7 @@
 
   .secure_payments_container {
     margin-top: -20rem;
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 690px) {
       margin-top: unset;
     }
   }

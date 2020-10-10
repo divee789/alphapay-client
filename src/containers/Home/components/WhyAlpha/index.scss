@@ -1,21 +1,54 @@
 .why_alpha_section {
   background-color: #7854f7;
   margin-top: 14rem;
+  position: relative;
   padding: 1rem 0;
 
-  @media screen and (max-width: 600px) {
+  .animate_circle {
+    position: absolute;
+    top: 5rem;
+    left: 5rem;
+    height: 37rem;
+    z-index: 6;
+    overflow: hidden;
+    @media screen and (max-width: 1280px) {
+      left: -8rem;
+    }
+    @media screen and (max-width: 840px) {
+      display: none;
+    }
+  }
+  .animate_circle_2 {
+    position: absolute;
+    bottom: 5rem;
+    right: 5rem;
+    height: 27rem;
+    z-index: 6;
+    @media screen and (max-width: 1280px) {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 840px) {
     margin-top: 10rem;
   }
 
   .why_alpha_fees,
   .why_alpha_security {
-    max-width: 1060px;
+    max-width: 1260px;
+    width: 65%;
     margin: 0 auto;
     display: flex;
+    position: relative;
     justify-content: space-between;
     align-items: center;
-    @media screen and (max-width: 600px) {
+    z-index: 10;
+    @media screen and (max-width: 1280px) {
+      width: 90%;
+    }
+    @media screen and (max-width: 840px) {
       flex-direction: column;
+      width: 90%;
     }
 
     img {
@@ -24,19 +57,21 @@
       height: 30rem;
       border-radius: 20px;
       box-shadow: -25px 20px 44px rgba(84, 48, 209, 0.4);
+      z-index: 9;
 
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: 840px) {
         width: 97%;
         margin: 0 1.5%;
       }
     }
 
     .alpha_fees_img_1 {
-      margin-top: -5rem;
+      margin-top: -6rem;
+      box-shadow: -25px 20px 44px rgba(84, 48, 209, 0.4);
     }
 
     .alpha_fees_img_2 {
-      margin-bottom: -5rem;
+      margin-bottom: -6rem;
     }
 
     .why_alpha_security_text,
@@ -50,10 +85,16 @@
       p {
         opacity: 1;
         font-weight: 100;
-        width: 70%;
+        width: 80%;
       }
 
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: 980px) {
+        p {
+          width: 90%;
+        }
+      }
+
+      @media screen and (max-width: 840px) {
         margin-left: 0;
         width: 100%;
 
@@ -70,5 +111,10 @@
 
   .why_alpha_security {
     margin-top: 3rem;
+    margin-left: 21rem;
+
+    @media screen and (max-width: 1280px) {
+      margin: 0 auto;
+    }
   }
 }
