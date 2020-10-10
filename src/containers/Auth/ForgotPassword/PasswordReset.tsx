@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, useParams } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
 import theme from '../../../components/Theme';
@@ -90,19 +91,23 @@ const PasswordReset = () => {
                         <p className="head_info">
                           Hello {user && user.first_name},please provide a new password for your account
                         </p>
-                        <div className="input-container">
-                          <Field type="password" name="password" placeholder="Password" className="password" />
-                          <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
+                        <Fade bottom>
+                          <div className="input-container">
+                            <Field type="password" name="password" placeholder="Password" className="password" />
+                            <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
+                          </div>
+                        </Fade>
                         {feedback && (
                           <div className="error_message" onClick={() => setFeedback(null)}>
                             {feedback}
                           </div>
                         )}
                         <div className="input-container btn_container">
-                          <Button disabled={formProps.isSubmitting} colored>
-                            {loading ? 'Please wait...' : 'Change Password'}
-                          </Button>
+                          <Fade bottom>
+                            <Button disabled={formProps.isSubmitting} colored>
+                              {loading ? 'Please wait...' : 'Change Password'}
+                            </Button>
+                          </Fade>
                         </div>
                       </>
                     )}

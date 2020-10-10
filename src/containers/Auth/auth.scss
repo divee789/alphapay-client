@@ -82,11 +82,16 @@
   flex-direction: column;
   word-wrap: break-word;
   padding: 0 1.5rem;
-  width: 70%;
+  width: 60%;
   margin: 0 auto;
+
+  @media screen and (max-width: 1200px) {
+    width: 90%;
+  }
 
   @media screen and (max-width: 690px) {
     width: 100%;
+    margin-top: 4rem;
   }
 
   h2 {
@@ -107,7 +112,7 @@
     text-align: center;
     color: #6c757d !important;
     margin: 30px auto;
-    width: 70%;
+    width: 85%;
     margin-bottom: 2rem;
     font-size: 1rem;
 
@@ -166,7 +171,7 @@
 
   .btn_container {
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 6px;
 
     p {
       margin-bottom: 3px;
@@ -181,9 +186,9 @@
       font-size: 15px;
       margin: 0 auto;
       margin-top: 4px;
-      margin-bottom: 3rem;
+      margin-bottom: 10px;
       color: white !important;
-      width: 70%;
+      width: 100%;
       border: none;
       border-radius: 5px;
       padding: 1.4rem 0;

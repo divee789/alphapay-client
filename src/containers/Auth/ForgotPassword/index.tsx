@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, Link } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
 // import RecaptchaComponent from '../Recaptcha';
@@ -64,10 +65,12 @@ const ForgotPassword = () => {
                   <Form className="form">
                     <h2>Forgot your Password?</h2>
                     <p className="head_info">Please provide your email and we will send a password reset link to you</p>
-                    <div className="input-container">
-                      <Field type="text" name="email" placeholder="Your email" />
-                      <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
-                    </div>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <Field type="text" name="email" placeholder="Your email" />
+                        <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
                     {/* <div className="input-container">
                       <RecaptchaComponent
                         verifyCallback={() => {
@@ -84,9 +87,12 @@ const ForgotPassword = () => {
                       </div>
                     )}
                     <div className="input-container btn_container">
-                      <Button disabled={formProps.isSubmitting} colored>
-                        {processing ? 'Please wait...' : 'Submit Request'}
-                      </Button>
+                      <Fade bottom>
+                        <Button disabled={formProps.isSubmitting} colored>
+                          {processing ? 'Please wait...' : 'Submit Request'}
+                        </Button>
+                      </Fade>
+
                       <p>
                         Did not receive an email? <Link to="/">Resend Email</Link>
                       </p>

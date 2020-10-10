@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
 import { logIn } from '../../store/actions';
@@ -73,27 +74,32 @@ const LogIn = () => {
 
                   <Form className="form">
                     <p className="head_info">Welcome back, Please log in to your account to access your dashboard</p>
-                    <div className="input-container">
-                      <Field type="email" name="email" placeholder="example@gmail.com" />
-                      <ErrorMessage name="email" render={(msg: string) => <div className="error">{msg}</div>} />
-                    </div>
-                    <div className="input-container">
-                      <img
-                        src={invisible}
-                        alt="show/hide"
-                        className="password_icon"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                      <Field
-                        type={showPassword ? 'text' : 'password'}
-                        name="password"
-                        placeholder="password"
-                        className="password"
-                      />
-                      <ErrorMessage name="password" render={(msg: string) => <div className="error">{msg}</div>} />
-                    </div>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <Field type="email" name="email" placeholder="example@gmail.com" />
+                        <ErrorMessage name="email" render={(msg: string) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <img
+                          src={invisible}
+                          alt="show/hide"
+                          className="password_icon"
+                          onClick={() => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                        <Field
+                          type={showPassword ? 'text' : 'password'}
+                          name="password"
+                          placeholder="password"
+                          className="password"
+                        />
+                        <ErrorMessage name="password" render={(msg: string) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
+
                     {/* <div className="input-container">
                       <RecaptchaComponent
                         verifyCallback={(): void => {
@@ -111,9 +117,11 @@ const LogIn = () => {
                     )}
 
                     <div className="input-container btn_container">
-                      <Button disabled={isSubmitting} colored>
-                        {processing ? 'Please wait...' : 'Sign In'}
-                      </Button>
+                      <Fade bottom>
+                        <Button disabled={isSubmitting} colored>
+                          {processing ? 'Please wait...' : 'Sign In'}
+                        </Button>
+                      </Fade>
 
                       <p>
                         Can not remember your password? <Link to="/auth/password_reset_request">Reset</Link>

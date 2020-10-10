@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 import { signUp } from '../../store/actions';
 
@@ -101,57 +102,69 @@ const SignUp = () => {
 
                   <Form className="form signup">
                     <p className="head_info">Create an Alphapay account and join the community of alphas</p>
-                    <div className="input-container-dual">
-                      <div>
-                        <Field type="text" name="first_name" placeholder="Your First name" />
-                        <ErrorMessage name="first_name" render={(msg) => <div className="error">{msg}</div>} />
+                    <Fade bottom>
+                      <div className="input-container-dual">
+                        <div>
+                          <Field type="text" name="first_name" placeholder="Your First name" />
+                          <ErrorMessage name="first_name" render={(msg) => <div className="error">{msg}</div>} />
+                        </div>
+                        <div>
+                          <Field type="text" name="last_name" placeholder="Your Last Name" />
+                          <ErrorMessage name="last_name" render={(msg) => <div className="error">{msg}</div>} />
+                        </div>
                       </div>
-                      <div>
-                        <Field type="text" name="last_name" placeholder="Your Last Name" />
-                        <ErrorMessage name="last_name" render={(msg) => <div className="error">{msg}</div>} />
-                      </div>
-                    </div>
+                    </Fade>
 
-                    <div className="input-container">
-                      <Field type="text" name="username" placeholder="Your Username" />
-                      <ErrorMessage name="username" render={(msg) => <div className="error">{msg}</div>} />
-                    </div>
-                    <div className="input-container">
-                      <Field type="text" name="phone_number" placeholder="Your Phone Number" />
-                      <ErrorMessage name="phone_number" render={(msg) => <div className="error">{msg}</div>} />
-                    </div>
-                    <div className="input-container">
-                      <Field type="text" name="email" placeholder="Your Email" />
-                      <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
-                    </div>
-                    <div className="input-container">
-                      <img
-                        src={invisible}
-                        alt="show/hide"
-                        className="password_icon"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                      <Field type={showPassword ? 'text' : 'password'} name="password" placeholder="Your Password" />
-                      <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
-                    </div>
-                    <div className="input-container">
-                      <img
-                        src={invisible}
-                        alt="show/hide"
-                        className="password_icon"
-                        onClick={() => {
-                          setShowPassword2(!showPassword2);
-                        }}
-                      />
-                      <Field
-                        type={showPassword2 ? 'text' : 'password'}
-                        name="confirmPassword"
-                        placeholder="Confirm Password"
-                      />
-                      <ErrorMessage name="confirmPassword" render={(msg) => <div className="error">{msg}</div>} />
-                    </div>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <Field type="text" name="username" placeholder="Your Username" />
+                        <ErrorMessage name="username" render={(msg) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <Field type="text" name="phone_number" placeholder="Your Phone Number" />
+                        <ErrorMessage name="phone_number" render={(msg) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <Field type="text" name="email" placeholder="Your Email" />
+                        <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <img
+                          src={invisible}
+                          alt="show/hide"
+                          className="password_icon"
+                          onClick={() => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                        <Field type={showPassword ? 'text' : 'password'} name="password" placeholder="Your Password" />
+                        <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
+                    <Fade bottom>
+                      <div className="input-container">
+                        <img
+                          src={invisible}
+                          alt="show/hide"
+                          className="password_icon"
+                          onClick={() => {
+                            setShowPassword2(!showPassword2);
+                          }}
+                        />
+                        <Field
+                          type={showPassword2 ? 'text' : 'password'}
+                          name="confirmPassword"
+                          placeholder="Confirm Password"
+                        />
+                        <ErrorMessage name="confirmPassword" render={(msg) => <div className="error">{msg}</div>} />
+                      </div>
+                    </Fade>
                     {/* <div className="input-container">
                       <RecaptchaComponent
                         verifyCallback={() => {
@@ -168,9 +181,11 @@ const SignUp = () => {
                       </div>
                     )}
                     <div className="input-container btn_container">
-                      <Button disabled={formProps.isSubmitting} colored>
-                        {processing ? 'Please wait...' : 'Create Account'}
-                      </Button>
+                      <Fade bottom>
+                        <Button disabled={formProps.isSubmitting} colored>
+                          {processing ? 'Please wait...' : 'Create Account'}
+                        </Button>
+                      </Fade>
                       <p>
                         Already have an account?
                         <Link to="/auth/login">Click here to sign in</Link>
