@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
@@ -36,11 +37,10 @@ const ForgotPassword = () => {
     try {
       setProcessing(true);
       const res = await API.passwordReset(values.email);
-      setFeedback(res.message);
+      toast.success(res.message);
       setProcessing(false);
     } catch (err) {
-      setFeedback(err.response.data.message);
-      setTimeout(() => setFeedback(null), 3000);
+      toast.error(`❗ ${err.response.data.message}`);
       setProcessing(false);
       setSubmitting(false);
     }

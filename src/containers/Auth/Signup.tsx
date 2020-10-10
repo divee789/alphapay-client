@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { toast } from 'react-toastify';
 import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
@@ -76,8 +77,7 @@ const SignUp = () => {
       await dispatch(signUp(values));
       history.push(`/auth/verify_email`);
     } catch (err) {
-      setFeedback(err.message);
-      setTimeout(() => setFeedback(null), 3000);
+      toast.error(`❗ ${err.message}`);
       setSubmitting(false);
     }
   };

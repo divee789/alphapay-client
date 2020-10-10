@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import Fade from 'react-reveal/Fade';
 
@@ -10,6 +11,7 @@ import Button from '../../components/Button';
 import Dots from '../../components/Loaders/Dots';
 
 import Request from '../../services/api-services';
+import APIServiceError from '../../services/error-services';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
@@ -41,10 +43,15 @@ const VerifyEmail = () => {
       setProcessing(false);
       history.push(`/dashboard/overview`);
     } catch (err) {
-      setFeedback(
-        'There has been an issue verifying your account, please check that your token is valid and try again',
+      if (err instanceof APIServiceError) {
+        toast.error(`❗ ${err.response.data.message}`);
+        setSubmitting(false);
+        setProcessing(false);
+        return;
+      }
+      toast.error(
+        '❗ There has been an issue verifying your account, please check that your code is valid and try again',
       );
-      setTimeout(() => setFeedback(null), 5000);
       setSubmitting(false);
       setProcessing(false);
     }

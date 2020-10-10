@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { twoFaVerify } from '../../store/actions';
@@ -50,13 +51,12 @@ const TwoFa = () => {
       history.push(`/dashboard/overview`);
     } catch (err) {
       if (err instanceof APIServiceError) {
-        setFeedback(err.response.data.message);
+        toast.error(`❗ ${err.response.data.message}`);
         setSubmitting(false);
         setProcessing(false);
         return;
       }
-      setFeedback(err.message);
-      setTimeout(() => setFeedback(null), 3000);
+      toast.error(`❗ ${err.message}`);
       setSubmitting(false);
       setProcessing(false);
     }
