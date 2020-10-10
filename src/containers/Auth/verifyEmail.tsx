@@ -2,16 +2,19 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import Fade from 'react-reveal/Fade';
+
 import theme from '../../components/Theme';
+import Button from '../../components/Button';
+import Dots from '../../components/Loaders/Dots';
 
 import Request from '../../services/api-services';
+import APIServiceError from '../../services/error-services';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
-
-import Button from '../../components/Button';
 
 import './auth.scss';
 
@@ -40,10 +43,15 @@ const VerifyEmail = () => {
       setProcessing(false);
       history.push(`/dashboard/overview`);
     } catch (err) {
-      setFeedback(
-        'There has been an issue verifying your account, please check that your token is valid and try again',
+      if (err instanceof APIServiceError) {
+        toast.error(`❗ ${err.response.data.message}`);
+        setSubmitting(false);
+        setProcessing(false);
+        return;
+      }
+      toast.error(
+        '❗ There has been an issue verifying your account, please check that your code is valid and try again',
       );
-      setTimeout(() => setFeedback(null), 5000);
       setSubmitting(false);
       setProcessing(false);
     }
@@ -57,7 +65,7 @@ const VerifyEmail = () => {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
-            render={(formProps) => {
+            render={({ isSubmitting }) => {
               return (
                 <>
                   <div className="logo">
@@ -65,7 +73,7 @@ const VerifyEmail = () => {
                   </div>
                   <Form className="form">
                     <p className="head_info">
-                      Your verification token has been sent to your email,please check your email and provide the token
+                      Your verification code has been sent to your email, Please check your email and provide the code
                       here to enable us verify the email{' '}
                     </p>
                     <Fade bottom>
@@ -81,8 +89,8 @@ const VerifyEmail = () => {
                     )}
                     <div className="input-container btn_container">
                       <Fade bottom>
-                        <Button disabled={formProps.isSubmitting} colored>
-                          {processing ? 'Please wait...' : 'CONTINUE'}
+                        <Button disabled={isSubmitting || processing} colored>
+                          {processing ? <Dots /> : 'Verify Email'}
                         </Button>
                       </Fade>
                       <p>

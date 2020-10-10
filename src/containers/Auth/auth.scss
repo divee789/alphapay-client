@@ -42,7 +42,7 @@
   margin-top: 1rem;
   cursor: pointer;
   position: relative;
-  z-index: 999999;
+  z-index: 9;
 }
 
 .auth_error,
@@ -192,6 +192,7 @@
       border: none;
       border-radius: 5px;
       padding: 1.4rem 0;
+      display: flex;
     }
 
     a {

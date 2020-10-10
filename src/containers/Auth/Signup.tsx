@@ -5,18 +5,20 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { toast } from 'react-toastify';
 import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
+
 import { signUp } from '../../store/actions';
 
 import theme from '../../components/Theme';
+import Button from '../../components/Button';
+import Dots from '../../components/Loaders/Dots';
 // import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
 import invisible from '../../assets/images/invisible.svg';
-
-import Button from '../../components/Button';
 
 import './auth.scss';
 
@@ -75,8 +77,7 @@ const SignUp = () => {
       await dispatch(signUp(values));
       history.push(`/auth/verify_email`);
     } catch (err) {
-      setFeedback(err.message);
-      setTimeout(() => setFeedback(null), 3000);
+      toast.error(`❗ ${err.message}`);
       setSubmitting(false);
     }
   };
@@ -93,7 +94,7 @@ const SignUp = () => {
             initialValues={initialValues}
             validationSchema={logValidationSchema}
             onSubmit={handleSubmit}
-            render={(formProps) => {
+            render={({ isSubmitting }) => {
               return (
                 <>
                   <div className="logo">
@@ -182,8 +183,8 @@ const SignUp = () => {
                     )}
                     <div className="input-container btn_container">
                       <Fade bottom>
-                        <Button disabled={formProps.isSubmitting} colored>
-                          {processing ? 'Please wait...' : 'Create Account'}
+                        <Button disabled={isSubmitting || processing} colored>
+                          {processing ? <Dots /> : 'Create Account'}
                         </Button>
                       </Fade>
                       <p>

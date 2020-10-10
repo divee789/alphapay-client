@@ -5,13 +5,15 @@ import { useHistory, useParams } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
+import Button from '../../../components/Button';
 import theme from '../../../components/Theme';
+import Dots from '../../../components/Loaders/Dots';
+
 import Request from '../../../services/api-services';
 
 import logo from '../../../assets/images/alp.png';
 import image1 from '../../../assets/images/auth.jpg';
 
-import Button from '../../../components/Button';
 import '../auth.scss';
 
 const API = new Request();
@@ -76,7 +78,7 @@ const PasswordReset = () => {
             initialValues={initialValues}
             validationSchema={passwordValidationSchema}
             onSubmit={handleSubmit}
-            render={(formProps) => {
+            render={({ isSubmitting }) => {
               return (
                 <>
                   <div className="logo">
@@ -89,7 +91,7 @@ const PasswordReset = () => {
                     {!err && (
                       <>
                         <p className="head_info">
-                          Hello {user && user.first_name},please provide a new password for your account
+                          Hello {user?.first_name},please provide a new password for your account
                         </p>
                         <Fade bottom>
                           <div className="input-container">
@@ -104,8 +106,8 @@ const PasswordReset = () => {
                         )}
                         <div className="input-container btn_container">
                           <Fade bottom>
-                            <Button disabled={formProps.isSubmitting} colored>
-                              {loading ? 'Please wait...' : 'Change Password'}
+                            <Button disabled={isSubmitting || loading} colored>
+                              {loading ? <Dots /> : 'Change Password'}
                             </Button>
                           </Fade>
                         </div>

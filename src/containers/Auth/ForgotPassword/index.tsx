@@ -2,12 +2,14 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
 // import RecaptchaComponent from '../Recaptcha';
 import theme from '../../../components/Theme';
 import Button from '../../../components/Button';
+import Dots from '../../../components/Loaders/Dots';
 
 import Request from '../../../services/api-services';
 
@@ -35,11 +37,10 @@ const ForgotPassword = () => {
     try {
       setProcessing(true);
       const res = await API.passwordReset(values.email);
-      setFeedback(res.message);
+      toast.success(res.message);
       setProcessing(false);
     } catch (err) {
-      setFeedback(err.response.data.message);
-      setTimeout(() => setFeedback(null), 3000);
+      toast.error(`❗ ${err.response.data.message}`);
       setProcessing(false);
       setSubmitting(false);
     }
@@ -55,7 +56,7 @@ const ForgotPassword = () => {
             validationSchema={Yup.object().shape({
               email: Yup.string().email('Provide a valid email please').required('Provide your email please'),
             })}
-            render={(formProps) => {
+            render={({ isSubmitting }) => {
               return (
                 <>
                   <div className="logo">
@@ -88,8 +89,8 @@ const ForgotPassword = () => {
                     )}
                     <div className="input-container btn_container">
                       <Fade bottom>
-                        <Button disabled={formProps.isSubmitting} colored>
-                          {processing ? 'Please wait...' : 'Submit Request'}
+                        <Button disabled={isSubmitting || processing} colored>
+                          {processing ? <Dots /> : 'Submit Request'}
                         </Button>
                       </Fade>
 

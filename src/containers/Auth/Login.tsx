@@ -5,17 +5,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Fade from 'react-reveal/Fade';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { logIn } from '../../store/actions';
 import theme from '../../components/Theme';
+import Button from '../../components/Button';
+import Dots from '../../components/Loaders/Dots';
 // import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
 import invisible from '../../assets/images/invisible.svg';
-
-import Button from '../../components/Button';
 
 import './auth.scss';
 
@@ -50,8 +51,7 @@ const LogIn = () => {
         history.push(`/auth/2fa?email=${values.email}`);
         setSubmitting(false);
       }
-      setFeedback(err.message);
-      setTimeout(() => setFeedback(null), 3000);
+      toast.error(`❗ ${err.message}`);
       setSubmitting(false);
     }
   };
@@ -118,8 +118,8 @@ const LogIn = () => {
 
                     <div className="input-container btn_container">
                       <Fade bottom>
-                        <Button disabled={isSubmitting} colored>
-                          {processing ? 'Please wait...' : 'Sign In'}
+                        <Button disabled={isSubmitting || processing} colored>
+                          {processing ? <Dots /> : 'Sign In'}
                         </Button>
                       </Fade>
 

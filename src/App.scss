@@ -8,3 +8,24 @@
     bottom: 85px;
   }
 }
+
+// Toast Notifications Custom Styling
+.Toastify__toast {
+  border-radius: 15px;
+  padding-left: 1rem;
+  min-height: 50px;
+  font-family: Sailec;
+}
+
+.Toastify__toast--error {
+  background: black;
+  color: white;
+}
+
+.Toastify__progress-bar {
+  height: 1px;
+}
+
+.Toastify__progress-bar--error {
+  background: #fc199b;
+}

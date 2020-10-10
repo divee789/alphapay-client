@@ -66,7 +66,7 @@ export default class APIRequest {
         new APIServiceError({
           status: 500,
           data: {
-            message: 'Network Error, try again',
+            message: 'Network Error, Try Again',
             error: 'server_error',
             data: null,
           },

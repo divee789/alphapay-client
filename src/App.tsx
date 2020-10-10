@@ -4,6 +4,8 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadReCaptcha } from 'react-recaptcha-google';
 import SwitchC from 'react-switch';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { history } from './utils';
 import { switchMode } from './store/actions';
@@ -75,6 +77,7 @@ const App = () => {
 
   return (
     <>
+      <ToastContainer />
       <Suspense fallback={<Loading />}>{routes}</Suspense>
       <div className="toggle_button">
         <SwitchC

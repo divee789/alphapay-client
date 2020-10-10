@@ -3,15 +3,17 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { twoFaVerify } from '../../store/actions';
+
+import Button from '../../components/Button';
 import theme from '../../components/Theme';
+import Dots from '../../components/Loaders/Dots';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
-
-import Button from '../../components/Button';
 
 import './auth.scss';
 import APIServiceError from '../../services/error-services';
@@ -49,13 +51,12 @@ const TwoFa = () => {
       history.push(`/dashboard/overview`);
     } catch (err) {
       if (err instanceof APIServiceError) {
-        setFeedback(err.response.data.message);
+        toast.error(`❗ ${err.response.data.message}`);
         setSubmitting(false);
         setProcessing(false);
         return;
       }
-      setFeedback(err.message);
-      setTimeout(() => setFeedback(null), 3000);
+      toast.error(`❗ ${err.message}`);
       setSubmitting(false);
       setProcessing(false);
     }
@@ -69,7 +70,7 @@ const TwoFa = () => {
             initialValues={initialValues}
             validationSchema={twoFaValidationSchema}
             onSubmit={handleSubmit}
-            render={(formProps) => {
+            render={({ isSubmitting }) => {
               return (
                 <>
                   <div className="logo">
@@ -92,8 +93,8 @@ const TwoFa = () => {
                     )}
 
                     <div className="input-container btn_container">
-                      <Button disabled={formProps.isSubmitting} colored>
-                        {processing ? 'Please wait...' : 'CONTINUE'}
+                      <Button disabled={isSubmitting || processing} colored>
+                        {processing ? <Dots /> : 'Verify Code'}
                       </Button>
                     </div>
                   </Form>
