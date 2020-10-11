@@ -20,11 +20,8 @@ import Setting from './Routes/Setting';
 import TabMenu from './components/SideBar';
 import NotificationBar from './components/Notifications';
 import Backdrop from '../../components/Modal/Backdrop';
-import constants from '../../utils/constants';
 
 import Logo from '../../assets/images/alp.png';
-import Notify from '../../assets/images/dashboard/bxs-bell.png';
-import not from '../../assets/images/notification.svg';
 import imLogo from '../../assets/images/dashboard/home.png';
 import cardLogo from '../../assets/images/dashboard/card.png';
 import transactLogo from '../../assets/images/dashboard/transactions.png';
@@ -46,8 +43,6 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
   const { user } = useSelector((state: { auth }) => state.auth);
-  const { notifications } = useSelector((state: { wallet }) => state.wallet);
-  const { mode } = useSelector((state: any) => state.ui);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -105,22 +100,13 @@ const Dashboard = () => {
     dispatch(getNotifications());
   };
 
-  const styles = {
-    background: mode === 'dark' ? constants.darkMode : '#f8f8f8',
-    color: mode === 'dark' ? '#00C9B6' : '#000',
-  };
-
-  const linkStyle = {
-    color: mode === 'dark' ? '#00C9B6' : '',
-  };
-
   return (
     <>
       <Helmet>
         <meta charSet="utf-8" />
         <title>alphapay | Dashboard</title>
       </Helmet>
-      <section className="dashboard_main" style={styles}>
+      <section className="dashboard_main">
         <Backdrop show={sidebarOpen || notificationOpen} clicked={() => setSideBarOpen(false)} />
         <NotificationBar
           isActive={notificationOpen}
@@ -128,71 +114,47 @@ const Dashboard = () => {
           remove={deleteNotification}
         />
 
-        <div
-          className="menu"
-          style={{
-            background: mode === 'dark' ? constants.darkMode : 'white',
-          }}
-        >
-          <div
-            className="logo"
-            onClick={() => {
-              history.push('/');
-            }}
-          >
-            <img src={Logo} alt="logo_image" />
-          </div>
-          <div className="sidenav">
-            <div className="sidenav_menu">
-              <div className="sidenav-list">
-                <NavLink to={`${url}/overview`} style={linkStyle}>
-                  <img src={imLogo} alt="" />
-                  <span> Overview</span>
-                </NavLink>
-                <NavLink to={`${url}/cards`} style={linkStyle}>
-                  <img src={cardLogo} alt="" />
-                  <span>Payments</span>
-                </NavLink>
-                <NavLink to={`${url}/transactions`} style={linkStyle}>
-                  <img src={transactLogo} alt="" />
-                  <span>Transactions</span>
-                </NavLink>
-                {/* <NavLink to={`${url}/utilities`} style={linkStyle}>
-                  <img src={utilsLogo} alt="" />
-                  <span>Utilities</span>
-                </NavLink> */}
-                <NavLink to={`${url}/settings`} style={linkStyle}>
-                  <img src={settings} alt="" />
-                  <span>Settings</span>
-                </NavLink>
-                <p className="custom_link" onClick={logOutHandler} style={linkStyle}>
-                  Log Out
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div className="main">
           <div className="dashboard_nav">
-            <div className="notifications">
-              <img
-                src={notifications && notifications.length > 0 ? not : Notify}
-                onClick={() => {
-                  setNotificationOpen(true);
-                }}
-                className="bell"
-                alt="notifications"
-              />
+            <div
+              className="logo"
+              onClick={() => {
+                history.push('/');
+              }}
+            >
+              <img src={Logo} alt="logo_image" />
             </div>
-
-            <div className="profile_details">
-              <div className="user">
-                <img
-                  src={user?.profile_image || 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'}
-                  alt="profile_image"
-                  className="img"
-                />
+            <div className="sidenav-list">
+              <NavLink to={`${url}/overview`}>
+                <img src={imLogo} alt="" />
+                <span> Overview</span>
+              </NavLink>
+              <NavLink to={`${url}/cards`}>
+                <img src={cardLogo} alt="" />
+                <span>Payments</span>
+              </NavLink>
+              <NavLink to={`${url}/transactions`}>
+                <img src={transactLogo} alt="" />
+                <span>Transactions</span>
+              </NavLink>
+            </div>
+            <div className="dashboard_nav_profile">
+              <img
+                src={user?.profile_image || 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'}
+                alt="profile_image"
+              />
+              <div className="dropdown_content">
+                <p>
+                  {user?.first_name} {user?.last_name}
+                </p>
+                <hr />
+                <div className="navcard_actions">
+                  <NavLink to={`${url}/settings`}>
+                    <img src={settings} alt="" />
+                    <span>My Profile</span>
+                  </NavLink>
+                  <p onClick={(e) => logOutHandler(e)}> Log Out </p>
+                </div>
               </div>
             </div>
           </div>

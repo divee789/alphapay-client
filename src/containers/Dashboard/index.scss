@@ -1,116 +1,79 @@
 .dashboard_main {
   box-sizing: border-box;
   width: 100%;
-  display: flex;
-  flex-direction: row;
+  background-color: #f3f8ff;
   height: 100vh;
   overflow: hidden;
 
-  .menu {
-    width: 260px;
-    padding: 2rem;
-    padding-top: 10px;
-    background-color: white;
-
-    @media screen and (min-width: 600px) and (max-width: 1023px) {
-      width: 6rem;
-      padding: 0;
-    }
-
-    .logo {
-      cursor: pointer;
-
-      img {
-        width: 140px;
-      }
-
-      @media screen and (min-width: 600px) and (max-width: 1023px) {
-        display: none;
-      }
-    }
-  }
-
-  .sidenav {
-    margin-top: 4rem;
-  }
-
-  .sidenav-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .sidenav-list {
-    display: flex;
-    flex-direction: column;
-
-    a,
-    .custom_link {
-      color: #565656;
-      line-height: 1.5;
-      letter-spacing: 0.01rem;
-      font-weight: 500;
-      font-size: 1rem;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding: 10px 15px;
-      margin-bottom: 15px;
-      transition-property: opacity, background-color;
-      transition-duration: 0.2s;
-      transition-timing-function: ease;
-      background-color: transparent;
-      transition: all 0.4s;
-      border-radius: 8px;
-
-      //Tablet styling
-
-      @media screen and (min-width: 600px) and (max-width: 1023px) {
-        padding: 0;
-        margin: 30px auto;
-
-        span {
-          display: none;
-        }
-      }
-
-      img {
-        margin-right: 10px;
-      }
-
-      &.active,
-      &:hover {
-        opacity: 0.9;
-        background-color: rgba(71, 212, 82, 0.103);
-        transform: translateY(-3px);
-      }
-    }
-  }
-
   .main {
-    width: 90%;
-    padding: 0;
-    box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
+    width: 95%;
     margin: 0 auto;
 
     @media screen and (min-width: 600px) and (max-width: 1023px) {
       max-width: unset;
-      flex-basis: 65rem;
     }
 
     .dashboard_nav {
       display: flex;
       flex-direction: row;
-      align-items: center;
       justify-content: space-between;
-      padding: 0.7rem 20px;
+      padding: 0 20px;
+      margin-top: 20px;
       margin-bottom: 0;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      height: 60px;
+      .logo {
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+        align-self: center;
+        img {
+          width: 130px;
+        }
 
-      div {
-        margin-right: 50px;
+        @media screen and (min-width: 600px) and (max-width: 1023px) {
+          display: none;
+        }
+      }
 
-        @media screen and (max-width: 600px) {
-          margin: 0;
+      .sidenav-list {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        a,
+        .custom_link {
+          color: #565656;
+          letter-spacing: 0.01rem;
+          display: flex;
+          align-items: center;
+          font-weight: 500;
+          box-sizing: border-box;
+          border-bottom: 4px solid transparent;
+          font-size: 1rem;
+          margin: 0 30px;
+
+          //Tablet styling
+
+          @media screen and (min-width: 600px) and (max-width: 1023px) {
+            padding: 0;
+            margin: 30px auto;
+
+            span {
+              display: none;
+            }
+          }
+
+          img {
+            margin-right: 10px;
+            width: 15px;
+          }
+
+          &.active,
+          &:hover {
+            border-bottom: 4px solid #7854f7;
+          }
         }
       }
 
@@ -118,45 +81,67 @@
         display: none;
       }
 
-      .notifications {
-        margin: 0;
-
-        .bell {
-          cursor: pointer;
-          width: 20px;
-          height: 20px;
-        }
-      }
-
-      .profile_details {
-        .img {
+      .dashboard_nav_profile {
+        align-self: center;
+        display: flex;
+        position: relative;
+        img {
           border-radius: 50%;
           width: 45px;
           height: 45px;
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
           object-fit: cover;
+          cursor: pointer;
         }
 
-        .user {
-          margin-right: 0;
-        }
+        .dropdown_content {
+          visibility: hidden;
+          cursor: pointer;
+          position: absolute;
+          width: 12rem;
+          margin-top: 1px;
+          background-color: #fff;
+          top: -1rem;
+          left: -8rem;
+          transform: translateY(1.2rem);
+          z-index: -1;
+          transition: all 0.2s ease-in-out;
+          padding: 0.4rem;
+          padding-left: 1rem;
+          border-radius: 5px;
+          box-shadow: 1px 12px 25px rgba(80, 114, 125, 0.5);
 
-        .user_info {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-          float: left;
-          margin-right: 13px;
+          .navcard_actions {
+            margin-top: 1rem;
+            a,
+            p {
+              color: #565656;
+              letter-spacing: 0.01rem;
+              display: flex;
+              align-items: center;
+              font-weight: 500;
+              box-sizing: border-box;
+              font-size: 1rem;
+              transition: all 0.3s;
 
-          span {
-            display: inline-block;
-            font-size: 0.9rem;
-            font-weight: 600;
+              &:hover {
+                margin-left: 10px;
+              }
+
+              img {
+                width: 25px;
+                height: 25px;
+                margin-right: 10px;
+              }
+            }
           }
+        }
 
-          .mobile_phone {
-            font-size: 0.5rem;
-            font-weight: 600;
+        &:hover {
+          .dropdown_content {
+            visibility: visible;
+            z-index: 1;
+            transform: translateY(0%);
           }
         }
       }
@@ -169,9 +154,10 @@
     }
 
     .main {
-      flex-basis: 100%;
-      max-width: 100%;
       padding: 0;
+      .dashboard_nav {
+        display: none;
+      }
     }
   }
 
@@ -235,4 +221,13 @@
 
 .side_nav {
   transition: all 3s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

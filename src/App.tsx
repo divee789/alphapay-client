@@ -62,9 +62,9 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={Landing} />
         <Route path="/careers" component={Careers} />
-        <Route path="/auth/login" render={() => (isAuth ? <Redirect to="/dashboard/home" /> : <Login />)} />
-        <Route path="/auth/signup" render={() => (isAuth ? <Redirect to="/dashboard/home" /> : <Signup />)} />
-        <Route path="/auth/2fa" render={() => (isAuth ? <Redirect to="/dashboard/home" /> : <TwoFa />)} />
+        <Route path="/auth/login" render={() => (isAuth ? <Redirect to="/dashboard/overview" /> : <Login />)} />
+        <Route path="/auth/signup" render={() => (isAuth ? <Redirect to="/dashboard/overview" /> : <Signup />)} />
+        <Route path="/auth/2fa" render={() => (isAuth ? <Redirect to="/dashboard/overview" /> : <TwoFa />)} />
         <Route path="/auth/verify_email" component={VerifyEmail} />
         <Route path="/auth/password_reset_request" component={PasswordReset} />
         <Route path="/auth/password_reset/:token" component={PasswordConfirmation} />
