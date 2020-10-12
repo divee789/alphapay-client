@@ -8,6 +8,7 @@
   .main {
     width: 95%;
     margin: 0 auto;
+    margin-top: 20px;
 
     @media screen and (min-width: 600px) and (max-width: 1023px) {
       max-width: unset;
@@ -18,9 +19,8 @@
       flex-direction: row;
       justify-content: space-between;
       padding: 0 20px;
-      margin-top: 20px;
       margin-bottom: 0;
-      background: white;
+      background: #fff;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       border-radius: 15px;
       height: 60px;
@@ -121,7 +121,7 @@
               align-items: center;
               font-weight: 500;
               box-sizing: border-box;
-              font-size: 1rem;
+              font-size: 0.9rem;
               transition: all 0.3s;
 
               &:hover {
@@ -171,50 +171,37 @@
     margin: 0;
   }
 
-  .container {
-    padding: 0 20px;
-  }
+  .dashboard_content {
+    display: flex;
+    justify-content: space-between;
 
-  .scroll {
-    height: 89.5vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    padding-bottom: 10rem;
-    scroll-behavior: smooth;
-    box-sizing: border-box;
-  }
-
-  .dashboard_main {
-    .container {
-      padding: 0;
+    aside {
+      padding: 0 20px;
+      box-sizing: border-box;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 25px;
+      border-radius: 15px;
+      overflow: hidden;
+      width: 20%;
+      height: 50vh;
+      h1 {
+        font-size: 1.1rem;
+        letter-spacing: 0.3px;
+        line-height: 34px;
+      }
     }
 
-    .main {
-      .dashboard_nav {
-        margin: 0 auto;
-        width: 95%;
-        justify-content: space-between;
-
-        div {
-          margin-right: 0;
-        }
-
-        .profile_details {
-          font-size: 12px;
-          margin-bottom: 10px;
-        }
-
-        .open_sidenav {
-          display: block;
-          position: absolute;
-          top: 25px;
-          left: 30px;
-        }
-
-        .mobile {
-          display: none;
-        }
-      }
+    main {
+      padding: 1rem 20px;
+      box-sizing: border-box;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 25px;
+      border-radius: 15px;
+      overflow: hidden;
+      width: 78%;
+      height: 83vh;
     }
   }
 }

@@ -89,6 +89,17 @@ const Dashboard = () => {
 
   const { path, url } = useRouteMatch();
 
+  const renderGreeting = () => {
+    const currentDate = new Date();
+    const hrs = currentDate.getHours();
+
+    if (hrs < 12) return '🌄 Good Morning';
+    else if (hrs >= 12 && hrs <= 17) return '🌞 Good Afternoon';
+    else if (hrs >= 17 && hrs <= 24) return '🌙 Good Evening';
+
+    return '🌻 Good Day';
+  };
+
   const logOutHandler = async (e) => {
     e.preventDefault();
     dispatch(logOut(user.email));
@@ -158,19 +169,24 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <section>
-            <div className="container">
-              <div className="scroll">
-                <Switch>
-                  <Route path={`${path}/overview`} render={() => <Overview data={banks} />} />
-                  <Route path={`${path}/cards`} component={Cards} />
-                  <Route path={`${path}/transactions`} component={Transactions} />
-                  <Route path={`${path}/utilities`} component={Utilities} />
-                  <Route path={`${path}/settings`} component={Setting} />
-                  <Redirect to="/" />
-                </Switch>
-              </div>
-            </div>
+          <section className="dashboard_content">
+            <aside>
+              <section>
+                <h1>
+                  {renderGreeting()}, {user?.username}!
+                </h1>
+              </section>
+            </aside>
+            <main>
+              <Switch>
+                <Route path={`${path}/overview`} render={() => <Overview data={banks} />} />
+                <Route path={`${path}/cards`} component={Cards} />
+                <Route path={`${path}/transactions`} component={Transactions} />
+                <Route path={`${path}/utilities`} component={Utilities} />
+                <Route path={`${path}/settings`} component={Setting} />
+                <Redirect to="/" />
+              </Switch>
+            </main>
           </section>
         </div>
       </section>

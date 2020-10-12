@@ -1,25 +1,14 @@
 .overview {
-  h1 {
-    font-size: 1.5rem;
-    letter-spacing: normal;
-    text-align: center;
-  }
-
   .wallet_actions {
-    margin: 0 auto;
-    margin-top: 4rem;
+    margin-top: 2rem;
     padding: 2rem 13px;
-    background-color: white;
-    box-shadow: -3px 3px 12px rgba(50, 79, 159, 0.13);
     margin-bottom: 1rem;
-    width: 60%;
+    cursor: pointer;
     border-radius: 15px;
-    text-align: center;
     position: relative;
     p {
-      font-size: 2.4rem;
+      font-size: 2.6rem;
       margin: 0;
-      opacity: 0.77;
       margin-bottom: 10px;
     }
     span {
