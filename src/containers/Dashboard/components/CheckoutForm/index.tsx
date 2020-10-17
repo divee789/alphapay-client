@@ -57,7 +57,6 @@ const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: 
       setProcessing(false);
       setMessage('Your withdrawal is being processed. You will receive your funds shortly');
     } catch (error) {
-      console.log('checkout error', error);
       alert('Your bank details could not be verified, please make sure they are valid and try again');
       setProcessing(false);
       setSubmitting(false);

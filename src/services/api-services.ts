@@ -219,17 +219,10 @@ export default class APIRequest {
     return response.data.data;
   };
 
-  logOut = async (user_email?: string) => {
-    const refresh_token = Storage.getItem('refreshToken');
+  logOut = async () => {
     Storage.removeItem('userToken');
     Storage.removeItem('refreshToken');
     Storage.removeItem('userTokenExpiration');
-    if (user_email) {
-      await this.instance.post('/auth/logout', {
-        user_email,
-        refresh_token,
-      });
-    }
     this.clearHeader();
   };
 
@@ -315,7 +308,6 @@ export default class APIRequest {
       throw new Error('Your session has expired, please log in again');
     }
     const res = await this.instance.get('/api/v1/transfer/banks');
-    console.log(res.data);
     return res.data.data;
   };
 
@@ -330,6 +322,11 @@ export default class APIRequest {
 
   transferFunds = async (data) => {
     const res = await this.instance.post('/api/v1/transfer', data);
+    return res.data.data;
+  };
+
+  verifyRecipientAccount = async (phoneNumber) => {
+    const res = await this.instance.get(`/api/v1/transfer/account?phone_number=${phoneNumber}`);
     return res.data.data;
   };
 

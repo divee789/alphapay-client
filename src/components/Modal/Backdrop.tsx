@@ -5,7 +5,7 @@ const Backdrop = (props: { show: boolean; clicked: any }) => {
     width: props.show ? '100%' : 0,
     height: props.show ? '100%' : 0,
     position: 'fixed',
-    zIndex: 99,
+    zIndex: 5,
     left: 0,
     top: 0,
     background: 'rgba(0, 0, 0, 0.7)',

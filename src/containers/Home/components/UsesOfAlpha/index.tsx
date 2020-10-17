@@ -13,21 +13,21 @@ const UsesOfAlpha = () => {
       <section className="use_alpha_section">
         <h1>Designed & built to make your payments easier</h1>
         <div className="use_card_section">
-          <Fade bottom>
+          <Fade bottom distance="80px">
             <div className="use_card a">
               <img src={card1} alt="" />
               <h3>Send Money From Your Phone With Ease</h3>
               <p>Send money to an alpha or to any Nigerian bank account with speed and ease.</p>
             </div>
           </Fade>
-          <Fade bottom>
+          <Fade bottom distance="80px">
             <div className="use_card b">
               <img src={card2} alt="" />
               <h3>Receive Money Via Funding or Transfer</h3>
               <p>Receive money from an alpha with instant credit. Fund your wallet from any Nigerian bank.</p>
             </div>
           </Fade>
-          <Fade bottom>
+          <Fade bottom distance="80%">
             <div className="use_card c">
               <img src={card3} alt="" />
               <h3>Request For Money</h3>

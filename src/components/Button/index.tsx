@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import './index.scss';
 
@@ -15,23 +14,22 @@ interface propsInterface {
 }
 
 const Button = (props: propsInterface) => {
-  const { mode } = useSelector((state: any) => state.ui);
-
   let style: any;
 
   style = {
     borderColor: '#47C072',
     borderWidth: '1px',
-    color: '#008080',
     backgroundColor: 'white',
   };
 
   if (props.dashboard) {
     style = {
-      backgroundColor: 'rgba(71, 212, 82, 0.303)',
-      color: mode === 'dark' ? 'white' : '#0a2e65',
-      fontWeight: '800',
+      backgroundColor: '#0d60d8',
       fontFamily: 'Sailec',
+      color: 'white',
+      borderTopRightRadius: 10,
+      borderBottomLeftRadius: 10,
+      borderBottomRightRadius: 10,
     };
   }
   if (props.colored) {

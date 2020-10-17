@@ -7,9 +7,7 @@ import openSocket from 'socket.io-client';
 
 import { Wallet } from '../../store/types';
 import * as actionTypes from '../../store/actions/actionTypes';
-import { getUserWallet, getNotifications } from '../../store/actions/wallet';
-import { getUser } from '../../store/actions/auth';
-import { logOut } from '../../store/actions';
+import { logOut, getUserTransactions, getUser, getUserWallet, getNotifications } from '../../store/actions';
 import API from '../../services/api-services';
 
 import Overview from './Routes/Overview';
@@ -49,10 +47,11 @@ const Dashboard = () => {
     script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
     document.getElementsByTagName('head')[0].appendChild(script);
 
-    const check = async (): Promise<boolean> => {
+    const bootstrap = async (): Promise<boolean> => {
       try {
         dispatch(getUser());
         dispatch(getUserWallet());
+        dispatch(getUserTransactions());
         dispatch(getNotifications());
         const res = await Request.getBanks();
         if (res.banks) {
@@ -63,7 +62,7 @@ const Dashboard = () => {
         return false;
       }
     };
-    check();
+    bootstrap();
   }, [dispatch]);
 
   useEffect(() => {
@@ -78,6 +77,7 @@ const Dashboard = () => {
       socket.on(`${user.id}-transfer`, (data) => {
         const check = async (): Promise<void> => {
           dispatch(success(data.data.wallet));
+          dispatch(getUserTransactions());
           dispatch(getNotifications());
         };
         check();
@@ -102,7 +102,7 @@ const Dashboard = () => {
 
   const logOutHandler = async (e) => {
     e.preventDefault();
-    dispatch(logOut(user.email));
+    dispatch(logOut());
     history.push('/');
   };
 
@@ -164,7 +164,10 @@ const Dashboard = () => {
                     <img src={settings} alt="" />
                     <span>My Profile</span>
                   </NavLink>
-                  <p onClick={(e) => logOutHandler(e)}> Log Out </p>
+                  <p onClick={(e) => logOutHandler(e)}>
+                    <img src="https://img.freepik.com/free-icon/logout_318-10026.jpg?size=338&ext=jpg" alt="logout" />
+                    Log Out
+                  </p>
                 </div>
               </div>
             </div>
