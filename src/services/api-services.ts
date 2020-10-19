@@ -378,4 +378,21 @@ export default class APIRequest {
     const response = await this.instance.post('/api/v1/wallet/activation', body);
     return response.data.data;
   };
+
+  // PAYMENT REQUEST APIs
+
+  getPaymentRequests = async () => {
+    const response = await this.instance.get('/api/v1/payment_request');
+    return response.data.data;
+  };
+
+  createPaymentRequest = async (data) => {
+    const response = await this.instance.post('/api/v1/payment_request', data);
+    return response.data.data;
+  };
+
+  processPaymentRequest = async (status: string, paymentId: string) => {
+    const response = await this.instance.put(`/api/v1/payment_request/${paymentId}`, { status });
+    return response.data.data;
+  };
 }

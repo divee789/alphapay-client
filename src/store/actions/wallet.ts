@@ -117,6 +117,10 @@ export function transferFunds(data: {
   };
 }
 
+export function updateWallet(wallet) {
+  return { type: actionTypes.walletConstants.FUND_WALLET_SUCCESS, wallet };
+}
+
 export function setTransactionPin(data: { transaction_pin: string }) {
   function request() {
     return { type: actionTypes.walletConstants.FUND_WALLET_REQUEST };

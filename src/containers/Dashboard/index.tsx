@@ -5,9 +5,15 @@ import { Route, Switch, Redirect, useRouteMatch, NavLink, useHistory } from 'rea
 import { Helmet } from 'react-helmet';
 import openSocket from 'socket.io-client';
 
-import { Wallet } from '../../store/types';
-import * as actionTypes from '../../store/actions/actionTypes';
-import { logOut, getUserTransactions, getUser, getUserWallet, getNotifications } from '../../store/actions';
+import {
+  logOut,
+  getUserTransactions,
+  getUser,
+  getUserWallet,
+  getNotifications,
+  getPaymentRequests,
+  updateWallet,
+} from '../../store/actions';
 import API from '../../services/api-services';
 
 import Overview from './Routes/Overview';
@@ -15,6 +21,8 @@ import Cards from './Routes/Cards';
 import Transactions from './Routes/Transactions';
 import Utilities from './Routes/Utilities';
 import Setting from './Routes/Setting';
+import PaymentRequest from './Routes/PaymentRequest';
+
 import TabMenu from './components/SideBar';
 import NotificationBar from './components/Notifications';
 import Backdrop from '../../components/Modal/Backdrop';
@@ -25,11 +33,6 @@ import cardLogo from '../../assets/images/dashboard/card.png';
 import transactLogo from '../../assets/images/dashboard/transactions.png';
 import settings from '../../assets/images/dashboard/set.png';
 import './index.scss';
-
-//Wallet reducer
-function success(wallet: Wallet) {
-  return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet };
-}
 
 const Request = new API();
 
@@ -53,6 +56,7 @@ const Dashboard = () => {
         dispatch(getUserWallet());
         dispatch(getUserTransactions());
         dispatch(getNotifications());
+        dispatch(getPaymentRequests());
         const res = await Request.getBanks();
         if (res.banks) {
           setBanks(res.banks);
@@ -76,9 +80,8 @@ const Dashboard = () => {
     if (user) {
       socket.on(`${user.id}-transfer`, (data) => {
         const check = async (): Promise<void> => {
-          dispatch(success(data.data.wallet));
+          dispatch(updateWallet(data.data.wallet));
           dispatch(getUserTransactions());
-          dispatch(getNotifications());
         };
         check();
       });
@@ -140,7 +143,7 @@ const Dashboard = () => {
                 <img src={imLogo} alt="" />
                 <span> Overview</span>
               </NavLink>
-              <NavLink to={`${url}/cards`}>
+              <NavLink to={`${url}/payment_requests`}>
                 <img src={cardLogo} alt="" />
                 <span>Payments</span>
               </NavLink>
@@ -187,6 +190,7 @@ const Dashboard = () => {
                 <Route path={`${path}/transactions`} component={Transactions} />
                 <Route path={`${path}/utilities`} component={Utilities} />
                 <Route path={`${path}/settings`} component={Setting} />
+                <Route path={`${path}/payment_requests`} component={PaymentRequest} />
                 <Redirect to="/" />
               </Switch>
             </main>

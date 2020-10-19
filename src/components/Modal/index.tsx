@@ -3,7 +3,7 @@ import React from 'react';
 import Close from '../../assets/images/close.png';
 import './index.scss';
 
-const Modal = (props: any) => {
+const Modal = (props: { open: boolean; className?: string; closed: any; children?: any }) => {
   const attachedClasses = props.open ? ['open', props.className] : ['close', props.className];
 
   const backdropClasses = props.open ? ['backdrop_open'] : ['backdrop_close'];

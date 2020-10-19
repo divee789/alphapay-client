@@ -35,10 +35,6 @@ const TransferForm = (props: { mode }) => {
     transaction_type: 'transfer',
   };
 
-  const linkStyle = {
-    color: props.mode === 'dark' ? '#00C9B6' : '',
-  };
-
   const walletValidationSchema = Yup.object().shape({
     amount: Yup.number().required('Please provide the amount you want to transfer'),
     recipient_phone_number: Yup.string().required('Please provide the recipient phone number'),
@@ -96,7 +92,7 @@ const TransferForm = (props: { mode }) => {
               <div>
                 <p>PLEASE PROVIDE YOUR TRANSACTION PIN</p>
                 <div className="con">
-                  <Field type="string" name="pin" placeholder="1111" style={linkStyle} />
+                  <Field type="string" name="pin" placeholder="1111" />
                 </div>
                 <ErrorMessage name="pin" render={(msg) => <div className="error">{msg}</div>} />
               </div>
@@ -147,15 +143,14 @@ const TransferForm = (props: { mode }) => {
                   <p>HOW MUCH DO YOU WANT TO TRANSFER?</p>
                   <div className="con">
                     {' '}
-                    <span>NGN</span>{' '}
-                    <Field type="number" name="amount" placeholder="0" style={linkStyle} className="amount_input" />
+                    <span>NGN</span> <Field type="number" name="amount" placeholder="0" className="amount_input" />
                   </div>
                   <ErrorMessage name="amount" render={(msg) => <div className="error modal_error">{msg}</div>} />
                 </div>
                 <div>
                   <p>WHO DO YOU WANT TO TRANSFER TO?</p>
                   <div className="con">
-                    <Field type="string" name="recipient_phone_number" placeholder="08024110355" style={linkStyle} />
+                    <Field type="string" name="recipient_phone_number" placeholder="08024110355" />
                   </div>
                   <ErrorMessage
                     name="recipient_phone_number"
