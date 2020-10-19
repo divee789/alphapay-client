@@ -17,7 +17,7 @@ export function logOut(email?: string) {
   return async (dispatch: Dispatch): Promise<void> => {
     try {
       dispatch(request());
-      await authAPIRequest.logOut(email);
+      await authAPIRequest.logOut();
     } catch (error) {
       if (error instanceof APIServiceError) {
         throw error.response.data;

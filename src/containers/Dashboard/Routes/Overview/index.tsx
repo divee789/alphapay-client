@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
+
 import { getUserWallet } from '../../../../store/actions';
 
 import Modal from '../../../../components/Modal';
 import FundForm from '../../components/FundForm';
 import CheckoutForm from '../../components/CheckoutForm';
 import TransferForm from '../../components/TransferForm';
+
 import Button from '../../../../components/Button';
+import Dots from '../../../../components/Loaders/Dots';
 
 import Refresh from '../../../../assets/images/refresh.png';
 
@@ -16,13 +19,12 @@ import './index.scss';
 import constants from '../../../../utils/constants';
 
 const Overview = (props: { data: any[] }) => {
-  const history = useHistory();
   const [showFundModal, setShowFundModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
   const { wallet, processing } = useSelector((state: { wallet }) => state.wallet);
-  const { user } = useSelector((state: any) => state.auth);
+  const { transactions } = useSelector((state: { transaction }) => state.transaction);
   const { mode } = useSelector((state: { ui }) => state.ui);
 
   const dispatch = useDispatch();
@@ -32,18 +34,7 @@ const Overview = (props: { data: any[] }) => {
     color: mode === 'dark' ? '#00C9B6' : '#000',
   };
 
-  const renderGreeting = () => {
-    const currentDate = new Date();
-    const hrs = currentDate.getHours();
-
-    if (hrs < 12) return '🌄 Good Morning';
-    else if (hrs >= 12 && hrs <= 17) return '🌞 Good Afternoon';
-    else if (hrs >= 17 && hrs <= 24) return '🌙 Good Evening';
-
-    return '🌻 Good Day';
-  };
-
-  const modalHandler = (category: string) => {
+  const modalHandler = (category: 'fund' | 'transfer' | 'checkout') => {
     switch (category) {
       case 'fund':
         return setShowFundModal(false);
@@ -55,7 +46,7 @@ const Overview = (props: { data: any[] }) => {
         return;
     }
   };
-  const toggleModal = (form: string) => {
+  const toggleModal = (form: 'fund' | 'transfer' | 'checkout') => {
     switch (form) {
       case 'fund':
         return setShowFundModal(!showFundModal);
@@ -68,87 +59,103 @@ const Overview = (props: { data: any[] }) => {
     }
   };
 
+  const formatMessage = (type: string) => {
+    let messageType;
+    let source;
+    if (type === 'incoming') {
+      messageType = 'credited';
+      source = 'sender';
+    } else {
+      messageType = 'debited';
+      source = 'recipient';
+    }
+    return { messageType, source };
+  };
+
   return (
-    <section className="overview">
-      <h1>
-        {renderGreeting()}, {user?.username}!
-      </h1>
-      <div className="wallet_actions" style={styles}>
-        <span
-          className="wallet_refresh"
-          onClick={() => {
-            dispatch(getUserWallet());
-          }}
-        >
-          <img src={Refresh} alt="refresh balance" />
-        </span>
-        <p>
-          {processing
-            ? 'Loading...'
-            : wallet?.available_balance
-                .toFixed(2)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-        </p>
-        <span>AVAILABLE BALANCE (NGN)</span>
-        <div className="btn_fund">
-          <Button dashboard onClick={() => toggleModal('fund')} style={{ color: mode === 'dark' ? '#00C9B6' : '' }}>
-            Fund Wallet
-          </Button>
-          <Button
-            dashboard
-            style={{ color: mode === 'dark' ? '#00C9B6' : '' }}
-            onClick={() => toggleModal('checkout')}
-            disabled={wallet?.available_balance <= 100 ? true : false}
-          >
-            Withdraw Funds
-          </Button>
-        </div>
-      </div>
+    <>
+      <section className="overview">
+        <div className="actions">
+          <Fade top duration={200} distance="10px">
+            <div className="wallet_actions">
+              <span
+                className="wallet_refresh"
+                onClick={() => {
+                  dispatch(getUserWallet());
+                }}
+              >
+                <img src={Refresh} alt="refresh balance" />
+              </span>
+              <p>
+                {processing ? (
+                  <Dots color="black" width={1} height={1} />
+                ) : (
+                  wallet?.available_balance
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                )}
+              </p>
+              <span>AVAILABLE BALANCE (NGN)</span>
+            </div>
+          </Fade>
 
-      <div className="overview_actions" style={styles}>
-        <div>
-          <Button dashboard style={{ color: mode === 'dark' ? '#00C9B6' : '' }} onClick={() => toggleModal('transfer')}>
-            TRANSFER FUNDS
-          </Button>
+          <div className="overview_actions" style={styles}>
+            <div>
+              <Button dashboard onClick={() => toggleModal('fund')}>
+                FUND WALLET
+              </Button>
+            </div>
+            <div>
+              <Button
+                dashboard
+                onClick={() => toggleModal('checkout')}
+                disabled={wallet?.available_balance <= 100 ? true : false}
+              >
+                WITHDRAW FUNDS
+              </Button>
+            </div>
+            <div>
+              <Button dashboard onClick={() => toggleModal('transfer')}>
+                TRANSFER FUNDS
+              </Button>
+            </div>
+            <div>
+              <Button dashboard onClick={() => toggleModal('transfer')}>
+                PAY BILLS
+              </Button>
+            </div>
+          </div>
         </div>
-        <div>
-          <Button dashboard style={{ color: mode === 'dark' ? '#00C9B6' : '' }} onClick={() => toggleModal('transfer')}>
-            PAY BILLS
-          </Button>
+        <div className="wallet_history">
+          <h3>WALLET HISTORY</h3>
+          <hr />
+          <div className="wallet_history_content">
+            {transactions?.length > 0 &&
+              transactions.map((data) => {
+                return (
+                  <div key={data.id}>
+                    Your wallet was {formatMessage(data.type).messageType} by{' '}
+                    {data[`${formatMessage(data.type).source}`].username} with NGN {data.amount}
+                  </div>
+                );
+              })}
+            {transactions?.length === 0 && (
+              <div className="wallet_history_empty_state">There is nothing to see here</div>
+            )}
+          </div>
         </div>
-        <div>
-          <Button
-            dashboard
-            style={{ color: mode === 'dark' ? '#00C9B6' : '' }}
-            onClick={() => history.push('/dashboard/transactions')}
-          >
-            VIEW TRANSACTIONS
-          </Button>
-        </div>
-        <div>
-          <Button dashboard style={{ color: mode === 'dark' ? '#00C9B6' : '' }}>
-            AUDIT LOGS
-          </Button>
-        </div>
-      </div>
-
-      {showFundModal && (
-        <Modal open={showFundModal} closed={() => modalHandler('fund')}>
-          <FundForm mode={mode} />
-        </Modal>
-      )}
-      {showTransferModal && (
-        <Modal open={showTransferModal} closed={() => modalHandler('transfer')}>
-          <TransferForm mode={mode} />
-        </Modal>
-      )}
-      {showCheckoutModal && (
-        <Modal open={showCheckoutModal} closed={() => modalHandler('checkout')}>
-          <CheckoutForm mode={mode} banks={props.data} />
-        </Modal>
-      )}
-    </section>
+      </section>
+      <Modal open={showFundModal} closed={() => modalHandler('fund')}>
+        <FundForm mode={mode} />
+      </Modal>
+      <Modal open={showTransferModal} closed={() => modalHandler('transfer')}>
+        <TransferForm mode={mode} />
+      </Modal>
+      <Modal open={showCheckoutModal} closed={() => modalHandler('checkout')}>
+        <CheckoutForm mode={mode} banks={props.data} />
+      </Modal>
+    </>
   );
 };
 

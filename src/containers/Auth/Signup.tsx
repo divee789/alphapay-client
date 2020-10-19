@@ -54,7 +54,7 @@ const SignUp = () => {
     first_name: Yup.string().required('Provide your first name please'),
     last_name: Yup.string().required('Provide your last name please'),
     username: Yup.string().required('Provide a username please'),
-    phone_number: Yup.number().min(11, 'Invalid phone_number').required('Provide your phone number please'),
+    phone_number: Yup.number().min(11, 'Invalid phone number').required('Provide your phone number please'),
     email: Yup.string()
       .email('Hey,just letting you know that your email is quite weird')
       .required('Provide your email please'),
@@ -115,7 +115,6 @@ const SignUp = () => {
                         </div>
                       </div>
                     </Fade>
-
                     <Fade bottom>
                       <div className="input-container">
                         <Field type="text" name="username" placeholder="Your Username" />

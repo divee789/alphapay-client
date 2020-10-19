@@ -1,0 +1,28 @@
+.payment_requests_section {
+  .section_action {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid gray;
+    p {
+      margin-right: 30px;
+      cursor: pointer;
+      line-height: unset;
+      margin-bottom: 0;
+      padding: 10px;
+    }
+    .active {
+      border-bottom: 3px solid red;
+    }
+  }
+
+  .empty_state {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10%;
+  }
+}

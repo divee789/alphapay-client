@@ -9,12 +9,14 @@ import requestMiddleware from './middlewares/request';
 import authReducer from './reducers/auth';
 import walletReducer from './reducers/wallet';
 import transactionReducer from './reducers/transaction';
+import paymentRequestReducer from './reducers/paymentRequest';
 import uiReducer from './reducers/ui';
 
 export const rootReducer = combineReducers({
   auth: authReducer,
   wallet: walletReducer,
   transaction: transactionReducer,
+  paymentRequest: paymentRequestReducer,
   ui: uiReducer,
 });
 

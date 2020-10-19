@@ -7,7 +7,10 @@ export {
   getNotifications,
   transferFunds,
   setTransactionPin,
+  updateWallet,
 } from './wallet';
+
+export { getPaymentRequests } from './paymentRequest';
 
 export { switchMode } from './ui';
 

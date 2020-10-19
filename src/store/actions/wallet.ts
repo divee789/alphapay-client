@@ -81,7 +81,7 @@ export function checkoutUserWallet(data: { amount: number; bank_code: string; ba
     try {
       await dispatch(request());
       const response = await Request.checkoutWallet(data);
-      await dispatch(success(response.wallet));
+      await dispatch(success(response));
     } catch (error) {
       if (error instanceof APIServiceError) {
         await dispatch(failure(error));
@@ -115,6 +115,10 @@ export function transferFunds(data: {
       }
     }
   };
+}
+
+export function updateWallet(wallet) {
+  return { type: actionTypes.walletConstants.FUND_WALLET_SUCCESS, wallet };
 }
 
 export function setTransactionPin(data: { transaction_pin: string }) {
