@@ -13,8 +13,12 @@ export class Storage {
     if (value === undefined || value === null) {
       return null;
     }
-    const parsedValue = JSON.parse(value);
-    return parsedValue;
+    try {
+      const parsedValue = JSON.parse(value);
+      return parsedValue;
+    } catch (error) {
+      return value;
+    }
   }
 
   static setItem(item: string, itemValue: any) {

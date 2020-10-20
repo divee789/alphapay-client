@@ -30,7 +30,6 @@ import Backdrop from '../../components/Modal/Backdrop';
 import Logo from '../../assets/images/alp.png';
 import imLogo from '../../assets/images/dashboard/home.png';
 import cardLogo from '../../assets/images/dashboard/card.png';
-import transactLogo from '../../assets/images/dashboard/transactions.png';
 import settings from '../../assets/images/dashboard/set.png';
 import './index.scss';
 
@@ -146,10 +145,6 @@ const Dashboard = () => {
               <NavLink to={`${url}/payment_requests`}>
                 <img src={cardLogo} alt="" />
                 <span>Payments</span>
-              </NavLink>
-              <NavLink to={`${url}/transactions`}>
-                <img src={transactLogo} alt="" />
-                <span>Transactions</span>
               </NavLink>
             </div>
             <div className="dashboard_nav_profile">

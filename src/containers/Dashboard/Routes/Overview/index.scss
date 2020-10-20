@@ -4,10 +4,13 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+    }
   }
   .wallet_actions {
     cursor: pointer;
-    border-radius: 15px;
     width: 20%;
     position: relative;
     p {
@@ -80,8 +83,16 @@
     }
     .wallet_actions {
       margin-top: 2rem;
-      width: 98%;
+      width: 50%;
+      margin: 0 auto;
       padding: 2rem 0;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      p {
+        font-size: 2rem;
+      }
     }
 
     .overview_actions {
@@ -91,25 +102,23 @@
 
   @media screen and (max-width: 430px) {
     .wallet_actions {
+      margin-top: 1rem;
       p {
-        font-size: 1.9rem;
-        margin: 0;
+        font-size: 2.6rem;
+        margin: 10px;
       }
       span {
         font-size: 10px;
-      }
-      .btn_fund {
-        button {
-          font-size: 10px;
-        }
       }
     }
 
     .overview_actions {
       width: 100%;
+      padding: 0;
       div {
+        padding: 10px;
         button {
-          font-size: 9px;
+          font-size: 12px;
         }
       }
     }
