@@ -1,10 +1,36 @@
+import decode from 'jwt-decode';
 import * as actionTypes from '../actions/actionTypes';
 import { Storage } from '../../services/storage-services';
+
+const isTokenExpired = (token) => {
+  const decoded: { exp: any } = decode(token);
+  const exp: number = decoded.exp;
+  // Refresh the token a minute early to avoid latency issues
+  const expirationTime = exp * 1000 - 60000;
+  if (Date.now() >= expirationTime) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const isLoggedIn = () => {
+  const token = Storage.checkAuthentication();
+  //Check for existence of token
+  if (token) {
+    const expired = isTokenExpired(token);
+    if (expired) {
+      return false;
+    }
+    return true;
+  }
+  return false;
+};
 
 const initialState = {
   user: null,
   processing: false,
-  isAuth: Storage.checkAuthentication(),
+  isAuth: isLoggedIn(),
   error: null,
   update_error: null,
   message: null,

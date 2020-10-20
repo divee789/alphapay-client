@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import axios, { AxiosInstance } from 'axios';
-import { Logger } from '../utils';
+import { Logger, history } from '../utils';
 import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
 import decode from 'jwt-decode';
 import { User } from '../store/types';
+import store from '../store';
 
 const APIBaseURL =
   process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_STAGING : process.env.REACT_APP_SERVER_URL;
@@ -73,6 +74,22 @@ export default class APIRequest {
         }),
       );
     }
+    const originalRequest = error.config;
+
+    if (error.response.status === 401 && originalRequest.url === `${APIBaseURL}/auth/user/token`) {
+      store.dispatch({ type: 'LOGOUT' });
+      Storage.clearItems();
+      history.push('/login');
+      return Promise.reject(new APIServiceError(error.response));
+    }
+
+    if (error.response.status === '401' && !originalRequest._retry) {
+      console.log('[HEY I AM HERE]', originalRequest);
+      originalRequest._retry = true;
+      return this.refresh(Storage.getRefreshToken())
+        .then(() => this.instance(originalRequest))
+        .catch((err) => Promise.reject(new APIServiceError(err.response)));
+    }
     Logger.warn('Response: ', error.response);
     return Promise.reject(new APIServiceError(error.response));
   };
@@ -97,7 +114,6 @@ export default class APIRequest {
     //Check for existence of token
     if (token) {
       const expired = this.isTokenExpired(token);
-      //check if token is not expired
       if (!expired) {
         return true;
       } else {
@@ -105,9 +121,11 @@ export default class APIRequest {
         if (refreshToken) {
           const expiredRefresh = this.isTokenExpired(refreshToken);
           if (!expiredRefresh) {
-            await this.refresh(refreshToken);
-            return true;
+            await this.refresh(refreshToken)
+              .then(() => true)
+              .catch(() => false);
           }
+          return false;
         }
       }
     }
@@ -118,8 +136,9 @@ export default class APIRequest {
     try {
       const decoded: { exp: number } = decode(token);
       const exp: number = decoded.exp;
-      const refreshThreshold = Math.floor((new Date().getTime() + 120000) / 1000);
-      if (exp < refreshThreshold) {
+      // Refresh the token a minute early to avoid latency issues
+      const expirationTime = exp * 1000 - 60000;
+      if (Date.now() >= expirationTime) {
         return true;
       } else {
         return false;
@@ -146,25 +165,11 @@ export default class APIRequest {
   };
 
   activateTwoFa = async () => {
-    const check = await this.isloggedIn();
-    if (!check) {
-      return {
-        error: true,
-        message: 'Your session has expired, please log in again',
-      };
-    }
     const response = await this.instance.get('/auth/2fa/generate');
     return response.data;
   };
 
   deactivate2FA = async () => {
-    const check = await this.isloggedIn();
-    if (!check) {
-      return {
-        error: true,
-        message: 'Your session has expired, please log in again',
-      };
-    }
     const response = await this.instance.delete('/auth/2fa/deactivate');
     return response.data;
   };
@@ -202,7 +207,7 @@ export default class APIRequest {
     const authResponse = response.data;
     Storage.setItem('userToken', authResponse.access_token);
     this.setHeader(authResponse.access_token);
-    return authResponse.data;
+    return authResponse;
   };
 
   update = async (data: User) => {
@@ -211,10 +216,6 @@ export default class APIRequest {
   };
 
   changePassword = async (data) => {
-    const check = await this.isloggedIn();
-    if (!check) {
-      throw new Error('Session expired, please log in again');
-    }
     const response = await this.instance.patch('/auth/password', data);
     return response.data.data;
   };
@@ -237,13 +238,6 @@ export default class APIRequest {
   };
 
   sendEmail = async () => {
-    const check = await this.isloggedIn();
-    if (!check) {
-      return {
-        error: true,
-        message: 'Your session has expired, please log in again',
-      };
-    }
     const res = await this.instance.post('/auth/send_email');
     return res.data.data;
   };
@@ -267,13 +261,6 @@ export default class APIRequest {
   };
 
   uploadProfileImage = async (data) => {
-    const check = await this.isloggedIn();
-    if (!check) {
-      return {
-        error: true,
-        message: 'Your session has expired, please log in again',
-      };
-    }
     const res = await this.instance2.post('/auth/upload', data);
     return res.data.data;
   };
@@ -303,19 +290,11 @@ export default class APIRequest {
   };
 
   getBanks = async () => {
-    const check = await this.isloggedIn();
-    if (!check) {
-      throw new Error('Your session has expired, please log in again');
-    }
     const res = await this.instance.get('/api/v1/transfer/banks');
     return res.data.data;
   };
 
   confirmBankAccount = async (data: { bank: string; account: string }) => {
-    const check = await this.isloggedIn();
-    if (!check) {
-      throw new Error('Your session has expired, please log in again');
-    }
     const res = await this.instance.post('/api/v1/transfer/banks/verify', data);
     return res.data.data;
   };
@@ -333,28 +312,16 @@ export default class APIRequest {
   //NOTIFICATIONS
 
   makeNotifications = async (data) => {
-    const check = await this.isloggedIn();
-    if (!check) {
-      throw new Error('Your session has expired, please log in again');
-    }
     const res = await this.instance.post('/api/v1/transfer/notifications', data);
     return res.data.data;
   };
 
   getNotifications = async () => {
-    const check = await this.isloggedIn();
-    if (!check) {
-      throw new Error('Your session has expired, please log in again');
-    }
     const res = await this.instance.get('/api/v1/transfer/notifications');
     return res.data.data;
   };
 
   deleteNotification = async (id) => {
-    const check = await this.isloggedIn();
-    if (!check) {
-      throw new Error('Your session has expired, please log in again');
-    }
     const res = await this.instance.delete('/api/v1/transfer/notifications/' + id);
     return res.data.data;
   };

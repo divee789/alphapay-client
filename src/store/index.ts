@@ -3,7 +3,6 @@ import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 //Middlewares
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import requestMiddleware from './middlewares/request';
 
 //Reducers
 import authReducer from './reducers/auth';
@@ -20,7 +19,7 @@ export const rootReducer = combineReducers({
   ui: uiReducer,
 });
 
-const middlewares = [thunk, requestMiddleware()];
+const middlewares = [thunk];
 
 declare global {
   interface Window {
@@ -33,7 +32,7 @@ let options;
 //Configuring ReduxDevTools
 if (process.env.REACT_APP_NODE_ENV === 'development') {
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  middlewares.push(logger);
+  middlewares.push(logger as any);
   options = composeEnhancers(applyMiddleware(...middlewares));
 } else {
   options = applyMiddleware(...middlewares);

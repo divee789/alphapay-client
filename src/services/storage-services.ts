@@ -1,5 +1,3 @@
-import { Logger } from '../utils';
-
 export function IsJsonString(str: any) {
   try {
     JSON.parse(str);
@@ -15,67 +13,35 @@ export class Storage {
     if (value === undefined || value === null) {
       return null;
     }
-    try {
-      const parsedValue = JSON.parse(value);
-      return parsedValue;
-    } catch (error) {
-      // log error
-    }
-    return value;
+    const parsedValue = JSON.parse(value);
+    return parsedValue;
   }
 
   static setItem(item: string, itemValue: any) {
-    try {
-      let value = itemValue;
-      if (typeof itemValue === 'object' && itemValue !== null) {
-        value = JSON.stringify(itemValue);
-      }
-      sessionStorage.setItem(item, value);
-    } catch (error) {
-      Logger.error(error);
-      // log error
+    let value = itemValue;
+    if (typeof itemValue === 'object' && itemValue !== null) {
+      value = JSON.stringify(itemValue);
     }
+    sessionStorage.setItem(item, value);
   }
 
   static removeItem(item: string) {
-    try {
-      sessionStorage.removeItem(item);
-    } catch (error) {
-      Logger.error(error);
-    }
+    sessionStorage.removeItem(item);
   }
 
   static clearItems() {
-    try {
-      sessionStorage.clear();
-    } catch (error) {
-      Logger.error(error);
-    }
+    sessionStorage.clear();
   }
   static checkAuthentication() {
-    let userToken;
-    try {
-      userToken = Storage.getItem('userToken');
-    } catch (error) {
-      Logger.error(error);
-      return false;
-    }
+    const userToken = Storage.getItem('userToken');
     if (!userToken) {
       return false;
     }
-
     return userToken;
   }
 
   static getRefreshToken() {
-    let refreshToken;
-    try {
-      refreshToken = Storage.getItem('refreshToken');
-    } catch (error) {
-      Logger.error(error);
-      // log error
-      return false;
-    }
+    const refreshToken = Storage.getItem('refreshToken');
     if (!refreshToken) {
       return false;
     }
@@ -83,13 +49,7 @@ export class Storage {
   }
 
   static checkExpiration() {
-    let userTokenExpiration;
-    try {
-      userTokenExpiration = Storage.getItem('userTokenExpiration');
-    } catch (error) {
-      Logger.error(error);
-      return null;
-    }
+    const userTokenExpiration = Storage.getItem('userTokenExpiration');
     return userTokenExpiration || null;
   }
 }
