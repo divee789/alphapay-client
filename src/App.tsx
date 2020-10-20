@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { Suspense, useEffect } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { loadReCaptcha } from 'react-recaptcha-google';
-import SwitchC from 'react-switch';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { history } from './utils';
-import { switchMode } from './store/actions';
 
 import Landing from './containers/Home';
 import Careers from './containers/Careers';
@@ -18,8 +16,6 @@ import VerifyEmail from './containers/Auth/verifyEmail';
 import PasswordReset from './containers/Auth/ForgotPassword';
 import PasswordConfirmation from './containers/Auth/ForgotPassword/PasswordReset';
 
-import Moon from './assets/images/moon.png';
-import Sun from './assets/images/idea.png';
 import './App.scss';
 
 const Signup = React.lazy(() => {
@@ -39,23 +35,11 @@ const Dashboard = React.lazy(() => {
 });
 
 const App = () => {
-  const dispatch = useDispatch();
   const { isAuth } = useSelector((state: { auth }) => state.auth);
-  const { mode, checked } = useSelector((state: { ui }) => state.ui);
 
   useEffect(() => {
     loadReCaptcha();
   }, []);
-
-  const toggleTheme = async () => {
-    if (mode === 'light') {
-      localStorage.setItem('mode', 'dark');
-      dispatch(switchMode('dark'));
-    } else {
-      localStorage.setItem('mode', 'light');
-      dispatch(switchMode('light'));
-    }
-  };
 
   const routes = (
     <Router history={history}>
@@ -79,14 +63,6 @@ const App = () => {
     <>
       <ToastContainer />
       <Suspense fallback={<Loading />}>{routes}</Suspense>
-      <div className="toggle_button">
-        <SwitchC
-          onChange={toggleTheme}
-          checked={checked}
-          uncheckedIcon={<img style={{ width: '100%', height: '100%' }} src={Moon} alt="dark mode" />}
-          checkedIcon={<img style={{ width: '100%', height: '100%' }} src={Sun} alt="light mode" />}
-        />
-      </div>
     </>
   );
 };

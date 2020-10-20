@@ -24,7 +24,6 @@ export function getPaymentRequests() {
     try {
       await dispatch(request());
       const data = await API.getPaymentRequests();
-      console.log('[HELO]', data);
       await dispatch(success(data));
     } catch (error) {
       if (error instanceof APIServiceError) {

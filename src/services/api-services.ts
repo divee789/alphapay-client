@@ -83,8 +83,7 @@ export default class APIRequest {
       return Promise.reject(new APIServiceError(error.response));
     }
 
-    if (error.response.status === '401' && !originalRequest._retry) {
-      console.log('[HEY I AM HERE]', originalRequest);
+    if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       return this.refresh(Storage.getRefreshToken())
         .then(() => this.instance(originalRequest))
@@ -204,8 +203,9 @@ export default class APIRequest {
       refresh_token,
     };
     const response = await this.instance.post('/auth/user/token', body);
-    const authResponse = response.data;
+    const authResponse = response.data.data;
     Storage.setItem('userToken', authResponse.access_token);
+    Storage.setItem('refreshToken', authResponse.refresh_token);
     this.setHeader(authResponse.access_token);
     return authResponse;
   };

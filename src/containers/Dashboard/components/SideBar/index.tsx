@@ -18,7 +18,7 @@ const TabMenu = ({ url, logOutHandler }: { url: string; logOutHandler }) => {
             <img src={imLogo} alt="" />
             <span style={{ color: theme().color }}>Home</span>
           </NavLink>
-          <NavLink to={`${url}/cards`}>
+          <NavLink to={`${url}/payment_requests`}>
             <img src={cardLogo} alt="" />
             <span style={{ color: theme().color }}>Payments</span>
           </NavLink>
@@ -30,9 +30,6 @@ const TabMenu = ({ url, logOutHandler }: { url: string; logOutHandler }) => {
             <img src={settings} alt="" />
             <span style={{ color: theme().color }}>Account</span>
           </NavLink>
-          {/* <a href="#" onClick={logOutHandler} style={{ color: theme().color }}>
-            Log Out
-          </a> */}
         </div>
       </div>
     </div>
