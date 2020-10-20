@@ -4,6 +4,10 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+    }
   }
   .wallet_actions {
     cursor: pointer;
