@@ -24,8 +24,7 @@ import './auth.scss';
 
 interface FormValues {
   email: string;
-  first_name: string;
-  last_name: string;
+  full_name: string;
   username: string;
   password: string;
   confirmPassword: string;
@@ -44,15 +43,13 @@ const SignUp = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    first_name: '',
-    last_name: '',
+    full_name: '',
     username: '',
     phone_number: ('' as unknown) as number,
   };
 
   const logValidationSchema = Yup.object().shape({
-    first_name: Yup.string().required('Provide your first name please'),
-    last_name: Yup.string().required('Provide your last name please'),
+    full_name: Yup.string().required('Provide your full name please'),
     username: Yup.string().required('Provide a username please'),
     phone_number: Yup.number().min(11, 'Invalid phone number').required('Provide your phone number please'),
     email: Yup.string()
@@ -102,16 +99,12 @@ const SignUp = () => {
                   </div>
 
                   <Form className="form signup">
-                    <p className="head_info">Create an Alphapay account and join the community of alphas</p>
+                    <p className="head_info">Create an alphapay account and join the community of alphas</p>
                     <Fade bottom>
-                      <div className="input-container-dual">
+                      <div className="input-container">
                         <div>
-                          <Field type="text" name="first_name" placeholder="Your First name" />
-                          <ErrorMessage name="first_name" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
-                        <div>
-                          <Field type="text" name="last_name" placeholder="Your Last Name" />
-                          <ErrorMessage name="last_name" render={(msg) => <div className="error">{msg}</div>} />
+                          <Field type="text" name="full_name" placeholder="John Doe" />
+                          <ErrorMessage name="full_name" render={(msg) => <div className="error">{msg}</div>} />
                         </div>
                       </div>
                     </Fade>

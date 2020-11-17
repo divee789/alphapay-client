@@ -1,4 +1,9 @@
-export const payWithKorapay = (values: any, success: Function, failure: Function, onClose: Function): void => {
+export const payWithKorapay = (
+  values: { amount: string; first_name: string; last_name: string; email: string },
+  success: Function,
+  failure: Function,
+  onClose: Function,
+): void => {
   window.Korapay.initialize({
     key: process.env.REACT_APP_KORAPAY_PUBLIC_KEY,
     amount: Number(values.amount),
@@ -7,7 +12,6 @@ export const payWithKorapay = (values: any, success: Function, failure: Function
       name: `${values.first_name} ${values.last_name}`,
       email: `${values.email}`,
     },
-    notification_url: '',
     onClose: function () {
       onClose();
     },

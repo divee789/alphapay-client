@@ -1,6 +1,8 @@
+import { User, Wallet } from './types';
+
 export interface Store {
   auth: {
-    user: any;
+    user: User;
     processing: boolean;
     isAuth: boolean;
     error: any;
@@ -8,7 +10,7 @@ export interface Store {
     message: any;
   };
   wallet: {
-    wallet: any;
+    wallet: Wallet;
     processing: boolean;
     error: any;
     pin_error: any;

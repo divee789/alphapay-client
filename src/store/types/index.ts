@@ -20,8 +20,7 @@ export interface Transaction {
 
 export interface User {
   id?: string;
-  first_name?: string;
-  last_name?: string;
+  full_name?: string;
   username?: string;
   email?: string;
   phone_number?: string;

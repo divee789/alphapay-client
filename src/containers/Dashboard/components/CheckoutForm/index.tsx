@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
@@ -17,6 +17,10 @@ const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: 
   const [processing, setProcessing] = useState(null);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setMessage(null);
+  }, ['']);
   interface FormValues {
     amount: number;
     bank: string;

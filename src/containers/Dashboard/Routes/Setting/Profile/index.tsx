@@ -22,13 +22,11 @@ const Profile = () => {
 
   const initialValues = {
     email: user?.email || '',
-    first_name: user?.first_name || '',
-    last_name: user?.last_name || '',
+    full_name: user?.full_name || '',
     phone_number: user?.phone_number || '',
   };
   const logValidationSchema = Yup.object().shape({
-    first_name: Yup.string().required('Provide your first name please'),
-    last_name: Yup.string().required('Provide your last name please'),
+    full_name: Yup.string().required('Provide your full name please'),
     phone_number: Yup.number().min(11, 'Invalid phone_number').required('Provide your phone_number please'),
     email: Yup.string()
       .email('Hey,just letting you know that your email is quite weird')
@@ -95,16 +93,11 @@ const Profile = () => {
               return (
                 <>
                   <Form>
-                    <div className="input-container-dual">
+                    <div className="input-container">
                       <div>
                         <span>First name</span>
-                        <Field type="text" name="first_name" placeholder="First Name" />
-                        <ErrorMessage name="first_name" render={(msg) => <div className="error">{msg}</div>} />
-                      </div>
-                      <div>
-                        <span>Last Name</span>
-                        <Field type="text" name="last_name" placeholder="Last Name" />
-                        <ErrorMessage name="last_name" render={(msg) => <div className="error">{msg}</div>} />
+                        <Field type="text" name="full_name" placeholder="John Doe" />
+                        <ErrorMessage name="full_name" render={(msg) => <div className="error">{msg}</div>} />
                       </div>
                     </div>
 
