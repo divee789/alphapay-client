@@ -20,7 +20,7 @@ const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: 
 
   useEffect(() => {
     setMessage(null);
-  }, ['']);
+  }, []);
   interface FormValues {
     amount: number;
     bank: string;
