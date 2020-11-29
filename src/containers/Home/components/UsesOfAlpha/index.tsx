@@ -34,5 +34,3 @@ const UsesOfAlpha = () => {
 };
 
 export default UsesOfAlpha;
-
-// box-shadow: 0px 18px 52.8537px rgba(215, 228, 249, 0.5);

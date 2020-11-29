@@ -1,13 +1,14 @@
 import * as actionTypes from '../actions/actionTypes';
+import { PaymentRequestReducer } from '../interfaces';
 
-const initialState = {
+const initialState: PaymentRequestReducer = {
   incomingPaymentRequests: [],
   outgoingPaymentRequests: [],
   error: null,
   processing: false,
 };
 
-const paymentRequestReducer = (state = initialState, action: any) => {
+const paymentRequestReducer = (state = initialState, action: any): PaymentRequestReducer => {
   switch (action.type) {
     case actionTypes.paymentRequestConstants.FETCH_PAYMENTS_REQUEST:
       return {

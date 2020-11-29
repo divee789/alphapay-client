@@ -5,8 +5,6 @@ import Fade from 'react-reveal/Fade';
 
 import Button from '../../../../../components/Button';
 
-// import payment from '../../../../../assets/images/pos.jpg';
-
 import './index.scss';
 
 const Section = () => {

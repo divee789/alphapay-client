@@ -1,4 +1,4 @@
-export function IsJsonString(str: any) {
+export function IsJsonString(str: string): boolean {
   try {
     JSON.parse(str);
   } catch (e) {
@@ -6,9 +6,8 @@ export function IsJsonString(str: any) {
   }
   return true;
 }
-
 export class Storage {
-  static getItem(item: string) {
+  static getItem(item: string): any {
     const value = sessionStorage.getItem(item);
     if (value === undefined || value === null) {
       return null;
@@ -21,7 +20,7 @@ export class Storage {
     }
   }
 
-  static setItem(item: string, itemValue: any) {
+  static setItem(item: string, itemValue: any): void {
     let value = itemValue;
     if (typeof itemValue === 'object' && itemValue !== null) {
       value = JSON.stringify(itemValue);
@@ -29,14 +28,14 @@ export class Storage {
     sessionStorage.setItem(item, value);
   }
 
-  static removeItem(item: string) {
+  static removeItem(item: string): void {
     sessionStorage.removeItem(item);
   }
 
-  static clearItems() {
+  static clearItems(): void {
     sessionStorage.clear();
   }
-  static checkAuthentication() {
+  static checkAuthentication(): any {
     const userToken = Storage.getItem('userToken');
     if (!userToken) {
       return false;
@@ -44,7 +43,7 @@ export class Storage {
     return userToken;
   }
 
-  static getRefreshToken() {
+  static getRefreshToken(): any {
     const refreshToken = Storage.getItem('refreshToken');
     if (!refreshToken) {
       return false;
@@ -52,7 +51,7 @@ export class Storage {
     return refreshToken;
   }
 
-  static checkExpiration() {
+  static checkExpiration(): any {
     const userTokenExpiration = Storage.getItem('userTokenExpiration');
     return userTokenExpiration || null;
   }

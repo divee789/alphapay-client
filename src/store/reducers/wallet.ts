@@ -1,15 +1,15 @@
 import * as actionTypes from '../actions/actionTypes';
+import { WalletReducer } from '../interfaces';
 
-const initialState = {
+const initialState: WalletReducer = {
   wallet: null,
   processing: false,
   error: null,
-  pin_error: null,
-  fund_processing: false,
-  notifications: null,
+  pinError: null,
+  fundProcessing: false,
 };
 
-const walletReducer = (state = initialState, action: any) => {
+const walletReducer = (state = initialState, action: any): WalletReducer => {
   switch (action.type) {
     case actionTypes.walletConstants.FETCH_WALLET_REQUEST:
       return {
@@ -34,13 +34,13 @@ const walletReducer = (state = initialState, action: any) => {
     case actionTypes.walletConstants.FUND_WALLET_REQUEST:
       return {
         ...state,
-        fund_processing: true,
+        fundProcessing: true,
         error: null,
       };
     case actionTypes.walletConstants.FUND_WALLET_FAILURE:
       return {
         ...state,
-        fund_processing: false,
+        fundProcessing: false,
         wallet: null,
         error: action.errors.response.data,
       };
@@ -48,18 +48,13 @@ const walletReducer = (state = initialState, action: any) => {
       return {
         ...state,
         wallet: action.wallet,
-        fund_processing: false,
+        fundProcessing: false,
         error: null,
-      };
-    case actionTypes.walletConstants.SET_NOTIFICATIONS:
-      return {
-        ...state,
-        notifications: action.notifications,
       };
     case actionTypes.walletConstants.SET_PIN_FAILURE:
       return {
         ...state,
-        pin_error: action.error,
+        pinError: action.error,
       };
     default:
       return state;

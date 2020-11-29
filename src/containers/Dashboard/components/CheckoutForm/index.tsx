@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
@@ -12,7 +11,7 @@ import img1 from '../../../../assets/images/quick-and-easy.jpg';
 
 const API = new APIRequest();
 
-const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: string; country: string }> }) => {
+const CheckoutForm = (props: { banks: Array<{ name: string; code: string; country: string }> }): JSX.Element => {
   const [message, setMessage] = useState(null);
   const [processing, setProcessing] = useState(null);
 
@@ -26,10 +25,6 @@ const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: 
     bank: string;
     bank_account: string;
   }
-
-  const linkStyle = {
-    color: props.mode === 'dark' ? '#00C9B6' : '',
-  };
 
   const initialValues: FormValues = {
     amount: ('' as unknown) as number,
@@ -45,7 +40,7 @@ const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: 
       .required('Please provide a valid bank account number'),
   });
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values, { setSubmitting }): Promise<void> => {
     try {
       setProcessing(true);
       const res = await API.confirmBankAccount({ bank: values.bank, account: values.bank_account });
@@ -80,11 +75,8 @@ const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: 
   }
   return (
     <>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={walletValidationSchema}
-        onSubmit={handleSubmit}
-        render={(formProps) => {
+      <Formik initialValues={initialValues} validationSchema={walletValidationSchema} onSubmit={handleSubmit}>
+        {(formProps): JSX.Element => {
           return (
             <>
               <Form className="fund_wallet_form">
@@ -93,16 +85,18 @@ const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: 
                   <p>HOW MUCH DO YOU WANT TO CHECKOUT?</p>
                   <div className="con">
                     {' '}
-                    <span>NGN</span>{' '}
-                    <Field type="number" name="amount" placeholder="0" style={linkStyle} className="amount_input" />
+                    <span>NGN</span> <Field type="number" name="amount" placeholder="0" className="amount_input" />
                   </div>
-                  <ErrorMessage name="amount" render={(msg) => <div className="error modal_error">{msg}</div>} />
+                  <ErrorMessage
+                    name="amount"
+                    render={(msg): JSX.Element => <div className="error modal_error">{msg}</div>}
+                  />
                 </div>
 
                 <div>
                   <p>PLEASE PROVIDE YOUR CHECKOUT BANK?</p>
                   <div className="con">
-                    <Field as="select" name="bank" style={linkStyle}>
+                    <Field as="select" name="bank">
                       <option value="">Please select your bank</option>
                       {props.banks.map((bank) => (
                         <option key={bank.code} value={bank.code}>
@@ -111,15 +105,21 @@ const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: 
                       ))}
                     </Field>
                   </div>
-                  <ErrorMessage name="bank" render={(msg) => <div className="error modal_error">{msg}</div>} />
+                  <ErrorMessage
+                    name="bank"
+                    render={(msg): JSX.Element => <div className="error modal_error">{msg}</div>}
+                  />
                 </div>
 
                 <div>
                   <p>PLEASE PROVIDE YOUR CHECKOUT BANK ACCOUNT NUMBER?</p>
                   <div className="con">
-                    <Field type="string" name="bank_account" placeholder="Your Account Number" style={linkStyle} />
+                    <Field type="string" name="bank_account" placeholder="Your Account Number" />
                   </div>
-                  <ErrorMessage name="bank_Account" render={(msg) => <div className="error modal_error">{msg}</div>} />
+                  <ErrorMessage
+                    name="bank_Account"
+                    render={(msg): JSX.Element => <div className="error modal_error">{msg}</div>}
+                  />
                 </div>
                 <div className="fund_btn">
                   <Button disabled={formProps.isSubmitting} colored>
@@ -130,7 +130,7 @@ const CheckoutForm = (props: { mode: string; banks: Array<{ name: string; code: 
             </>
           );
         }}
-      />
+      </Formik>
     </>
   );
 };

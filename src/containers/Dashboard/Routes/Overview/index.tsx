@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Fade from 'react-reveal/Fade';
@@ -16,25 +15,23 @@ import Dots from '../../../../components/Loaders/Dots';
 import Refresh from '../../../../assets/images/refresh.png';
 
 import './index.scss';
-import constants from '../../../../utils/constants';
 
-const Overview = (props: { data: any[] }) => {
+const Overview = (props: { data: any[] }): JSX.Element => {
   const [showFundModal, setShowFundModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
   const { wallet, processing } = useSelector((state: { wallet }) => state.wallet);
   const { transactions } = useSelector((state: { transaction }) => state.transaction);
-  const { mode } = useSelector((state: { ui }) => state.ui);
 
   const dispatch = useDispatch();
 
   const styles = {
-    background: mode === 'dark' ? constants.darkMode : '#fff',
-    color: mode === 'dark' ? '#00C9B6' : '#000',
+    background: '#fff',
+    color: '#000',
   };
 
-  const modalHandler = (category: 'fund' | 'transfer' | 'checkout') => {
+  const modalHandler = (category: 'fund' | 'transfer' | 'checkout'): void => {
     switch (category) {
       case 'fund':
         return setShowFundModal(false);
@@ -46,7 +43,7 @@ const Overview = (props: { data: any[] }) => {
         return;
     }
   };
-  const toggleModal = (form: 'fund' | 'transfer' | 'checkout') => {
+  const toggleModal = (form: 'fund' | 'transfer' | 'checkout'): void => {
     switch (form) {
       case 'fund':
         return setShowFundModal(!showFundModal);
@@ -59,7 +56,12 @@ const Overview = (props: { data: any[] }) => {
     }
   };
 
-  const formatMessage = (type: string) => {
+  const formatMessage = (
+    type: string,
+  ): {
+    messageType: string;
+    source: string;
+  } => {
     let messageType;
     let source;
     if (type === 'incoming') {
@@ -80,7 +82,7 @@ const Overview = (props: { data: any[] }) => {
             <div className="wallet_actions">
               <span
                 className="wallet_refresh"
-                onClick={() => {
+                onClick={(): void => {
                   dispatch(getUserWallet());
                 }}
               >
@@ -102,26 +104,26 @@ const Overview = (props: { data: any[] }) => {
 
           <div className="overview_actions" style={styles}>
             <div>
-              <Button dashboard onClick={() => toggleModal('fund')}>
+              <Button dashboard onClick={(): void => toggleModal('fund')}>
                 FUND WALLET
               </Button>
             </div>
             <div>
               <Button
                 dashboard
-                onClick={() => toggleModal('checkout')}
+                onClick={(): void => toggleModal('checkout')}
                 disabled={wallet?.available_balance <= 100 ? true : false}
               >
                 WITHDRAW FUNDS
               </Button>
             </div>
             <div>
-              <Button dashboard onClick={() => toggleModal('transfer')}>
+              <Button dashboard onClick={(): void => toggleModal('transfer')}>
                 TRANSFER FUNDS
               </Button>
             </div>
             <div>
-              <Button dashboard onClick={() => toggleModal('transfer')}>
+              <Button dashboard onClick={(): void => toggleModal('transfer')}>
                 PAY BILLS
               </Button>
             </div>
@@ -146,14 +148,14 @@ const Overview = (props: { data: any[] }) => {
           </div>
         </div>
       </section>
-      <Modal open={showFundModal} closed={() => modalHandler('fund')}>
-        <FundForm mode={mode} />
+      <Modal open={showFundModal} closed={(): void => modalHandler('fund')}>
+        <FundForm />
       </Modal>
-      <Modal open={showTransferModal} closed={() => modalHandler('transfer')}>
-        <TransferForm mode={mode} />
+      <Modal open={showTransferModal} closed={(): void => modalHandler('transfer')}>
+        <TransferForm />
       </Modal>
-      <Modal open={showCheckoutModal} closed={() => modalHandler('checkout')}>
-        <CheckoutForm mode={mode} banks={props.data} />
+      <Modal open={showCheckoutModal} closed={(): void => modalHandler('checkout')}>
+        <CheckoutForm banks={props.data} />
       </Modal>
     </>
   );

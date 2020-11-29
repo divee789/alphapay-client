@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
@@ -13,7 +12,7 @@ import img1 from '../../../../assets/images/andela1.png';
 import './index.scss';
 import { Transaction as ITransaction } from '../../../../store/types';
 
-const Transactions = () => {
+const Transactions = (): JSX.Element => {
   const dispatch = useDispatch();
   const [searchActive, setSearchActive] = useState(false);
   const { processing, transactions, pager, error } = useSelector((state: { transaction }) => state.transaction);
@@ -22,7 +21,7 @@ const Transactions = () => {
   let content;
 
   useEffect(() => {
-    const trans = async () => {
+    const trans = async (): Promise<void> => {
       dispatch(getUserTransactions());
     };
     trans();
@@ -32,7 +31,7 @@ const Transactions = () => {
     color: mode === 'dark' ? '#00C9B6' : '',
   };
 
-  const refreshTransactionHandler = async () => {
+  const refreshTransactionHandler = async (): Promise<void> => {
     try {
       setSearchActive(false);
       await dispatch(getUserTransactions());
@@ -41,7 +40,7 @@ const Transactions = () => {
     }
   };
 
-  const switchStatus = (status: string) => {
+  const switchStatus = (status: string): 'green' | 'red' | 'grey' | 'dark-grey' => {
     switch (status) {
       case 'success':
         return 'green';
@@ -134,7 +133,7 @@ const Transactions = () => {
           </div>
           <div
             className="refresh_transaction_button"
-            onClick={() => {
+            onClick={(): void => {
               setSearchActive(!searchActive);
             }}
             style={{ color: mode === 'dark' ? 'rgb(0, 201, 182)' : 'inherit' }}
@@ -154,7 +153,7 @@ const Transactions = () => {
               <Button
                 dashboard
                 style={linkStyle}
-                onClick={() => {
+                onClick={(): void => {
                   dispatch(getUserTransactions(pager.currentPage - 1));
                 }}
               >
@@ -172,7 +171,7 @@ const Transactions = () => {
               <Button
                 dashboard
                 style={linkStyle}
-                onClick={() => {
+                onClick={(): void => {
                   dispatch(getUserTransactions(pager.currentPage + 1));
                 }}
               >

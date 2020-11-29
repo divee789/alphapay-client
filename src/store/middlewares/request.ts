@@ -5,21 +5,17 @@ import { authConstants } from '../actions/actionTypes';
 const apiRequest = new APIRequest();
 
 export default function requestMiddleware() {
-  return ({ dispatch, getState }) => (next) => async (action) => {
+  return ({ dispatch, getState }) => (next) => async (action): Promise<any> => {
     if (typeof action === 'function') {
       return action(dispatch, getState);
     }
 
     next(action);
-    //Check for existence of token
     const token = Storage.checkAuthentication();
     if (token) {
-      //check if token is not expired
       const expired = apiRequest.isTokenExpired(token);
-
       if (expired) {
         try {
-          //check if refresh token is expired
           const refreshToken = Storage.getRefreshToken();
           if (refreshToken) {
             const refExpired = apiRequest.isTokenExpired(refreshToken);

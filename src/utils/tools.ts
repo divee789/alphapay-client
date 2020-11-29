@@ -4,12 +4,8 @@ import crypto from 'crypto';
  * Generate Random Safe Bytes
  * @param length;
  */
-export const safeRandomBytes = (length) => {
-  try {
-    return crypto.randomBytes(length);
-  } catch (e) {
-    return '';
-  }
+export const safeRandomBytes = (length: number): Buffer => {
+  return crypto.randomBytes(length);
 };
 
 /**
@@ -17,7 +13,7 @@ export const safeRandomBytes = (length) => {
  * @param length;
  * @param type;
  */
-export const getRandomString = (_length = 15, type = 'alphanumeric') => {
+export const getRandomString = (_length = 15, type = 'alphanumeric'): string => {
   let chars;
   let string = '';
 
@@ -46,7 +42,7 @@ export const getRandomString = (_length = 15, type = 'alphanumeric') => {
   const maxByte = 256 - (256 % charsLen);
   let length = _length;
   while (length > 0) {
-    const buf: any = safeRandomBytes(Math.ceil((length * 256) / maxByte));
+    const buf: Buffer = safeRandomBytes(Math.ceil((length * 256) / maxByte));
     for (let i = 0; i < buf.length && length > 0; i += 1) {
       const randomByte = buf.readUInt8(i);
       if (randomByte < maxByte) {

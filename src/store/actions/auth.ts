@@ -8,7 +8,7 @@ import { User } from '../types';
 
 const authAPIRequest = new APIRequest();
 
-export function logOut(email?: string) {
+export function logOut() {
   function request(): {
     type: string;
   } {

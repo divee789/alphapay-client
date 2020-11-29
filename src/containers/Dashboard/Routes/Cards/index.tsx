@@ -2,7 +2,7 @@ import React from 'react';
 
 import './index.scss';
 
-const Courses: React.FC = () => {
+const Courses = (): JSX.Element => {
   return (
     <>
       <div className="card_content">

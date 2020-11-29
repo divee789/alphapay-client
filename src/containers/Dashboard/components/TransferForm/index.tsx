@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +12,7 @@ import Dots from '../../../../components/Loaders/Dots';
 
 import './index.scss';
 
-const TransferForm = (props: { mode }) => {
+const TransferForm = (): JSX.Element => {
   const [transferState, setTransferState] = useState('form');
   const [recipient, setRecipient] = useState(null);
   const [verifiedAccount, setVerifiedAccount] = useState(null);
@@ -40,7 +39,7 @@ const TransferForm = (props: { mode }) => {
     recipient_phone_number: Yup.string().required('Please provide the recipient phone number'),
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values): Promise<void> => {
     setLoading(true);
     setRecipient(values);
     try {
@@ -57,7 +56,7 @@ const TransferForm = (props: { mode }) => {
     }
   };
 
-  const transfer = async () => {
+  const transfer = async (): Promise<void> => {
     try {
       setLoading(true);
       if (wallet?.pin && transferState !== 'pin') {
@@ -74,7 +73,7 @@ const TransferForm = (props: { mode }) => {
     }
   };
 
-  const VerifyPin = () => (
+  const VerifyPin = (): JSX.Element => (
     <Formik
       initialValues={{ pin: '' }}
       validationSchema={Yup.object().shape({
@@ -85,7 +84,8 @@ const TransferForm = (props: { mode }) => {
           .max(4, 'Must be exactly 4 digits'),
       })}
       onSubmit={transfer}
-      render={() => {
+    >
+      {(): JSX.Element => {
         return (
           <>
             <Form className="fund_wallet_form">
@@ -94,7 +94,7 @@ const TransferForm = (props: { mode }) => {
                 <div className="con">
                   <Field type="string" name="pin" placeholder="1111" />
                 </div>
-                <ErrorMessage name="pin" render={(msg) => <div className="error">{msg}</div>} />
+                <ErrorMessage name="pin" render={(msg): JSX.Element => <div className="error">{msg}</div>} />
               </div>
               <div className="fund_btn">
                 <Button colored>{loading ? <Dots /> : 'TRANSFER FUNDS'}</Button>
@@ -103,10 +103,10 @@ const TransferForm = (props: { mode }) => {
           </>
         );
       }}
-    />
+    </Formik>
   );
 
-  const VerifyAccount = () => (
+  const VerifyAccount = (): JSX.Element => (
     <section className="transfer_verified_account">
       <div>
         <img
@@ -121,20 +121,17 @@ const TransferForm = (props: { mode }) => {
         <Button dashboard onClick={transfer}>
           {loading ? <Dots /> : 'PROCEED'}
         </Button>
-        <Button dashboard onClick={() => setTransferState('form')}>
+        <Button dashboard onClick={(): void => setTransferState('form')}>
           GO BACK
         </Button>
       </div>
     </section>
   );
 
-  const TransferForm = () => (
+  const TransferForm = (): JSX.Element => (
     <>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={walletValidationSchema}
-        onSubmit={handleSubmit}
-        render={(formProps) => {
+      <Formik initialValues={initialValues} validationSchema={walletValidationSchema} onSubmit={handleSubmit}>
+        {(formProps): JSX.Element => {
           return (
             <>
               <Form className="fund_wallet_form">
@@ -145,7 +142,10 @@ const TransferForm = (props: { mode }) => {
                     {' '}
                     <span>NGN</span> <Field type="number" name="amount" placeholder="0" className="amount_input" />
                   </div>
-                  <ErrorMessage name="amount" render={(msg) => <div className="error modal_error">{msg}</div>} />
+                  <ErrorMessage
+                    name="amount"
+                    render={(msg): JSX.Element => <div className="error modal_error">{msg}</div>}
+                  />
                 </div>
                 <div>
                   <p>WHO DO YOU WANT TO TRANSFER TO?</p>
@@ -154,7 +154,7 @@ const TransferForm = (props: { mode }) => {
                   </div>
                   <ErrorMessage
                     name="recipient_phone_number"
-                    render={(msg) => <div className="error modal_error">{msg}</div>}
+                    render={(msg): JSX.Element => <div className="error modal_error">{msg}</div>}
                   />
                 </div>
                 <div className="fund_btn">
@@ -166,7 +166,7 @@ const TransferForm = (props: { mode }) => {
             </>
           );
         }}
-      />
+      </Formik>
     </>
   );
 

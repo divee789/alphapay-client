@@ -1,14 +1,14 @@
 import * as actionTypes from '../actions/actionTypes';
+import { TransactionReducer } from '../interfaces';
 
-const initialState = {
+const initialState: TransactionReducer = {
   transactions: null,
   processing: false,
   error: null,
-  transaction: null,
   pager: null,
 };
 
-const transactionReducer = (state = initialState, action: any) => {
+const transactionReducer = (state = initialState, action: any): TransactionReducer => {
   switch (action.type) {
     case actionTypes.transactionConstants.FETCH_TRANSACTIONS_REQUEST:
       return {

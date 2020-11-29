@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -10,7 +11,7 @@ import Request from '../../../../services/api-services';
 import Button from '../../../../components/Button';
 import Dots from '../../../../components/Loaders/Dots';
 
-const PaymentRequestForm = () => {
+const PaymentRequestForm = (): JSX.Element => {
   const [formState, setFormState] = useState('form');
   const [loading, setLoading] = useState(null);
   const [verifiedAccount, setVerifiedAccount] = useState(null);
@@ -33,7 +34,7 @@ const PaymentRequestForm = () => {
     reason: Yup.string().required('Why are you requesting for this amount ?'),
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values): Promise<void> => {
     setLoading(true);
     setData(values);
     try {
@@ -49,7 +50,7 @@ const PaymentRequestForm = () => {
     }
   };
 
-  const requestFunds = async () => {
+  const requestFunds = async (): Promise<void> => {
     try {
       setLoading(true);
       await API.createPaymentRequest(data);
@@ -67,7 +68,7 @@ const PaymentRequestForm = () => {
       {formState === 'form' && (
         <>
           <Formik initialValues={initialValues} validationSchema={requestValidationSchema} onSubmit={handleSubmit}>
-            {() => {
+            {(): JSX.Element => {
               return (
                 <>
                   <Form className="fund_wallet_form">
@@ -78,7 +79,10 @@ const PaymentRequestForm = () => {
                         {' '}
                         <span>NGN</span> <Field type="number" name="amount" placeholder="0" className="amount_input" />
                       </div>
-                      <ErrorMessage name="amount" render={(msg) => <div className="error modal_error">{msg}</div>} />
+                      <ErrorMessage
+                        name="amount"
+                        render={(msg): JSX.Element => <div className="error modal_error">{msg}</div>}
+                      />
                     </div>
                     <div>
                       <p>WHO DO YOU WANT TO REQUEST FUNDS FROM?</p>
@@ -87,7 +91,7 @@ const PaymentRequestForm = () => {
                       </div>
                       <ErrorMessage
                         name="phone_number"
-                        render={(msg) => <div className="error modal_error">{msg}</div>}
+                        render={(msg): JSX.Element => <div className="error modal_error">{msg}</div>}
                       />
                     </div>
                     <div>
@@ -95,7 +99,10 @@ const PaymentRequestForm = () => {
                       <div className="con">
                         <Field type="text" name="reason" component="textarea" rows="5" placeholder="Your reason" />
                       </div>
-                      <ErrorMessage name="reason" render={(msg) => <div className="error modal_error">{msg}</div>} />
+                      <ErrorMessage
+                        name="reason"
+                        render={(msg): JSX.Element => <div className="error modal_error">{msg}</div>}
+                      />
                     </div>
                     <div className="fund_btn">
                       <Button disabled={loading} dashboard>
@@ -125,7 +132,7 @@ const PaymentRequestForm = () => {
             <Button dashboard onClick={requestFunds}>
               {loading ? <Dots /> : 'PROCEED'}
             </Button>
-            <Button dashboard onClick={() => setFormState('form')}>
+            <Button dashboard onClick={(): void => setFormState('form')}>
               GO BACK
             </Button>
           </div>

@@ -58,7 +58,7 @@ const Navbar = () => {
             <img src={Logo} alt="alphapay_logo" />
           </div>
 
-          <div className="nav_item_links">
+          {/* <div className="nav_item_links">
             <div className="nav_item">
               <NavLink exact to="/about">
                 About
@@ -73,7 +73,7 @@ const Navbar = () => {
             <div className="nav_item">
               <a href="#contact_form">Contact Us</a>
             </div>
-          </div>
+          </div> */}
 
           <div className="nav_items">
             {!isAuth && (

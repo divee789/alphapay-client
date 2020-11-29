@@ -1,8 +1,9 @@
 import decode from 'jwt-decode';
 import * as actionTypes from '../actions/actionTypes';
 import { Storage } from '../../services/storage-services';
+import { AuthReducer } from '../interfaces';
 
-const isTokenExpired = (token) => {
+const isTokenExpired = (token): boolean => {
   const decoded: { exp: any } = decode(token);
   const exp: number = decoded.exp;
   // Refresh the token a minute early to avoid latency issues
@@ -14,9 +15,8 @@ const isTokenExpired = (token) => {
   }
 };
 
-const isLoggedIn = () => {
+const isLoggedIn = (): boolean => {
   const token = Storage.checkAuthentication();
-  //Check for existence of token
   if (token) {
     const expired = isTokenExpired(token);
     if (expired) {
@@ -27,16 +27,16 @@ const isLoggedIn = () => {
   return false;
 };
 
-const initialState = {
+const initialState: AuthReducer = {
   user: null,
   processing: false,
   isAuth: isLoggedIn(),
   error: null,
-  update_error: null,
+  updateError: null,
   message: null,
 };
 
-const authReducer = (state = initialState, action: any) => {
+const authReducer = (state = initialState, action: any): AuthReducer => {
   switch (action.type) {
     case actionTypes.authConstants.LOGIN_REQUEST:
       return {
@@ -99,13 +99,13 @@ const authReducer = (state = initialState, action: any) => {
         ...state,
         processing: false,
         user: action.user,
-        update_error: null,
+        updateError: null,
       };
     case actionTypes.authConstants.UPDATE_USER_FAILURE:
       return {
         ...state,
         processing: false,
-        update_error: action.error,
+        updateError: action.error,
       };
     default:
       return state;

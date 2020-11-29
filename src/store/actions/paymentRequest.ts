@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Dispatch } from 'redux';
 
 import * as actionTypes from './actionTypes';

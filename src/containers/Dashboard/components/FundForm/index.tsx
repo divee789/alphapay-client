@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,7 +17,7 @@ declare global {
   }
 }
 
-const FundForm = (props: { mode: string }) => {
+const FundForm = (): JSX.Element => {
   const [message, setMessage] = useState(null);
   const [processing, setProcessing] = useState(null);
   const { user } = useSelector((state: { auth }) => state.auth);
@@ -28,10 +27,6 @@ const FundForm = (props: { mode: string }) => {
     amount: number;
   }
 
-  const linkStyle = {
-    color: props.mode === 'dark' ? '#00C9B6' : '',
-  };
-
   const initialValues: FormValues = {
     amount: ('' as unknown) as number,
   };
@@ -40,7 +35,7 @@ const FundForm = (props: { mode: string }) => {
     amount: Yup.number().required('Please provide the amount you want to fund').min(100),
   });
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values, { setSubmitting }): Promise<void> => {
     try {
       const data = {
         ...values,
@@ -100,11 +95,8 @@ const FundForm = (props: { mode: string }) => {
   }
   return (
     <>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={walletValidationSchema}
-        onSubmit={handleSubmit}
-        render={(formProps) => {
+      <Formik initialValues={initialValues} validationSchema={walletValidationSchema} onSubmit={handleSubmit}>
+        {(formProps): JSX.Element => {
           return (
             <>
               <Form className="fund_wallet_form">
@@ -113,10 +105,12 @@ const FundForm = (props: { mode: string }) => {
                   <p>HOW MUCH DO YOU WANT TO FUND?</p>
                   <div className="con">
                     {' '}
-                    <span>NGN</span>{' '}
-                    <Field type="number" name="amount" placeholder="0" style={linkStyle} className="amount_input" />
+                    <span>NGN</span> <Field type="number" name="amount" placeholder="0" className="amount_input" />
                   </div>
-                  <ErrorMessage name="amount" render={(msg) => <div className="error modal_error">{msg}</div>} />
+                  <ErrorMessage
+                    name="amount"
+                    render={(msg): JSX.Element => <div className="error modal_error">{msg}</div>}
+                  />
                 </div>
                 <div className="fund_btn">
                   <Button disabled={formProps.isSubmitting} colored>
@@ -127,7 +121,7 @@ const FundForm = (props: { mode: string }) => {
             </>
           );
         }}
-      />
+      </Formik>
     </>
   );
 };

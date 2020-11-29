@@ -103,7 +103,7 @@ const SignUp = () => {
                     <Fade bottom>
                       <div className="input-container">
                         <div>
-                          <Field type="text" name="full_name" placeholder="John Doe" />
+                          <Field type="text" name="full_name" placeholder="Your Full Name e.g Jane Doe" />
                           <ErrorMessage name="full_name" render={(msg) => <div className="error">{msg}</div>} />
                         </div>
                       </div>

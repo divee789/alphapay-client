@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import PaymentRequestForm from '../../components/PaymentRequestForm';
-
 import Button from '../../../../components/Button';
 import Modal from '../../../../components/Modal';
 import Dots from '../../../../components/Loaders/Dots';
@@ -13,9 +13,8 @@ import Request from '../../../../services/api-services';
 import { Store } from '../../../../store/interfaces';
 
 import './index.scss';
-import { toast } from 'react-toastify';
 
-const PaymentRequest = () => {
+const PaymentRequest = (): JSX.Element => {
   const [paymentState, setPaymentState] = useState('incoming');
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +26,7 @@ const PaymentRequest = () => {
 
   const API = new Request();
 
-  const processPaymentRequest = async (status: 'approved' | 'declined', paymentId: string) => {
+  const processPaymentRequest = async (status: 'approved' | 'declined', paymentId: string): Promise<void> => {
     try {
       const confirmed = window.confirm(`Are you sure you want this request ${status} ?`);
       if (!confirmed) {
@@ -50,12 +49,12 @@ const PaymentRequest = () => {
     }
   };
 
-  const EmptyState = () => {
+  const EmptyState = (): JSX.Element => {
     return (
       <section className="empty_state">
         <p>There is nothing to see here.</p>
         {paymentState === 'outgoing' && (
-          <Button dashboard onClick={() => setShowModal(true)}>
+          <Button dashboard onClick={(): void => setShowModal(true)}>
             REQUEST FUNDS
           </Button>
         )}
@@ -69,17 +68,17 @@ const PaymentRequest = () => {
         <div className="section_action">
           <p
             className={paymentState === 'incoming' ? 'active' : 'inactive'}
-            onClick={() => setPaymentState('incoming')}
+            onClick={(): void => setPaymentState('incoming')}
           >
             Incoming
           </p>
           <p
             className={paymentState === 'outgoing' ? 'active' : 'inactive'}
-            onClick={() => setPaymentState('outgoing')}
+            onClick={(): void => setPaymentState('outgoing')}
           >
             Outgoing
           </p>
-          <Button dashboard onClick={() => setShowModal(true)}>
+          <Button dashboard onClick={(): void => setShowModal(true)}>
             REQUEST FUNDS
           </Button>
         </div>
@@ -93,10 +92,18 @@ const PaymentRequest = () => {
                       {data.payment_sender.username} requested for NGN {data.amount} for {data.reason}
                     </p>
                     <div>
-                      <Button dashboard disabled={loading} onClick={() => processPaymentRequest('approved', data.id)}>
+                      <Button
+                        dashboard
+                        disabled={loading}
+                        onClick={(): Promise<void> => processPaymentRequest('approved', data.id)}
+                      >
                         {loading ? <Dots /> : 'APPROVE REQUEST'}
                       </Button>
-                      <Button dashboard disabled={loading} onClick={() => processPaymentRequest('declined', data.id)}>
+                      <Button
+                        dashboard
+                        disabled={loading}
+                        onClick={(): Promise<void> => processPaymentRequest('declined', data.id)}
+                      >
                         {loading ? <Dots /> : 'DECLINE REQUEST'}
                       </Button>
                     </div>
@@ -124,7 +131,7 @@ const PaymentRequest = () => {
           </section>
         )}
       </section>
-      <Modal open={showModal} closed={() => setShowModal(false)}>
+      <Modal open={showModal} closed={(): void => setShowModal(false)}>
         <PaymentRequestForm />
       </Modal>
     </>
