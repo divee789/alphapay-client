@@ -10,7 +10,7 @@
   border: none;
   cursor: pointer;
   transition: all 0.3s;
-  background-color: #7854f7;
+  background-color: var(--color-primary);
 
   &:hover {
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);

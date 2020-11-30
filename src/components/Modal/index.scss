@@ -5,7 +5,7 @@
   z-index: 6;
   left: 0;
   top: 0;
-  background: rgba(246, 242, 243, 0.7);
+  background: var(--color-modal-backdrop);
   transition: all 0.2s;
 }
 

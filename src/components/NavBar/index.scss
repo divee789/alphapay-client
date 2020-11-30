@@ -37,14 +37,14 @@ nav {
 
         &.active,
         &:hover {
-          color: #7854f7;
+          color: var(--color-primary);
 
           .circle {
             display: block;
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #7854f7;
+            background: var(--color-primary);
             position: absolute;
             bottom: -12px;
             right: 40%;
