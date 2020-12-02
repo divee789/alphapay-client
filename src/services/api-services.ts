@@ -189,10 +189,7 @@ export default class APIRequest {
   };
 
   signUp = async (data: User) => {
-    const body = {
-      ...data,
-    };
-    const response = await this.instance.post('/auth/signup', body);
+    const response = await this.instance.post('/auth/signup', data);
     const authResponse = response.data;
     this.storeUserToken(authResponse.data.access_token, authResponse.data.refresh_token);
     return authResponse.data;
@@ -272,6 +269,11 @@ export default class APIRequest {
     return res.data.data;
   };
 
+  getModalProcessor = async () => {
+    const res = await this.instance.get('/api/v1/transfer/collection/processor');
+    return res.data.data;
+  };
+
   fundWallet = async (data: {
     amount: string;
     narration?: string;
@@ -330,11 +332,6 @@ export default class APIRequest {
 
   getTransactions = async (page?: number) => {
     const response = await this.instance.get('/api/v1/transaction/all?page=' + page);
-    return response.data.data;
-  };
-
-  filterTransactions = async (data, page?: number) => {
-    const response = await this.instance.post('/api/v1/transaction/filter?page=' + page, { ...data });
     return response.data.data;
   };
 
