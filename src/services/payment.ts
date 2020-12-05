@@ -1,25 +1,46 @@
+/* eslint-disable @typescript-eslint/camelcase */
 export const payWithKorapay = (
-  values: { amount: string; first_name: string; last_name: string; email: string },
+  values: { amount: string; full_name: string; email: string },
   success: Function,
-  failure: Function,
-  onClose: Function,
 ): void => {
   window.Korapay.initialize({
     key: process.env.REACT_APP_KORAPAY_PUBLIC_KEY,
     amount: Number(values.amount),
     currency: 'NGN',
     customer: {
-      name: `${values.first_name} ${values.last_name}`,
-      email: `${values.email}`,
-    },
-    onClose: function () {
-      onClose();
+      name: values.full_name,
+      email: values.email,
     },
     onSuccess: async function (data) {
       await success(data.reference);
     },
-    onFailed: function () {
-      failure();
+  });
+};
+
+export const payWithFlutterwave = (
+  values: { amount: string; full_name: string; email: string },
+  callback: Function,
+): void => {
+  window.FlutterwaveCheckout({
+    public_key: process.env.REACT_APP_FLUTTERWAVE_PUBLIC_KEY,
+    amount: Number(values.amount),
+    currency: 'NGN',
+    country: 'NG',
+    tx_ref: new Date().toISOString(),
+    customer: {
+      email: values.email,
+      name: values.full_name,
+    },
+    callback: function (data) {
+      callback(data.transaction_id.toString());
+    },
+    onclose: function () {
+      // close modal
+    },
+    customizations: {
+      title: 'alphapay',
+      description: 'Fund your alphapay wallet',
+      // logo: 'https://assets.piedpiper.com/logo.png',
     },
   });
 };

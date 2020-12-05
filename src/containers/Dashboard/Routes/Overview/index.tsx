@@ -88,16 +88,16 @@ const Overview = (props: { data: any[] }): JSX.Element => {
               >
                 <img src={Refresh} alt="refresh balance" />
               </span>
-              <p>
-                {processing ? (
-                  <Dots color="black" width={1} height={1} />
-                ) : (
-                  wallet?.available_balance
+              {processing ? (
+                <Dots color="black" width={1} height={1} />
+              ) : (
+                <p>
+                  {wallet?.available_balance
                     .toFixed(2)
                     .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                )}
-              </p>
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </p>
+              )}
               <span>AVAILABLE BALANCE (NGN)</span>
             </div>
           </Fade>

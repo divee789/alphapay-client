@@ -14,4 +14,4 @@ export { getPaymentRequests } from './paymentRequest';
 
 export { switchMode } from './ui';
 
-export { getUserTransactions, filterUserTransactions } from './transactions';
+export { getUserTransactions } from './transactions';
