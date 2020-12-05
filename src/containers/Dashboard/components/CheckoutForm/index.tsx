@@ -1,25 +1,19 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import APIRequest from '../../../../services/api-services';
+import APIService from '../../../../services/api-services';
 import { checkoutUserWallet } from '../../../../store/actions';
 import Button from '../../../../components/Button';
 
-import img1 from '../../../../assets/images/quick-and-easy.jpg';
-
-const API = new APIRequest();
+const API = new APIService();
 
 const CheckoutForm = (props: { banks: Array<{ name: string; code: string; country: string }> }): JSX.Element => {
-  const [message, setMessage] = useState(null);
   const [processing, setProcessing] = useState(null);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setMessage(null);
-  }, []);
   interface FormValues {
     amount: number;
     bank: string;
@@ -43,36 +37,33 @@ const CheckoutForm = (props: { banks: Array<{ name: string; code: string; countr
   const handleSubmit = async (values, { setSubmitting }): Promise<void> => {
     try {
       setProcessing(true);
-      const res = await API.confirmBankAccount({ bank: values.bank, account: values.bank_account });
-      const ask = prompt(
+      const res = await API.confirmBankAccount({ bank: values.bank, bank_account: values.bank_account });
+      const confirmedAccountName = prompt(
         `You are about to pay ${values.amount} to ${res.account_name}, please type the account name again to continue`,
       );
-      if (ask !== res.account_name) {
+      if (confirmedAccountName !== res.account_name) {
+        toast.error('Invalid Account Name');
         setProcessing(false);
         setSubmitting(false);
         return;
       }
+    } catch (error) {
+      toast.error('Your bank details could not be verified, please make sure they are valid and try again');
+      setProcessing(false);
+      return;
+    }
+
+    try {
       await dispatch(checkoutUserWallet(values));
       setProcessing(false);
-      setMessage('Your withdrawal is being processed. You will receive your funds shortly');
+      toast.success('Your withdrawal is being processed. You will receive your funds shortly');
     } catch (error) {
-      alert('Your bank details could not be verified, please make sure they are valid and try again');
       setProcessing(false);
       setSubmitting(false);
-      setMessage('There has been an error checking out your funds from your your wallet,please try again later');
+      toast.error('There has been an error checking out your funds from your your wallet,please try again later');
     }
   };
 
-  if (message) {
-    return (
-      <>
-        <div className="transfer_feedback">
-          <img src={img1} alt="transfer_feedback" />
-          <p>{message}</p>
-        </div>
-      </>
-    );
-  }
   return (
     <>
       <Formik initialValues={initialValues} validationSchema={walletValidationSchema} onSubmit={handleSubmit}>

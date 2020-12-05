@@ -46,8 +46,11 @@ const Dashboard = () => {
 
   useEffect(() => {
     const script = document.createElement('script');
+    const alternateScript = document.createElement('script');
     script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
+    alternateScript.src = 'https://checkout.flutterwave.com/v3.js';
     document.getElementsByTagName('head')[0].appendChild(script);
+    document.getElementsByTagName('head')[0].appendChild(alternateScript);
 
     const bootstrap = async (): Promise<boolean> => {
       try {

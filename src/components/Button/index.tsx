@@ -2,7 +2,7 @@ import React from 'react';
 
 import './index.scss';
 
-interface propsInterface {
+interface PropsInterface {
   dashboard?: boolean;
   colored?: boolean;
   className?: string;
@@ -13,7 +13,7 @@ interface propsInterface {
   style?: object;
 }
 
-const Button = (props: propsInterface) => {
+const Button = (props: PropsInterface): JSX.Element => {
   let style: any;
 
   style = {

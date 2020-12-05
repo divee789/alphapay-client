@@ -2,14 +2,12 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
-
-import { filterUserTransactions } from '../../../../store/actions';
 import Button from '../../../../components/Button';
 import constants from '../../../../utils/constants';
 
@@ -27,8 +25,6 @@ const DatePickerField = ({ name, value, onChange }: { name: string; value: strin
 };
 
 const SearchForm = () => {
-  const dispatch = useDispatch();
-
   const [feedback, setFeedback] = useState('');
 
   const { mode } = useSelector((state: { ui }) => state.ui);
@@ -65,8 +61,6 @@ const SearchForm = () => {
         }
       }
     }
-
-    await dispatch(filterUserTransactions(data));
     setSubmitting(false);
   };
 

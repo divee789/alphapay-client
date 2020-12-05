@@ -1,24 +1,26 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+
+import APIService from '../../../../services/api-services';
+
 import { fundUserWallet, getUserTransactions } from '../../../../store/actions';
-import { payWithKorapay } from '../../../../services/payment';
+import { payWithKorapay, payWithFlutterwave } from '../../../../services/payment';
 import Button from '../../../../components/Button';
 
 import './index.scss';
-import img1 from '../../../../assets/images/quick-and-easy.jpg';
-import APIServiceError from '../../../../services/error-services';
 
 declare global {
   interface Window {
     Korapay;
+    FlutterwaveCheckout;
   }
 }
 
 const FundForm = (): JSX.Element => {
-  const [message, setMessage] = useState(null);
   const [processing, setProcessing] = useState(null);
   const { user } = useSelector((state: { auth }) => state.auth);
 
@@ -26,6 +28,8 @@ const FundForm = (): JSX.Element => {
   interface FormValues {
     amount: number;
   }
+
+  const API = new APIService();
 
   const initialValues: FormValues = {
     amount: ('' as unknown) as number,
@@ -35,68 +39,67 @@ const FundForm = (): JSX.Element => {
     amount: Yup.number().required('Please provide the amount you want to fund').min(100),
   });
 
-  const handleSubmit = async (values, { setSubmitting }): Promise<void> => {
+  const callbackFn = async (reference: string, values: any, processor: string): Promise<void> => {
+    setProcessing(true);
+    const data = {
+      ...values,
+      processor,
+      processor_reference: reference,
+      transaction_status: 'success',
+      narration: 'Deposit funds to wallet',
+    };
+    try {
+      const response = await API.verifyTransaction(processor, reference);
+      if (response.status === 'success') {
+        await dispatch(fundUserWallet(data));
+        await dispatch(getUserTransactions());
+      }
+      setProcessing(false);
+      toast.success('Wallet Funded Successfully');
+    } catch (error) {
+      setProcessing(false);
+      toast.error(
+        '❗ Oops, There has been an error.Please contact support as soon as possible and your funds will be sorted out',
+      );
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (values): Promise<void> => {
     try {
       const data = {
         ...values,
         ...user,
       };
       setProcessing(true);
-      payWithKorapay(
-        data,
-        async (ref) => {
-          const feedback = {
-            ...values,
-            processor: 'Korapay',
-            processor_reference: ref,
-            transaction_status: 'success',
-            narration: 'Deposit funds to wallet',
-          };
-          try {
-            await dispatch(fundUserWallet(feedback));
-            await dispatch(getUserTransactions);
-            setProcessing(false);
-            return setMessage('Transaction successful');
-          } catch (error) {
-            if (error instanceof APIServiceError) {
-              setProcessing(false);
-              return setMessage(
-                'Oops,it looks like your network is disconnected ,please contact support as soon as possible and your funds will be sorted out',
-              );
-            }
-          }
-        },
-        () => {
-          setProcessing(false);
-          return setMessage('There has been an error funding your wallet,please try again later');
-        },
-        () => {
-          return setProcessing(false);
-        },
-      );
-      setSubmitting(false);
+      const processor = await API.getModalProcessor();
       setProcessing(false);
+      switch (processor) {
+        case 'FLUTTERWAVE':
+          payWithFlutterwave(data, async (ref) => {
+            await callbackFn(ref, values, processor);
+          });
+          break;
+        case 'KORAPAY':
+          payWithKorapay(data, async (ref) => {
+            await callbackFn(ref, values, processor);
+          });
+          break;
+        default:
+          alert(
+            'Sorry, we are unable to process your wallet top-up at this time, please contact support or try again later',
+          );
+          return;
+      }
     } catch (error) {
-      setSubmitting(false);
-      setProcessing(false);
-      setMessage('There has been an error funding your wallet,please try again later');
+      toast.error('❗ There has been an error funding your wallet,please contact support.');
     }
   };
 
-  if (message) {
-    return (
-      <>
-        <div className="transfer_feedback">
-          <img src={img1} alt="transfer_feedback" />
-          <p>{message}</p>
-        </div>
-      </>
-    );
-  }
   return (
     <>
       <Formik initialValues={initialValues} validationSchema={walletValidationSchema} onSubmit={handleSubmit}>
-        {(formProps): JSX.Element => {
+        {(): JSX.Element => {
           return (
             <>
               <Form className="fund_wallet_form">
@@ -113,7 +116,7 @@ const FundForm = (): JSX.Element => {
                   />
                 </div>
                 <div className="fund_btn">
-                  <Button disabled={formProps.isSubmitting} colored>
+                  <Button disabled={processing} colored>
                     {processing ? 'Please wait...' : 'FUND WALLET'}
                   </Button>
                 </div>

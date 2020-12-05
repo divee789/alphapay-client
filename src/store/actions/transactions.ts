@@ -37,32 +37,3 @@ export function getUserTransactions(page?: number) {
     }
   };
 }
-
-export function filterUserTransactions(data: unknown, page?: number) {
-  function request() {
-    return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_REQUEST };
-  }
-  function success(transactions: [Transaction], pager) {
-    const data = {
-      transactions,
-      pager,
-    };
-    return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_SUCCESS, data };
-  }
-  function failure(error: unknown) {
-    return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_FAILURE, error };
-  }
-
-  return async (dispatch: Dispatch) => {
-    try {
-      await dispatch(request());
-      const response = await Request.filterTransactions(data, page);
-      await dispatch(success(response.transactions, response.pager));
-    } catch (error) {
-      if (error instanceof APIServiceError) {
-        dispatch(failure(error));
-        throw error.response.data;
-      }
-    }
-  };
-}

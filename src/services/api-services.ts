@@ -11,7 +11,7 @@ import store from '../store';
 const APIBaseURL =
   process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_STAGING : process.env.REACT_APP_SERVER_URL;
 
-export default class APIRequest {
+export default class APIService {
   public instance: AxiosInstance;
   public instance2: AxiosInstance;
   constructor() {
@@ -291,13 +291,19 @@ export default class APIRequest {
     return res.data.data;
   };
 
+  verifyTransaction = async (processor: string, transactionId: string) => {
+    const res = await this.instance.get(`/api/v1/transfer/verify/${processor}/${transactionId}`);
+    return res.data.data;
+  };
+
   getBanks = async () => {
     const res = await this.instance.get('/api/v1/transfer/banks');
     return res.data.data;
   };
 
-  confirmBankAccount = async (data: { bank: string; account: string }) => {
+  confirmBankAccount = async (data: { bank: string; bank_account: string }) => {
     const res = await this.instance.post('/api/v1/transfer/banks/verify', data);
+    console.log(res);
     return res.data.data;
   };
 
