@@ -30,7 +30,7 @@ const PasswordReset = () => {
     const call = async () => {
       try {
         const res = await API.confirmPasswordReset(token);
-        setUser(res.user);
+        setUser(res.data.user);
         setLoading(false);
       } catch (error) {
         setFeedback('There has been an issue verifying your identity,please contact support');

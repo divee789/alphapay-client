@@ -91,6 +91,7 @@ const PaymentRequest = (): JSX.Element => {
                     <p>
                       {data.payment_sender.username} requested for NGN {data.amount} for {data.reason}
                     </p>
+                    <p>{data.status}</p>
                     <div>
                       <Button
                         dashboard

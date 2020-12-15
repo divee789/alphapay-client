@@ -1,7 +1,7 @@
 export interface Wallet {
   id: string;
-  available_balance: number;
-  ledger_balance: number;
+  available_balance: string | number;
+  ledger_balance: string | number;
   user_id: string;
   transaction_pin?: number;
 }
@@ -10,7 +10,7 @@ export interface Transaction {
   id: string;
   transaction_type: string;
   processor: string;
-  amount: number;
+  amount: string | number;
   processor_reference: string;
   reference: string;
   status: string;

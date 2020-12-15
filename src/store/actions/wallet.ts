@@ -24,7 +24,7 @@ export function getUserWallet() {
     try {
       await dispatch(request());
       const data = await Request.getWallet();
-      await dispatch(success(data.wallet));
+      await dispatch(success(data.data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
         await dispatch(failure(error));
@@ -56,7 +56,7 @@ export function fundUserWallet(data: {
     try {
       await dispatch(request());
       const response = await Request.fundWallet(data);
-      await dispatch(success(response.wallet));
+      await dispatch(success(response.data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
         await dispatch(failure(error));
@@ -81,7 +81,7 @@ export function checkoutUserWallet(data: { amount: number; bank_code: string; ba
     try {
       await dispatch(request());
       const response = await Request.checkoutWallet(data);
-      await dispatch(success(response));
+      await dispatch(success(response.data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
         await dispatch(failure(error));
@@ -108,7 +108,7 @@ export function transferFunds(data: {
     try {
       await dispatch(request());
       const response = await Request.transferFunds(data);
-      await dispatch(success(response.wallet));
+      await dispatch(success(response.data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
         throw error.response.data;
@@ -136,7 +136,7 @@ export function setTransactionPin(data: { transaction_pin: string }) {
     try {
       await dispatch(request());
       const response = await Request.setTransactionPin(data);
-      await dispatch(success(response.wallet));
+      await dispatch(success(response.data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
         await dispatch(failure(error.response.data.message));

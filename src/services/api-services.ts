@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import axios, { AxiosInstance } from 'axios';
+import decode from 'jwt-decode';
 import { Logger, history } from '../utils';
 import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
-import decode from 'jwt-decode';
-import { User } from '../store/types';
+import * as APIProps from '../interfaces/api_props';
 import store from '../store';
 
 const APIBaseURL =
@@ -163,7 +163,7 @@ export default class APIService {
     sessionStorage.setItem('logged', 'true');
   };
 
-  activateTwoFa = async () => {
+  activateTwoFa = async (): Promise<APIProps.ActivateTwoFAResponseProps> => {
     const response = await this.instance.get('/auth/2fa/generate');
     return response.data;
   };
@@ -173,24 +173,24 @@ export default class APIService {
     return response.data;
   };
 
-  twoFaAuthorize = async (data: { email: string; token: string }) => {
+  twoFaAuthorize = async (data: APIProps.TwoFaAuthorizeRequestProps): Promise<APIProps.TwoFaAuthorizeResponseProps> => {
     const response = await this.instance.post('/auth/2fa/verify', data);
     this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
     return response.data;
   };
 
-  logIn = async (data: { email: string; password: string }) => {
-    const response = await this.instance.post('/auth/login', data);
-    if (response.data.success === false && response.data.message === '2FA required') {
-      return response.data;
+  logIn = async (data: APIProps.LogInRequestProps): Promise<APIProps.LogInResponseProps> => {
+    const responseData = await this.instance.post('/auth/login', data);
+    const response: APIProps.LogInResponseProps = responseData.data;
+    if (response.success === true) {
+      this.storeUserToken(response.data.access_token, response.data.refresh_token);
     }
-    this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
-    return response.data.data;
+    return response;
   };
 
-  signUp = async (data: User) => {
+  signUp = async (data: APIProps.SignUpRequestProps) => {
     const response = await this.instance.post('/auth/signup', data);
-    const authResponse = response.data;
+    const authResponse: APIProps.SignUpResponseProps = response.data;
     this.storeUserToken(authResponse.data.access_token, authResponse.data.refresh_token);
     return authResponse.data;
   };
@@ -207,14 +207,14 @@ export default class APIService {
     return authResponse;
   };
 
-  update = async (data: User) => {
+  update = async (data: APIProps.UpdateUserRequestProps): Promise<APIProps.UpdateUserResponseProps> => {
     const response = await this.instance.patch('/auth/update', data);
-    return response.data.data;
+    return response.data;
   };
 
-  changePassword = async (data) => {
+  changePassword = async (data: APIProps.ChangePasswordRequestProps): Promise<APIProps.BaseAPIProps> => {
     const response = await this.instance.patch('/auth/password', data);
-    return response.data.data;
+    return response.data;
   };
 
   logOut = async () => {
@@ -224,97 +224,96 @@ export default class APIService {
     this.clearHeader();
   };
 
-  getUser = async () => {
+  getUser = async (): Promise<APIProps.GetUserResponseProps> => {
     const res = await this.instance.get('/auth/user');
-    return res.data.data;
+    return res.data;
   };
 
-  verifyEmail = async (token: string) => {
+  verifyEmail = async (token: string): Promise<APIProps.BaseAPIProps> => {
     const res = await this.instance.get('/auth/verify?token=' + token);
-    return res.data.data;
+    return res.data;
   };
 
-  sendEmail = async () => {
+  sendEmail = async (): Promise<APIProps.BaseAPIProps> => {
     const res = await this.instance.post('/auth/send_email');
-    return res.data.data;
+    return res.data;
   };
 
-  passwordReset = async (data) => {
-    const res = await this.instance.get(`/auth/password_reset_request?email=${data}`);
-    return res.data.data;
+  passwordReset = async (email: string): Promise<APIProps.BaseAPIProps> => {
+    const res = await this.instance.get(`/auth/password_reset_request?email=${email}`);
+    return res.data;
   };
 
-  confirmPasswordReset = async (token: string) => {
+  confirmPasswordReset = async (token: string): Promise<APIProps.ConfirmPasswordResetResponseProps> => {
     const res = await this.instance.get(`/auth/password_reset_confirmation?password_reset_token=${token}`);
-    return res.data.data;
+    return res.data;
   };
 
-  passwordResetEmail = async (data: { email: string; password: string }) => {
+  passwordResetEmail = async (data: { email: string; password: string }): Promise<APIProps.BaseAPIProps> => {
     const res = await this.instance.post('/auth/password_reset_email', {
       email: data.email,
       password: data.password.trim(),
     });
-    return res.data.data;
+    return res.data;
   };
 
-  uploadProfileImage = async (data) => {
+  uploadProfileImage = async (data): Promise<APIProps.UploadProfileImageResponseProps> => {
     const res = await this.instance2.post('/auth/upload', data);
-    return res.data.data;
+    return res.data;
   };
 
   //WALLET apis
 
-  getWallet = async () => {
+  getWallet = async (): Promise<APIProps.GetWalletResponseProps> => {
     const res = await this.instance.get('/api/v1/wallet/get');
-    return res.data.data;
+    return res.data;
   };
 
-  getModalProcessor = async () => {
+  getModalProcessor = async (): Promise<APIProps.GetModalProcessorResponseProps> => {
     const res = await this.instance.get('/api/v1/transfer/collection/processor');
-    return res.data.data;
+    return res.data;
   };
 
-  fundWallet = async (data: {
-    amount: string;
-    narration?: string;
-    processor: string;
-    processor_reference: string;
-    transaction_status: string;
-    pin: string;
-  }) => {
+  fundWallet = async (data: APIProps.FundWalletRequestProps): Promise<APIProps.FundWalletResponseProps> => {
     const res = await this.instance.post('/api/v1/transfer/fund', data);
     return res.data.data;
   };
 
-  checkoutWallet = async (data) => {
+  checkoutWallet = async (
+    data: Partial<APIProps.CheckoutWalletRequestProps>,
+  ): Promise<APIProps.CheckoutWalletResponseProps> => {
     const res = await this.instance.post('/api/v1/transfer/withdraw', data);
-    return res.data.data;
+    return res.data;
   };
 
-  verifyTransaction = async (processor: string, transactionId: string) => {
+  verifyTransaction = async (
+    processor: string,
+    transactionId: string,
+  ): Promise<APIProps.VerifyTransactionResponseProps> => {
     const res = await this.instance.get(`/api/v1/transfer/verify/${processor}/${transactionId}`);
-    return res.data.data;
+    return res.data;
   };
 
-  getBanks = async () => {
+  getBanks = async (): Promise<APIProps.GetBanksResponseProps> => {
     const res = await this.instance.get('/api/v1/transfer/banks');
-    return res.data.data;
+    return res.data;
   };
 
-  confirmBankAccount = async (data: { bank: string; bank_account: string }) => {
+  confirmBankAccount = async (
+    data: APIProps.ConfirmBankAccountRequestProps,
+  ): Promise<APIProps.ConfirmBankAccountResponseProps> => {
     const res = await this.instance.post('/api/v1/transfer/banks/verify', data);
-    console.log(res);
-    return res.data.data;
+    return res.data;
   };
 
-  transferFunds = async (data) => {
+  transferFunds = async (data: APIProps.TransferFundsRequestProps): Promise<APIProps.TransferFundsResponseProps> => {
     const res = await this.instance.post('/api/v1/transfer', data);
-    return res.data.data;
+    return res.data;
   };
 
-  verifyRecipientAccount = async (phoneNumber) => {
+  verifyRecipientAccount = async (phoneNumber: string): Promise<APIProps.VerifyRecipientResponseProps> => {
     const res = await this.instance.get(`/api/v1/transfer/account?phone_number=${phoneNumber}`);
-    return res.data.data;
+    return res.data;
   };
 
   //NOTIFICATIONS
@@ -336,32 +335,32 @@ export default class APIService {
 
   //Transaction apis
 
-  getTransactions = async (page?: number) => {
+  getTransactions = async (page?: number): Promise<APIProps.GetTransactionsResponseProps> => {
     const response = await this.instance.get('/api/v1/transaction/all?page=' + page);
-    return response.data.data;
+    return response.data;
   };
 
-  setTransactionPin = async (data: { transaction_pin: string }): Promise<{ message: string; wallet? }> => {
-    const body = {
-      transaction_pin: data.transaction_pin,
-    };
-    const response = await this.instance.post('/api/v1/wallet/activation', body);
-    return response.data.data;
+  setTransactionPin = async (data: { transaction_pin: string }): Promise<APIProps.SetTransactionPinResponseProps> => {
+    const response = await this.instance.post('/api/v1/wallet/activation', data);
+    return response.data;
   };
 
   // PAYMENT REQUEST APIs
 
-  getPaymentRequests = async () => {
+  getPaymentRequests = async (): Promise<APIProps.GetPaymentResponseProps> => {
     const response = await this.instance.get('/api/v1/payment_request');
-    return response.data.data;
+    return response.data;
   };
 
-  createPaymentRequest = async (data) => {
+  createPaymentRequest = async (data: APIProps.CreatePaymentRequestProps): Promise<APIProps.BaseAPIProps> => {
     const response = await this.instance.post('/api/v1/payment_request', data);
-    return response.data.data;
+    return response.data;
   };
 
-  processPaymentRequest = async (status: string, paymentId: string) => {
+  processPaymentRequest = async (
+    status: string,
+    paymentId: string,
+  ): Promise<APIProps.ProcessPaymentRequestResponseProps> => {
     const response = await this.instance.put(`/api/v1/payment_request/${paymentId}`, { status });
     return response.data.data;
   };

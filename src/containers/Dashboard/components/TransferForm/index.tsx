@@ -44,7 +44,7 @@ const TransferForm = (): JSX.Element => {
     setRecipient(values);
     try {
       const response = await API.verifyRecipientAccount(values.recipient_phone_number);
-      setVerifiedAccount(response);
+      setVerifiedAccount(response.data.user);
       setLoading(false);
       setTransferState('verify');
     } catch (error) {

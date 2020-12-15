@@ -26,8 +26,26 @@ export interface TransactionReducer {
 
 export interface PaymentRequestReducer {
   processing: boolean;
-  incomingPaymentRequests: any;
-  outgoingPaymentRequests: any;
+  incomingPaymentRequests: Array<{
+    id: string;
+    sender_id: string;
+    amount: number;
+    reason: string;
+    payment_sender: any;
+    payment_recipient: any;
+    status: string;
+    recipient_id: string;
+  }>;
+  outgoingPaymentRequests: Array<{
+    id: string;
+    sender_id: string;
+    amount: number;
+    reason: string;
+    payment_sender: any;
+    payment_recipient: any;
+    status: string;
+    recipient_id: string;
+  }>;
   error: any;
 }
 

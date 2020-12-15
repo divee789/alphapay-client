@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
-// import RecaptchaComponent from '../Recaptcha';
 import theme from '../../../components/Theme';
 import Button from '../../../components/Button';
 import Dots from '../../../components/Loaders/Dots';
@@ -22,7 +21,6 @@ const API = new Request();
 
 const ForgotPassword = () => {
   const history = useHistory();
-  // const [recaptcha, setRecaptcha] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
@@ -33,7 +31,7 @@ const ForgotPassword = () => {
     email: '',
   };
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values: FormValues, { setSubmitting }) => {
     try {
       setProcessing(true);
       const res = await API.passwordReset(values.email);
@@ -72,16 +70,6 @@ const ForgotPassword = () => {
                         <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
                       </div>
                     </Fade>
-                    {/* <div className="input-container">
-                      <RecaptchaComponent
-                        verifyCallback={() => {
-                          setRecaptcha(false);
-                        }}
-                        expiredCallback={() => {
-                          setRecaptcha(true);
-                        }}
-                      />
-                    </div> */}
                     {feedback && (
                       <div className="error_message" onClick={() => setFeedback(null)}>
                         {feedback}

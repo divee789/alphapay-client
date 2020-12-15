@@ -1,25 +1,31 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align='center'><b>alphapay web client</b></h1>  
+<p align='center'>
+A fintech web apps designed to make payments more easier and accessible to anyone with access to the internet.
+</p>
 
-## Available Scripts
+<p align="center">
+Built with 💖 by <a href='https://github.com/divee789'>Divine Olokor</a>
+</p>
 
-In the project directory, you can run:
+## **Features**
 
-### `npm install`
+alphapay aims to be an app where users (alphas) can deposit funds to carry out transactions speedily, reliably and efficiently. Alphas will be able to receive funds, transfer funds to another alpha wallet, pay bills , buy airtime, shop for goods, and transfer funds to a bank account.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## **Prerequisites**
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Before you begin, ensure you have installed:
 
-### `npm run test`
+- NodeJS v12.13.0
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Installing**
 
-### `npm run build`
+- Clone this repo to your local machine `git clone <this-repo-url>`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `cd` to `alphapay-client`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- run `npm install` or `yarn add .`
+- run `npm run start:dev` to start the development server at `localhost:3000`
+
+**TODO**
+
+- Fix Payment Request Bug

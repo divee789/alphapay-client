@@ -6,13 +6,16 @@ export const payWithKorapay = (
   window.Korapay.initialize({
     key: process.env.REACT_APP_KORAPAY_PUBLIC_KEY,
     amount: Number(values.amount),
+    reference: `ALP-KPY-${new Date().getTime()}`,
     currency: 'NGN',
     customer: {
       name: values.full_name,
       email: values.email,
     },
-    onSuccess: async function (data) {
+    onSuccess: async (data) => {
+      alert('not done');
       await success(data.reference);
+      alert('done');
     },
   });
 };

@@ -6,21 +6,28 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import { getPaymentRequests } from '../../../../store/actions';
-import Request from '../../../../services/api-services';
+import APIService from '../../../../services/api-services';
 
 import Button from '../../../../components/Button';
 import Dots from '../../../../components/Loaders/Dots';
+import { User } from '../../../../store/types';
 
 const PaymentRequestForm = (): JSX.Element => {
+  interface PaymentRequestProps {
+    amount: string;
+    recipient_phone_number: string;
+    reason: string;
+  }
+
   const [formState, setFormState] = useState('form');
-  const [loading, setLoading] = useState(null);
-  const [verifiedAccount, setVerifiedAccount] = useState(null);
-  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [verifiedAccount, setVerifiedAccount] = useState<User>(null);
+  const [data, setData] = useState<PaymentRequestProps>(null);
 
   const dispatch = useDispatch();
-  const API = new Request();
+  const API = new APIService();
 
-  const initialValues = {
+  const initialValues: PaymentRequestProps = {
     amount: '',
     recipient_phone_number: '',
     reason: '',
@@ -34,15 +41,16 @@ const PaymentRequestForm = (): JSX.Element => {
     reason: Yup.string().required('Why are you requesting for this amount ?'),
   });
 
-  const handleSubmit = async (values): Promise<void> => {
+  const handleSubmit = async (values: PaymentRequestProps): Promise<void> => {
     setLoading(true);
     setData(values);
     try {
       const response = await API.verifyRecipientAccount(values.recipient_phone_number);
-      setVerifiedAccount(response);
+      setVerifiedAccount(response.data.user);
       setLoading(false);
       setFormState('verify');
     } catch (error) {
+      console.log('error', error.response);
       toast.error(`❗ ${error.response.data.message}`, {
         autoClose: false,
       });
@@ -53,7 +61,12 @@ const PaymentRequestForm = (): JSX.Element => {
   const requestFunds = async (): Promise<void> => {
     try {
       setLoading(true);
-      await API.createPaymentRequest(data);
+      console.log(verifiedAccount);
+      await API.createPaymentRequest({
+        amount: data.amount,
+        reason: data.reason,
+        recipients: [`${verifiedAccount.id}`],
+      });
       toast.success('Request sent successfully');
       await dispatch(getPaymentRequests());
       setLoading(false);
@@ -121,11 +134,11 @@ const PaymentRequestForm = (): JSX.Element => {
         <section className="transfer_verified_account">
           <div>
             <img
-              src={verifiedAccount.profile_image || 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'}
+              src={verifiedAccount?.profile_image || 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'}
               alt="profile_image"
             />
             <p>
-              Request NGN {data.amount} from {verifiedAccount.username}
+              Request NGN {data.amount} from {verifiedAccount?.username}
             </p>
           </div>
           <div className="verify_actions_btn">

@@ -20,9 +20,10 @@ import APIServiceError from '../../services/error-services';
 
 const TwoFa = () => {
   const history = useHistory();
-  const [feedback, setFeedback] = useState(null);
-  const [processing, setProcessing] = useState(null);
   const dispatch = useDispatch();
+
+  const [feedback, setFeedback] = useState(null);
+  const [processing, setProcessing] = useState(false);
 
   function useQuery() {
     return new URLSearchParams(useLocation().search);

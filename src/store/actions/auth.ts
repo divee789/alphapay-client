@@ -4,7 +4,6 @@ import { Dispatch } from 'redux';
 import * as actionTypes from './actionTypes';
 import APIRequest from '../../services/api-services';
 import APIServiceError from '../../services/error-services';
-import { User } from '../types';
 
 const authAPIRequest = new APIRequest();
 
@@ -85,7 +84,7 @@ export function getUser() {
     try {
       dispatch(request());
       const data = await authAPIRequest.getUser();
-      dispatch(success(data.user));
+      dispatch(success(data.data.user));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));
@@ -118,7 +117,7 @@ export function signUp(data) {
     }
   };
 }
-export function update(data: User) {
+export function update(data) {
   function request() {
     return { type: actionTypes.authConstants.SIGNUP_REQUEST };
   }
@@ -135,7 +134,7 @@ export function update(data: User) {
         return;
       }
       const response = await authAPIRequest.update(data);
-      dispatch(success(response.user));
+      dispatch(success(response.data.user));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));

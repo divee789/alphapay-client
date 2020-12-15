@@ -9,10 +9,11 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { logIn } from '../../store/actions';
+import { Store } from '../../store/interfaces';
+
 import theme from '../../components/Theme';
 import Button from '../../components/Button';
 import Dots from '../../components/Loaders/Dots';
-// import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
@@ -23,9 +24,8 @@ import './auth.scss';
 const LogIn = () => {
   const history = useHistory();
   const [feedback, setFeedback] = useState(null);
-  // const [recaptcha, setRecaptcha] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const { processing } = useSelector((state: { auth }) => state.auth);
+  const { processing } = useSelector((state: Store) => state.auth);
   const dispatch = useDispatch();
 
   interface FormValues {
@@ -42,7 +42,7 @@ const LogIn = () => {
     password: Yup.string().required('Provide a password please'),
   });
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values: FormValues, { setSubmitting }) => {
     try {
       await dispatch(logIn(values));
       history.push(`/dashboard/overview`);
@@ -100,16 +100,6 @@ const LogIn = () => {
                       </div>
                     </Fade>
 
-                    {/* <div className="input-container">
-                      <RecaptchaComponent
-                        verifyCallback={(): void => {
-                          setRecaptcha(false);
-                        }}
-                        expiredCallback={(): void => {
-                          setRecaptcha(true);
-                        }}
-                      />
-                    </div> */}
                     {feedback && (
                       <div className="error_message" onClick={(): void => setFeedback(null)}>
                         {feedback}

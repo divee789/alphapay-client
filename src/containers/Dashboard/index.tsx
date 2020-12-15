@@ -14,35 +14,32 @@ import {
   getPaymentRequests,
   updateWallet,
 } from '../../store/actions';
-import API from '../../services/api-services';
-
+import { Store } from '../../store/interfaces';
+import APIServices from '../../services/api-services';
 import Overview from './Routes/Overview';
 import Cards from './Routes/Cards';
-import Transactions from './Routes/Transactions';
 import Utilities from './Routes/Utilities';
 import Setting from './Routes/Setting';
 import PaymentRequest from './Routes/PaymentRequest';
-
 import TabMenu from './components/SideBar';
 import NotificationBar from './components/Notifications';
 import Backdrop from '../../components/Modal/Backdrop';
-
 import Logo from '../../assets/images/alp.png';
 import imLogo from '../../assets/images/dashboard/home.png';
 import cardLogo from '../../assets/images/dashboard/card.png';
 import settings from '../../assets/images/dashboard/set.png';
 import './index.scss';
 
-const Request = new API();
+const API = new APIServices();
 
 const Dashboard = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [sidebarOpen, setSideBarOpen] = useState(false);
-  const [banks, setBanks] = useState([]);
+  const [banks, setBanks] = useState<Array<{ name: string; code: string }>>([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
 
-  const dispatch = useDispatch();
-  const { user } = useSelector((state: { auth }) => state.auth);
+  const { user } = useSelector((state: Store) => state.auth);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -59,9 +56,9 @@ const Dashboard = () => {
         dispatch(getUserTransactions());
         dispatch(getNotifications());
         dispatch(getPaymentRequests());
-        const res = await Request.getBanks();
-        if (res.banks) {
-          setBanks(res.banks);
+        const res = await API.getBanks();
+        if (res.data.banks) {
+          setBanks(res.data.banks);
         }
         return true;
       } catch (error) {
@@ -112,7 +109,7 @@ const Dashboard = () => {
   };
 
   const deleteNotification = async (id): Promise<void> => {
-    await Request.deleteNotification(id);
+    await API.deleteNotification(id);
     dispatch(getNotifications());
   };
 
@@ -156,9 +153,7 @@ const Dashboard = () => {
                 alt="profile_image"
               />
               <div className="dropdown_content">
-                <p>
-                  {user?.first_name} {user?.last_name}
-                </p>
+                <p>{user?.full_name}</p>
                 <hr />
                 <div className="navcard_actions">
                   <NavLink to={`${url}/settings`}>
@@ -185,7 +180,6 @@ const Dashboard = () => {
               <Switch>
                 <Route path={`${path}/overview`} render={() => <Overview data={banks} />} />
                 <Route path={`${path}/cards`} component={Cards} />
-                <Route path={`${path}/transactions`} component={Transactions} />
                 <Route path={`${path}/utilities`} component={Utilities} />
                 <Route path={`${path}/settings`} component={Setting} />
                 <Route path={`${path}/payment_requests`} component={PaymentRequest} />

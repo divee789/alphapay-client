@@ -10,7 +10,7 @@ import Button from '../../../../components/Button';
 
 const API = new APIService();
 
-const CheckoutForm = (props: { banks: Array<{ name: string; code: string; country: string }> }): JSX.Element => {
+const CheckoutForm = (props: { banks: Array<{ name: string; code: string }> }): JSX.Element => {
   const [processing, setProcessing] = useState(null);
 
   const dispatch = useDispatch();
@@ -35,13 +35,23 @@ const CheckoutForm = (props: { banks: Array<{ name: string; code: string; countr
   });
 
   const handleSubmit = async (values, { setSubmitting }): Promise<void> => {
+    let validatedAccount: {
+      account_name: string;
+      account_number: string;
+      bank_name: string;
+      bank_code: string;
+    };
     try {
       setProcessing(true);
-      const res = await API.confirmBankAccount({ bank: values.bank, bank_account: values.bank_account });
+      const validatedAccountResponse = await API.confirmBankAccount({
+        bank: values.bank,
+        bank_account: values.bank_account,
+      });
+      validatedAccount = validatedAccountResponse.data;
       const confirmedAccountName = prompt(
-        `You are about to pay ${values.amount} to ${res.account_name}, please type the account name again to continue`,
+        `You are about to pay ${values.amount} to ${validatedAccount.account_name}, please type the account name again to continue`,
       );
-      if (confirmedAccountName !== res.account_name) {
+      if (confirmedAccountName !== validatedAccount.account_name || !confirmedAccountName) {
         toast.error('Invalid Account Name');
         setProcessing(false);
         setSubmitting(false);
@@ -54,7 +64,13 @@ const CheckoutForm = (props: { banks: Array<{ name: string; code: string; countr
     }
 
     try {
-      await dispatch(checkoutUserWallet(values));
+      await dispatch(
+        checkoutUserWallet({
+          ...values,
+          account_name: validatedAccount.account_name,
+          bank_name: validatedAccount.bank_name,
+        }),
+      );
       setProcessing(false);
       toast.success('Your withdrawal is being processed. You will receive your funds shortly');
     } catch (error) {

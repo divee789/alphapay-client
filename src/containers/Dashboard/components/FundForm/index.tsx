@@ -50,12 +50,14 @@ const FundForm = (): JSX.Element => {
     };
     try {
       const response = await API.verifyTransaction(processor, reference);
-      if (response.status === 'success') {
+      if (response.data.status === 'success') {
         await dispatch(fundUserWallet(data));
         await dispatch(getUserTransactions());
       }
       setProcessing(false);
-      toast.success('Wallet Funded Successfully');
+      toast.success('Wallet Funded Successfully', {
+        autoClose: false,
+      });
     } catch (error) {
       setProcessing(false);
       toast.error(
@@ -74,15 +76,15 @@ const FundForm = (): JSX.Element => {
       setProcessing(true);
       const processor = await API.getModalProcessor();
       setProcessing(false);
-      switch (processor) {
+      switch (processor.data) {
         case 'FLUTTERWAVE':
           payWithFlutterwave(data, async (ref) => {
-            await callbackFn(ref, values, processor);
+            await callbackFn(ref, values, 'FLUTTERWAVE');
           });
           break;
         case 'KORAPAY':
           payWithKorapay(data, async (ref) => {
-            await callbackFn(ref, values, processor);
+            await callbackFn(ref, values, 'KORAPAY');
           });
           break;
         default:

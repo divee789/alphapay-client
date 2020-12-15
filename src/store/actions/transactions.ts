@@ -13,7 +13,7 @@ export function getUserTransactions(page?: number) {
   function request() {
     return { type: actionTypes.transactionConstants.FETCH_TRANSACTIONS_REQUEST };
   }
-  function success(transactions: [Transaction], pager: unknown) {
+  function success(transactions: Transaction[], pager: unknown) {
     const data = {
       transactions,
       pager,
@@ -28,7 +28,7 @@ export function getUserTransactions(page?: number) {
     try {
       dispatch(request());
       const data = await Request.getTransactions(page);
-      dispatch(success(data.transactions, data.pager));
+      dispatch(success(data.data.transactions, data.data.pager));
     } catch (error) {
       if (error instanceof APIServiceError) {
         dispatch(failure(error));

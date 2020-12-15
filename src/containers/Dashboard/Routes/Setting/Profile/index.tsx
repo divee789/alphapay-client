@@ -4,21 +4,21 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { update } from '../../../../../store/actions';
-import Request from '../../../../../services/api-services';
-
+import APIServices from '../../../../../services/api-services';
+import { Store } from '../../../../../store/interfaces';
 import Button from '../../../../../components/Button';
 import './index.scss';
 
-const API = new Request();
+const API = new APIServices();
 
 const Profile = () => {
   const dispatch = useDispatch();
   const [image, setImage] = useState('');
-  const [uploadFeedBack, setUploadFeedBack] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  const { user, processing, update_error, message } = useSelector((state: { auth }) => state.auth);
+  const { user, processing } = useSelector((state: Store) => state.auth);
 
   const initialValues = {
     email: user?.email || '',
@@ -48,14 +48,10 @@ const Profile = () => {
       const formData = new FormData();
       formData.append('profile_image', image);
       const resData = await API.uploadProfileImage(formData);
-      if (resData.error) {
-        alert('Your session has expired, please log in again');
-        return;
-      }
-      await dispatch(update(resData));
-      setUploadFeedBack('Image Upload Successful');
+      await dispatch(update(resData.data.user));
+      toast.success('Image Upload Successful');
     } catch (error) {
-      setUploadFeedBack('Image Upload Failed');
+      toast.error('Image Upload Failed');
     }
     setUploading(false);
   };
@@ -81,7 +77,6 @@ const Profile = () => {
             <Button dashboard onClick={uploadHandler} className="upload-btn">
               {uploading ? 'Please wait...' : 'Upload Image'}
             </Button>
-            <p>{uploadFeedBack}</p>
           </div>
         </div>
         <div className="user_profile_details">
@@ -116,11 +111,6 @@ const Profile = () => {
                         {processing ? 'Please wait...' : 'Update details'}
                       </Button>
                     </div>
-                    {
-                      <p className="modal_error" style={{ textAlign: 'center' }}>
-                        {message || update_error?.response.data.message}
-                      </p>
-                    }
                   </Form>
                 </>
               );

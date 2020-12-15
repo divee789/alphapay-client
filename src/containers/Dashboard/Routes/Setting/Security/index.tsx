@@ -4,30 +4,36 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setTransactionPin } from '../../../../../store/actions';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import Request from '../../../../../services/api-services';
+import { setTransactionPin } from '../../../../../store/actions';
+import { Store } from '../../../../../store/interfaces';
+import APIServices from '../../../../../services/api-services';
 import Button from '../../../../../components/Button';
-
 import emailImg from '../../../../../assets/images/email.jpg';
 import phoneVer from '../../../../../assets/images/andela1.png';
-
 import './index.scss';
 
-const API = new Request();
+const API = new APIServices();
 
 const Security = () => {
   const history = useHistory();
-  const [feedback, setFeedback] = useState(null);
-  const [feedback2, setFeedback2] = useState(null);
-  const [twoFaFeedback, setTwoFaFeedback] = useState(null);
-  const [twoFaLoading, setTwoFaLoading] = useState(null);
-  const [emailProcessing, setEmailProcessing] = useState(null);
-  const { processing, user } = useSelector((state: { auth }) => state.auth);
-  const { wallet, pin_error } = useSelector((state: { wallet }) => state.wallet);
   const dispatch = useDispatch();
 
-  const initialValues = {
+  const [twoFaImageUrl, setTwoFaImageUrl] = useState<string>(null);
+  const [twoFaLoading, setTwoFaLoading] = useState(null);
+  const [emailProcessing, setEmailProcessing] = useState(null);
+  const { processing, user } = useSelector((state: Store) => state.auth);
+  const { wallet } = useSelector((state: Store) => state.wallet);
+
+  interface FormValues {
+    password?: string;
+    new_password?: string;
+    transaction_pin?: string;
+    type: string;
+  }
+
+  const initialValues: FormValues = {
     password: '',
     new_password: '',
     type: 'Password',
@@ -48,15 +54,26 @@ const Security = () => {
       .required('Provide a transaction pin please'),
   });
 
+  const sendVerificationEmail = async () => {
+    try {
+      setEmailProcessing(true);
+      await API.sendEmail();
+      setEmailProcessing(false);
+      history.push('/auth/verify_email');
+    } catch (error) {
+      toast.error('There has been an error verifying your email, please contact support');
+    }
+  };
+
   const activateTwoFa = async () => {
     try {
       setTwoFaLoading(true);
       const res = await API.activateTwoFa();
-      setTwoFaFeedback(res.data.image_url);
+      setTwoFaImageUrl(res.data.image_url);
       setTwoFaLoading(false);
     } catch (error) {
       setTwoFaLoading(false);
-      alert('There has been an error, please try again or contact support');
+      toast.error('There has been an error, please try again or contact support');
     }
   };
 
@@ -64,28 +81,28 @@ const Security = () => {
     try {
       setTwoFaLoading(true);
       const res = await API.deactivate2FA();
-      setTwoFaFeedback(res.message);
+      toast.success(res.message);
       setTwoFaLoading(false);
     } catch (error) {
       setTwoFaLoading(false);
-      alert('There has been an error, please try again or contact support');
+      toast.error('There has been an error, please try again or contact support');
     }
   };
 
-  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = async (values: FormValues, { setSubmitting, resetForm }) => {
     try {
       switch (values.type) {
         case 'Password':
           delete values['type'];
-          const res = await API.changePassword(values);
-          setFeedback(res.message);
+          const res = await API.changePassword(values as any);
+          toast.success(res.message);
           setSubmitting(false);
           resetForm();
           break;
         case 'Transaction':
           delete values['type'];
-          await dispatch(setTransactionPin(values));
-          setFeedback2('Request successful');
+          await dispatch(setTransactionPin({ transaction_pin: values.transaction_pin }));
+          toast.success('Request successful');
           setSubmitting(false);
           resetForm();
           break;
@@ -95,13 +112,13 @@ const Security = () => {
     } catch (error) {
       switch (values.type) {
         case 'Password':
-          setFeedback(error.response.data.message);
+          toast.error(error.response.data.message);
           if (error.response.status === 409) {
-            setFeedback('Your password is invalid');
+            toast.error('Your password is invalid');
           }
           break;
         case 'Transaction':
-          setFeedback2(pin_error);
+          toast.error(error.response.data.message);
           break;
         default:
           break;
@@ -138,7 +155,6 @@ const Security = () => {
                         {processing ? 'please wait...' : 'UPDATE PASSWORD'}
                       </Button>
                     </div>
-                    {feedback && <p className="modal_error">{feedback}</p>}
                   </Form>
                 </>
               );
@@ -171,7 +187,6 @@ const Security = () => {
                       )}
                     </div>
                   </Form>
-                  {feedback2 && <p className="modal_error">{feedback2}</p>}
                 </>
               );
             }}
@@ -183,30 +198,16 @@ const Security = () => {
           <div className="two_fa">
             <img src={emailImg} alt="email" />
             <p>Please verify your email to confirm your identity</p>
-            <Button
-              dashboard
-              onClick={async () => {
-                setEmailProcessing(true);
-                const res = await API.sendEmail();
-                if (res.error) {
-                  alert(res.message);
-                  setEmailProcessing(false);
-                  return;
-                }
-                setEmailProcessing(false);
-                history.push('/auth/verify_email');
-              }}
-              disabled={emailProcessing}
-            >
+            <Button dashboard onClick={() => sendVerificationEmail()} disabled={emailProcessing}>
               {emailProcessing ? 'Please wait...' : 'VERIFY EMAIL'}
             </Button>
           </div>
         )}
-        {user && !user.twofa_enabled && (
+        {!user?.twofa_enabled && (
           <div className="two_fa">
-            <img src={twoFaFeedback ? twoFaFeedback : phoneVer} alt="twoFa" />
+            <img src={twoFaImageUrl ? twoFaImageUrl : phoneVer} alt="twoFa" />
             <p>
-              {!twoFaFeedback
+              {!twoFaImageUrl
                 ? 'You are strongly advised to enable 2 factor authentication in order to add an extra layer of security to your account'
                 : 'Please scan the above image with your authenticator app to start getting your codes'}
             </p>
@@ -216,17 +217,16 @@ const Security = () => {
             </Button>
           </div>
         )}
-        {user && user.twofa_enabled && (
+        {user?.twofa_enabled && (
           <div className="two_fa">
             <img src={phoneVer} alt="twoFa" />
             <p>
-              {!twoFaFeedback
-                ? ' Deactivate 2FA on your account. You are strongly advised against this course of action, if you have any issues, it is better to contact our support team'
-                : 'TwoFA Deactivated Successfully'}
+              Deactivate 2FA on your account. You are strongly advised against this course of action, if you have any
+              issues, it is better to contact our support team
             </p>
 
             <Button dashboard onClick={() => deactivateTwoFa()}>
-              {twoFaLoading ? 'LOADING...please wait' : 'Disable 2 factor authentication'}
+              {twoFaLoading ? 'loading...please wait' : 'Disable 2 factor authentication'}
             </Button>
           </div>
         )}

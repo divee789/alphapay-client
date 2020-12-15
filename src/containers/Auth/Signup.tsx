@@ -10,11 +10,11 @@ import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 
 import { signUp } from '../../store/actions';
+import { Store } from '../../store/interfaces';
 
 import theme from '../../components/Theme';
 import Button from '../../components/Button';
 import Dots from '../../components/Loaders/Dots';
-// import RecaptchaComponent from './Recaptcha';
 
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
@@ -33,12 +33,12 @@ interface FormValues {
 
 const SignUp = () => {
   const history = useHistory();
-  const [feedback, setFeedback] = useState(null);
-  // const [recaptcha, setRecaptcha] = useState(true);
+  const dispatch = useDispatch();
+
+  const [feedback, setFeedback] = useState<string>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-  const { processing } = useSelector((state: { auth }) => state.auth);
-  const dispatch = useDispatch();
+  const { processing } = useSelector((state: Store) => state.auth);
   const initialValues: FormValues = {
     email: '',
     password: '',
@@ -158,16 +158,7 @@ const SignUp = () => {
                         <ErrorMessage name="confirmPassword" render={(msg) => <div className="error">{msg}</div>} />
                       </div>
                     </Fade>
-                    {/* <div className="input-container">
-                      <RecaptchaComponent
-                        verifyCallback={() => {
-                          setRecaptcha(false);
-                        }}
-                        expiredCallback={() => {
-                          setRecaptcha(true);
-                        }}
-                      />
-                    </div> */}
+
                     {feedback && (
                       <div className="error_message" onClick={(): void => setFeedback(null)}>
                         {feedback}

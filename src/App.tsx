@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { loadReCaptcha } from 'react-recaptcha-google';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { history } from './utils';
+import { Store } from './store/interfaces';
 
 import Landing from './containers/Home';
-import Careers from './containers/Careers';
 import NotFound from './containers/404';
 import Loading from './components/Loading';
 import VerifyEmail from './containers/Auth/verifyEmail';
@@ -35,17 +34,12 @@ const Dashboard = React.lazy(() => {
 });
 
 const App = () => {
-  const { isAuth } = useSelector((state: { auth }) => state.auth);
-
-  useEffect(() => {
-    loadReCaptcha();
-  }, []);
+  const { isAuth } = useSelector((state: Store) => state.auth);
 
   const routes = (
     <Router history={history}>
       <Switch>
         <Route exact path="/" component={Landing} />
-        <Route path="/careers" component={Careers} />
         <Route path="/auth/login" render={() => (isAuth ? <Redirect to="/dashboard/overview" /> : <Login />)} />
         <Route path="/auth/signup" render={() => (isAuth ? <Redirect to="/dashboard/overview" /> : <Signup />)} />
         <Route path="/auth/2fa" render={() => (isAuth ? <Redirect to="/dashboard/overview" /> : <TwoFa />)} />

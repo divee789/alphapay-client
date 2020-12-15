@@ -25,7 +25,7 @@ export function getPaymentRequests() {
     try {
       await dispatch(request());
       const data = await API.getPaymentRequests();
-      await dispatch(success(data));
+      await dispatch(success(data.data));
     } catch (error) {
       if (error instanceof APIServiceError) {
         await dispatch(failure(error));
