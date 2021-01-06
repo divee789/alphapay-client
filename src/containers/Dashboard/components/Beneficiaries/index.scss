@@ -1,0 +1,24 @@
+.beneficiary_verification_section {
+  height: 15rem;
+  overflow: scroll;
+  margin-bottom: 2rem;
+  div {
+    margin: 10px;
+    cursor: pointer;
+    background: white;
+    border: 1.6px solid #e8e8e8;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+    p {
+      font-size: 0.8rem;
+      margin: 0;
+      font-family: 'firma-bold';
+
+      span {
+        font-size: 8px;
+        margin-right: 1rem;
+      }
+    }
+  }
+}

@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-
-import PaymentRequestForm from '../../components/PaymentRequestForm';
+import { getPaymentRequests, updateWallet, getUserTransactions } from '../../../../store/actions';
+import { RootState } from '../../../../store';
+import PaymentRequestForm from '../PaymentRequestForm';
 import Button from '../../../../components/Button';
 import Modal from '../../../../components/Modal';
 import Dots from '../../../../components/Loaders/Dots';
-
-import { getPaymentRequests, updateWallet, getUserTransactions } from '../../../../store/actions';
 import Request from '../../../../services/api-services';
-
-import { Store } from '../../../../store/interfaces';
-
 import './index.scss';
 
 const PaymentRequest = (): JSX.Element => {
@@ -20,7 +16,7 @@ const PaymentRequest = (): JSX.Element => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const { incomingPaymentRequests, outgoingPaymentRequests } = useSelector((state: Store) => state.paymentRequest);
+  const { incomingPaymentRequests, outgoingPaymentRequests } = useSelector((state: RootState) => state.paymentRequest);
 
   const dispatch = useDispatch();
 
@@ -33,9 +29,9 @@ const PaymentRequest = (): JSX.Element => {
         return;
       }
       setLoading(true);
-      const wallet = await API.processPaymentRequest(status, paymentId);
-      if (wallet instanceof Object) {
-        await dispatch(updateWallet(wallet));
+      const data = await API.processPaymentRequest(status, paymentId);
+      if (data.data.wallet instanceof Object) {
+        await dispatch(updateWallet(data.data.wallet));
         await dispatch(getUserTransactions);
       }
       await dispatch(getPaymentRequests());

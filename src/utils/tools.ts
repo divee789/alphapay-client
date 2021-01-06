@@ -8,6 +8,16 @@ export const safeRandomBytes = (length: number): Buffer => {
   return crypto.randomBytes(length);
 };
 
+export const formatNumber = (number: any): string => {
+  if (!number) {
+    return '0.00';
+  }
+  return Number(number)
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
 /**
  * Generate Random string (alphanumeric, numeric, alphabetic, hex)
  * @param length;

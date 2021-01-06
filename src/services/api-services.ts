@@ -75,14 +75,12 @@ export default class APIService {
       );
     }
     const originalRequest = error.config;
-
     if (error.response.status === 401 && originalRequest.url === `${APIBaseURL}/auth/user/token`) {
       store.dispatch({ type: 'LOGOUT' });
       Storage.clearItems();
       history.push('/login');
       return Promise.reject(new APIServiceError(error.response));
     }
-
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       return this.refresh(Storage.getRefreshToken())
@@ -149,7 +147,6 @@ export default class APIService {
 
   setAuthorization = () => {
     const userToken = Storage.getItem('userToken');
-    // Check if user if authenticated if not return user token
     if (userToken) {
       return `Bearer ${userToken}`;
     }
@@ -175,6 +172,7 @@ export default class APIService {
 
   twoFaAuthorize = async (data: APIProps.TwoFaAuthorizeRequestProps): Promise<APIProps.TwoFaAuthorizeResponseProps> => {
     const response = await this.instance.post('/auth/2fa/verify', data);
+    console.log(response);
     this.storeUserToken(response.data.data.access_token, response.data.data.refresh_token);
     return response.data;
   };
@@ -234,8 +232,8 @@ export default class APIService {
     return res.data;
   };
 
-  sendEmail = async (): Promise<APIProps.BaseAPIProps> => {
-    const res = await this.instance.post('/auth/send_email');
+  sendEmail = async (email: string): Promise<APIProps.BaseAPIProps> => {
+    const res = await this.instance.post('/auth/send_email', { email });
     return res.data;
   };
 
@@ -269,6 +267,11 @@ export default class APIService {
     return res.data;
   };
 
+  getBeneficiaries = async (): Promise<APIProps.GetBeneficiaryResponseProps> => {
+    const res = await this.instance.get('/api/v1/transfer/beneficiary');
+    return res.data;
+  };
+
   getModalProcessor = async (): Promise<APIProps.GetModalProcessorResponseProps> => {
     const res = await this.instance.get('/api/v1/transfer/collection/processor');
     return res.data;
@@ -276,12 +279,10 @@ export default class APIService {
 
   fundWallet = async (data: APIProps.FundWalletRequestProps): Promise<APIProps.FundWalletResponseProps> => {
     const res = await this.instance.post('/api/v1/transfer/fund', data);
-    return res.data.data;
+    return res.data;
   };
 
-  checkoutWallet = async (
-    data: Partial<APIProps.CheckoutWalletRequestProps>,
-  ): Promise<APIProps.CheckoutWalletResponseProps> => {
+  checkoutWallet = async (data: APIProps.CheckoutWalletRequestProps): Promise<APIProps.CheckoutWalletResponseProps> => {
     const res = await this.instance.post('/api/v1/transfer/withdraw', data);
     return res.data;
   };
@@ -308,6 +309,13 @@ export default class APIService {
 
   transferFunds = async (data: APIProps.TransferFundsRequestProps): Promise<APIProps.TransferFundsResponseProps> => {
     const res = await this.instance.post('/api/v1/transfer', data);
+    return res.data;
+  };
+
+  transferToBeneficiary = async (
+    data: APIProps.BeneficiaryTransferRequestProps,
+  ): Promise<APIProps.BeneficiaryTransferResponseProps> => {
+    const res = await this.instance.post('/api/v1/transfer/beneficiary', data);
     return res.data;
   };
 
@@ -340,7 +348,7 @@ export default class APIService {
     return response.data;
   };
 
-  setTransactionPin = async (data: { transaction_pin: string }): Promise<APIProps.SetTransactionPinResponseProps> => {
+  setTransactionPin = async (data: { pin: string }): Promise<APIProps.SetTransactionPinResponseProps> => {
     const response = await this.instance.post('/api/v1/wallet/activation', data);
     return response.data;
   };
@@ -362,6 +370,6 @@ export default class APIService {
     paymentId: string,
   ): Promise<APIProps.ProcessPaymentRequestResponseProps> => {
     const response = await this.instance.put(`/api/v1/payment_request/${paymentId}`, { status });
-    return response.data.data;
+    return response.data;
   };
 }

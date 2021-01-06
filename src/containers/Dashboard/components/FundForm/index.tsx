@@ -4,13 +4,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-
 import APIService from '../../../../services/api-services';
-
 import { fundUserWallet, getUserTransactions } from '../../../../store/actions';
 import { payWithKorapay, payWithFlutterwave } from '../../../../services/payment';
+import { RootState } from '../../../../store';
 import Button from '../../../../components/Button';
-
 import './index.scss';
 
 declare global {
@@ -20,16 +18,15 @@ declare global {
   }
 }
 
-const FundForm = (): JSX.Element => {
-  const [processing, setProcessing] = useState(null);
-  const { user } = useSelector((state: { auth }) => state.auth);
-
+const FundForm = (props: { closed: any }): JSX.Element => {
   const dispatch = useDispatch();
+  const [processing, setProcessing] = useState(null);
+  const { user } = useSelector((state: RootState) => state.auth);
+  const API = new APIService();
+
   interface FormValues {
     amount: number;
   }
-
-  const API = new APIService();
 
   const initialValues: FormValues = {
     amount: ('' as unknown) as number,
@@ -55,6 +52,7 @@ const FundForm = (): JSX.Element => {
         await dispatch(getUserTransactions());
       }
       setProcessing(false);
+      props.closed();
       toast.success('Wallet Funded Successfully', {
         autoClose: false,
       });
@@ -118,8 +116,8 @@ const FundForm = (): JSX.Element => {
                   />
                 </div>
                 <div className="fund_btn">
-                  <Button disabled={processing} colored>
-                    {processing ? 'Please wait...' : 'FUND WALLET'}
+                  <Button disabled={processing} loading={processing}>
+                    Fund Wallet
                   </Button>
                 </div>
               </Form>

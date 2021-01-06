@@ -1,9 +1,10 @@
 :root {
   --color-primary: #7854f7;
   --color-background: #f3f8ff;
-  --color-supplementary: #00d569;
+  --color-supplementary: #48d38a;
   --color-modal-backdrop: rgba(246, 242, 243, 0.7);
   --color-error: #fc199b;
+  --color-dashboard-active: #7854f7;
 }
 
 @font-face {
@@ -51,8 +52,13 @@ a {
   box-sizing: border-box;
 }
 
+button {
+  cursor: pointer;
+}
+
 a,
-p {
+p,
+label {
   font-family: Sailec;
 }
 
@@ -80,10 +86,30 @@ body {
   line-height: 22px;
 }
 
-button {
-  background-color: linear-gradient(178.18deg, #fd749b -13.56%, #281ac8 158.3%);
-  color: '#fff';
-  font-weight: bold;
+label {
+  font-size: 10px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 5px 10px;
+  font-size: 1rem;
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+  font-family: Sailec;
+  margin-top: 10px;
+  border-radius: 5px;
+
+  @media screen and (max-width: 600px) {
+    font-size: 16px;
+  }
+
+  &:focus {
+    outline: none;
+  }
 }
 
 code {

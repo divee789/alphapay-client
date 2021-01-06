@@ -37,14 +37,14 @@ export function logIn(data: { email: string; password: string }) {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(request());
-      const resData = await authAPIRequest.logIn(data);
-      if (resData.message === '2FA required') {
-        throw new Error('2FA required');
-      }
+      await authAPIRequest.logIn(data);
       dispatch(success());
     } catch (error) {
+      dispatch(failure(error));
       if (error instanceof APIServiceError) {
-        dispatch(failure(error));
+        if (error.response.status === 403) {
+          throw new Error('2FA Required');
+        }
         throw error.response.data;
       }
       throw error;
@@ -117,7 +117,7 @@ export function signUp(data) {
     }
   };
 }
-export function update(data) {
+export function updateUser(data: { full_name: string; username: string }) {
   function request() {
     return { type: actionTypes.authConstants.SIGNUP_REQUEST };
   }
@@ -130,9 +130,6 @@ export function update(data) {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(request());
-      if (data.profile_image) {
-        return;
-      }
       const response = await authAPIRequest.update(data);
       dispatch(success(response.data.user));
     } catch (error) {

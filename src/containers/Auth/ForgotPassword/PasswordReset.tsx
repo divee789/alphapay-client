@@ -4,19 +4,14 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, useParams } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
-
 import Button from '../../../components/Button';
 import theme from '../../../components/Theme';
-import Dots from '../../../components/Loaders/Dots';
-
-import Request from '../../../services/api-services';
-
+import APIServices from '../../../services/api-services';
 import logo from '../../../assets/images/alp.png';
 import image1 from '../../../assets/images/auth.jpg';
-
 import '../auth.scss';
 
-const API = new Request();
+const API = new APIServices();
 
 const PasswordReset = () => {
   const history = useHistory();
@@ -74,50 +69,41 @@ const PasswordReset = () => {
     <>
       <section className="login_auth" style={theme()}>
         <div className="auth_form">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={passwordValidationSchema}
-            onSubmit={handleSubmit}
-            render={({ isSubmitting }) => {
+          <Formik initialValues={initialValues} validationSchema={passwordValidationSchema} onSubmit={handleSubmit}>
+            {({ isSubmitting }) => {
               return (
                 <>
                   <div className="logo">
                     <img src={logo} alt="logo" onClick={() => history.push('/')} />
                   </div>
-
+                  <p className="head_info">Hello {user?.first_name},please provide a new password for your account</p>
                   <Form className="form">
-                    <h2>Password Reset</h2>
-                    {err && <p>There has been an issue ,please contact support</p>}
-                    {!err && (
+                    <Fade bottom duration={1000} distance="50px">
                       <>
-                        <p className="head_info">
-                          Hello {user?.first_name},please provide a new password for your account
-                        </p>
-                        <Fade bottom>
-                          <div className="input-container">
-                            <Field type="password" name="password" placeholder="Password" className="password" />
-                            <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
-                          </div>
-                        </Fade>
-                        {feedback && (
-                          <div className="error_message" onClick={() => setFeedback(null)}>
-                            {feedback}
-                          </div>
+                        {err && <p>There has been an issue ,please contact support</p>}
+                        {!err && (
+                          <>
+                            <div className="input-container">
+                              <Field type="password" name="password" placeholder="Password" className="password" />
+                              <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
+                            </div>
+                            <div className="error_message" onClick={() => setFeedback(null)}>
+                              {feedback}
+                            </div>
+                            <div className="input-container btn_container">
+                              <Button disabled={isSubmitting || loading} loading={loading}>
+                                Change Password
+                              </Button>
+                            </div>
+                          </>
                         )}
-                        <div className="input-container btn_container">
-                          <Fade bottom>
-                            <Button disabled={isSubmitting || loading} colored>
-                              {loading ? <Dots /> : 'Change Password'}
-                            </Button>
-                          </Fade>
-                        </div>
                       </>
-                    )}
+                    </Fade>
                   </Form>
                 </>
               );
             }}
-          />
+          </Formik>
         </div>
         <div className="auth_image">
           <img src={image1} alt="auth" />

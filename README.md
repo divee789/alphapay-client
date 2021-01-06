@@ -1,6 +1,6 @@
-<h1 align='center'><b>alphapay web client</b></h1>  
+<h1 align='center'><b>alphapay web app</b></h1>  
 <p align='center'>
-A fintech web apps designed to make payments more easier and accessible to anyone with access to the internet.
+A fintech web app designed to make payments more easier and accessible to anyone with access to the internet.
 </p>
 
 <p align="center">
@@ -28,4 +28,6 @@ Before you begin, ensure you have installed:
 
 **TODO**
 
-- Fix Payment Request Bug
+- Migrate from react-toastify to react-hot-toast
+- Implement 404 page properly
+- Implement Skeleton Loaders

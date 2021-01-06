@@ -1,0 +1,65 @@
+.payment_request_form_section {
+  width: 60%;
+  margin: 4rem auto;
+
+  .payment_request_form_input_container {
+    margin-bottom: 20px;
+  }
+
+  .payment_request_form_recipient {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: row;
+
+    .image_container {
+      width: 20%;
+      margin-right: 20px;
+      img {
+        width: 100%;
+        border-radius: 10px;
+      }
+    }
+
+    .info_container {
+      p {
+        margin: 0;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .payment_request_form_btn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 1rem 0;
+  }
+  label {
+    font-size: 10px;
+  }
+  input,
+  select,
+  textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    background: #fff;
+    padding: 5px 10px;
+    font-size: 1rem;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+    font-family: Sailec;
+    margin-top: 10px;
+    border-radius: 5px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

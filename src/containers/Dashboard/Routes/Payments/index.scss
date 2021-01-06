@@ -1,0 +1,28 @@
+.payments_section {
+  .payments_tab {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+      background: white;
+      color: #000;
+      text-align: center;
+      border: 1.6px solid #e8e8e8;
+      padding: 1rem 0;
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+      font-family: Sailec;
+      font-weight: 100;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 33%;
+    }
+
+    .active {
+      border-bottom: 2px solid var(--color-dashboard-active);
+    }
+  }
+}

@@ -1,8 +1,7 @@
 import React from 'react';
-
 import './index.scss';
 
-const Courses = (): JSX.Element => {
+const Cards = (): JSX.Element => {
   return (
     <>
       <div className="card_content">
@@ -13,4 +12,4 @@ const Courses = (): JSX.Element => {
   );
 };
 
-export default Courses;
+export default Cards;

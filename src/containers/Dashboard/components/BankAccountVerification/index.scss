@@ -1,0 +1,35 @@
+.bank_account_verification_section {
+  margin-bottom: 1rem;
+  .bank_account_verification_input_container {
+    margin-bottom: 20px;
+  }
+
+  .bank_account_verification_buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      width: 40%;
+    }
+  }
+
+  p {
+    font-size: 10px;
+    opacity: 0.8;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+
+    @media screen and (max-width: 600px) {
+      font-size: 9px;
+      margin-bottom: 1px;
+    }
+  }
+
+  .error {
+    margin-bottom: 1rem;
+    font-size: 10px;
+    color: var(--color-error);
+  }
+}

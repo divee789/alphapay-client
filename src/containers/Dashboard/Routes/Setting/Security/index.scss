@@ -1,105 +1,117 @@
 .dashboard_security {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    margin: 0 auto;
+  padding: 2rem;
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
 
-    .password_security_change,
-    .transaction_options {
-        width: 50%;
-        padding: 0 3rem;
+  .password_security_change,
+  .transaction_options {
+    width: 70%;
+    padding: 1rem;
+    margin: 2rem 0;
+
+    .password_icon {
+      position: absolute;
+      top: 19px;
+      cursor: pointer;
+      right: 10px;
     }
 
+    .new_password_form {
+      position: relative;
+    }
+  }
+
+  form {
+    p {
+      margin: 0;
+    }
     input {
-        padding: 10px 15px;
-        width: 60%;
-        margin-top: 18px;
-        border-radius: 7px;
-        border: 1px solid #ccc;
-        outline: none;
-        font-size: .9rem;
+      padding: 10px 15px;
+      width: 100%;
+      font-size: 0.9rem;
     }
 
     button {
-        width: 50%;
-        margin-top: 1rem;
-        padding: 0;
-        font-size: .9rem;
+      width: 70%;
+      margin-top: 1rem;
     }
-
-
+  }
 }
 
 .security-options {
+  width: 90%;
+  margin-top: 3rem;
+
+  .two_fa {
+    width: 100%;
+    border-radius: 5px;
+    transition: all 0.6s;
+    margin-bottom: 20px;
+    background-color: var(--color-supplementary);
+    cursor: pointer;
+    padding: 1rem;
+
+    button {
+      width: 70%;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+
+    img {
+      height: 100px;
+      width: auto;
+    }
+  }
+
+  .two_fa_verif {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 90%;
-    margin: 0 auto;
-    margin-top: 3rem;
 
-    .two_fa {
-        width: 40%;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 20rem;
-        transition: all 0.6s;
-        text-align: center;
-        margin-bottom: 20px;
-        box-shadow: 26px 4px 6px rgba(50, 50, 93, 0.11), 1px 1px 23px rgba(0, 0, 0, 0.08);
-        cursor: pointer;
-        padding: 2rem;
-
-        button {
-            width: 100%;
-        }
-
-        p {
-            width: 80%;
-            font-size: .9rem;
-        }
-
-        &:hover {
-            transform: translateY(2px);
-
-        }
-
-        img {
-            height: 100px;
-            width: auto;
-        }
+    .two_fa_image {
+      margin-right: 20px;
     }
+
+    .two_fa_form {
+      p {
+        font-size: 14px;
+        margin: 0;
+      }
+      .error {
+        font-size: 12px;
+      }
+      button {
+        margin-top: 1rem;
+      }
+    }
+  }
 }
 
-@media screen and (max-width:1000px) {
-    .dashboard_security {
-        flex-direction: column;
+@media screen and (max-width: 1000px) {
+  .dashboard_security {
+    flex-direction: column;
 
-        .password_security_change,
-        .transaction_options {
-            width: 100%;
-            margin-bottom: 2rem;
-            padding: 0 1rem;
-        }
-
-        input {
-            width: 100%;
-        }
-
-        button {
-            width: 100%;
-        }
+    .password_security_change,
+    .transaction_options {
+      width: 100%;
+      margin-bottom: 2rem;
+      padding: 0 1rem;
     }
 
-    .security-options {
-        flex-direction: column;
-
-        .two_fa {
-            width: 100%;
-        }
+    input {
+      width: 100%;
     }
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .security-options {
+    flex-direction: column;
+
+    .two_fa {
+      width: 100%;
+    }
+  }
 }

@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useWindowScrollPosition from '@rehooks/window-scroll-position';
-
 import theme from '../Theme';
-
 import Logo from '../../assets/images/alp.png';
 import Hamburger from '../../assets/images/menu.png';
 
@@ -83,9 +81,7 @@ const Navbar = () => {
             )}
             <div className="auth">
               <NavLink to={isAuth ? '/dashboard/overview' : '/auth/login'}>
-                <Button colored className="btn">
-                  {isAuth ? 'MY DASHBOARD' : 'LOG IN'}
-                </Button>
+                <Button className="btn">{isAuth ? 'MY DASHBOARD' : 'LOG IN'}</Button>
               </NavLink>
             </div>
           </div>

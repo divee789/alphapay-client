@@ -1,23 +1,30 @@
-.settings_nav {
+.settings_tab {
+  width: 90%;
+  margin: 0 auto;
   display: flex;
-  margin-bottom: 2rem;
-
-  @media screen and (max-width: 1000px) {
-    justify-content: center;
-    margin-top: 2rem;
-  }
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
   a {
-    padding: 10px 30px;
-    border-bottom: 1px solid rgba(71, 212, 82, 1);
-    color: #0a2e65;
-    opacity: 0.5;
-    transition: all 0.3s;
-
-    &.active,
-    &:hover {
-      opacity: 1;
-      border-bottom: 2px solid rgba(71, 212, 82, 1);
-    }
+    background: white;
+    color: #000;
+    text-align: center;
+    border: 1.6px solid #e8e8e8;
+    padding: 1rem 0;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+    font-family: Sailec;
+    font-weight: 100;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 33%;
   }
+
+  .active {
+    border-bottom: 2px solid var(--color-dashboard-active);
+  }
+}
+
+.settings_content {
+  margin-top: 4rem;
 }

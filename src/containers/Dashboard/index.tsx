@@ -3,70 +3,61 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, Redirect, useRouteMatch, NavLink, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { toast } from 'react-toastify';
 import openSocket from 'socket.io-client';
-
 import {
   logOut,
   getUserTransactions,
   getUser,
   getUserWallet,
-  getNotifications,
   getPaymentRequests,
   updateWallet,
+  getBeneficiaries,
+  getBanks,
 } from '../../store/actions';
-import { Store } from '../../store/interfaces';
-import APIServices from '../../services/api-services';
+import { RootState } from '../../store';
 import Overview from './Routes/Overview';
 import Cards from './Routes/Cards';
-import Utilities from './Routes/Utilities';
 import Setting from './Routes/Setting';
-import PaymentRequest from './Routes/PaymentRequest';
-import TabMenu from './components/SideBar';
-import NotificationBar from './components/Notifications';
-import Backdrop from '../../components/Modal/Backdrop';
+import Payments from './Routes/Payments';
+import TabMenu from './Components/TabMenu';
+import Loading from '../../components/Loading';
 import Logo from '../../assets/images/alp.png';
-import imLogo from '../../assets/images/dashboard/home.png';
-import cardLogo from '../../assets/images/dashboard/card.png';
-import settings from '../../assets/images/dashboard/set.png';
+// import settings from '../../assets/images/dashboard/set.png';
 import './index.scss';
-
-const API = new APIServices();
 
 const Dashboard = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [sidebarOpen, setSideBarOpen] = useState(false);
-  const [banks, setBanks] = useState<Array<{ name: string; code: string }>>([]);
-  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state: RootState) => state.auth);
 
-  const { user } = useSelector((state: Store) => state.auth);
+  const bootstrap = async (): Promise<void> => {
+    try {
+      setLoading(true);
+      await dispatch(getUser());
+      await dispatch(getUserWallet());
+      await dispatch(getUserTransactions());
+      await dispatch(getBeneficiaries());
+      await dispatch(getPaymentRequests());
+      await dispatch(getBanks());
+      setLoading(false);
+    } catch (error) {
+      console.log('BOOTSTRAP ERROR', error);
+      toast.error('There has been an error loading your data, please try again');
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const script = document.createElement('script');
-    const alternateScript = document.createElement('script');
+    // const alternateScript = document.createElement('script');
     script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
-    alternateScript.src = 'https://checkout.flutterwave.com/v3.js';
+    // alternateScript.src = 'https://checkout.flutterwave.com/v3.js';
     document.getElementsByTagName('head')[0].appendChild(script);
-    document.getElementsByTagName('head')[0].appendChild(alternateScript);
-
-    const bootstrap = async (): Promise<boolean> => {
-      try {
-        dispatch(getUser());
-        dispatch(getUserWallet());
-        dispatch(getUserTransactions());
-        dispatch(getNotifications());
-        dispatch(getPaymentRequests());
-        const res = await API.getBanks();
-        if (res.data.banks) {
-          setBanks(res.data.banks);
-        }
-        return true;
-      } catch (error) {
-        return false;
-      }
-    };
+    // document.getElementsByTagName('head')[0].appendChild(alternateScript);
     bootstrap();
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     const APIBaseURL =
@@ -94,11 +85,9 @@ const Dashboard = () => {
   const renderGreeting = () => {
     const currentDate = new Date();
     const hrs = currentDate.getHours();
-
-    if (hrs < 12) return '🌄 Good Morning';
+    if (hrs < 12) return '🌻 Good Morning';
     else if (hrs >= 12 && hrs <= 17) return '🌞 Good Afternoon';
     else if (hrs >= 17 && hrs <= 24) return '🌙 Good Evening';
-
     return '🌻 Good Day';
   };
 
@@ -108,25 +97,15 @@ const Dashboard = () => {
     history.push('/');
   };
 
-  const deleteNotification = async (id): Promise<void> => {
-    await API.deleteNotification(id);
-    dispatch(getNotifications());
-  };
-
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       <Helmet>
         <meta charSet="utf-8" />
         <title>alphapay | Dashboard</title>
       </Helmet>
       <section className="dashboard_main">
-        <Backdrop show={sidebarOpen || notificationOpen} clicked={() => setSideBarOpen(false)} />
-        <NotificationBar
-          isActive={notificationOpen}
-          onClose={() => setNotificationOpen(false)}
-          remove={deleteNotification}
-        />
-
         <div className="main">
           <div className="dashboard_nav">
             <div
@@ -137,22 +116,28 @@ const Dashboard = () => {
             >
               <img src={Logo} alt="logo_image" />
             </div>
-            <div className="sidenav-list">
+            <div className="nav-list">
               <NavLink to={`${url}/overview`}>
-                <img src={imLogo} alt="" />
                 <span> Overview</span>
               </NavLink>
-              <NavLink to={`${url}/payment_requests`}>
-                <img src={cardLogo} alt="" />
+              <NavLink to={`${url}/payments`}>
                 <span>Payments</span>
+              </NavLink>
+              <NavLink to={`${url}/cards`}>
+                <span>Cards</span>
+              </NavLink>
+              <NavLink to={`${url}/messages`}>
+                <span>Messages</span>
               </NavLink>
             </div>
             <div className="dashboard_nav_profile">
-              <img
-                src={user?.profile_image || 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'}
-                alt="profile_image"
-              />
-              <div className="dropdown_content">
+              <NavLink to={`${url}/settings`}>
+                <img
+                  src={user?.profile_image || 'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'}
+                  alt="profile_image"
+                />
+              </NavLink>
+              {/* <div className="dropdown_content">
                 <p>{user?.full_name}</p>
                 <hr />
                 <div className="navcard_actions">
@@ -165,30 +150,29 @@ const Dashboard = () => {
                     Log Out
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <section className="dashboard_content">
-            <aside>
-              <section>
-                <h1>
-                  {renderGreeting()}, {user?.username}!
-                </h1>
-              </section>
-            </aside>
+            <h1>
+              {renderGreeting()}, {user?.username}!
+            </h1>
             <main>
               <Switch>
-                <Route path={`${path}/overview`} render={() => <Overview data={banks} />} />
+                <Route path={`${path}/overview`} component={Overview} />
                 <Route path={`${path}/cards`} component={Cards} />
-                <Route path={`${path}/utilities`} component={Utilities} />
                 <Route path={`${path}/settings`} component={Setting} />
-                <Route path={`${path}/payment_requests`} component={PaymentRequest} />
+                <Route path={`${path}/payments`} component={Payments} />
+                <Route path={`${path}/messages`} component={Cards} />
                 <Redirect to="/" />
               </Switch>
             </main>
           </section>
         </div>
       </section>
+      <footer style={{ marginTop: '5rem' }}>
+        <p style={{ textAlign: 'center' }}>All rights reserved. Property of @alphapay and co.</p>
+      </footer>
       <TabMenu url={url} logOutHandler={logOutHandler} />
     </>
   );

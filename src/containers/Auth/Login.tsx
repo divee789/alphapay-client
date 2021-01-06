@@ -7,25 +7,20 @@ import { Helmet } from 'react-helmet';
 import Fade from 'react-reveal/Fade';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-
 import { logIn } from '../../store/actions';
-import { Store } from '../../store/interfaces';
-
+import { RootState } from '../../store';
 import theme from '../../components/Theme';
 import Button from '../../components/Button';
-import Dots from '../../components/Loaders/Dots';
-
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
 import invisible from '../../assets/images/invisible.svg';
-
 import './auth.scss';
 
 const LogIn = () => {
   const history = useHistory();
   const [feedback, setFeedback] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-  const { processing } = useSelector((state: Store) => state.auth);
+  const { processing } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   interface FormValues {
@@ -47,9 +42,10 @@ const LogIn = () => {
       await dispatch(logIn(values));
       history.push(`/dashboard/overview`);
     } catch (err) {
-      if (err.message === '2FA required') {
+      if (err.message === '2FA Required') {
         history.push(`/auth/2fa?email=${values.email}`);
         setSubmitting(false);
+        return;
       }
       toast.error(`❗ ${err.message}`);
       setSubmitting(false);
@@ -71,56 +67,48 @@ const LogIn = () => {
                   <div className="logo">
                     <img src={logo} alt="logo" onClick={(): void => history.push('/')} />
                   </div>
-
+                  <p className="head_info">Welcome back, Please log in to your account to access your dashboard</p>
                   <Form className="form">
-                    <p className="head_info">Welcome back, Please log in to your account to access your dashboard</p>
-                    <Fade bottom>
-                      <div className="input-container">
-                        <Field type="email" name="email" placeholder="example@gmail.com" />
-                        <ErrorMessage name="email" render={(msg: string) => <div className="error">{msg}</div>} />
-                      </div>
+                    <Fade bottom duration={1000} distance="50px">
+                      <>
+                        <div className="input-container">
+                          <Field type="email" name="email" placeholder="example@gmail.com" />
+                          <ErrorMessage name="email" render={(msg: string) => <div className="error">{msg}</div>} />
+                        </div>
+                        <div className="input-container">
+                          <img
+                            src={invisible}
+                            alt="show/hide"
+                            className="password_icon"
+                            onClick={() => {
+                              setShowPassword(!showPassword);
+                            }}
+                          />
+                          <Field
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            placeholder="password"
+                            className="password"
+                          />
+                          <ErrorMessage name="password" render={(msg: string) => <div className="error">{msg}</div>} />
+                        </div>
+                        <div className="error_message" onClick={(): void => setFeedback(null)}>
+                          {feedback}
+                        </div>
+                        <div className="input-container btn_container">
+                          <Button disabled={isSubmitting || processing} loading={processing}>
+                            Sign In
+                          </Button>
+                        </div>
+                      </>
                     </Fade>
-                    <Fade bottom>
-                      <div className="input-container">
-                        <img
-                          src={invisible}
-                          alt="show/hide"
-                          className="password_icon"
-                          onClick={() => {
-                            setShowPassword(!showPassword);
-                          }}
-                        />
-                        <Field
-                          type={showPassword ? 'text' : 'password'}
-                          name="password"
-                          placeholder="password"
-                          className="password"
-                        />
-                        <ErrorMessage name="password" render={(msg: string) => <div className="error">{msg}</div>} />
-                      </div>
-                    </Fade>
-
-                    {feedback && (
-                      <div className="error_message" onClick={(): void => setFeedback(null)}>
-                        {feedback}
-                      </div>
-                    )}
-
-                    <div className="input-container btn_container">
-                      <Fade bottom>
-                        <Button disabled={isSubmitting || processing} colored>
-                          {processing ? <Dots /> : 'Sign In'}
-                        </Button>
-                      </Fade>
-
-                      <p>
-                        Can not remember your password? <Link to="/auth/password_reset_request">Reset</Link>
-                      </p>
-                      <p>
-                        Do not have an account? <Link to="/auth/signup"> Register</Link>
-                      </p>
-                    </div>
                   </Form>
+                  <p>
+                    Can not remember your password? <Link to="/auth/password_reset_request">Reset</Link>
+                  </p>
+                  <p>
+                    Do not have an account? <Link to="/auth/signup"> Register</Link>
+                  </p>
                 </>
               );
             }}

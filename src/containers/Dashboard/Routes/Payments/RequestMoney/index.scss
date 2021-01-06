@@ -1,0 +1,28 @@
+.request_money_section {
+  .requests_tab {
+    width: 100%;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+      background: white;
+      border: 1.6px solid #e8e8e8;
+      color: #000;
+      text-align: center;
+      padding: 0.8rem 0;
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+      font-family: Sailec;
+      font-weight: 100;
+      font-size: 0.9rem;
+      cursor: pointer;
+      width: 33%;
+    }
+
+    .active {
+      border-bottom: 2px solid var(--color-dashboard-active);
+    }
+  }
+}

@@ -7,7 +7,7 @@ import Button from '../Button';
 import Close from '../../assets/images/close.png';
 import './index.scss';
 
-const SideNav = ({ isActive, onClose, isAuth }: { isActive: boolean; onClose: any; isAuth: boolean }) => {
+const SideNav = ({ isActive, onClose, isAuth }: { isActive: boolean; onClose: any; isAuth: boolean }): JSX.Element => {
   return (
     <div
       className={`sidenav_container ${isActive ? 'open-side_nav' : 'close-side_nav'}`}
@@ -15,15 +15,6 @@ const SideNav = ({ isActive, onClose, isAuth }: { isActive: boolean; onClose: an
     >
       <div className="sidenav_content">
         <ul className="menu_list">
-          <li>
-            <NavLink to="/">About</NavLink>
-          </li>
-          <li>
-            <NavLink to="/blog">Blog</NavLink>
-          </li>
-          <li>
-            <NavLink to="/careers">Careers</NavLink>
-          </li>
           <li>
             <a href="#contact_form">Contact Us</a>
           </li>
@@ -33,7 +24,7 @@ const SideNav = ({ isActive, onClose, isAuth }: { isActive: boolean; onClose: an
             </li>
           )}
           <div className="auth">
-            <Button colored>
+            <Button>
               <NavLink to={isAuth ? '/dashboard/overview' : '/auth/login'}>
                 {isAuth ? 'My Dashboard' : 'LOG IN'}
               </NavLink>

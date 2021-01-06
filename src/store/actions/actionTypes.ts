@@ -1,3 +1,5 @@
+import { Beneficiary, Wallet, Bank } from '../types';
+
 export const authConstants = {
   LOGIN_REQUEST: 'LOGIN_REQUEST',
   LOGIN_FAILURE: 'LOGIN_FAILURE',
@@ -20,21 +22,60 @@ export const authConstants = {
 };
 
 export const walletConstants = {
-  FETCH_WALLET_REQUEST: 'FETCH_WALLET_REQUEST',
-  FETCH_WALLET_FAILURE: 'FETCH_WALLET_FAILURE',
   FETCH_WALLET_SUCCESS: 'FETCH_WALLET_SUCCESS',
-
-  FUND_WALLET_REQUEST: 'FUND_WALLET_REQUEST',
-  FUND_WALLET_FAILURE: 'FUND_WALLET_FAILURE',
   FUND_WALLET_SUCCESS: 'FUND_WALLET_SUCCESS',
-
-  CHECKOUT_WALLET_REQUEST: 'FUND_WALLET_REQUEST',
-  CHECKOUT_WALLET_FAILURE: 'FUND_WALLET_FAILURE',
   CHECKOUT_WALLET_SUCCESS: 'FUND_WALLET_SUCCESS',
-
+  TRANSFER_TO_BENEFICIARY: 'TRANSFER_TO_BENEFICIARY',
   SET_NOTIFICATIONS: 'SET_NOTIFICATIONS',
-  SET_PIN_FAILURE: 'SET_PIN_FAILURE',
 };
+
+interface FetchWalletAction {
+  type: typeof walletConstants.FETCH_WALLET_SUCCESS;
+  wallet: Wallet;
+}
+
+interface FundWalletAction {
+  type: typeof walletConstants.FUND_WALLET_SUCCESS;
+  wallet: Wallet;
+}
+
+interface CheckoutWalletAction {
+  type: typeof walletConstants.CHECKOUT_WALLET_SUCCESS;
+  wallet: Wallet;
+}
+
+interface TransferToBeneficiaryAction {
+  type: typeof walletConstants.TRANSFER_TO_BENEFICIARY;
+  wallet: Wallet;
+}
+
+export type WalletActionTypes =
+  | FetchWalletAction
+  | FundWalletAction
+  | CheckoutWalletAction
+  | TransferToBeneficiaryAction;
+
+export const beneficiaryConstants = {
+  FETCH_BENEFICIARIES_SUCCESS: 'FETCH_BENEFICIARIES_SUCCESS',
+};
+
+interface FetchBeneficiariesAction {
+  type: typeof beneficiaryConstants.FETCH_BENEFICIARIES_SUCCESS;
+  beneficiaries: Array<Beneficiary>;
+}
+
+export type BeneficiaryActionTypes = FetchBeneficiariesAction;
+
+export const miscConstants = {
+  FETCH_BANKS_SUCCESS: 'FETCH_BANKS_SUCCESS',
+};
+
+interface FetchBanksAction {
+  type: typeof miscConstants.FETCH_BANKS_SUCCESS;
+  banks: Array<Bank>;
+}
+
+export type MiscActionTypes = FetchBanksAction;
 
 export const transactionConstants = {
   FETCH_TRANSACTIONS_REQUEST: 'FETCH_TRANSACTIONS_REQUEST',

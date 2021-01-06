@@ -8,7 +8,9 @@ import logger from 'redux-logger';
 import authReducer from './reducers/auth';
 import walletReducer from './reducers/wallet';
 import transactionReducer from './reducers/transaction';
+import beneficiaryReducer from './reducers/beneficiaries';
 import paymentRequestReducer from './reducers/paymentRequest';
+import miscReducer from './reducers/misc';
 import uiReducer from './reducers/ui';
 
 export const rootReducer = combineReducers({
@@ -16,6 +18,8 @@ export const rootReducer = combineReducers({
   wallet: walletReducer,
   transaction: transactionReducer,
   paymentRequest: paymentRequestReducer,
+  beneficiary: beneficiaryReducer,
+  misc: miscReducer,
   ui: uiReducer,
 });
 
@@ -39,5 +43,7 @@ if (process.env.REACT_APP_NODE_ENV === 'development') {
 }
 
 const store = createStore(rootReducer, options);
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 export default store;

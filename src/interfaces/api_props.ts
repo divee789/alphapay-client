@@ -121,12 +121,25 @@ export interface UploadProfileImageResponseProps extends BaseAPIProps {
 export interface GetWalletResponseProps extends BaseAPIProps {
   data: {
     wallet: {
-      pin: string;
-      available_balance: string;
-      ledger_balance: string;
+      pin: number;
+      available_balance: number;
+      ledger_balance: number;
       id: string;
       user_id: string;
     };
+  };
+}
+
+export interface GetBeneficiaryResponseProps extends BaseAPIProps {
+  data: {
+    beneficiaries: Array<{
+      id: string;
+      account_number: string;
+      account_name: string;
+      account_provider: string;
+      account_provider_code: string;
+      user_id: string;
+    }>;
   };
 }
 
@@ -146,9 +159,9 @@ export interface FundWalletRequestProps {
 export interface FundWalletResponseProps extends BaseAPIProps {
   data: {
     wallet: {
-      pin: string;
-      available_balance: string;
-      ledger_balance: string;
+      pin: number;
+      available_balance: number;
+      ledger_balance: number;
       id: string;
       user_id: string;
     };
@@ -156,20 +169,20 @@ export interface FundWalletResponseProps extends BaseAPIProps {
 }
 
 export interface CheckoutWalletRequestProps {
-  amount: string | number;
-  beneficiaryId: string;
-  bank: string;
+  amount: string;
+  bank_code: string;
   bank_account: string;
   bank_name: string;
   account_name: string;
+  pin: string;
 }
 
 export interface CheckoutWalletResponseProps extends BaseAPIProps {
   data: {
     wallet: {
-      pin: string;
-      available_balance: string;
-      ledger_balance: string;
+      pin: number;
+      available_balance: number;
+      ledger_balance: number;
       id: string;
       user_id: string;
     };
@@ -190,7 +203,7 @@ export interface GetBanksResponseProps extends BaseAPIProps {
 }
 
 export interface ConfirmBankAccountRequestProps {
-  bank: string;
+  bank_code: string;
   bank_account: string;
 }
 
@@ -204,9 +217,8 @@ export interface ConfirmBankAccountResponseProps extends BaseAPIProps {
 }
 
 export interface TransferFundsRequestProps {
-  beneficiaryId?: string;
   amount: string | number;
-  recipient_phone_number: string;
+  recipient_phone_number?: string;
   narration?: string;
   pin?: string;
 }
@@ -215,10 +227,30 @@ export interface TransferFundsResponseProps extends BaseAPIProps {
   data: {
     amount: string;
     wallet: {
-      available_balance: string;
-      ledger_balance: string;
+      available_balance: number;
+      ledger_balance: number;
       id: string;
-      pin: string;
+      pin: number;
+      user_id: string;
+    };
+  };
+}
+
+export interface BeneficiaryTransferRequestProps {
+  beneficiaryId: string;
+  amount: string;
+  pin: string;
+  narration: string;
+}
+
+export interface BeneficiaryTransferResponseProps extends BaseAPIProps {
+  data: {
+    amount?: string;
+    wallet: {
+      available_balance: number;
+      ledger_balance: number;
+      id: string;
+      pin: number;
       user_id: string;
     };
   };
@@ -230,6 +262,7 @@ export interface VerifyRecipientResponseProps extends BaseAPIProps {
       id: string;
       profile_image: string;
       username: string;
+      full_name: string;
     };
   };
 }
@@ -245,9 +278,9 @@ export interface SetTransactionPinResponseProps extends BaseAPIProps {
   data: {
     wallet: {
       id: string;
-      available_balance: string;
-      ledger_balance: string;
-      pin: string;
+      available_balance: number;
+      ledger_balance: number;
+      pin: number;
       user_id: string;
     };
   };
@@ -270,9 +303,9 @@ export interface ProcessPaymentRequestResponseProps {
   data: {
     wallet: {
       id: string;
-      available_balance: string;
-      ledger_balance: string;
-      pin: string;
+      available_balance: number;
+      ledger_balance: number;
+      pin: number;
       user_id: string;
     };
   };

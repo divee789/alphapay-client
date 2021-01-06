@@ -1,33 +1,23 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Dispatch } from 'redux';
-
-import * as actionTypes from './actionTypes';
+import { WalletActionTypes, walletConstants } from './actionTypes';
 import { Wallet } from '../types';
-
-import APIRequest from '../../services/api-services';
+import APIServices from '../../services/api-services';
 import APIServiceError from '../../services/error-services';
 
-const Request = new APIRequest();
+const API = new APIServices();
 
 export function getUserWallet() {
-  function request() {
-    return { type: actionTypes.walletConstants.FETCH_WALLET_REQUEST };
-  }
-  function success(wallet: Wallet) {
-    return { type: actionTypes.walletConstants.FETCH_WALLET_SUCCESS, wallet };
-  }
-  function failure(errors: unknown) {
-    return { type: actionTypes.walletConstants.FETCH_WALLET_FAILURE, errors };
+  function success(wallet: Wallet): WalletActionTypes {
+    return { type: walletConstants.FETCH_WALLET_SUCCESS, wallet };
   }
 
   return async (dispatch: Dispatch) => {
     try {
-      await dispatch(request());
-      const data = await Request.getWallet();
+      const data = await API.getWallet();
       await dispatch(success(data.data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
-        await dispatch(failure(error));
         throw error.response.data;
       }
     }
@@ -42,49 +32,42 @@ export function fundUserWallet(data: {
   transaction_status: string;
   pin: string;
 }) {
-  function request() {
-    return { type: actionTypes.walletConstants.FUND_WALLET_REQUEST };
-  }
-  function success(wallet: Wallet) {
-    return { type: actionTypes.walletConstants.FUND_WALLET_SUCCESS, wallet };
-  }
-  function failure(errors) {
-    return { type: actionTypes.walletConstants.FUND_WALLET_FAILURE, errors };
+  function success(wallet: Wallet): WalletActionTypes {
+    return { type: walletConstants.FUND_WALLET_SUCCESS, wallet };
   }
 
   return async (dispatch: Dispatch) => {
     try {
-      await dispatch(request());
-      const response = await Request.fundWallet(data);
+      const response = await API.fundWallet(data);
+      console.log('WALLET', response);
       await dispatch(success(response.data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
-        await dispatch(failure(error));
         throw error.response.data;
       }
     }
   };
 }
 
-export function checkoutUserWallet(data: { amount: number; bank_code: string; bank_account: string }) {
-  function request() {
-    return { type: actionTypes.walletConstants.CHECKOUT_WALLET_REQUEST };
-  }
-  function success(wallet: Wallet) {
-    return { type: actionTypes.walletConstants.CHECKOUT_WALLET_SUCCESS, wallet };
-  }
-  function failure(errors: unknown) {
-    return { type: actionTypes.walletConstants.CHECKOUT_WALLET_FAILURE, errors };
+export function checkoutUserWallet(data: {
+  amount: string;
+  bank_code: string;
+  bank_account: string;
+  bank_name: string;
+  account_name: string;
+  narration: string;
+  pin: string;
+}) {
+  function success(wallet: Wallet): WalletActionTypes {
+    return { type: walletConstants.CHECKOUT_WALLET_SUCCESS, wallet };
   }
 
   return async (dispatch: Dispatch) => {
     try {
-      await dispatch(request());
-      const response = await Request.checkoutWallet(data);
+      const response = await API.checkoutWallet(data);
       await dispatch(success(response.data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
-        await dispatch(failure(error));
         throw error.response.data;
       }
     }
@@ -95,19 +78,15 @@ export function transferFunds(data: {
   amount: number;
   narration: string;
   recipient_phone_number: string;
-  transaction_pin?: number;
+  pin: string;
 }) {
-  function request() {
-    return { type: actionTypes.walletConstants.FUND_WALLET_REQUEST };
-  }
-  function success(wallet: Wallet) {
-    return { type: actionTypes.walletConstants.FUND_WALLET_SUCCESS, wallet };
+  function success(wallet: Wallet): WalletActionTypes {
+    return { type: walletConstants.FUND_WALLET_SUCCESS, wallet };
   }
 
   return async (dispatch: Dispatch) => {
     try {
-      await dispatch(request());
-      const response = await Request.transferFunds(data);
+      const response = await API.transferFunds(data);
       await dispatch(success(response.data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
@@ -117,29 +96,39 @@ export function transferFunds(data: {
   };
 }
 
-export function updateWallet(wallet) {
-  return { type: actionTypes.walletConstants.FUND_WALLET_SUCCESS, wallet };
-}
-
-export function setTransactionPin(data: { transaction_pin: string }) {
-  function request() {
-    return { type: actionTypes.walletConstants.FUND_WALLET_REQUEST };
-  }
-  function success(wallet: Wallet) {
-    return { type: actionTypes.walletConstants.FUND_WALLET_SUCCESS, wallet };
-  }
-  function failure(error: any) {
-    return { type: actionTypes.walletConstants.SET_PIN_FAILURE, error };
+export function transferToBeneficiary(data: { amount: string; narration: string; pin: string; beneficiaryId: string }) {
+  function success(wallet: Wallet): WalletActionTypes {
+    return {
+      type: walletConstants.TRANSFER_TO_BENEFICIARY,
+      wallet,
+    };
   }
 
   return async (dispatch: Dispatch) => {
     try {
-      await dispatch(request());
-      const response = await Request.setTransactionPin(data);
+      const response = await API.transferToBeneficiary(data);
+      dispatch(success(response.data.wallet));
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+}
+
+export function updateWallet(wallet): WalletActionTypes {
+  return { type: walletConstants.FUND_WALLET_SUCCESS, wallet };
+}
+
+export function setTransactionPin(data: { pin: string }) {
+  function success(wallet: Wallet): WalletActionTypes {
+    return { type: walletConstants.FUND_WALLET_SUCCESS, wallet };
+  }
+
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await API.setTransactionPin(data);
       await dispatch(success(response.data.wallet));
     } catch (error) {
       if (error instanceof APIServiceError) {
-        await dispatch(failure(error.response.data.message));
         throw error.response.data;
       }
     }
@@ -148,12 +137,12 @@ export function setTransactionPin(data: { transaction_pin: string }) {
 
 export function getNotifications() {
   function setNotifications(notifications: unknown) {
-    return { type: actionTypes.walletConstants.SET_NOTIFICATIONS, notifications };
+    return { type: walletConstants.SET_NOTIFICATIONS, notifications };
   }
 
   return async (dispatch: Dispatch) => {
     try {
-      const apiRes = await Request.getNotifications();
+      const apiRes = await API.getNotifications();
       await dispatch(setNotifications(apiRes.notifications));
     } catch (error) {
       if (error instanceof APIServiceError) {

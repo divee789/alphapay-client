@@ -1,4 +1,4 @@
-import { User, Wallet } from './types';
+import { User, Wallet, Bank, Beneficiary, Transaction, PaymentRequest } from './types';
 
 export interface AuthReducer {
   user: User;
@@ -11,14 +11,18 @@ export interface AuthReducer {
 
 export interface WalletReducer {
   wallet: Wallet;
-  processing: boolean;
-  error: any;
-  pinError: any;
-  fundProcessing: boolean;
+}
+
+export interface MiscReducer {
+  banks: Array<Bank>;
+}
+
+export interface BeneficiaryReducer {
+  beneficiaries: Array<Beneficiary>;
 }
 
 export interface TransactionReducer {
-  transactions: any;
+  transactions: Array<Transaction>;
   processing: boolean;
   error: any;
   pager: any;
@@ -26,32 +30,7 @@ export interface TransactionReducer {
 
 export interface PaymentRequestReducer {
   processing: boolean;
-  incomingPaymentRequests: Array<{
-    id: string;
-    sender_id: string;
-    amount: number;
-    reason: string;
-    payment_sender: any;
-    payment_recipient: any;
-    status: string;
-    recipient_id: string;
-  }>;
-  outgoingPaymentRequests: Array<{
-    id: string;
-    sender_id: string;
-    amount: number;
-    reason: string;
-    payment_sender: any;
-    payment_recipient: any;
-    status: string;
-    recipient_id: string;
-  }>;
+  incomingPaymentRequests: Array<PaymentRequest>;
+  outgoingPaymentRequests: Array<PaymentRequest>;
   error: any;
-}
-
-export interface Store {
-  auth: AuthReducer;
-  wallet: WalletReducer;
-  transaction: TransactionReducer;
-  paymentRequest: PaymentRequestReducer;
 }

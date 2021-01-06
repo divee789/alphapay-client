@@ -1,36 +1,50 @@
-.lds-circle {
-    display: inline-block;
-    transform: translateZ(1px);
-    margin: 0 auto;
+.turning_dots {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.lds-circle>div {
-    display: inline-block;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border-radius: 50%;
-    background: #fff;
-    animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+.dots {
+  width: 3em;
+  height: 3em;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
 }
 
-@keyframes lds-circle {
+.dots > div {
+  width: 0.5em;
+  height: 0.5em;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  animation: fade 1.5s alternate ease-in-out infinite;
+}
 
-    0%,
-    100% {
-        animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
-    }
+.dots > div:nth-of-type(2),
+.dots > div:nth-of-type(4) {
+  animation-delay: 0.25s;
+}
 
-    0% {
-        transform: rotateY(0deg);
-    }
+.dots > div:nth-of-type(3),
+.dots > div:nth-of-type(5),
+.dots > div:nth-of-type(7) {
+  animation-delay: 0.5s;
+}
 
-    50% {
-        transform: rotateY(1800deg);
-        animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
-    }
+.dots > div:nth-of-type(6),
+.dots > div:nth-of-type(8) {
+  animation-delay: 0.75s;
+}
 
-    100% {
-        transform: rotateY(3600deg);
-    }
+.dots > div:nth-of-type(9) {
+  animation-delay: 1s;
+}
+
+@keyframes fade {
+  to {
+    opacity: 0.2;
+  }
 }

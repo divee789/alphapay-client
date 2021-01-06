@@ -8,18 +8,13 @@ import { Helmet } from 'react-helmet';
 import { toast } from 'react-toastify';
 import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
-
 import { signUp } from '../../store/actions';
-import { Store } from '../../store/interfaces';
-
+import { RootState } from '../../store';
 import theme from '../../components/Theme';
 import Button from '../../components/Button';
-import Dots from '../../components/Loaders/Dots';
-
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
 import invisible from '../../assets/images/invisible.svg';
-
 import './auth.scss';
 
 interface FormValues {
@@ -34,11 +29,10 @@ interface FormValues {
 const SignUp = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-
   const [feedback, setFeedback] = useState<string>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-  const { processing } = useSelector((state: Store) => state.auth);
+  const { processing } = useSelector((state: RootState) => state.auth);
   const initialValues: FormValues = {
     email: '',
     password: '',
@@ -87,99 +81,86 @@ const SignUp = () => {
       </Helmet>
       <section className="login_auth" style={theme()}>
         <div className="auth_form">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={logValidationSchema}
-            onSubmit={handleSubmit}
-            render={({ isSubmitting }) => {
+          <Formik initialValues={initialValues} validationSchema={logValidationSchema} onSubmit={handleSubmit}>
+            {({ isSubmitting }) => {
               return (
                 <>
                   <div className="logo">
                     <img src={logo} alt="logo" onClick={() => history.push('/')} />
                   </div>
-
+                  <p className="head_info">Create an alphapay account and join the community of alphas</p>
                   <Form className="form signup">
-                    <p className="head_info">Create an alphapay account and join the community of alphas</p>
-                    <Fade bottom>
-                      <div className="input-container">
-                        <div>
-                          <Field type="text" name="full_name" placeholder="Your Full Name e.g Jane Doe" />
-                          <ErrorMessage name="full_name" render={(msg) => <div className="error">{msg}</div>} />
+                    <Fade bottom duration={1000} distance="50px">
+                      <>
+                        <div className="input-container">
+                          <div>
+                            <Field type="text" name="full_name" placeholder="Your Full Name e.g Jane Doe" />
+                            <ErrorMessage name="full_name" render={(msg) => <div className="error">{msg}</div>} />
+                          </div>
                         </div>
-                      </div>
+                        <div className="input-container">
+                          <Field type="text" name="username" placeholder="Your Username" />
+                          <ErrorMessage name="username" render={(msg) => <div className="error">{msg}</div>} />
+                        </div>
+                        <div className="input-container">
+                          <Field type="text" name="phone_number" placeholder="Your Phone Number" />
+                          <ErrorMessage name="phone_number" render={(msg) => <div className="error">{msg}</div>} />
+                        </div>
+                        <div className="input-container">
+                          <Field type="text" name="email" placeholder="Your Email" />
+                          <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
+                        </div>
+                        <div className="input-container">
+                          <img
+                            src={invisible}
+                            alt="show/hide"
+                            className="password_icon"
+                            onClick={() => {
+                              setShowPassword(!showPassword);
+                            }}
+                          />
+                          <Field
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            placeholder="Your Password"
+                          />
+                          <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
+                        </div>
+                        <div className="input-container">
+                          <img
+                            src={invisible}
+                            alt="show/hide"
+                            className="password_icon"
+                            onClick={() => {
+                              setShowPassword2(!showPassword2);
+                            }}
+                          />
+                          <Field
+                            type={showPassword2 ? 'text' : 'password'}
+                            name="confirmPassword"
+                            placeholder="Confirm Password"
+                          />
+                          <ErrorMessage name="confirmPassword" render={(msg) => <div className="error">{msg}</div>} />
+                        </div>
+                        <div className="error_message" onClick={(): void => setFeedback(null)}>
+                          {feedback}
+                        </div>
+                        <div className="input-container btn_container">
+                          <Button disabled={isSubmitting || processing} loading={processing}>
+                            Create Account
+                          </Button>
+                        </div>
+                      </>
                     </Fade>
-                    <Fade bottom>
-                      <div className="input-container">
-                        <Field type="text" name="username" placeholder="Your Username" />
-                        <ErrorMessage name="username" render={(msg) => <div className="error">{msg}</div>} />
-                      </div>
-                    </Fade>
-                    <Fade bottom>
-                      <div className="input-container">
-                        <Field type="text" name="phone_number" placeholder="Your Phone Number" />
-                        <ErrorMessage name="phone_number" render={(msg) => <div className="error">{msg}</div>} />
-                      </div>
-                    </Fade>
-                    <Fade bottom>
-                      <div className="input-container">
-                        <Field type="text" name="email" placeholder="Your Email" />
-                        <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
-                      </div>
-                    </Fade>
-                    <Fade bottom>
-                      <div className="input-container">
-                        <img
-                          src={invisible}
-                          alt="show/hide"
-                          className="password_icon"
-                          onClick={() => {
-                            setShowPassword(!showPassword);
-                          }}
-                        />
-                        <Field type={showPassword ? 'text' : 'password'} name="password" placeholder="Your Password" />
-                        <ErrorMessage name="password" render={(msg) => <div className="error">{msg}</div>} />
-                      </div>
-                    </Fade>
-                    <Fade bottom>
-                      <div className="input-container">
-                        <img
-                          src={invisible}
-                          alt="show/hide"
-                          className="password_icon"
-                          onClick={() => {
-                            setShowPassword2(!showPassword2);
-                          }}
-                        />
-                        <Field
-                          type={showPassword2 ? 'text' : 'password'}
-                          name="confirmPassword"
-                          placeholder="Confirm Password"
-                        />
-                        <ErrorMessage name="confirmPassword" render={(msg) => <div className="error">{msg}</div>} />
-                      </div>
-                    </Fade>
-
-                    {feedback && (
-                      <div className="error_message" onClick={(): void => setFeedback(null)}>
-                        {feedback}
-                      </div>
-                    )}
-                    <div className="input-container btn_container">
-                      <Fade bottom>
-                        <Button disabled={isSubmitting || processing} colored>
-                          {processing ? <Dots /> : 'Create Account'}
-                        </Button>
-                      </Fade>
-                      <p>
-                        Already have an account?
-                        <Link to="/auth/login">Click here to sign in</Link>
-                      </p>
-                    </div>
                   </Form>
+                  <p>
+                    Already have an account?
+                    <Link to="/auth/login">Click here to sign in</Link>
+                  </p>
                 </>
               );
             }}
-          />
+          </Formik>
         </div>
         <div className="auth_image">
           <img src={image1} alt="auth" />

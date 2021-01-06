@@ -23,7 +23,6 @@ const Section = () => {
             <p>A way to truly go cashless and have a digital wallet.</p>
           </Fade>
           <Button
-            colored
             className="btn"
             onClick={() => {
               history.push('/auth/signup');

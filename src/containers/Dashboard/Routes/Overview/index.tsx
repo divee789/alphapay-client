@@ -1,162 +1,96 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Fade from 'react-reveal/Fade';
-
-import { getUserWallet } from '../../../../store/actions';
-
+import dayjs from 'dayjs';
+import cx from 'classnames';
+import { RootState } from '../../../../store';
+import { TRANSACTION_DESTINATION_TYPE, CATEGORIES } from '../../../../interfaces/business';
 import Modal from '../../../../components/Modal';
-import FundForm from '../../components/FundForm';
-import CheckoutForm from '../../components/CheckoutForm';
-import TransferForm from '../../components/TransferForm';
-
+import FundForm from '../../Components/FundForm';
 import Button from '../../../../components/Button';
-import Dots from '../../../../components/Loaders/Dots';
-
-import Refresh from '../../../../assets/images/refresh.png';
+import { formatNumber } from '../../../../utils/tools';
+import alpLogo from '../../../../assets/images/images.png';
+import EmptyImg from '../../../../assets/images/removebg.png';
 
 import './index.scss';
 
-const Overview = (props: { data: any[] }): JSX.Element => {
+const Overview = (): JSX.Element => {
   const [showFundModal, setShowFundModal] = useState(false);
-  const [showTransferModal, setShowTransferModal] = useState(false);
-  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
-
-  const { wallet, processing } = useSelector((state: { wallet }) => state.wallet);
-  const { transactions } = useSelector((state: { transaction }) => state.transaction);
-
-  const dispatch = useDispatch();
-
-  const styles = {
-    background: '#fff',
-    color: '#000',
-  };
-
-  const modalHandler = (category: 'fund' | 'transfer' | 'checkout'): void => {
-    switch (category) {
-      case 'fund':
-        return setShowFundModal(false);
-      case 'transfer':
-        return setShowTransferModal(false);
-      case 'checkout':
-        return setShowCheckoutModal(false);
-      default:
-        return;
-    }
-  };
-  const toggleModal = (form: 'fund' | 'transfer' | 'checkout'): void => {
-    switch (form) {
-      case 'fund':
-        return setShowFundModal(!showFundModal);
-      case 'transfer':
-        return setShowTransferModal(!showTransferModal);
-      case 'checkout':
-        return setShowCheckoutModal(!showCheckoutModal);
-      default:
-        return;
-    }
-  };
-
-  const formatMessage = (
-    type: string,
-  ): {
-    messageType: string;
-    source: string;
-  } => {
-    let messageType;
-    let source;
-    if (type === 'incoming') {
-      messageType = 'credited';
-      source = 'sender';
-    } else {
-      messageType = 'debited';
-      source = 'recipient';
-    }
-    return { messageType, source };
-  };
+  const { wallet } = useSelector((state: RootState) => state.wallet);
+  const { transactions } = useSelector((state: RootState) => state.transaction);
 
   return (
     <>
-      <section className="overview">
-        <div className="actions">
-          <Fade top duration={200} distance="10px">
+      <Modal open={showFundModal} closed={(): void => setShowFundModal(false)}>
+        <FundForm closed={(): void => setShowFundModal(false)} />
+      </Modal>
+      <Fade bottom duration={1000} distance="50px">
+        <section className="overview">
+          <div className="actions">
             <div className="wallet_actions">
-              <span
-                className="wallet_refresh"
-                onClick={(): void => {
-                  dispatch(getUserWallet());
-                }}
-              >
-                <img src={Refresh} alt="refresh balance" />
-              </span>
-              {processing ? (
-                <Dots color="black" width={1} height={1} />
-              ) : (
-                <p>
-                  {wallet?.available_balance
-                    .toFixed(2)
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                </p>
+              <p>
+                <span>NGN </span>
+                {formatNumber(wallet?.available_balance)}
+              </p>
+              <span className="available_sm">AVAILABLE BALANCE (NGN)</span>
+            </div>
+            <div className="overview_actions">
+              <div>
+                <Button onClick={(): void => setShowFundModal(true)}>Fund Wallet</Button>
+              </div>
+            </div>
+          </div>
+          <div className="wallet_history">
+            <div className="wallet_history_search">
+              <img
+                alt="search_icon"
+                src="https://d338t8kmirgyke.cloudfront.net/icons/icon_pngs/000/000/220/original/search.png"
+              />
+              <input placeholder="Search Transactions" />
+            </div>
+            <div className="wallet_history_content">
+              {transactions?.length > 0 &&
+                transactions.map((data) => {
+                  return (
+                    <div key={data.id} className="wallet_history_item">
+                      <div className="wallet_history_item_second">
+                        <div className="wallet_history_item_second_item">
+                          <img alt="transactions_logo" src={alpLogo} />
+                        </div>
+                        <div className="wallet_history_item_second_item">
+                          <p>
+                            {data.transaction_type === CATEGORIES.COLLECTION
+                              ? data.sender.full_name
+                              : data.recipient_name}
+                          </p>
+                          <p>{`${dayjs(data.createdAt).format('dddd D MMM YYYY h:mm:ss a ')}`}</p>
+                        </div>
+                      </div>
+                      <div className="wallet_history_item_second">
+                        <p
+                          className={cx({
+                            wallet_history_item_amount: true,
+                            wallet_history_item_amount_green: data.type === TRANSACTION_DESTINATION_TYPE.INCOMING,
+                            wallet_history_item_amount_red: data.type === TRANSACTION_DESTINATION_TYPE.OUTGOING,
+                          })}
+                        >
+                          {data.type === TRANSACTION_DESTINATION_TYPE.INCOMING ? '+' : '-'} {formatNumber(data.amount)}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              {transactions?.length === 0 && (
+                <div className="empty_state">
+                  <img src={EmptyImg} alt="empty state" />
+                  <p>There is nothing to see here</p>
+                </div>
               )}
-              <span>AVAILABLE BALANCE (NGN)</span>
-            </div>
-          </Fade>
-
-          <div className="overview_actions" style={styles}>
-            <div>
-              <Button dashboard onClick={(): void => toggleModal('fund')}>
-                FUND WALLET
-              </Button>
-            </div>
-            <div>
-              <Button
-                dashboard
-                onClick={(): void => toggleModal('checkout')}
-                disabled={wallet?.available_balance <= 100 ? true : false}
-              >
-                WITHDRAW FUNDS
-              </Button>
-            </div>
-            <div>
-              <Button dashboard onClick={(): void => toggleModal('transfer')}>
-                TRANSFER FUNDS
-              </Button>
-            </div>
-            <div>
-              <Button dashboard onClick={(): void => toggleModal('transfer')}>
-                PAY BILLS
-              </Button>
             </div>
           </div>
-        </div>
-        <div className="wallet_history">
-          <h3>WALLET HISTORY</h3>
-          <hr />
-          <div className="wallet_history_content">
-            {transactions?.length > 0 &&
-              transactions.map((data) => {
-                return (
-                  <div key={data.id}>
-                    Your wallet was {formatMessage(data.type).messageType} by{' '}
-                    {data[`${formatMessage(data.type).source}`].username} with NGN {data.amount}
-                  </div>
-                );
-              })}
-            {transactions?.length === 0 && (
-              <div className="wallet_history_empty_state">There is nothing to see here</div>
-            )}
-          </div>
-        </div>
-      </section>
-      <Modal open={showFundModal} closed={(): void => modalHandler('fund')}>
-        <FundForm />
-      </Modal>
-      <Modal open={showTransferModal} closed={(): void => modalHandler('transfer')}>
-        <TransferForm />
-      </Modal>
-      <Modal open={showCheckoutModal} closed={(): void => modalHandler('checkout')}>
-        <CheckoutForm banks={props.data} />
-      </Modal>
+        </section>
+      </Fade>
     </>
   );
 };
