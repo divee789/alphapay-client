@@ -87,6 +87,11 @@
 
     .user_profile_details {
       width: 100%;
+
+      button[type='submit'] {
+        height: 3.3rem;
+        font-size: 1rem;
+      }
     }
   }
 }

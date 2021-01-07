@@ -109,7 +109,7 @@ const PaymentRequestForm = (): JSX.Element => {
                     />
                   </div>
                   <div className="payment_request_form_btn">
-                    <Button disabled={loading || !verifiedAccount} loading={loading}>
+                    <Button disabled={loading || !verifiedAccount} loading={loading} type="submit">
                       Request Funds
                     </Button>
                   </div>

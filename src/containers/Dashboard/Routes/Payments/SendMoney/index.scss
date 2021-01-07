@@ -4,6 +4,10 @@
 
   @media screen and (max-width: 600px) {
     width: 100%;
+    button[type='submit'] {
+      height: 3.3rem;
+      font-size: 1rem;
+    }
   }
 
   .send_money_bank_account_details {
@@ -70,6 +74,10 @@
       margin: 10px 0;
       padding: 10px 1rem;
       justify-content: flex-start;
+
+      @media screen and (max-width: 600px) {
+        padding: 20px 1rem;
+      }
     }
   }
   label {

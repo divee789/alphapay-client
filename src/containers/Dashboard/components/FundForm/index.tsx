@@ -18,7 +18,7 @@ declare global {
   }
 }
 
-const FundForm = (props: { closed: any }): JSX.Element => {
+const FundForm = (props: { closed: () => void }): JSX.Element => {
   const dispatch = useDispatch();
   const [processing, setProcessing] = useState(null);
   const { user } = useSelector((state: RootState) => state.auth);
@@ -61,7 +61,6 @@ const FundForm = (props: { closed: any }): JSX.Element => {
       toast.error(
         '❗ Oops, There has been an error.Please contact support as soon as possible and your funds will be sorted out',
       );
-      console.log(error);
     }
   };
 
@@ -116,7 +115,7 @@ const FundForm = (props: { closed: any }): JSX.Element => {
                   />
                 </div>
                 <div className="fund_btn">
-                  <Button disabled={processing} loading={processing}>
+                  <Button disabled={processing} loading={processing} type="submit">
                     Fund Wallet
                   </Button>
                 </div>

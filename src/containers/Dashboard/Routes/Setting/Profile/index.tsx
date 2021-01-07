@@ -122,8 +122,8 @@ const Profile = (): JSX.Element => {
                       <label>Email</label>
                       <Field type="text" name="email" placeholder="Email" disabled />
                     </div>
-                    <Button disabled={loading} loading={loading}>
-                      Update Info
+                    <Button disabled={loading} loading={loading} type="submit">
+                      Update Details
                     </Button>
                   </Form>
                 </>
