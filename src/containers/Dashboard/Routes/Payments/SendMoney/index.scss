@@ -2,6 +2,10 @@
   width: 60%;
   margin: 4rem auto;
 
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+
   .send_money_bank_account_details {
     margin: 1rem 0;
     padding: 10px;

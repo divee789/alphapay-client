@@ -6,6 +6,7 @@
   left: 0;
   right: 0;
   box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.15);
+  background-color: #fff;
 
   @media screen and (min-width: 600px) {
     display: none;
@@ -29,6 +30,7 @@
         justify-content: flex-end;
         padding: 5px;
         text-align: center;
+        color: #000;
         font-size: 13px;
         opacity: 0.5;
         &.active {
@@ -39,7 +41,7 @@
           height: 30px;
           object-fit: contain;
           margin: 0 auto;
-          margin-bottom: 4px;
+          margin-bottom: 1px;
         }
       }
     }

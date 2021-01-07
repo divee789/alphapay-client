@@ -19,6 +19,11 @@
       font-size: 0.9rem;
       cursor: pointer;
       width: 33%;
+
+      @media screen and (max-width: 490px) {
+        font-size: 12px;
+        padding: 0.9rem 0;
+      }
     }
 
     .active {

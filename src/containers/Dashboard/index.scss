@@ -28,15 +28,11 @@
         cursor: pointer;
         margin: 0;
         padding: 0;
-        width: 10%;
+        width: 10rem;
         display: flex;
         justify-content: center;
         img {
           width: 130px;
-        }
-
-        @media screen and (min-width: 600px) and (max-width: 1023px) {
-          display: none;
         }
       }
 
@@ -44,7 +40,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 40%;
+        width: 30rem;
         a,
         .custom_link {
           color: #565656;
@@ -57,14 +53,8 @@
           opacity: 0.6;
 
           //Tablet styling
-
-          @media screen and (min-width: 600px) and (max-width: 1023px) {
-            padding: 0;
-            margin: 30px auto;
-
-            span {
-              display: none;
-            }
+          @media screen and (max-width: 750px) {
+            display: none;
           }
 
           img {
@@ -94,57 +84,6 @@
           height: 45px;
           object-fit: cover;
           cursor: pointer;
-        }
-
-        .dropdown_content {
-          visibility: hidden;
-          cursor: pointer;
-          position: absolute;
-          width: 12rem;
-          margin-top: 1px;
-          background-color: #fff;
-          top: -1rem;
-          right: -3rem;
-          transform: translateY(1.2rem);
-          z-index: -1;
-          transition: all 0.2s ease-in-out;
-          padding: 0.4rem;
-          padding-left: 1rem;
-          border-radius: 5px;
-          box-shadow: 1px 12px 25px rgba(80, 114, 125, 0.5);
-
-          .navcard_actions {
-            margin-top: 1rem;
-            a,
-            p {
-              color: #565656;
-              letter-spacing: 0.01rem;
-              display: flex;
-              align-items: center;
-              font-weight: 500;
-              box-sizing: border-box;
-              font-size: 0.9rem;
-              transition: all 0.3s;
-
-              &:hover {
-                margin-left: 10px;
-              }
-
-              img {
-                width: 25px;
-                height: 25px;
-                margin-right: 10px;
-              }
-            }
-          }
-        }
-
-        &:hover {
-          .dropdown_content {
-            visibility: visible;
-            z-index: 1;
-            transform: translateY(0%);
-          }
         }
       }
     }
@@ -180,19 +119,26 @@
       letter-spacing: 0.3px;
       line-height: 34px;
       text-align: center;
+      @media screen and (max-width: 600px) {
+        font-size: 1.3rem;
+      }
     }
 
     main {
       box-sizing: border-box;
-      width: 50%;
+      width: 40rem;
       margin: 0 auto;
-      margin-top: 4rem;
+      margin-top: 6rem;
       @media screen and (max-width: 600px) {
-        width: 100%;
+        width: 90%;
         padding: 0 5px;
+        margin-top: 4rem;
         padding-bottom: 5rem;
         overflow: scroll;
       }
+    }
+    @media screen and (max-width: 600px) {
+      margin-top: 1rem;
     }
   }
 }

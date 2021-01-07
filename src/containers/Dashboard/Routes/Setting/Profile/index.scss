@@ -59,12 +59,26 @@
   }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 500px) {
   .profile-settings-section {
     flex-direction: column;
 
     .profile_image_handler {
       margin: 2rem auto;
+      width: 100%;
+
+      label {
+        display: flex;
+      }
+
+      button {
+        width: 60%;
+      }
+
+      img {
+        width: 60%;
+        height: auto;
+      }
 
       input {
         width: 95%;
@@ -72,8 +86,7 @@
     }
 
     .user_profile_details {
-      width: 90%;
-      margin: 2rem auto;
+      width: 100%;
     }
   }
 }

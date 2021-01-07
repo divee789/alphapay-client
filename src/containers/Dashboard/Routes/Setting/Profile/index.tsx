@@ -6,11 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import Fade from 'react-reveal/Fade';
 import { toast } from 'react-toastify';
 import { getUser, updateUser } from '../../../../../store/actions';
-import APIServices from '../../../../../services/api-services';
 import { RootState } from '../../../../../store';
+import APIServices from '../../../../../services/api-services';
 import Button from '../../../../../components/Button';
 import './index.scss';
-
 const API = new APIServices();
 
 const Profile = (): JSX.Element => {
@@ -18,7 +17,6 @@ const Profile = (): JSX.Element => {
   const [image, setImage] = useState<File>(null);
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const { user } = useSelector((state: RootState) => state.auth);
 
   const initialValues = {

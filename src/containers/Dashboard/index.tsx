@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, Redirect, useRouteMatch, NavLink, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { toast } from 'react-toastify';
-import openSocket from 'socket.io-client';
+// import openSocket from 'socket.io-client';
 import {
   logOut,
   getUserTransactions,
   getUser,
   getUserWallet,
   getPaymentRequests,
-  updateWallet,
+  // updateWallet,
   getBeneficiaries,
   getBanks,
 } from '../../store/actions';
@@ -51,34 +51,34 @@ const Dashboard = () => {
 
   useEffect(() => {
     const script = document.createElement('script');
-    // const alternateScript = document.createElement('script');
+    const alternateScript = document.createElement('script');
     script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
-    // alternateScript.src = 'https://checkout.flutterwave.com/v3.js';
+    alternateScript.src = 'https://checkout.flutterwave.com/v3.js';
     document.getElementsByTagName('head')[0].appendChild(script);
     // document.getElementsByTagName('head')[0].appendChild(alternateScript);
     bootstrap();
   }, []);
 
-  useEffect(() => {
-    const APIBaseURL =
-      process.env.REACT_APP_NODE_ENV === 'development'
-        ? process.env.REACT_APP_STAGING
-        : process.env.REACT_APP_SERVER_URL;
+  // useEffect(() => {
+  //   const APIBaseURL =
+  //     process.env.REACT_APP_NODE_ENV === 'development'
+  //       ? process.env.REACT_APP_STAGING
+  //       : process.env.REACT_APP_SERVER_URL;
 
-    const socket = openSocket(APIBaseURL);
+  //   const socket = openSocket(APIBaseURL);
 
-    if (user) {
-      socket.on(`${user.id}-transfer`, (data) => {
-        const check = async (): Promise<void> => {
-          dispatch(updateWallet(data.data.wallet));
-          dispatch(getUserTransactions());
-        };
-        check();
-      });
-    }
+  //   if (user) {
+  //     socket.on(`${user.id}-transfer`, (data) => {
+  //       const check = async (): Promise<void> => {
+  //         dispatch(updateWallet(data.data.wallet));
+  //         dispatch(getUserTransactions());
+  //       };
+  //       check();
+  //     });
+  //   }
 
-    // return () => socket.disconnect();
-  }, [user, dispatch]);
+  //   // return () => socket.disconnect();
+  // }, [user, dispatch]);
 
   const { path, url } = useRouteMatch();
 

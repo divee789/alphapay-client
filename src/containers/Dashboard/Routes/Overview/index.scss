@@ -4,10 +4,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
-    @media screen and (max-width: 600px) {
-      flex-direction: column;
-    }
   }
   .wallet_actions {
     width: 40%;
@@ -68,6 +64,19 @@
         border: 1.6px solid #e8e8e8;
         border-radius: 10px;
       }
+
+      @media screen and (max-width: 600px) {
+        input {
+          padding: 0.5rem inherit;
+          font-size: 100%;
+        }
+
+        img {
+          width: 25px;
+          height: 25px;
+          top: 1.1rem;
+        }
+      }
     }
 
     .wallet_history_content {
@@ -81,10 +90,13 @@
         align-items: center;
         margin-bottom: 2rem;
         box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
-
         cursor: pointer;
         padding: 1rem;
         border-radius: 10px;
+
+        @media screen and (max-width: 600px) {
+          flex-direction: column;
+        }
 
         .wallet_history_item_second {
           display: flex;
@@ -132,51 +144,29 @@
     }
   }
 
-  @media screen and (min-width: 600px) and (max-width: 1023px) {
-  }
-
   @media screen and (max-width: 600px) {
     h1 {
       font-size: 1.3rem;
     }
     .wallet_actions {
-      margin-top: 2rem;
-      width: 50%;
-      margin: 0 auto;
-      padding: 2rem 0;
-      align-items: center;
-      justify-content: center;
-      display: flex;
-      flex-direction: column;
+      width: 40%;
       p {
-        font-size: 2rem;
+        font-size: 1.5rem;
+        span {
+          display: none;
+        }
       }
     }
 
     .overview_actions {
-      width: 100%;
-    }
-  }
+      width: 45%;
 
-  @media screen and (max-width: 430px) {
-    .wallet_actions {
-      margin-top: 1rem;
-      p {
-        font-size: 2.6rem;
-        margin: 10px;
-      }
-      span {
-        font-size: 10px;
-      }
-    }
-
-    .overview_actions {
-      width: 100%;
-      padding: 0;
       div {
-        padding: 10px;
+        width: 100%;
         button {
-          font-size: 12px;
+          width: 100%;
+          font-size: 0.8rem;
+          height: 2.4rem;
         }
       }
     }

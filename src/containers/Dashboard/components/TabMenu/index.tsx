@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import theme from '../../../../components/Theme';
-
 import imLogo from '../../../../assets/images/dashboard/home.png';
 import cardLogo from '../../../../assets/images/dashboard/card.png';
 import settings from '../../../../assets/images/dashboard/set.png';
@@ -10,20 +8,20 @@ import './index.scss';
 
 const TabMenu = ({ url, logOutHandler }: { url: string; logOutHandler }) => {
   return (
-    <div className={'tabmenu_container'} style={theme('white')}>
+    <div className={'tabmenu_container'}>
       <div className="tabmenu_content">
         <div className="tabmenu_list">
           <NavLink to={`${url}/overview`}>
             <img src={imLogo} alt="" />
-            <span style={{ color: theme().color }}>Home</span>
+            <span>Home</span>
           </NavLink>
-          <NavLink to={`${url}/payment_requests`}>
+          <NavLink to={`${url}/payments`}>
             <img src={cardLogo} alt="" />
-            <span style={{ color: theme().color }}>Payments</span>
+            <span>Payments</span>
           </NavLink>
           <NavLink to={`${url}/settings`}>
             <img src={settings} alt="" />
-            <span style={{ color: theme().color }}>Profile</span>
+            <span>Profile</span>
           </NavLink>
         </div>
       </div>

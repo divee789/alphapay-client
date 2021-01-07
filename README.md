@@ -31,3 +31,6 @@ Before you begin, ensure you have installed:
 - Migrate from react-toastify to react-hot-toast
 - Implement 404 page properly
 - Implement Skeleton Loaders
+- Implement Pagination for transactions
+- Fix IPhone input and button issues.
+- Make the mobile UI more visible--- inputs, buttons and font-size.

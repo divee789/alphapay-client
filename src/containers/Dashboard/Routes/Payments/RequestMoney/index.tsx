@@ -13,7 +13,7 @@ const RequestMoney = (): JSX.Element => {
       <section className="request_money_section">
         <div className="requests_tab">
           <NavLink to={`${url}/incoming`} aria-expanded="false" data-toggle="tab">
-            Incoming Requests
+            Incoming
           </NavLink>
           <NavLink to={`${url}/outgoing`} aria-expanded="false" data-toggle="tab">
             Your Requests

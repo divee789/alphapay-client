@@ -87,15 +87,16 @@
   }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 450px) {
   .dashboard_security {
     flex-direction: column;
 
     .password_security_change,
-    .transaction_options {
+    .transaction_options,
+    .security-options {
       width: 100%;
       margin-bottom: 2rem;
-      padding: 0 1rem;
+      padding: 0;
     }
 
     input {
@@ -112,6 +113,13 @@
 
     .two_fa {
       width: 100%;
+      button {
+        width: 100%;
+      }
+    }
+
+    .two_fa_verif {
+      flex-direction: column;
     }
   }
 }
