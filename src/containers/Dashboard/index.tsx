@@ -20,7 +20,7 @@ import Overview from './Routes/Overview';
 import Cards from './Routes/Cards';
 import Setting from './Routes/Setting';
 import Payments from './Routes/Payments';
-import TabMenu from './Components/TabMenu';
+import TabMenu from './components/TabMenu';
 import Loading from '../../components/Loading';
 import Logo from '../../assets/images/alp.png';
 // import settings from '../../assets/images/dashboard/set.png';

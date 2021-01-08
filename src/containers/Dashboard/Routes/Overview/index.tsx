@@ -7,7 +7,7 @@ import cx from 'classnames';
 import { RootState } from '../../../../store';
 import { TRANSACTION_DESTINATION_TYPE, CATEGORIES } from '../../../../interfaces/business';
 import Modal from '../../../../components/Modal';
-import FundForm from '../../Components/FundForm';
+import FundForm from '../../components/FundForm';
 import Button from '../../../../components/Button';
 import { formatNumber } from '../../../../utils/tools';
 import alpLogo from '../../../../assets/images/images.png';

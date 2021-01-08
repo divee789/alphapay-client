@@ -11,9 +11,9 @@ import {
   transferFunds,
   transferToBeneficiary,
 } from '../../../../../store/actions';
-import BankAccountVerification from '../../../Components/BankAccountVerification';
-import AlphaAccountVerification from '../../../Components/AlphaAccountVerification';
-import Beneficiaries from '../../../Components/Beneficiaries';
+import BankAccountVerification from '../../../components/BankAccountVerification';
+import AlphaAccountVerification from '../../../components/AlphaAccountVerification';
+import Beneficiaries from '../../../components/Beneficiaries';
 import Button from '../../../../../components/Button';
 import { BankAccountDetails, AlphaAccountDetails, BeneficiaryDetails } from '../../../../../interfaces/business';
 import './index.scss';
