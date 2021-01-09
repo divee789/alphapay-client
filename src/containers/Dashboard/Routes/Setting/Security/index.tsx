@@ -268,7 +268,7 @@ const Security = (): JSX.Element => {
               {twoFaState && (
                 <div className="two_fa_verif">
                   <div className="two_fa_image">
-                    <img src={twoFaImageUrl} alt="Two Factor QR Image" />
+                    <img src={twoFaImageUrl} alt="Two Factor QR Code" />
                   </div>
                   <div className="two_fa_form">
                     <p>Please scan the image with any appropriate authenticator app and provide the code given.</p>

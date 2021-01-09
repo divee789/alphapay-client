@@ -23,7 +23,6 @@ import Payments from './Routes/Payments';
 import TabMenu from './components/TabMenu';
 import Loading from '../../components/Loading';
 import Logo from '../../assets/images/alp.png';
-// import settings from '../../assets/images/dashboard/set.png';
 import './index.scss';
 
 const Dashboard = () => {
@@ -32,32 +31,30 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const bootstrap = async (): Promise<void> => {
-    try {
-      setLoading(true);
-      await dispatch(getUser());
-      await dispatch(getUserWallet());
-      await dispatch(getUserTransactions());
-      await dispatch(getBeneficiaries());
-      await dispatch(getPaymentRequests());
-      await dispatch(getBanks());
-      setLoading(false);
-    } catch (error) {
-      console.log('BOOTSTRAP ERROR', error);
-      toast.error('There has been an error loading your data, please try again');
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     const script = document.createElement('script');
     const alternateScript = document.createElement('script');
     script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
     alternateScript.src = 'https://checkout.flutterwave.com/v3.js';
     document.getElementsByTagName('head')[0].appendChild(script);
-    // document.getElementsByTagName('head')[0].appendChild(alternateScript);
+    const bootstrap = async (): Promise<void> => {
+      try {
+        setLoading(true);
+        await dispatch(getUser());
+        await dispatch(getUserWallet());
+        await dispatch(getUserTransactions());
+        await dispatch(getBeneficiaries());
+        await dispatch(getPaymentRequests());
+        await dispatch(getBanks());
+        setLoading(false);
+      } catch (error) {
+        console.log('BOOTSTRAP ERROR', error);
+        toast.error('There has been an error loading your data, please try again');
+        setLoading(false);
+      }
+    };
     bootstrap();
-  }, []);
+  }, [dispatch]);
 
   // useEffect(() => {
   //   const APIBaseURL =
@@ -137,20 +134,6 @@ const Dashboard = () => {
                   alt="profile_image"
                 />
               </NavLink>
-              {/* <div className="dropdown_content">
-                <p>{user?.full_name}</p>
-                <hr />
-                <div className="navcard_actions">
-                  <NavLink to={`${url}/settings`}>
-                    <img src={settings} alt="" />
-                    <span>My Profile</span>
-                  </NavLink>
-                  <p onClick={(e) => logOutHandler(e)}>
-                    <img src="https://img.freepik.com/free-icon/logout_318-10026.jpg?size=338&ext=jpg" alt="logout" />
-                    Log Out
-                  </p>
-                </div>
-              </div> */}
             </div>
           </div>
           <section className="dashboard_content">

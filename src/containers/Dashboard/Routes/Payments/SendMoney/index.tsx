@@ -193,7 +193,7 @@ const Transfer = (): JSX.Element => {
                             alphaAccount.profile_image ||
                             'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
                           }
-                          alt="profile image"
+                          alt="profile"
                         />
                       </div>
                       <div className="info_container">

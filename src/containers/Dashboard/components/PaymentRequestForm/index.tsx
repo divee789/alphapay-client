@@ -84,7 +84,7 @@ const PaymentRequestForm = (): JSX.Element => {
                             verifiedAccount.profile_image ||
                             'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
                           }
-                          alt="user profile image"
+                          alt="user profile"
                         />
                       </div>
                       <div className="info_container">
