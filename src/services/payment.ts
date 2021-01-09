@@ -13,9 +13,7 @@ export const payWithKorapay = (
       email: values.email,
     },
     onSuccess: async (data) => {
-      alert('not done');
       await success(data.reference);
-      alert('done');
     },
   });
 };
