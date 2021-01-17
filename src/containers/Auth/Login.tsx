@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Fade from 'react-reveal/Fade';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { logIn } from '../../store/actions';
 import { RootState } from '../../store';
@@ -38,18 +38,22 @@ const LogIn = () => {
   });
 
   const handleSubmit = async (values: FormValues, { setSubmitting }) => {
-    try {
-      await dispatch(logIn(values));
-      history.push(`/dashboard/overview`);
-    } catch (err) {
-      if (err.message === '2FA Required') {
-        history.push(`/auth/2fa?email=${values.email}`);
+    toast.promise(dispatch(logIn(values)) as any, {
+      success: () => {
+        history.push(`/dashboard/overview`);
+        return 'Login Successful';
+      },
+      error: (err) => {
         setSubmitting(false);
-        return;
-      }
-      toast.error(`❗ ${err.message}`);
-      setSubmitting(false);
-    }
+        if (err.message === '2FA Required') {
+          history.push(`/auth/2fa?email=${values.email}`);
+          setSubmitting(false);
+          return 'TwoFA Required';
+        }
+        return `${err.message}`;
+      },
+      loading: 'Logging you in...',
+    });
   };
 
   return (

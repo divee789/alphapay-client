@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { getPaymentRequests, updateWallet, getUserTransactions } from '../../../../store/actions';
 import { RootState } from '../../../../store';
 import PaymentRequestForm from '../PaymentRequestForm';
@@ -38,9 +38,7 @@ const PaymentRequest = (): JSX.Element => {
       toast.success(`Request has been ${status} successfully`);
       setLoading(false);
     } catch (error) {
-      toast.error(`❗ ${error.response.data.message}`, {
-        autoClose: false,
-      });
+      toast.error(`${error.response.data.message}`);
       setLoading(false);
     }
   };

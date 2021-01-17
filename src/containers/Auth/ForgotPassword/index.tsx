@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 import theme from '../../../components/Theme';
@@ -15,8 +15,6 @@ const API = new APIServices();
 
 const ForgotPassword = () => {
   const history = useHistory();
-  const [processing, setProcessing] = useState(false);
-  const [feedback, setFeedback] = useState(null);
   interface FormValues {
     email: string;
   }
@@ -25,16 +23,16 @@ const ForgotPassword = () => {
   };
 
   const handleSubmit = async (values: FormValues, { setSubmitting }) => {
-    try {
-      setProcessing(true);
-      const res = await API.passwordReset(values.email);
-      toast.success(res.message);
-      setProcessing(false);
-    } catch (err) {
-      toast.error(`❗ ${err.response.data.message}`);
-      setProcessing(false);
-      setSubmitting(false);
-    }
+    toast.promise(API.passwordReset(values.email) as any, {
+      success: (data: any) => {
+        return data.message;
+      },
+      error: (err) => {
+        setSubmitting(false);
+        return `${err.response.data.message}`;
+      },
+      loading: 'Generating password reset link...',
+    });
   };
 
   return (
@@ -62,13 +60,8 @@ const ForgotPassword = () => {
                           <Field type="text" name="email" placeholder="Your email" />
                           <ErrorMessage name="email" render={(msg) => <div className="error">{msg}</div>} />
                         </div>
-                        <div className="error_message" onClick={() => setFeedback(null)}>
-                          {feedback}
-                        </div>
                         <div className="input-container btn_container">
-                          <Button disabled={isSubmitting || processing} loading={processing}>
-                            Submit Request
-                          </Button>
+                          <Button disabled={isSubmitting}>Submit Request</Button>
                         </div>
                       </>
                     </Fade>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, Redirect, useRouteMatch, NavLink, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 // import openSocket from 'socket.io-client';
 import {
   logOut,
@@ -38,22 +38,26 @@ const Dashboard = () => {
     alternateScript.src = 'https://checkout.flutterwave.com/v3.js';
     document.getElementsByTagName('head')[0].appendChild(script);
     const bootstrap = async (): Promise<void> => {
-      try {
-        setLoading(true);
-        await dispatch(getUser());
-        await dispatch(getUserWallet());
-        await dispatch(getUserTransactions());
-        await dispatch(getBeneficiaries());
-        await dispatch(getPaymentRequests());
-        await dispatch(getBanks());
-        setLoading(false);
-      } catch (error) {
-        console.log('BOOTSTRAP ERROR', error);
-        toast.error('There has been an error loading your data, please try again');
-        setLoading(false);
-      }
+      setLoading(true);
+      await dispatch(getUser());
+      await dispatch(getUserWallet());
+      await dispatch(getUserTransactions());
+      await dispatch(getBeneficiaries());
+      await dispatch(getPaymentRequests());
+      await dispatch(getBanks());
+      setLoading(false);
     };
-    bootstrap();
+    toast.promise(bootstrap() as any, {
+      success: () => {
+        return 'Welcome to your dashboard';
+      },
+      error: (err) => {
+        console.log('BOOTSTRAP ERROR', err);
+        setLoading(false);
+        return `${err.message}`;
+      },
+      loading: 'Preparing your dashboard...',
+    });
   }, [dispatch]);
 
   // useEffect(() => {
@@ -91,6 +95,7 @@ const Dashboard = () => {
   const logOutHandler = async (e) => {
     e.preventDefault();
     dispatch(logOut());
+    toast.success('Logout successful');
     history.push('/');
   };
 

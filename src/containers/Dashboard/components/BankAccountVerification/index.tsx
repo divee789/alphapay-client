@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { RootState } from '../../../../store';
 import APIService from '../../../../services/api-services';
-import Turning from '../../../../components/Loaders/Turning';
+import CircleLoader from '../../../../components/Loaders/Circle';
 import { BankAccountDetails } from '../../../../interfaces/business';
 import './index.scss';
 
@@ -21,7 +21,7 @@ interface FormValues {
 const BankAccountVerification = (props: BankAccountVerificationProps): JSX.Element => {
   const { banks } = useSelector((state: RootState) => state.misc);
   const [loading, setLoading] = useState(false);
-  const [formValues, setFormValues] = useState<FormValues>({
+  const [formValues, setFormValues] = useState({
     bank_code: '',
     bank_account: '',
   });
@@ -121,7 +121,7 @@ const BankAccountVerification = (props: BankAccountVerificationProps): JSX.Eleme
           </div>
           <p className="error modal_error">{errors.bank_account}</p>
         </div>
-        {loading && <Turning />}
+        {loading && <CircleLoader />}
       </div>
     </section>
   );

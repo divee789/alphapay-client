@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import APIService from '../../../../services/api-services';
-import Turning from '../../../../components/Loaders/Turning';
+import CircleLoader from '../../../../components/Loaders/Circle';
 import { AlphaAccountDetails } from '../../../../interfaces/business';
 import './index.scss';
 
@@ -62,7 +62,7 @@ const AlphaAccountVerification = (props: AlphaAccountVerificationProps): JSX.Ele
             />
             <p className="error modal_error">{error}</p>
           </div>
-          {loading && <Turning />}
+          {!loading && <CircleLoader />}
         </div>
       </section>
     </>

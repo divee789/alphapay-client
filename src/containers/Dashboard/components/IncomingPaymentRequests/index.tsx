@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import Fade from 'react-reveal/Fade';
 import dayjs from 'dayjs';
 import Button from '../../../../components/Button';
@@ -35,13 +35,9 @@ const IncomingPaymentRequest = (): JSX.Element => {
       setLoading(false);
     } catch (error) {
       if (error.response) {
-        toast.error(`❗ ${error.response.data.message}`, {
-          autoClose: false,
-        });
+        toast.error(`${error.response.data.message}`);
       } else {
-        toast.error(`❗ ${error.message}`, {
-          autoClose: false,
-        });
+        toast.error(`${error.message}`);
       }
       setLoading(false);
     }

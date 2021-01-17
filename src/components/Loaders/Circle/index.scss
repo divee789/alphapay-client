@@ -1,0 +1,25 @@
+.section_circle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle_loader {
+  width: 1rem;
+  height: 1rem;
+  box-sizing: border-box;
+  border: 2px solid;
+  border-radius: 100%;
+  border-color: #e0e0e0;
+  border-right-color: #616161;
+  animation: circle_loading 1s linear infinite;
+  @keyframes circle_loading {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

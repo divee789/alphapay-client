@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import Fade from 'react-reveal/Fade';
 import { string, object } from 'yup';
-import APIServiceError from '../../services/error-services';
 import { twoFaVerify } from '../../store/actions';
 import Button from '../../components/Button';
 import theme from '../../components/Theme';
@@ -18,9 +17,6 @@ const TwoFa = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const query = new URLSearchParams(useLocation().search);
-
-  const [feedback, setFeedback] = useState(null);
-  const [processing, setProcessing] = useState(false);
 
   interface FormValues {
     token: string;
@@ -35,24 +31,25 @@ const TwoFa = () => {
   });
 
   const handleSubmit = async (values: FormValues, { setSubmitting }) => {
-    try {
-      setProcessing(true);
-      await dispatch(
+    toast.promise(
+      dispatch(
         twoFaVerify({
           email: query.get('email'),
           token: values.token,
         }),
-      );
-      history.push(`/dashboard/overview`);
-    } catch (err) {
-      setSubmitting(false);
-      setProcessing(false);
-      if (err instanceof APIServiceError) {
-        toast.error(`❗ ${err.response.data.message}`);
-        return;
-      }
-      toast.error(`❗ ${err.message}`);
-    }
+      ) as any,
+      {
+        success: () => {
+          history.push(`/dashboard/overview`);
+          return 'Login Successful';
+        },
+        error: (err) => {
+          setSubmitting(false);
+          return `${err.response?.data?.message || err.message}`;
+        },
+        loading: 'Verifying code..',
+      },
+    );
   };
 
   return (
@@ -77,13 +74,8 @@ const TwoFa = () => {
                             render={(msg: string): JSX.Element => <div className="error">{msg}</div>}
                           />
                         </div>
-                        <div className="error_message" onClick={(): void => setFeedback(null)}>
-                          {feedback}
-                        </div>
                         <div className="input-container btn_container">
-                          <Button disabled={isSubmitting || processing} loading={processing}>
-                            Verify Code
-                          </Button>
+                          <Button disabled={isSubmitting}>Verify Code</Button>
                         </div>
                       </>
                     </Fade>

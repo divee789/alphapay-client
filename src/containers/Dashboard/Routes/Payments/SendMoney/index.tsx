@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Fade from 'react-reveal/Fade';
@@ -45,7 +45,7 @@ const Transfer = (): JSX.Element => {
       })
     : null;
 
-  const sendMoney = async (values, helpers: any): Promise<void> => {
+  const sendMoney = async (values, helpers): Promise<void> => {
     try {
       setTransferLoading(true);
       switch (transferType) {
