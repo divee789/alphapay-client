@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory, Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { object, string } from 'yup';
 import Fade from 'react-reveal/Fade';
 import theme from '../../components/Theme';
 import Button from '../../components/Button';
 import APIService from '../../services/api-services';
-import APIServiceError from '../../services/error-services';
 import logo from '../../assets/images/alp.png';
 import image1 from '../../assets/images/auth.jpg';
 import './auth.scss';
@@ -17,9 +16,6 @@ const API = new APIService();
 
 const VerifyEmail = () => {
   const history = useHistory();
-  const [feedback, setFeedback] = useState(null);
-  const [processing, setProcessing] = useState(false);
-
   interface FormValues {
     token: string;
   }
@@ -32,25 +28,17 @@ const VerifyEmail = () => {
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    try {
-      setProcessing(true);
-      await API.verifyEmail(values.token);
-      setProcessing(false);
-      toast.success('Email Verification Successful');
-      history.push(`/dashboard/overview`);
-    } catch (err) {
-      if (err instanceof APIServiceError) {
-        toast.error(`❗ ${err.response.data.message}`);
+    toast.promise(API.verifyEmail(values.token) as any, {
+      success: () => {
+        history.push(`/dashboard/overview`);
+        return 'Email verified successfully';
+      },
+      error: (err) => {
         setSubmitting(false);
-        setProcessing(false);
-        return;
-      }
-      toast.error(
-        '❗ There has been an issue verifying your account, please check that your code is valid and try again',
-      );
-      setSubmitting(false);
-      setProcessing(false);
-    }
+        return `${err.response?.data?.message}`;
+      },
+      loading: 'Verifying your email...',
+    });
   };
 
   return (
@@ -78,13 +66,8 @@ const VerifyEmail = () => {
                           <Field type="text" name="token" placeholder="Please put your token here" />
                           <ErrorMessage name="token" render={(msg) => <div className="error">{msg}</div>} />
                         </div>
-                        <div className="error_message" onClick={(): void => setFeedback(null)}>
-                          {feedback}
-                        </div>
                         <div className="input-container btn_container">
-                          <Button disabled={isSubmitting || processing} loading={processing}>
-                            Verify Email
-                          </Button>
+                          <Button disabled={isSubmitting}>Verify Email</Button>
                         </div>
                       </>
                     </Fade>
