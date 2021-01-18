@@ -28,7 +28,6 @@ Before you begin, ensure you have installed:
 
 **TODO**
 
-- Migrate from react-toastify to react-hot-toast
 - Fix disbursement minimum amount bug
 - Improve error handling and notifications
 - Implement 404 page properly

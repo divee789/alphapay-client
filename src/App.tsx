@@ -2,9 +2,7 @@
 import React, { Suspense } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
 import { Toaster } from 'react-hot-toast';
-import 'react-toastify/dist/ReactToastify.css';
 import { RootState } from './store';
 import { history } from './utils';
 import Landing from './containers/Home';
@@ -54,7 +52,6 @@ const App = () => {
 
   return (
     <>
-      <ToastContainer />
       <Toaster
         position="top-right"
         toastOptions={{

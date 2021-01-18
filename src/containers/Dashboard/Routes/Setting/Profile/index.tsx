@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import Fade from 'react-reveal/Fade';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { getUser, updateUser } from '../../../../../store/actions';
 import { RootState } from '../../../../../store';
 import APIServices from '../../../../../services/api-services';

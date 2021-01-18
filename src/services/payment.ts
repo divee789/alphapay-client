@@ -28,7 +28,7 @@ export const payWithFlutterwave = (
     amount: Number(values.amount),
     currency: 'NGN',
     country: 'NG',
-    tx_ref: new Date().toISOString(),
+    tx_ref: `ALP-KPY-${new Date().getTime()}`,
     customer: {
       email: values.email,
       name: values.full_name,

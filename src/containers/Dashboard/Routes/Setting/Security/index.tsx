@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { object, string } from 'yup';
 import { RootState } from '../../../../../store';
 import { setTransactionPin, getUser } from '../../../../../store/actions';
@@ -21,8 +21,8 @@ const Security = (): JSX.Element => {
   const [twoFaImageUrl, setTwoFaImageUrl] = useState<string>(null);
   const [twoFaLoading, setTwoFaLoading] = useState(false);
   const [twoFaState, setTwoFaState] = useState(false);
-  const [twoFaCode, setTwoFaCode] = useState<string>('');
-  const [twoFaError, setTwoFaError] = useState<string>('');
+  const [twoFaCode, setTwoFaCode] = useState('');
+  const [twoFaError, setTwoFaError] = useState('');
   const [emailProcessing, setEmailProcessing] = useState(null);
   const [pinLoading, setPinLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
@@ -106,9 +106,9 @@ const Security = (): JSX.Element => {
   const deactivateTwoFa = async (): Promise<void> => {
     try {
       setTwoFaLoading(true);
-      const res = await API.deactivate2FA();
+      await API.deactivate2FA();
       await dispatch(getUser());
-      toast.success(res.message);
+      toast.success('TwoFA Authorization Disabled Successfully');
       setTwoFaLoading(false);
     } catch (error) {
       setTwoFaLoading(false);
@@ -123,11 +123,11 @@ const Security = (): JSX.Element => {
         case 'Password':
           delete values['type'];
           setPasswordLoading(true);
-          const res = await API.changePassword({
+          await API.changePassword({
             new_password: values.new_password,
             password: values.password,
           });
-          toast.success(res.message);
+          toast.success('Password updated successfully');
           setPasswordLoading(false);
           resetForm();
           break;
@@ -135,7 +135,7 @@ const Security = (): JSX.Element => {
           delete values['type'];
           setPinLoading(true);
           await dispatch(setTransactionPin({ pin: values.transaction_pin.toString() }));
-          toast.success('Request successful');
+          toast.success('Pin updated successfully');
           setPinLoading(false);
           resetForm();
           break;
