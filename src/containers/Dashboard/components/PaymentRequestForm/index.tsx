@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, number, string } from 'yup';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import Fade from 'react-reveal/Fade';
 import { getPaymentRequests } from '../../../../store/actions';
 import APIService from '../../../../services/api-services';
@@ -50,7 +50,7 @@ const PaymentRequestForm = (): JSX.Element => {
       resetForm();
       setLoading(false);
     } catch (error) {
-      toast.error(`❗ ${error.response.data.message}`);
+      toast.error(`${error.response.data.message}`);
       setLoading(false);
     }
   };
@@ -84,7 +84,7 @@ const PaymentRequestForm = (): JSX.Element => {
                             verifiedAccount.profile_image ||
                             'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
                           }
-                          alt="user profile image"
+                          alt="user profile"
                         />
                       </div>
                       <div className="info_container">

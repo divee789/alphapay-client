@@ -24,13 +24,13 @@ Before you begin, ensure you have installed:
 - `cd` to `alphapay-client`
 
 - run `npm install` or `yarn add .`
-- run `npm run start:dev` to start the development server at `localhost:3000`
+- run `npm start` to start the development server at `localhost:3000`
 
 **TODO**
 
-- Migrate from react-toastify to react-hot-toast
+- Fix disbursement minimum amount bug
+- Improve error handling and notifications
 - Implement 404 page properly
 - Implement Skeleton Loaders
 - Implement Pagination for transactions
 - Fix IPhone input and button issues.
-- Make the mobile UI more visible--- inputs, buttons and font-size.

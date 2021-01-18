@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, Redirect, useRouteMatch, NavLink, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 // import openSocket from 'socket.io-client';
 import {
   logOut,
@@ -20,10 +20,9 @@ import Overview from './Routes/Overview';
 import Cards from './Routes/Cards';
 import Setting from './Routes/Setting';
 import Payments from './Routes/Payments';
-import TabMenu from './Components/TabMenu';
+import TabMenu from './components/TabMenu';
 import Loading from '../../components/Loading';
 import Logo from '../../assets/images/alp.png';
-// import settings from '../../assets/images/dashboard/set.png';
 import './index.scss';
 
 const Dashboard = () => {
@@ -32,8 +31,13 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const bootstrap = async (): Promise<void> => {
-    try {
+  useEffect(() => {
+    const script = document.createElement('script');
+    const alternateScript = document.createElement('script');
+    script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
+    alternateScript.src = 'https://checkout.flutterwave.com/v3.js';
+    document.getElementsByTagName('head')[0].appendChild(script);
+    const bootstrap = async (): Promise<void> => {
       setLoading(true);
       await dispatch(getUser());
       await dispatch(getUserWallet());
@@ -42,22 +46,19 @@ const Dashboard = () => {
       await dispatch(getPaymentRequests());
       await dispatch(getBanks());
       setLoading(false);
-    } catch (error) {
-      console.log('BOOTSTRAP ERROR', error);
-      toast.error('There has been an error loading your data, please try again');
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    const alternateScript = document.createElement('script');
-    script.src = 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js';
-    alternateScript.src = 'https://checkout.flutterwave.com/v3.js';
-    document.getElementsByTagName('head')[0].appendChild(script);
-    // document.getElementsByTagName('head')[0].appendChild(alternateScript);
-    bootstrap();
-  }, []);
+    };
+    toast.promise(bootstrap() as any, {
+      success: () => {
+        return 'Welcome to your dashboard';
+      },
+      error: (err) => {
+        console.log('BOOTSTRAP ERROR', err);
+        setLoading(false);
+        return `${err.message}`;
+      },
+      loading: 'Preparing your dashboard...',
+    });
+  }, [dispatch]);
 
   // useEffect(() => {
   //   const APIBaseURL =
@@ -94,6 +95,7 @@ const Dashboard = () => {
   const logOutHandler = async (e) => {
     e.preventDefault();
     dispatch(logOut());
+    toast.success('Logout successful');
     history.push('/');
   };
 
@@ -137,20 +139,6 @@ const Dashboard = () => {
                   alt="profile_image"
                 />
               </NavLink>
-              {/* <div className="dropdown_content">
-                <p>{user?.full_name}</p>
-                <hr />
-                <div className="navcard_actions">
-                  <NavLink to={`${url}/settings`}>
-                    <img src={settings} alt="" />
-                    <span>My Profile</span>
-                  </NavLink>
-                  <p onClick={(e) => logOutHandler(e)}>
-                    <img src="https://img.freepik.com/free-icon/logout_318-10026.jpg?size=338&ext=jpg" alt="logout" />
-                    Log Out
-                  </p>
-                </div>
-              </div> */}
             </div>
           </div>
           <section className="dashboard_content">

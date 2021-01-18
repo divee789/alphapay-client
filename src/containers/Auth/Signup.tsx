@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import Fade from 'react-reveal/Fade';
 import * as Yup from 'yup';
 import { signUp } from '../../store/actions';
@@ -63,14 +63,18 @@ const SignUp = () => {
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    try {
-      delete values['confirmPassword'];
-      await dispatch(signUp(values));
-      history.push(`/auth/verify_email`);
-    } catch (err) {
-      toast.error(`❗ ${err.message}`);
-      setSubmitting(false);
-    }
+    delete values['confirmPassword'];
+    toast.promise(dispatch(signUp(values)) as any, {
+      success: () => {
+        history.push(`/dashboard/overview`);
+        return 'Signup Successful';
+      },
+      error: (err) => {
+        setSubmitting(false);
+        return `${err.message}`;
+      },
+      loading: 'Creating your account...',
+    });
   };
 
   return (

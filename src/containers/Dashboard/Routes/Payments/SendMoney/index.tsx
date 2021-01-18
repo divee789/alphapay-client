@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import Fade from 'react-reveal/Fade';
 import { object, number, string } from 'yup';
 import {
@@ -11,13 +11,13 @@ import {
   transferFunds,
   transferToBeneficiary,
 } from '../../../../../store/actions';
-import BankAccountVerification from '../../../Components/BankAccountVerification';
-import AlphaAccountVerification from '../../../Components/AlphaAccountVerification';
-import Beneficiaries from '../../../Components/Beneficiaries';
+import BankAccountVerification from '../../../components/BankAccountVerification';
+import AlphaAccountVerification from '../../../components/AlphaAccountVerification';
+import Beneficiaries from '../../../components/Beneficiaries';
 import Button from '../../../../../components/Button';
 import { BankAccountDetails, AlphaAccountDetails, BeneficiaryDetails } from '../../../../../interfaces/business';
-import './index.scss';
 import { RootState } from '../../../../../store';
+import './index.scss';
 
 const Transfer = (): JSX.Element => {
   enum TransferType {
@@ -37,15 +37,13 @@ const Transfer = (): JSX.Element => {
   const [transferLoading, setTransferLoading] = useState(false);
   const { wallet } = useSelector((state: RootState) => state.wallet);
 
-  const transferValidationSchema = wallet
-    ? object().shape({
-        amount: number().required('Please provide an amount to send'),
-        narration: string().required('Please state the reason for this transaction'),
-        pin: wallet.pin ? number().required('Please provide your pin') : number(),
-      })
-    : null;
+  const transferValidationSchema = object().shape({
+    amount: number().required('Please provide an amount to send'),
+    narration: string().required('Please state the reason for this transaction'),
+    pin: wallet?.pin ? number().required('Please provide your pin') : number(),
+  });
 
-  const sendMoney = async (values, helpers: any): Promise<void> => {
+  const sendMoney = async (values, helpers): Promise<void> => {
     try {
       setTransferLoading(true);
       switch (transferType) {
@@ -89,7 +87,9 @@ const Transfer = (): JSX.Element => {
       }
       await dispatch(getUserTransactions());
       setTransferLoading(false);
-      toast.success('Transaction Successful');
+      toast.success('Funds transferred successfully', {
+        icon: `🔥`,
+      });
       setTransferType(null);
       helpers.resetForm(initialValues);
     } catch (error) {
@@ -193,7 +193,7 @@ const Transfer = (): JSX.Element => {
                             alphaAccount.profile_image ||
                             'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png'
                           }
-                          alt="profile image"
+                          alt="profile"
                         />
                       </div>
                       <div className="info_container">

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 import APIService from '../../../../services/api-services';
 import { fundUserWallet, getUserTransactions } from '../../../../store/actions';
@@ -53,8 +53,8 @@ const FundForm = (props: { closed: () => void }): JSX.Element => {
       }
       setProcessing(false);
       props.closed();
-      toast.success('Wallet Funded Successfully', {
-        autoClose: false,
+      toast.success('Funds added to wallet', {
+        icon: `🔥`,
       });
     } catch (error) {
       setProcessing(false);

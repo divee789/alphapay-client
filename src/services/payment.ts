@@ -8,14 +8,13 @@ export const payWithKorapay = (
     amount: Number(values.amount),
     reference: `ALP-KPY-${new Date().getTime()}`,
     currency: 'NGN',
+    merchant_bears_cost: false,
     customer: {
       name: values.full_name,
       email: values.email,
     },
     onSuccess: async (data) => {
-      alert('not done');
       await success(data.reference);
-      alert('done');
     },
   });
 };
@@ -29,7 +28,7 @@ export const payWithFlutterwave = (
     amount: Number(values.amount),
     currency: 'NGN',
     country: 'NG',
-    tx_ref: new Date().toISOString(),
+    tx_ref: `ALP-KPY-${new Date().getTime()}`,
     customer: {
       email: values.email,
       name: values.full_name,

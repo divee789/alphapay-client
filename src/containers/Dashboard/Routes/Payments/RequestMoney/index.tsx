@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Switch, Redirect, useRouteMatch, NavLink, withRouter } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
-import IncomingPaymentRequest from '../../../Components/IncomingPaymentRequests';
-import OutgoingPaymentRequest from '../../../Components/OutgoingPaymentRequest';
-import PaymentRequestForm from '../../../Components/PaymentRequestForm';
+import IncomingPaymentRequest from '../../../components/IncomingPaymentRequests';
+import OutgoingPaymentRequest from '../../../components/OutgoingPaymentRequest';
+import PaymentRequestForm from '../../../components/PaymentRequestForm';
 import './index.scss';
 
 const RequestMoney = (): JSX.Element => {
