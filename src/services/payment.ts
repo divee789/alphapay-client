@@ -8,6 +8,7 @@ export const payWithKorapay = (
     amount: Number(values.amount),
     reference: `ALP-KPY-${new Date().getTime()}`,
     currency: 'NGN',
+    merchant_bears_cost: false,
     customer: {
       name: values.full_name,
       email: values.email,
