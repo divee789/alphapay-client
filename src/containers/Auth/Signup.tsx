@@ -29,7 +29,6 @@ interface FormValues {
 const SignUp = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [feedback, setFeedback] = useState<string>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const { processing } = useSelector((state: RootState) => state.auth);
@@ -145,9 +144,6 @@ const SignUp = () => {
                             placeholder="Confirm Password"
                           />
                           <ErrorMessage name="confirmPassword" render={(msg) => <div className="error">{msg}</div>} />
-                        </div>
-                        <div className="error_message" onClick={(): void => setFeedback(null)}>
-                          {feedback}
                         </div>
                         <div className="input-container btn_container">
                           <Button disabled={isSubmitting || processing} loading={processing}>

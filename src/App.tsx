@@ -11,7 +11,6 @@ import Loading from './components/Loading';
 import VerifyEmail from './containers/Auth/verifyEmail';
 import PasswordReset from './containers/Auth/ForgotPassword';
 import PasswordConfirmation from './containers/Auth/ForgotPassword/PasswordReset';
-
 import './App.scss';
 
 const Signup = React.lazy(() => {
