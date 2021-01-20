@@ -98,8 +98,12 @@ const Security = (): JSX.Element => {
       toast.success('TwoFA Authorization Enabled Successfully');
       setTwoFaLoading(false);
     } catch (error) {
-      toast.error(error.message);
       setTwoFaLoading(false);
+      if (error.response) {
+        toast.error(error.response.data.message);
+        return;
+      }
+      toast.error(error.message);
     }
   };
 

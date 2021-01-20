@@ -30,7 +30,5 @@ Before you begin, ensure you have installed:
 
 - Fix disbursement minimum amount bug
 - Improve error handling and notifications
-- Implement 404 page properly
-- Implement Skeleton Loaders
 - Implement Pagination for transactions
 - Fix IPhone input and button issues.

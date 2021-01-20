@@ -62,7 +62,7 @@ const AlphaAccountVerification = (props: AlphaAccountVerificationProps): JSX.Ele
             />
             <p className="error modal_error">{error}</p>
           </div>
-          {!loading && <CircleLoader />}
+          {loading && <CircleLoader />}
         </div>
       </section>
     </>
