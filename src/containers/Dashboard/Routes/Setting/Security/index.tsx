@@ -188,7 +188,7 @@ const Security = (): JSX.Element => {
                         src={invisible}
                         alt="show/hide"
                         className="password_icon"
-                        onClick={() => {
+                        onClick={(): void => {
                           setShowPassword(!showPassword);
                         }}
                       />
@@ -278,7 +278,9 @@ const Security = (): JSX.Element => {
                     <p>Please scan the image with any appropriate authenticator app and provide the code given.</p>
                     <input type="text" onChange={(e): void => setTwoFaCode(e.target.value)} />
                     <p className="error">{twoFaError}</p>
-                    <Button onClick={(): Promise<void> => verifyTwoFaCode()}>Submit Code</Button>
+                    <Button onClick={(): Promise<void> => verifyTwoFaCode()} loading={twoFaLoading}>
+                      Submit Code
+                    </Button>
                   </div>
                 </div>
               )}
