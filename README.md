@@ -31,4 +31,8 @@ Before you begin, ensure you have installed:
 - Fix disbursement minimum amount bug
 - Improve error handling and notifications
 - Implement Pagination for transactions
-- Fix IPhone input and button issues.
+
+**FEATURES TO IMPLEMENT**
+-- Implement QR Code payments
+-- Crypto Payments / Crypto Wallets;
+-- Messaging
