@@ -57,7 +57,6 @@ const App = () => {
         toastOptions={{
           style: {
             fontWeight: 100,
-            lineHeight: 15,
           },
         }}
       />

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import axios, { AxiosInstance } from 'axios';
-import decode from 'jwt-decode';
 import { Logger, history } from '../utils';
 import { Storage } from '../services/storage-services';
 import APIServiceError from './error-services';
@@ -81,12 +80,6 @@ export default class APIService {
       history.push('/login');
       return Promise.reject(new APIServiceError(error.response));
     }
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      return this.refresh(Storage.getRefreshToken())
-        .then(() => this.instance(originalRequest))
-        .catch((err) => Promise.reject(new APIServiceError(err.response)));
-    }
     Logger.warn('Response: ', error.response);
     return Promise.reject(new APIServiceError(error.response));
   };
@@ -108,41 +101,7 @@ export default class APIService {
 
   isloggedIn = async () => {
     const token = Storage.checkAuthentication();
-    //Check for existence of token
-    if (token) {
-      const expired = this.isTokenExpired(token);
-      if (!expired) {
-        return true;
-      } else {
-        const refreshToken = Storage.getRefreshToken();
-        if (refreshToken) {
-          const expiredRefresh = this.isTokenExpired(refreshToken);
-          if (!expiredRefresh) {
-            await this.refresh(refreshToken)
-              .then(() => true)
-              .catch(() => false);
-          }
-          return false;
-        }
-      }
-    }
-    return false;
-  };
-
-  isTokenExpired = (token: string) => {
-    try {
-      const decoded: { exp: number } = decode(token);
-      const exp: number = decoded.exp;
-      // Refresh the token a minute early to avoid latency issues
-      const expirationTime = exp * 1000 - 60000;
-      if (Date.now() >= expirationTime) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (err) {
-      return false;
-    }
+    return token ? true : false;
   };
 
   setAuthorization = () => {
@@ -191,18 +150,6 @@ export default class APIService {
     const authResponse: APIProps.SignUpResponseProps = response.data;
     this.storeUserToken(authResponse.data.access_token, authResponse.data.refresh_token);
     return authResponse.data;
-  };
-
-  refresh = async (refresh_token: string) => {
-    const body = {
-      refresh_token,
-    };
-    const response = await this.instance.post('/auth/user/token', body);
-    const authResponse = response.data.data;
-    Storage.setItem('userToken', authResponse.access_token);
-    Storage.setItem('refreshToken', authResponse.refresh_token);
-    this.setHeader(authResponse.access_token);
-    return authResponse;
   };
 
   update = async (data: APIProps.UpdateUserRequestProps): Promise<APIProps.UpdateUserResponseProps> => {

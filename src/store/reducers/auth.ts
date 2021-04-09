@@ -1,30 +1,10 @@
-import decode from 'jwt-decode';
 import * as actionTypes from '../actions/actionTypes';
 import { Storage } from '../../services/storage-services';
 import { AuthReducer } from '../interfaces';
 
-const isTokenExpired = (token): boolean => {
-  const decoded: { exp: any } = decode(token);
-  const exp: number = decoded.exp;
-  // Refresh the token a minute early to avoid latency issues
-  const expirationTime = exp * 1000 - 60000;
-  if (Date.now() >= expirationTime) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
 const isLoggedIn = (): boolean => {
   const token = Storage.checkAuthentication();
-  if (token) {
-    const expired = isTokenExpired(token);
-    if (expired) {
-      return false;
-    }
-    return true;
-  }
-  return false;
+  return token ? true : false;
 };
 
 const initialState: AuthReducer = {

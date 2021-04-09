@@ -39,12 +39,12 @@ const Dashboard = () => {
     document.getElementsByTagName('head')[0].appendChild(script);
     const bootstrap = async (): Promise<void> => {
       setLoading(true);
-      await dispatch(getUser());
-      await dispatch(getUserWallet());
-      await dispatch(getUserTransactions());
-      await dispatch(getBeneficiaries());
-      await dispatch(getPaymentRequests());
-      await dispatch(getBanks());
+      dispatch(getUser());
+      dispatch(getUserWallet());
+      dispatch(getUserTransactions());
+      dispatch(getBeneficiaries());
+      dispatch(getPaymentRequests());
+      dispatch(getBanks());
       setLoading(false);
     };
     toast.promise(bootstrap() as any, {
